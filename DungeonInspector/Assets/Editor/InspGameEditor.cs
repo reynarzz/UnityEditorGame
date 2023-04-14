@@ -13,7 +13,7 @@ namespace DungeonInspector
     public class InspGameEditor : Editor
     {
         private Rect _gameViewport;
-        private const float _pixelPerUnit = 25f;
+        private const float _pixelPerUnit = 16f * 2f;
         private Vector2 _cameraPos;
 
         private E_SpriteAtlas _playerSprites;
@@ -25,7 +25,7 @@ namespace DungeonInspector
         private Vector2 _playerPos;
 
         private SpriteAnimator _playerAnimator;
-        private const float _moveSpeed = 2;
+        private const float _moveSpeed = 0.8f;
         private Perlin _perlin;
         //private Vector2 _playerWalkDir;
 
@@ -54,7 +54,9 @@ namespace DungeonInspector
             _playerAnimator.Stop();
 
             _perlin = new Perlin();
-            _tiles =new List<(Vector2, Texture2D)>();
+
+            if(_tiles == null)
+            _tiles = new List<(Vector2, Texture2D)>();
         }
 
         private SpriteAnimation GetAnimation(string atlasName)
@@ -72,37 +74,28 @@ namespace DungeonInspector
             _time += _dt;
             _prev = secElapsep;
 
-            var viewportHeight = 300;
-            var screenSize = new Vector2(600, 300);
+            var viewportHeight = 360;
+            var screenSize = new Vector2(EditorGUIUtility.currentViewWidth, 360);
 
             _gameViewport = new Rect(EditorGUIUtility.currentViewWidth / 2 - screenSize.x / 2, viewportHeight / 2 - screenSize.y / 2, screenSize.x, screenSize.y);
 
             // Background.
             EditorGUI.DrawRect(_gameViewport, Color.black * 0.7f);
-
-            DrawGrid(new Vector2(screenSize.x, screenSize.y), Color.white * 0.3f);
+            
+            //DrawGrid(new Vector2(_gameViewport.width, _gameViewport.height), Color.white * 0.3f);
 
             GUILayout.Space(viewportHeight);
-            //Debug.Log(", t: " + _time);
-            //GUI.matrix = Matrix4x4.Rotate(Quaternion.Euler(new Vector3(0, 0, 10)));
+          
+            //--DrawSprite(Vector2.zero, new Vector2(1, 1), 0);
 
-            Vector2 scale = new Vector2(1, 1);
 
-            DrawSprite(Vector2.one, scale, 0);
+            _cameraPos =  Vector2.Lerp(_cameraPos, new Vector2((int)_playerPos.x, (int)_playerPos.y) * (int)_pixelPerUnit, 10 * _dt);
 
-            Input();
-            _playerAnimator.Update(_dt);
 
-             
-            DrawSprite(_playerPos, new Vector2(1 + _playerAnimator.CurrentTex.width / _playerAnimator.CurrentTex.height , 1 + _playerAnimator.CurrentTex.height / _playerAnimator.CurrentTex.width), 15f, _playerAnimator.CurrentTex);
-
-            _cameraPos = Vector2.Lerp(_cameraPos, new Vector2(_playerPos.x, _playerPos.y) * _pixelPerUnit, 10 * _dt);
-
-             
             var mouse = Event.current;
             //mouse.mousePosition = new Vector2(Mathf.Clamp(mouse.mousePosition.x, _gameViewport.x + _pixelPerUnit / 2, _gameViewport.width - _pixelPerUnit / 2), Mathf.Clamp(mouse.mousePosition.y, _gameViewport.y + _pixelPerUnit / 2, _gameViewport.height - _pixelPerUnit / 2));
 
-            var newMousePos = (new Vector2(mouse.mousePosition.x - _gameViewport.x - _gameViewport.width / 2, -(mouse.mousePosition.y - _gameViewport.height / 2)) + _cameraPos) / _pixelPerUnit;
+            var newMousePos = (new Vector2(mouse.mousePosition.x - _gameViewport.x - _gameViewport.width / 2, -(mouse.mousePosition.y - _gameViewport.y - _gameViewport.height / 2)) + _cameraPos) / _pixelPerUnit;
 
 
             newMousePos.x = Mathf.RoundToInt(newMousePos.x);
@@ -112,15 +105,24 @@ namespace DungeonInspector
             _mouseTileGuidePosition = new Vector2Int((int)newMousePos.x, (int)newMousePos.y);
 
 
-            // Mouse sprite pointer
-            DrawSprite(newMousePos, Vector2.one, 0);
-
+           
             SetTile();
 
             for (int i = 0; i < _tiles.Count; i++)
             {
-                DrawSprite(_tiles[i].Item1, new Vector2(1,1), 0, _tiles[i].Item2);
+                DrawSprite(_tiles[i].Item1, new Vector2(1, 1), 0, _tiles[i].Item2);
             }
+
+            // Mouse sprite pointer
+            DrawSprite(newMousePos, Vector2.one, 0, WorldEditorEditor.SelectedTex);
+
+            Input();
+            _playerAnimator.Update(_dt);
+
+            // Player
+
+            DrawSprite(_playerPos, new Vector2(1 + _playerAnimator.CurrentTex.width / _playerAnimator.CurrentTex.height, 1 + _playerAnimator.CurrentTex.height / _playerAnimator.CurrentTex.width), 15f, _playerAnimator.CurrentTex);
+
         }
 
 
@@ -128,7 +130,7 @@ namespace DungeonInspector
         {
             if (Event.current.isMouse && Event.current.button == 0)
             {
-                _tiles.Add((_mouseTileGuidePosition, Texture2D.whiteTexture));
+                _tiles.Add((_mouseTileGuidePosition, WorldEditorEditor.SelectedTex));
             }
         }
 
@@ -184,14 +186,22 @@ namespace DungeonInspector
 
         private void DrawGrid(Vector2 screenSize, Color color)
         {
-            for (int i = 0; i < Mathf.RoundToInt(screenSize.x / _pixelPerUnit); i++)
+            var xCount = 20f; //Mathf.RoundToInt(screenSize.x / _pixelPerUnit) -1;
+            var yCount = 20f;// Mathf.RoundToInt(screenSize.y / _pixelPerUnit) - 1;
+
+            var totalSpaceX = (screenSize.x - (_pixelPerUnit * (xCount ))) / 2f;
+            var totalSpaceY =( screenSize.y - (_pixelPerUnit * yCount) )/ 2f;
+
+            Debug.Log(_pixelPerUnit * xCount + "w: " + screenSize.x + ". s: " + totalSpaceX);
+
+            for (int i = 0; i < Mathf.RoundToInt(xCount); i++)
             {
-                EditorGUI.DrawRect(new Rect(_gameViewport.x + i * _pixelPerUnit - _cameraPos.x + _pixelPerUnit / 2f, _gameViewport.y + _cameraPos.y, 1, _gameViewport.height), color);
+                EditorGUI.DrawRect(new Rect(_gameViewport.x + totalSpaceX + i * _pixelPerUnit - _cameraPos.x + _pixelPerUnit / 2, _gameViewport.y + _cameraPos.y, 1f, _pixelPerUnit * yCount), color);
             }
 
-            for (int i = 0; i < Mathf.RoundToInt(screenSize.y / _pixelPerUnit); i++)
+            for (int i = 0; i < Mathf.RoundToInt(yCount); i++)
             {
-                EditorGUI.DrawRect(new Rect(_gameViewport.x - _cameraPos.x, _gameViewport.y + i * _pixelPerUnit + _cameraPos.y + _pixelPerUnit / 2f, _gameViewport.width, 1), color);
+                EditorGUI.DrawRect(new Rect(_gameViewport.x - _cameraPos.x, _gameViewport.y - totalSpaceY + i * _pixelPerUnit + _cameraPos.y, totalSpaceX * xCount, 1), color);
             }
         }
 
@@ -214,12 +224,12 @@ namespace DungeonInspector
                 finalRect = new Rect((int)finalRect.x, (int)finalRect.y, (int)finalRect.width, (int)finalRect.height);
             }
 
-            if (finalRect.y < _gameViewport.height && finalRect.y > _gameViewport.y )
+            if (finalRect.y < _gameViewport.height && finalRect.y > _gameViewport.y)
             {
                 Graphics.DrawTexture(finalRect, sprite);
                 GUI.matrix = matrix;
             }
-           
+
 
             return finalRect;
         }

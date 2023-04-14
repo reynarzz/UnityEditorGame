@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 namespace DungeonInspector
@@ -17,6 +18,24 @@ namespace DungeonInspector
         public Texture2D GetTexture(int index) 
         {
             return _textures[index];    
+        }
+    }
+
+    [CustomEditor(typeof(E_SpriteAtlas))]
+    public class TlasEditor : Editor
+    {
+        public override void OnInspectorGUI()
+        {
+
+            if (GUILayout.Button("Organize by name"))
+            {
+                //(target as E_SpriteAtlas).
+                //_textures
+            }
+
+            base.OnInspectorGUI();
+
+           
         }
     }
 }

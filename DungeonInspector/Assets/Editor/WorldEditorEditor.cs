@@ -15,10 +15,13 @@ namespace DungeonInspector
         private Vector2 _scroll;
 
         private E_SpriteAtlas _worldSpriteAtlas;
+        private static Texture2D _selectedTex;
 
+        public static Texture2D SelectedTex => _selectedTex;
         private void OnEnable()
         {
-            _worldSpriteAtlas = Resources.Load<E_SpriteAtlas>("WorldAtlas/World1");
+            _selectedTex = Texture2D.whiteTexture;
+            _worldSpriteAtlas = Resources.Load<E_SpriteAtlas>("World/World1");
         }
 
         public override void OnInspectorGUI()
@@ -27,11 +30,12 @@ namespace DungeonInspector
 
             GUILayout.BeginHorizontal();
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < _worldSpriteAtlas.TextureCount; i++)
             {
-                if (GUILayout.Button(Texture2D.whiteTexture, GUILayout.MinHeight(40)))
+                var tex = _worldSpriteAtlas.GetTexture(i);
+                if (GUILayout.Button(new GUIContent(tex, tex.name), GUILayout.MinHeight(40)))
                 {
-
+                    _selectedTex = tex;
                 }
             }
 
