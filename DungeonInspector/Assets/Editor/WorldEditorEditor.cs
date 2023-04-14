@@ -49,5 +49,12 @@ namespace DungeonInspector
 
             }
         }
+
+        private void EditTileType(WorldTile tile)
+        {
+            tile.Type = (TileType)EditorGUILayout.EnumPopup(tile.Type);
+
+            //
+        }
     }
 }

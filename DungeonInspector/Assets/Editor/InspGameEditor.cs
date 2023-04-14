@@ -221,7 +221,7 @@ namespace DungeonInspector
 
             var matrix = GUI.matrix;
             //GUI.matrix = Matrix4x4.TRS(pos, Quaternion.Euler(0,0, zRot), Vector3.one);
-            var finalRect = ToViewport(pos, scale);
+            var finalRect = WorldPosition(pos, scale);
 
             bool snap = true;
 
@@ -241,7 +241,7 @@ namespace DungeonInspector
         }
 
 
-        private Rect ToViewport(Vector2 pos, Vector2 scale)
+        private Rect WorldPosition(Vector2 pos, Vector2 scale)
         {
             var gameScale = scale * _pixelPerUnit;
             pos.y = -pos.y;
