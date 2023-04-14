@@ -15,7 +15,7 @@ namespace DungeonInspector
         private Texture2D _tex;
 
         public Texture2D CurrentTex => _tex;
-        public float Speed { get; set; } = 1;
+        public float Speed { get; set; } = -1;
         public SpriteAnimator(params SpriteAnimation[] animations)
         {
             _animations = animations;
@@ -34,7 +34,11 @@ namespace DungeonInspector
                 _animations[_currentAnimIndex].Stop();
 
                 _currentAnimIndex = index;
-                _animations[_currentAnimIndex].Speed = Speed;
+                
+                if(Speed >= 0)
+                {
+                    _animations[_currentAnimIndex].Speed = Speed;
+                }
                 _animations[_currentAnimIndex].Play();
             }
 

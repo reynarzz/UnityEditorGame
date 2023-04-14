@@ -37,6 +37,8 @@ namespace DungeonInspector
         [SerializeField] private SpriteAnimation _idleAnimation;
         [SerializeField] private SpriteAnimation _interactableAnimation;
 
+        public int Depth { get; set; }
+
         public void OnPlayerEnter()
         {
 

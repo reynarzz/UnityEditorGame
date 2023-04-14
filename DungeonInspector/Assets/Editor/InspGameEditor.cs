@@ -13,7 +13,7 @@ namespace DungeonInspector
     public class InspGameEditor : Editor
     {
         private Rect _gameViewport;
-        private const float _pixelPerUnit = 16f * 2f;
+        private float _pixelPerUnit = 16f * 2f;
         private Vector2 _cameraPos;
 
         private E_SpriteAtlas _playerSprites;
@@ -25,7 +25,7 @@ namespace DungeonInspector
         private Vector2 _playerPos;
 
         private SpriteAnimator _playerAnimator;
-        private const float _moveSpeed = 0.8f;
+        private const float _moveSpeed = 0.7f;
         private Perlin _perlin;
         //private Vector2 _playerWalkDir;
 
@@ -44,19 +44,23 @@ namespace DungeonInspector
             _time = 0;
             _playerPos = default;
             //_playerAnimator = new SpriteAnimator(GetAnimation("WalkLeft"), GetAnimation("WalkRight"), GetAnimation("WalkUp"), GetAnimation("WalkDown"));
-            
+
             var name = "Character2/WalkLeft";
-            _playerAnimator = new SpriteAnimator(GetAnimation(name), GetAnimation(name), GetAnimation(name), GetAnimation(name));
+            var walkLeft = GetAnimation(name);
+            walkLeft.Speed = 14;
+
+            var idle = GetAnimation("Character2/Idle");
+            idle.Speed = 10;
+            _playerAnimator = new SpriteAnimator(walkLeft, walkLeft, walkLeft, walkLeft, idle);
 
 
-            _playerAnimator.Speed = 14f;
-            _playerAnimator.Play(0);
+            _playerAnimator.Play(4);
             _playerAnimator.Stop();
 
             _perlin = new Perlin();
 
-            if(_tiles == null)
-            _tiles = new List<(Vector2, Texture2D)>();
+            if (_tiles == null)
+                _tiles = new List<(Vector2, Texture2D)>();
         }
 
         private SpriteAnimation GetAnimation(string atlasName)
@@ -66,8 +70,10 @@ namespace DungeonInspector
 
         public override void OnInspectorGUI()
         {
+
             Repaint();
 
+            _pixelPerUnit = EditorGUILayout.Slider("Pixel per unit", _pixelPerUnit, 1, 64);
             var secElapsep = _stopWatch.ElapsedMilliseconds / 1000f;
 
             _dt = secElapsep - _prev;
@@ -76,22 +82,22 @@ namespace DungeonInspector
 
             var viewportHeight = 360;
             var screenSize = new Vector2(EditorGUIUtility.currentViewWidth, 360);
-            
+
             _gameViewport = new Rect(EditorGUIUtility.currentViewWidth / 2 - screenSize.x / 2, 0, screenSize.x, screenSize.y);
 
             var screen = _gameViewport;
             screen.height += 12;
             // Background.
             EditorGUI.DrawRect(_gameViewport, Color.black * 0.7f);
-            
+
             //DrawGrid(new Vector2(_gameViewport.width, _gameViewport.height), Color.white * 0.3f);
 
             GUILayout.Space(screenSize.y);
-          
+
             //--DrawSprite(Vector2.zero, new Vector2(1, 1), 0);
 
 
-            _cameraPos =  Vector2.Lerp(_cameraPos, new Vector2((int)_playerPos.x, (int)_playerPos.y) * (int)_pixelPerUnit, 7 * _dt);
+            _cameraPos = Vector2.Lerp(_cameraPos, new Vector2((int)_playerPos.x, (int)_playerPos.y) * (int)_pixelPerUnit, 7 * _dt);
 
 
             var mouse = Event.current;
@@ -107,7 +113,7 @@ namespace DungeonInspector
             _mouseTileGuidePosition = new Vector2Int((int)newMousePos.x, (int)newMousePos.y);
 
 
-           
+
             SetTile();
 
             for (int i = 0; i < _tiles.Count; i++)
@@ -128,7 +134,9 @@ namespace DungeonInspector
 
             //delete, or fix
             _gameViewport.height += 12;
-            EditorGUI.DrawRect(_gameViewport, Color.black * (Mathf.Sin(_time * 1f) + 0.3f) * 0.5f );
+            EditorGUI.DrawRect(_gameViewport, Color.black * (Mathf.Sin(_time * 1f) + 0.3f) * 0.5f);
+
+
         }
 
 
@@ -140,15 +148,17 @@ namespace DungeonInspector
             }
         }
 
+
         private void BoundingBoxes()
         {
 
         }
+        Vector2Int _playerWalkDir = new Vector2Int();
 
         private void Input()
         {
             var e = Event.current;
-            var _playerWalkDir = new Vector2();
+           // var _playerWalkDir = new Vector2Int();
 
 
             // if (e.type == EventType.KeyDown)
@@ -157,28 +167,36 @@ namespace DungeonInspector
                 {
                     _playerAnimator.Play(0);
 
-                    _playerWalkDir = new Vector2(-1, 0);
+                    _playerWalkDir = new Vector2Int(-1, 0);
                 }
                 else if (e.keyCode == KeyCode.D)
                 {
                     //_playerPos.x += _moveSpeed * _pixelPerUnit * _dt;
-                    _playerWalkDir = new Vector2(1, 0);
+                    _playerWalkDir = new Vector2Int(1, 0);
 
                     _playerAnimator.Play(1);
+
                 }
                 else if (e.keyCode == KeyCode.W)
                 {
                     _playerAnimator.Play(2);
 
                     //_playerPos.y += _moveSpeed * _pixelPerUnit * _dt;
-                    _playerWalkDir = new Vector2(0, 1);
+                    _playerWalkDir = new Vector2Int(0, 1);
+
 
                 }
                 else if (e.keyCode == KeyCode.S)
                 {
                     _playerAnimator.Play(3);
                     //_playerPos.y -= _moveSpeed * _pixelPerUnit * _dt;
-                    _playerWalkDir = new Vector2(0, -1);
+                    _playerWalkDir = new Vector2Int(0, -1);
+
+                }
+                else //if (_playerWalkDir.x == 0 && _playerWalkDir.y == 0)
+                {
+                    //_playerAnimator.Play(4);
+                    _playerWalkDir = default;
                 }
                 //if (e.type == EventType.KeyUp || !e.isKey)
                 //{
@@ -186,8 +204,13 @@ namespace DungeonInspector
                 //   // _playerAnimator.Stop();
                 //}
             }
+           // Debug.Log(_playerWalkDir);
 
-            _playerPos += _playerWalkDir * _moveSpeed * _pixelPerUnit * _dt;
+
+
+            var dir = (Vector2)_playerWalkDir;
+
+            _playerPos += dir * _moveSpeed * _pixelPerUnit * _dt;
         }
 
         private void DrawGrid(Vector2 screenSize, Color color)
@@ -195,8 +218,8 @@ namespace DungeonInspector
             var xCount = 20f; //Mathf.RoundToInt(screenSize.x / _pixelPerUnit) -1;
             var yCount = 20f;// Mathf.RoundToInt(screenSize.y / _pixelPerUnit) - 1;
 
-            var totalSpaceX = (screenSize.x - (_pixelPerUnit * (xCount ))) / 2f;
-            var totalSpaceY =( screenSize.y - (_pixelPerUnit * yCount) )/ 2f;
+            var totalSpaceX = (screenSize.x - (_pixelPerUnit * (xCount))) / 2f;
+            var totalSpaceY = (screenSize.y - (_pixelPerUnit * yCount)) / 2f;
 
             Debug.Log(_pixelPerUnit * xCount + "w: " + screenSize.x + ". s: " + totalSpaceX);
 
