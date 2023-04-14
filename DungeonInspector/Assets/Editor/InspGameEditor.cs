@@ -9,7 +9,7 @@ using TreeEditor;
 
 namespace DungeonInspector
 {
-    [CustomEditor(typeof(InspGame))]
+    [CustomEditor(typeof(DungeonInspector))]
     public class InspGameEditor : Editor
     {
         private Rect _gameViewport;
@@ -44,7 +44,7 @@ namespace DungeonInspector
             _time = 0;
             _playerPos = default;
             //_playerAnimator = new SpriteAnimator(GetAnimation("WalkLeft"), GetAnimation("WalkRight"), GetAnimation("WalkUp"), GetAnimation("WalkDown"));
-
+            
             var name = "Character2/WalkLeft";
             _playerAnimator = new SpriteAnimator(GetAnimation(name), GetAnimation(name), GetAnimation(name), GetAnimation(name));
 
@@ -76,20 +76,22 @@ namespace DungeonInspector
 
             var viewportHeight = 360;
             var screenSize = new Vector2(EditorGUIUtility.currentViewWidth, 360);
+            
+            _gameViewport = new Rect(EditorGUIUtility.currentViewWidth / 2 - screenSize.x / 2, 0, screenSize.x, screenSize.y);
 
-            _gameViewport = new Rect(EditorGUIUtility.currentViewWidth / 2 - screenSize.x / 2, viewportHeight / 2 - screenSize.y / 2, screenSize.x, screenSize.y);
-
+            var screen = _gameViewport;
+            screen.height += 12;
             // Background.
             EditorGUI.DrawRect(_gameViewport, Color.black * 0.7f);
             
             //DrawGrid(new Vector2(_gameViewport.width, _gameViewport.height), Color.white * 0.3f);
 
-            GUILayout.Space(viewportHeight);
+            GUILayout.Space(screenSize.y);
           
             //--DrawSprite(Vector2.zero, new Vector2(1, 1), 0);
 
 
-            _cameraPos =  Vector2.Lerp(_cameraPos, new Vector2((int)_playerPos.x, (int)_playerPos.y) * (int)_pixelPerUnit, 10 * _dt);
+            _cameraPos =  Vector2.Lerp(_cameraPos, new Vector2((int)_playerPos.x, (int)_playerPos.y) * (int)_pixelPerUnit, 7 * _dt);
 
 
             var mouse = Event.current;
@@ -123,6 +125,10 @@ namespace DungeonInspector
 
             DrawSprite(_playerPos, new Vector2(1 + _playerAnimator.CurrentTex.width / _playerAnimator.CurrentTex.height, 1 + _playerAnimator.CurrentTex.height / _playerAnimator.CurrentTex.width), 15f, _playerAnimator.CurrentTex);
 
+
+            //delete, or fix
+            _gameViewport.height += 12;
+            EditorGUI.DrawRect(_gameViewport, Color.black * (Mathf.Sin(_time * 1f) + 0.3f) * 0.5f );
         }
 
 

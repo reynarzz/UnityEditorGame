@@ -20,8 +20,9 @@ namespace DungeonInspector
         public static Texture2D SelectedTex => _selectedTex;
         private void OnEnable()
         {
-            _selectedTex = Texture2D.whiteTexture;
             _worldSpriteAtlas = Resources.Load<E_SpriteAtlas>("World/World1");
+            _selectedTex = _worldSpriteAtlas.GetTexture(0);
+
         }
 
         public override void OnInspectorGUI()
