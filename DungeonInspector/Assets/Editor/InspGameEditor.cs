@@ -7,13 +7,13 @@ using UnityEngine;
 using UnityEditor;
 using TreeEditor;
 
-namespace InspGame
+namespace DungeonInspector
 {
     [CustomEditor(typeof(InspGame))]
     public class InspGameEditor : Editor
     {
         private Rect _gameViewport;
-        private const float _pixelPerUnit = 25;
+        private const float _pixelPerUnit = 25f;
         private Vector2 _cameraPos;
 
         private E_SpriteAtlas _playerSprites;
@@ -43,7 +43,12 @@ namespace InspGame
 
             _time = 0;
             _playerPos = default;
-            _playerAnimator = new SpriteAnimator(GetAnimation("WalkLeft"), GetAnimation("WalkRight"), GetAnimation("WalkUp"), GetAnimation("WalkDown"));
+            //_playerAnimator = new SpriteAnimator(GetAnimation("WalkLeft"), GetAnimation("WalkRight"), GetAnimation("WalkUp"), GetAnimation("WalkDown"));
+
+            var name = "Character2/WalkLeft";
+            _playerAnimator = new SpriteAnimator(GetAnimation(name), GetAnimation(name), GetAnimation(name), GetAnimation(name));
+
+
             _playerAnimator.Speed = 14f;
             _playerAnimator.Play(0);
             _playerAnimator.Stop();
@@ -68,14 +73,14 @@ namespace InspGame
             _prev = secElapsep;
 
             var viewportHeight = 300;
-            var screenSize = new Vector2(EditorGUIUtility.currentViewWidth, 300);
+            var screenSize = new Vector2(600, 300);
 
             _gameViewport = new Rect(EditorGUIUtility.currentViewWidth / 2 - screenSize.x / 2, viewportHeight / 2 - screenSize.y / 2, screenSize.x, screenSize.y);
 
             // Background.
             EditorGUI.DrawRect(_gameViewport, Color.black * 0.7f);
 
-            DrawGrid(screenSize, Color.white * 0.3f);
+            DrawGrid(new Vector2(screenSize.x, screenSize.y), Color.white * 0.3f);
 
             GUILayout.Space(viewportHeight);
             //Debug.Log(", t: " + _time);
@@ -88,22 +93,21 @@ namespace InspGame
             Input();
             _playerAnimator.Update(_dt);
 
-            DrawSprite(_playerPos, scale, 15f, _playerAnimator.CurrentTex);
+             
+            DrawSprite(_playerPos, new Vector2(1 + _playerAnimator.CurrentTex.width / _playerAnimator.CurrentTex.height , 1 + _playerAnimator.CurrentTex.height / _playerAnimator.CurrentTex.width), 15f, _playerAnimator.CurrentTex);
 
             _cameraPos = Vector2.Lerp(_cameraPos, new Vector2(_playerPos.x, _playerPos.y) * _pixelPerUnit, 10 * _dt);
-            //_cameraPos += new Vector2(Mathf.Cos(_time), Mathf.Sin(_time)) * _pixelPerUnit;// Vector2.Lerp(_cameraPos, new Vector2(_perlin.Noise(_time), _perlin.Noise(-_time)) * 2, _dt * 10);
 
-            //_cameraPos = new Vector2(Mathf.Sin(_time) * _pixelPerUnit , 0);
-
+             
             var mouse = Event.current;
-            mouse.mousePosition = new Vector2(Mathf.Clamp(mouse.mousePosition.x, _gameViewport.x + _pixelPerUnit / 2, _gameViewport.width - _pixelPerUnit / 2), Mathf.Clamp(mouse.mousePosition.y, _gameViewport.y + _pixelPerUnit / 2, _gameViewport.height - _pixelPerUnit / 2));
+            //mouse.mousePosition = new Vector2(Mathf.Clamp(mouse.mousePosition.x, _gameViewport.x + _pixelPerUnit / 2, _gameViewport.width - _pixelPerUnit / 2), Mathf.Clamp(mouse.mousePosition.y, _gameViewport.y + _pixelPerUnit / 2, _gameViewport.height - _pixelPerUnit / 2));
 
-            var newMousePos = (new Vector2(mouse.mousePosition.x - _gameViewport.width / 2, -(mouse.mousePosition.y - _gameViewport.height / 2)) + _cameraPos) / _pixelPerUnit;
+            var newMousePos = (new Vector2(mouse.mousePosition.x - _gameViewport.x - _gameViewport.width / 2, -(mouse.mousePosition.y - _gameViewport.height / 2)) + _cameraPos) / _pixelPerUnit;
 
 
             newMousePos.x = Mathf.RoundToInt(newMousePos.x);
             newMousePos.y = Mathf.RoundToInt(newMousePos.y);
-            Debug.Log(newMousePos);
+            //Debug.Log(newMousePos);
 
             _mouseTileGuidePosition = new Vector2Int((int)newMousePos.x, (int)newMousePos.y);
 
@@ -180,14 +184,14 @@ namespace InspGame
 
         private void DrawGrid(Vector2 screenSize, Color color)
         {
-            for (int i = 0; i < screenSize.x / _pixelPerUnit + 1; i++)
+            for (int i = 0; i < Mathf.RoundToInt(screenSize.x / _pixelPerUnit); i++)
             {
-                EditorGUI.DrawRect(new Rect(_gameViewport.x + i * _pixelPerUnit - _cameraPos.x, _gameViewport.y + _cameraPos.y, 1, _gameViewport.height), color);
+                EditorGUI.DrawRect(new Rect(_gameViewport.x + i * _pixelPerUnit - _cameraPos.x + _pixelPerUnit / 2f, _gameViewport.y + _cameraPos.y, 1, _gameViewport.height), color);
             }
 
-            for (int i = 0; i < screenSize.y / _pixelPerUnit + 1; i++)
+            for (int i = 0; i < Mathf.RoundToInt(screenSize.y / _pixelPerUnit); i++)
             {
-                EditorGUI.DrawRect(new Rect(_gameViewport.x - _cameraPos.x, _gameViewport.y + i * _pixelPerUnit + _cameraPos.y + _pixelPerUnit / 2, _gameViewport.width, 1), color);
+                EditorGUI.DrawRect(new Rect(_gameViewport.x - _cameraPos.x, _gameViewport.y + i * _pixelPerUnit + _cameraPos.y + _pixelPerUnit / 2f, _gameViewport.width, 1), color);
             }
         }
 

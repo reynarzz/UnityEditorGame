@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 
-namespace InspGame
+namespace DungeonInspector
 {
     public class SpriteAnimation
     {

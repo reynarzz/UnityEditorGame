@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEditor;
 
-namespace InspGame
+namespace DungeonInspector
 {
     public class ESprite
     {

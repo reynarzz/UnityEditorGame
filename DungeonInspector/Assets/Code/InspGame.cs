@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace InspGame
+namespace DungeonInspector
 {
     [ExecuteInEditMode]
     public class InspGame : MonoBehaviour
