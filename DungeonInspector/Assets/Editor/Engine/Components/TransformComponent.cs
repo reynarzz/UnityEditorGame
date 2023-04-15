@@ -9,7 +9,7 @@ namespace DungeonInspector
 {
     public class DTransformComponent : DComponent
     {
-        public Vector2 Position { get; set; }
-        public Vector2 Scale { get; set; }
+        public DVector2 Position { get; set; }
+        public DVector2 Scale { get; set; }
     }
 }

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class GameEntity
+    public class DGameEntity
     {
         private Dictionary<Type, DComponent> _components;
 
@@ -16,7 +16,7 @@ namespace DungeonInspector
 
         public string Name { get; set; } = "GameEntity";
 
-        public GameEntity()
+        public DGameEntity()
         {
             _transform = new DTransformComponent();
 
@@ -35,6 +35,11 @@ namespace DungeonInspector
             if (!_components.ContainsKey(type))
             {
                 component = new T();
+
+                if(type == typeof(DBehaviorComponent))
+                {
+                    (component as DBehaviorComponent).GameEntity = this;
+                }
 
                 _components.Add(type, component);
             }
@@ -63,6 +68,4 @@ namespace DungeonInspector
             return default;
         }
     }
-
-
 }

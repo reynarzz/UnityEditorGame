@@ -27,7 +27,7 @@ namespace DungeonInspector
         private DCamera _camera;
         private DTime _time;
 
-        private SandboxBase _sandbox;
+        private DSandboxBase _sandbox;
 
         private void OnEnable()
         {

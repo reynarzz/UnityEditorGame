@@ -6,19 +6,16 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class ComponentsContainer
+    public class Player : DBehaviorComponent
     {
-
-        public List<DGameEntity> _entities;
-
-        public ComponentsContainer()
+        public override void Start()
         {
-            _entities = new List<DGameEntity>();
+
         }
 
-        public void Update()
+        public override void Update()
         {
-
+            Transform.Position = new DVector2();
         }
     }
 }
