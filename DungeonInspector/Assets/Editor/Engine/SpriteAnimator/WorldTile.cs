@@ -21,32 +21,26 @@ namespace DungeonInspector
         AnimateOnTouch,
         Disappear
     }
-    
+
     public enum TileIdleAnimationType
     {
         None,
         Loop
     }
-
+      
+    [Serializable]
     public class WorldTile
     {
-        public Texture2D Texture { get; set; }
-        public TileType Type { get; set; }
+        [SerializeField] private TileType _type;
+        [SerializeField] private Texture2D _defaultTexture;
+
+        private SpriteAnimation _idleAnimation;
+        private SpriteAnimation _interactableAnimation;
+        [SerializeField] private int _zSorting = 0;
+
+        public int ZSorting => _zSorting;
         public Vector2Int WorldPosition { get; set; }
-
-        [SerializeField] private SpriteAnimation _idleAnimation;
-        [SerializeField] private SpriteAnimation _interactableAnimation;
-
-        public int Depth { get; set; }
-
-        public void OnPlayerEnter()
-        {
-
-        }
-
-        public void OnPlayerExit()
-        {
-
-        }
+        public Texture2D Texture => _defaultTexture;
+        public TileType Type => _type;
     }
 }

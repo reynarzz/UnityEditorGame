@@ -7,16 +7,21 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class SpriteAnimation
+    public class SpriteAnimation 
     {
-        private readonly E_SpriteAtlas _atlas;
+        [SerializeField] private E_SpriteAtlas _atlas;
+        [SerializeField] private float _animationSpeed = 1;
+
         private int _spriteIndex = 0;
         private float _time;
         private bool _play = false;
 
-        public float Speed { get; set; } = 1;
+        public float Speed { get => _animationSpeed; set => _animationSpeed = value; }
+
         private Texture2D _currentTex;
         public Texture2D CurrentTexture => _currentTex;
+
+        public SpriteAnimation() { }
         public SpriteAnimation(E_SpriteAtlas spriteAtlas)
         {
             _atlas = spriteAtlas;

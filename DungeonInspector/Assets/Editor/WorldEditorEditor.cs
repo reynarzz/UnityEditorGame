@@ -1,7 +1,9 @@
 ﻿using DungeonInspector;
+using NUnit.Framework.Internal.Commands;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -18,19 +20,34 @@ namespace DungeonInspector
         private static Texture2D _selectedTex;
 
         public static Texture2D SelectedTex => _selectedTex;
+        private WorldTile _testTile_DELETE;
         private void OnEnable()
         {
             _worldSpriteAtlas = Resources.Load<E_SpriteAtlas>("World/World1");
             _selectedTex = _worldSpriteAtlas.GetTexture(0);
-
+            _testTile_DELETE = new WorldTile();
         }
 
         public override void OnInspectorGUI()
         {
+
+            GUILayout.BeginHorizontal(EditorStyles.helpBox);
+            if (GUILayout.Button("Pencil"))
+            {
+
+            }
+
+            if (GUILayout.Button("Eraser"))
+            {
+
+            }
+
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginVertical(EditorStyles.helpBox);
             _scroll = GUILayout.BeginScrollView(_scroll);
 
             GUILayout.BeginHorizontal();
-
             for (int i = 0; i < _worldSpriteAtlas.TextureCount; i++)
             {
                 var tex = _worldSpriteAtlas.GetTexture(i);
@@ -44,6 +61,13 @@ namespace DungeonInspector
 
             GUILayout.EndScrollView();
 
+            GUILayout.BeginVertical(EditorStyles.helpBox);
+
+            EditTileType(_testTile_DELETE);
+            GUILayout.EndVertical();
+
+            GUILayout.EndVertical();
+
             if (GUILayout.Button("Save"))
             {
 
@@ -52,9 +76,36 @@ namespace DungeonInspector
 
         private void EditTileType(WorldTile tile)
         {
-            tile.Type = (TileType)EditorGUILayout.EnumPopup(tile.Type);
 
+            //GUILayout.BeginHorizontal();
+            //GUILayout.Label("Tile Type");
+            //tile.SetValue("_type", (TileType)EditorGUILayout.EnumPopup(tile.Type, GUILayout.MaxWidth(90)));
+            //GUILayout.EndHorizontal();
+
+            //var rect = GUILayoutUtility.GetLastRect();
+
+            //GUILayout.BeginHorizontal();
+            //GUILayout.Label("Default Texture");
+            //tile.SetValue("_defaultTexture", (Texture2D)EditorGUILayout.ObjectField(tile.Texture, typeof(Texture2D), false, GUILayout.MaxWidth(90), GUILayout.MinHeight(90)));
+            //GUILayout.EndHorizontal();
+
+
+            //SpriteAnimationOptions();
+
+            //_idleAnimation;
+            //_interactableAnimation;
+            //_zSorting;
             //
         }
+
+        //private void SpriteAnimationOptions()
+        //{
+        //    GUILayout.BeginHorizontal();
+        //    GUILayout.Label("Idle Animation");
+        //    tile.SetValue("_idleAnimation", (SpriteAnimation)EditorGUILayout.ObjectField(tile.Texture, typeof(Texture2D), false, GUILayout.MaxWidth(90), GUILayout.MinHeight(90)));
+        //    GUILayout.EndHorizontal();
+        //}
+
+
     }
 }

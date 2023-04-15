@@ -12,10 +12,6 @@ namespace DungeonInspector
     [CustomEditor(typeof(DungeonInspector))]
     public class InspGameEditor : Editor
     {
-        private Rect _gameViewport;
-        private float _pixelPerUnit = 16f * 2f;
-        private Vector2 _cameraPos;
-
         private E_SpriteAtlas _playerSprites;
         private System.Diagnostics.Stopwatch _stopWatch;
 
@@ -33,8 +29,12 @@ namespace DungeonInspector
 
         private Vector2Int _mouseTileGuidePosition;
 
+        private DCamera _camera;
+
         private void OnEnable()
         {
+            _camera = new DCamera();
+
             _playerSprites = Resources.Load<E_SpriteAtlas>("PlayerSpriteAtlas");
 
             _stopWatch = new System.Diagnostics.Stopwatch();
@@ -73,7 +73,7 @@ namespace DungeonInspector
 
             Repaint();
 
-            _pixelPerUnit = EditorGUILayout.Slider("Pixel per unit", _pixelPerUnit, 1, 64);
+            _camera.PixelsPerUnit = (int)EditorGUILayout.Slider("Pixel per unit", _camera.PixelsPerUnit, 1, 64);
             var secElapsep = _stopWatch.ElapsedMilliseconds / 1000f;
 
             _dt = secElapsep - _prev;
@@ -83,12 +83,14 @@ namespace DungeonInspector
             var viewportHeight = 360;
             var screenSize = new Vector2(EditorGUIUtility.currentViewWidth, 360);
 
-            _gameViewport = new Rect(EditorGUIUtility.currentViewWidth / 2 - screenSize.x / 2, 0, screenSize.x, screenSize.y);
+            _camera.ViewportRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - screenSize.x / 2, 0, screenSize.x, screenSize.y);
 
-            var screen = _gameViewport;
-            screen.height += 12;
+            
+
+            var screen = _camera.ViewportRect;
+            screen.height += 24;
             // Background.
-            EditorGUI.DrawRect(_gameViewport, Color.black * 0.7f);
+            EditorGUI.DrawRect(screen, Color.black * 0.7f);
 
             //DrawGrid(new Vector2(_gameViewport.width, _gameViewport.height), Color.white * 0.3f);
 
@@ -97,13 +99,13 @@ namespace DungeonInspector
             //--DrawSprite(Vector2.zero, new Vector2(1, 1), 0);
 
 
-            _cameraPos = Vector2.Lerp(_cameraPos, new Vector2((int)_playerPos.x, (int)_playerPos.y) * (int)_pixelPerUnit, 7 * _dt);
+            _camera.position = Vector2.Lerp(_camera.position, new Vector2((int)_playerPos.x, (int)_playerPos.y) * (int)_camera.PixelsPerUnit, 7 * _dt);
 
 
             var mouse = Event.current;
             //mouse.mousePosition = new Vector2(Mathf.Clamp(mouse.mousePosition.x, _gameViewport.x + _pixelPerUnit / 2, _gameViewport.width - _pixelPerUnit / 2), Mathf.Clamp(mouse.mousePosition.y, _gameViewport.y + _pixelPerUnit / 2, _gameViewport.height - _pixelPerUnit / 2));
 
-            var newMousePos = (new Vector2(mouse.mousePosition.x - _gameViewport.x - _gameViewport.width / 2, -(mouse.mousePosition.y - _gameViewport.y - _gameViewport.height / 2)) + _cameraPos) / _pixelPerUnit;
+            var newMousePos = (new Vector2(mouse.mousePosition.x - _camera.ViewportRect.x - _camera.ViewportRect.width / 2, -(mouse.mousePosition.y - _camera.ViewportRect.y - _camera.ViewportRect.height / 2)) + _camera.position) / _camera.PixelsPerUnit;
 
 
             newMousePos.x = Mathf.RoundToInt(newMousePos.x);
@@ -118,23 +120,23 @@ namespace DungeonInspector
 
             for (int i = 0; i < _tiles.Count; i++)
             {
-                DrawSprite(_tiles[i].Item1, new Vector2(1, 1), 0, _tiles[i].Item2);
+                DrawSprite(_tiles[i].Item1, new Vector2(1, 1), _camera, _tiles[i].Item2);
             }
 
             // Mouse sprite pointer
-            DrawSprite(newMousePos, Vector2.one, 0, WorldEditorEditor.SelectedTex);
+            DrawSprite(newMousePos, Vector2.one, _camera, WorldEditorEditor.SelectedTex);
 
             Input();
             _playerAnimator.Update(_dt);
 
             // Player
 
-            DrawSprite(_playerPos, new Vector2(1 + _playerAnimator.CurrentTex.width / _playerAnimator.CurrentTex.height, 1 + _playerAnimator.CurrentTex.height / _playerAnimator.CurrentTex.width), 15f, _playerAnimator.CurrentTex);
+            DrawSprite(_playerPos, new Vector2(1 + _playerAnimator.CurrentTex.width / _playerAnimator.CurrentTex.height, 1 + _playerAnimator.CurrentTex.height / _playerAnimator.CurrentTex.width), _camera, _playerAnimator.CurrentTex);
 
 
             //delete, or fix
-            _gameViewport.height += 12;
-            EditorGUI.DrawRect(_gameViewport, Color.black * (Mathf.Sin(_time * 1f) + 0.3f) * 0.5f);
+            //--_gameViewport.height += 12;
+            //--EditorGUI.DrawRect(_gameViewport, Color.black * (Mathf.Sin(_time * 1f) + 0.3f) * 0.5f);
 
 
         }
@@ -210,7 +212,7 @@ namespace DungeonInspector
 
             var dir = (Vector2)_playerWalkDir;
 
-            _playerPos += dir * _moveSpeed * _pixelPerUnit * _dt;
+            _playerPos += dir * _moveSpeed * _camera.PixelsPerUnit * _dt;
         }
 
         private void DrawGrid(Vector2 screenSize, Color color)
@@ -218,24 +220,27 @@ namespace DungeonInspector
             var xCount = 20f; //Mathf.RoundToInt(screenSize.x / _pixelPerUnit) -1;
             var yCount = 20f;// Mathf.RoundToInt(screenSize.y / _pixelPerUnit) - 1;
 
-            var totalSpaceX = (screenSize.x - (_pixelPerUnit * (xCount))) / 2f;
-            var totalSpaceY = (screenSize.y - (_pixelPerUnit * yCount)) / 2f;
+            var pixelPerUnit = _camera.PixelsPerUnit;
+            var viewportRect = _camera.ViewportRect;
 
-            Debug.Log(_pixelPerUnit * xCount + "w: " + screenSize.x + ". s: " + totalSpaceX);
+            var totalSpaceX = (screenSize.x - (pixelPerUnit * (xCount))) / 2f;
+            var totalSpaceY = (screenSize.y - (pixelPerUnit * yCount)) / 2f;
+
+            Debug.Log(pixelPerUnit * xCount + "w: " + screenSize.x + ". s: " + totalSpaceX);
 
             for (int i = 0; i < Mathf.RoundToInt(xCount); i++)
             {
-                EditorGUI.DrawRect(new Rect(_gameViewport.x + totalSpaceX + i * _pixelPerUnit - _cameraPos.x + _pixelPerUnit / 2, _gameViewport.y + _cameraPos.y, 1f, _pixelPerUnit * yCount), color);
+                EditorGUI.DrawRect(new Rect(viewportRect.x + totalSpaceX + i * pixelPerUnit - _camera.position.x + pixelPerUnit / 2, viewportRect.y + _camera.position.y, 1f, pixelPerUnit * yCount), color);
             }
 
             for (int i = 0; i < Mathf.RoundToInt(yCount); i++)
             {
-                EditorGUI.DrawRect(new Rect(_gameViewport.x - _cameraPos.x, _gameViewport.y - totalSpaceY + i * _pixelPerUnit + _cameraPos.y, totalSpaceX * xCount, 1), color);
+                EditorGUI.DrawRect(new Rect(viewportRect.x - _camera.position.x, viewportRect.y - totalSpaceY + i * pixelPerUnit + _camera.position.y, totalSpaceX * xCount, 1), color);
             }
         }
 
 
-        private Rect DrawSprite(Vector2 pos, Vector2 scale, float zRot, Texture2D sprite = null)
+        private Rect DrawSprite(Vector2 pos, Vector2 scale, DCamera camera, Texture2D sprite = null)
         {
             if (sprite == null)
             {
@@ -244,7 +249,7 @@ namespace DungeonInspector
 
             var matrix = GUI.matrix;
             //GUI.matrix = Matrix4x4.TRS(pos, Quaternion.Euler(0,0, zRot), Vector3.one);
-            var finalRect = WorldPosition(pos, scale);
+            var finalRect = _camera.World2RectPos(pos, scale);
 
             bool snap = true;
 
@@ -253,7 +258,7 @@ namespace DungeonInspector
                 finalRect = new Rect((int)finalRect.x, (int)finalRect.y, (int)finalRect.width, (int)finalRect.height);
             }
 
-            if (finalRect.y < _gameViewport.height && finalRect.y > _gameViewport.y)
+            if (finalRect.y < camera.ViewportRect.height && finalRect.y > camera.ViewportRect.y)
             {
                 Graphics.DrawTexture(finalRect, sprite);
                 GUI.matrix = matrix;
@@ -264,16 +269,6 @@ namespace DungeonInspector
         }
 
 
-        private Rect WorldPosition(Vector2 pos, Vector2 scale)
-        {
-            var gameScale = scale * _pixelPerUnit;
-            pos.y = -pos.y;
-            var gamePos = pos * _pixelPerUnit;
-
-            return new Rect(_gameViewport.x + _gameViewport.width * 0.5f + gamePos.x - gameScale.x * 0.5f - _cameraPos.x,
-                            _gameViewport.y + _gameViewport.height * 0.5f + gamePos.y - gameScale.y * 0.5f + _cameraPos.y,
-                            gameScale.x,
-                            gameScale.y);
-        }
+        
     }
 }
