@@ -27,7 +27,7 @@ namespace DungeonInspector
                 _renderersOrdered = _renderers.OrderByDescending(x => x.Key);
             }
 
-            //if(_renderersOrdered != null)
+            if(_renderers.Count > 0)
             {
                 foreach (var item in _renderersOrdered)
                 {
@@ -37,15 +37,6 @@ namespace DungeonInspector
                     }
                 }
             }
-        
-
-            //for (int i = 0; i < _renderers.Count; i++)
-            //{
-            //    for (int j = 0; j < _renderers[i].Count; j++)
-            //    {
-            //        Render(_renderers[i][j], null);
-            //    }
-            //}
         }
 
         public void AddRenderer(DRendererComponent renderer)
@@ -59,16 +50,28 @@ namespace DungeonInspector
                 _renderers.Add(renderer.ZSorting, new List<DRendererComponent>() { renderer });
             }
 
-            Debug.Log("add renderer");
             _pendingToOrder = true;
         }
 
-        public void RemoveRenderer(DRendererComponent renderer)
+        public bool RemoveRenderer(DRendererComponent renderer)
         {
             // Todo
             _pendingToOrder = true;
 
-            Debug.Log("TODO: Removing from renderer");
+            if (_renderers.TryGetValue(renderer.ZSorting, out var rendererList))
+            {
+                rendererList.Remove(renderer);
+
+                if (rendererList.Count == 0)
+                {
+                    _renderers.Remove(renderer.ZSorting);
+                }
+
+                return true;
+            }
+
+            Debug.LogError("Could not remove render");
+            return false;
         }
 
         public void Render(DRendererComponent renderer, DCamera camera)

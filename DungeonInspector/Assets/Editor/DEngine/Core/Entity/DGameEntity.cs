@@ -114,7 +114,11 @@ namespace DungeonInspector
         {
             var updatableRenderer = component as DRendererComponent;
 
-            DIEngineCoreServices.Get<DRenderingController>().RemoveRenderer(updatableRenderer);
+            if(updatableRenderer != null)
+            {
+                var result = DIEngineCoreServices.Get<DRenderingController>().RemoveRenderer(updatableRenderer);
+
+            }
 
             var updatable = component as DUpdatableComponent;
 
@@ -123,7 +127,7 @@ namespace DungeonInspector
                 _updatableComponents.Remove(updatable);
 
             }
-
+             
             _components.Remove(component.GetType());
             
             // Removing
