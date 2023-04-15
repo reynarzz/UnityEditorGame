@@ -5,7 +5,7 @@ namespace DungeonInspector
     public class Player : DBehavior
     {
         private DAnimatorComponent _playerAnimator;
-        private const float _moveSpeed = 10f;
+        private const float _moveSpeed = 15f;
         UnityEngine.Vector2Int _playerWalkDir = new UnityEngine.Vector2Int();
 
         public override void OnStart()
@@ -96,15 +96,9 @@ namespace DungeonInspector
             }
             // Debug.Log(_playerWalkDir);
 
-
             var dir = (UnityEngine.Vector2)_playerWalkDir;
 
             Transform.Position += dir * _moveSpeed * DTime.DeltaTime;
-
-            //if(e.type == UnityEngine.EventType.KeyDown && e.keyCode == UnityEngine.KeyCode.A)
-            //{
-            //    Transform.Position = new DVector2(Transform.Position.x - 1, 0);
-            //}
         }
     }
 }

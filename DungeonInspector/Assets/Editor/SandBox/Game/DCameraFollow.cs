@@ -20,7 +20,7 @@ namespace DungeonInspector
 
         public override void UpdateFrame()
         {
-            var playerPos = new DVector2((int)_player.Transform.Position.x, (int)_player.Transform.Position.y);
+            var playerPos = new DVector2(_player.Transform.Position.x, _player.Transform.Position.y);
 
             _camera.Transform.Position = UnityEngine.Vector2.Lerp(_camera.Transform.Position, playerPos, 7 * DTime.DeltaTime);
         }

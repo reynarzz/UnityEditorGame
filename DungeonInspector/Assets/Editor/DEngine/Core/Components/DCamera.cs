@@ -10,28 +10,9 @@ namespace DungeonInspector
 {
     public class DCamera : DBehavior
     {
-        private static DCamera _mainCamera;
-        public static DCamera MainCamera
-        {
-            get
-            {
-                return _mainCamera;
-            }
-            set
-            {
-               // if (_mainCamera == null)
-                {
-                    _mainCamera = value;
-                }
-               // else
-                {
-                    //Debug.Log("Main camera already set");
-                }
-            }
-        }
-
-        public DVector2 ScreenSize { get; set; }
         public static int PixelsPerUnit { get; set; } = 32;
+        public static DCamera MainCamera { get; set; }
+        public DVector2 ScreenSize { get; set; }
         public Rect BoundsRect { get; set; }
 
         public DCamera()
