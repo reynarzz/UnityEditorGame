@@ -23,12 +23,12 @@ namespace DungeonInspector
 
         public static Rect World2RectPos(Vector2 pos, Vector2 scale, Rect viewportRect, Vector2 cameraPos, int pixelsPerUnit)
         {
-            var gameScale = scale * (float)pixelsPerUnit;
+            var gameScale = scale * pixelsPerUnit;
             pos.y = -pos.y;
-            var gamePos = pos * (float)pixelsPerUnit;
+            var gamePos = pos * pixelsPerUnit;
 
-            return new Rect(viewportRect.x + viewportRect.width * 0.5f + gamePos.x - gameScale.x * 0.5f - cameraPos.x,
-                            viewportRect.y + viewportRect.height * 0.5f + gamePos.y - gameScale.y * 0.5f + cameraPos.y,
+            return new Rect(viewportRect.x + viewportRect.width * 0.5f + gamePos.x - gameScale.x * 0.5f - cameraPos.x * pixelsPerUnit,
+                            viewportRect.y + viewportRect.height * 0.5f + gamePos.y - gameScale.y * 0.5f + cameraPos.y * pixelsPerUnit,
                             gameScale.x,
                             gameScale.y);
         }
@@ -38,7 +38,7 @@ namespace DungeonInspector
             var xCount = 20f; //Mathf.RoundToInt(screenSize.x / _pixelPerUnit) -1;
             var yCount = 20f;// Mathf.RoundToInt(screenSize.y / _pixelPerUnit) - 1;
 
-            var pixelPerUnit = camera.PixelsPerUnit;
+            var pixelPerUnit = DCamera.PixelsPerUnit;
             var viewportRect = camera.BoundsRect;
 
             var totalSpaceX = (screenSize.x - (pixelPerUnit * (xCount))) / 2f;

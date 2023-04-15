@@ -58,7 +58,7 @@ namespace DungeonInspector
 
             for (int j = 0; j < updatables.Count; j++)
             {
-                updatables[j].Start();
+                updatables[j].Init();
             }
         }
 
@@ -70,7 +70,7 @@ namespace DungeonInspector
 
                 for (int j = 0; j < updatables.Count; j++)
                 {
-                    updatables[j].Update();
+                    updatables[j].Loop();
                 }
             }
         }

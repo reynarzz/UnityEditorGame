@@ -49,6 +49,6 @@ namespace DungeonInspector
     public struct TileDataInfo
     {
         public string TileName { get; set; }
-        public Vector2Int WorldPosition { get; set; }
+        public DVector2 WorldPosition { get; set; }
     }
 }

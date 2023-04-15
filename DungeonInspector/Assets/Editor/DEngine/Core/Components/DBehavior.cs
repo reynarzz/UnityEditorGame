@@ -11,8 +11,8 @@ namespace DungeonInspector
         public DGameEntity GameEntity { get; set; }
 
         public virtual void OnDestroy() { }
-        public virtual void Start() { }
-        public virtual void Update() { }
+        public virtual void Init() { }
+        public virtual void Loop() { }
 
         public T GetComponent<T>() where T : DComponent, new()
         {

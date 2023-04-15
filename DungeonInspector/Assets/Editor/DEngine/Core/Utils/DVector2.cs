@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -49,10 +50,10 @@ namespace DungeonInspector
             return new DVector2(a.x * n, a.y * n);
         }
 
-        public float Magnitude => (float)Math.Sqrt(x * x + y * y);
-        public float SqrMagnitude => x * x + y * y;
+        [JsonIgnore] public float Magnitude => (float)Math.Sqrt(x * x + y * y);
+        [JsonIgnore] public float SqrMagnitude => x * x + y * y;
 
-        public DVector2 Normalize => this / Magnitude;
+        [JsonIgnore] public DVector2 Normalize => this / Magnitude;
 
         public static float Dot(DVector2 a, DVector2 b)
         {
@@ -65,6 +66,11 @@ namespace DungeonInspector
             var y = a.y - b.y;
 
             return (float)Math.Sqrt(x * x + y * y);
+        }
+
+        public override string ToString()
+        {
+            return $"({x}, {y})";
         }
     }
 }

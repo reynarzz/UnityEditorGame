@@ -5,10 +5,10 @@ namespace DungeonInspector
     public class Player : DBehavior
     {
         private SpriteAnimator _playerAnimator;
-        private const float _moveSpeed = 0.7f;
+        private const float _moveSpeed = 7f;
         UnityEngine.Vector2Int _playerWalkDir = new UnityEngine.Vector2Int();
 
-        public override void Start()
+        public override void Init()
         {
             var name = "Character2/WalkLeft";
             var walkLeft = GetAnimation(name);
@@ -29,14 +29,16 @@ namespace DungeonInspector
         }
 
 
-        public override void Update()
+        public override void Loop()
         {
             var e = UnityEngine.Event.current; 
             if (e.keyCode == UnityEngine.KeyCode.F)
             {
                 GameEntity.Destroy();
             }
-            Transform.Position = new DVector2(MathF.Cos(DTime.TimeSinceStarted), MathF.Sin(DTime.TimeSinceStarted));
+            //Transform.Position = new DVector2(MathF.Cos(DTime.TimeSinceStarted), MathF.Sin(DTime.TimeSinceStarted));
+
+            PlayerMovement();
         }
 
 
@@ -95,6 +97,11 @@ namespace DungeonInspector
             var dir = (UnityEngine.Vector2)_playerWalkDir;
 
             Transform.Position += dir * _moveSpeed * DTime.DeltaTime;
+
+            //if(e.type == UnityEngine.EventType.KeyDown && e.keyCode == UnityEngine.KeyCode.A)
+            //{
+            //    Transform.Position = new DVector2(Transform.Position.x - 1, 0);
+            //}
         }
     }
 }

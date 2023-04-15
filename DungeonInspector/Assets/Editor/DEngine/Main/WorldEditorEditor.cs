@@ -11,6 +11,12 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
+    public struct SelectedTexInfo
+    {
+        public int TexIndex { get; set; }
+        public Texture2D Tex { get; set; }
+    }
+
     [CustomEditor(typeof(WorldEditor))]
     public class WorldEditorEditor : Editor
     {
@@ -18,13 +24,14 @@ namespace DungeonInspector
 
         private E_SpriteAtlas _worldSpriteAtlas;
         private static Texture2D _selectedTex;
+        public static Action OnSave_Test;
 
         public static Texture2D SelectedTex => _selectedTex;
         private WorldTile _testTile_DELETE;
         private void OnEnable()
         {
             _worldSpriteAtlas = Resources.Load<E_SpriteAtlas>("World/World1");
-            _selectedTex = _worldSpriteAtlas.GetTexture(0);
+            _selectedTex =  _worldSpriteAtlas.GetTexture(0); 
             _testTile_DELETE = new WorldTile();
         }
 
@@ -70,7 +77,7 @@ namespace DungeonInspector
 
             if (GUILayout.Button("Save"))
             {
-
+                OnSave_Test?.Invoke();
             }
         }
 

@@ -31,7 +31,7 @@ namespace DungeonInspector
         }
 
         public DVector2 ScreenSize { get; set; }
-        public int PixelsPerUnit { get; set; } = 32;
+        public static int PixelsPerUnit { get; set; } = 32;
         public Rect BoundsRect { get; set; }
 
         public DCamera()
@@ -50,10 +50,10 @@ namespace DungeonInspector
             var xPos = mousePosition.x - BoundsRect.x - BoundsRect.width / 2;
             var yPos = -(mousePosition.y - BoundsRect.y - BoundsRect.height / 2);
 
-            return new DVector2(xPos + Transform.Position.x, yPos + Transform.Position.y) / PixelsPerUnit;
+            return new DVector2(xPos + Transform.Position.x * PixelsPerUnit, yPos + Transform.Position.y * PixelsPerUnit) / PixelsPerUnit;
         }
 
-        public override void Update()
+        public override void Loop()
         {
             ScreenSize = new DVector2(EditorGUIUtility.currentViewWidth, ScreenSize.y);
             BoundsRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 0, ScreenSize.x, ScreenSize.y);
