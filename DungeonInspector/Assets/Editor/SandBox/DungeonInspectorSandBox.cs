@@ -10,19 +10,18 @@ namespace DungeonInspector
     {
         public override void OnInitialize()
         {
-            var entity = new DGameEntity("Player");
-            var comp = entity.AddComponent<DRendererComponent>();
-             entity.AddComponent<Player>();
+            // Main Player
+            new DGameEntity("Player", typeof(DRendererComponent), typeof(Player));
 
-            var camera = new DGameEntity("Camera");
-            camera.AddComponent<DCamera>();
-            camera.AddComponent<DCameraFollow>();
+            //Camera
+            new DGameEntity("Camera", typeof(DCamera), typeof(DCameraFollow));
 
-            //var camera = new DGameEntity();
-            //camera.AddComponent<DCamera>();
+            // Tile Painter
+            new DGameEntity("TilePainter", typeof(DTilesPainter), typeof(DRenderingGroup));
+
         }
-
-        public override void OnClose()
+        
+        public override void OnQuit()
         {
 
         }

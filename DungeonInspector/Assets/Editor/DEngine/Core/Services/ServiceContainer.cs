@@ -4,16 +4,17 @@ using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting;
 
 namespace DungeonInspector
 {
     public interface IDService {  }
 
-    public static class DIEngineCoreServices
+    public class DIEngineCoreServices
     {
         private static Dictionary<Type, IDService> _services;
 
-        static DIEngineCoreServices()
+        public DIEngineCoreServices()
         {
             _services = new Dictionary<Type, IDService>()
             {

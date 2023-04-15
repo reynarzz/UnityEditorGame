@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,22 +14,16 @@ namespace DungeonInspector
 
         private DTransformComponent _transform;
         public DTransformComponent Transform => _transform;
+        private List<DBehavior> _behaviorComponents_Test;
 
         private const string _defaultName = "GameEntity";
         public string Name { get; set; }
+
         public DGameEntity() : this(_defaultName) { }
+        public DGameEntity(string name) : this(name, null) { }
+        public DGameEntity(params Type[] components) : this(_defaultName, components) { }
 
-        private List<DBehavior> _behaviorComponents_Test;
-        //public DGameEntity(params Type[] components)
-        //{
-
-        //}
-        //public DGameEntity(string name, params Type[] components)
-        //{
-
-        //}
-
-        public DGameEntity(string name)
+        public DGameEntity(string name, params Type[] components)
         {
             Name = name;
 
@@ -41,18 +36,24 @@ namespace DungeonInspector
                 { typeof(DTransformComponent), _transform }
             };
 
+            if (components != null && components.Length > 0)
+            {
+                for (int i = 0; i < components.Length; i++)
+                {
+                    AddComponent(components[i]);
+                }
+            }
+
             DIEngineCoreServices.Get<DEntitiesController>().AddEntity(this);
         }
 
-        public T AddComponent<T>() where T : DComponent, new()
+        public DComponent AddComponent(Type type)
         {
-            var type = typeof(T);
-
-            T component = default;
+            DComponent component = null;
 
             if (!_components.ContainsKey(type))
             {
-                component = new T();
+                component = Activator.CreateInstance(type) as DComponent;
 
                 if (type.IsSubclassOf(typeof(DTransformableComponent)))
                 {
@@ -90,11 +91,16 @@ namespace DungeonInspector
             }
             else
             {
-                component = _components[type] as T;
+                component = _components[type];
                 Debug.LogError($"Already contains component of type {type.Name}");
             }
 
             return component;
+        }
+
+        public T AddComponent<T>() where T : DComponent, new()
+        {
+            return (T)AddComponent(typeof(T));
         }
 
         public T GetComponent<T>() where T : DComponent, new()

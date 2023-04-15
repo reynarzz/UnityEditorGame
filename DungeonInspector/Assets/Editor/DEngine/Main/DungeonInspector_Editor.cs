@@ -1,31 +1,25 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
-using UnityEditor;
+﻿using UnityEditor;
 
 namespace DungeonInspector
 {
     [CustomEditor(typeof(DungeonInspector))]
     public class DungeonInspector_Editor : Editor
     {
-        private DEntitiesController _componentsContainer; 
+        private DEntitiesController _componentsContainer;
         private DRenderingController _renderer;
-        private DTime _time;
-
         private DSandboxBase _sandbox;
+        private DTime _time;
 
         private void OnEnable()
         {
+            new DIEngineCoreServices();
+
             _time = new DTime();
             _sandbox = new DungeonInspectorSandBox();
             _renderer = DIEngineCoreServices.Get<DRenderingController>();
             _componentsContainer = DIEngineCoreServices.Get<DEntitiesController>();
-         
 
-            _sandbox.Time = _time;
+
             _sandbox.OnInitialize();
 
             _componentsContainer.OnStart();
@@ -40,6 +34,11 @@ namespace DungeonInspector
             _renderer.Update();
 
             Repaint();
+        }
+
+        private void OnDestroy()
+        {
+            _sandbox.OnQuit();
         }
     }
 }

@@ -8,8 +8,7 @@ namespace DungeonInspector
 {
     public abstract class DSandboxBase
     {
-        public DTime Time { get; set; }
         public virtual void OnInitialize() { }
-        public virtual void OnClose() { }
+        public virtual void OnQuit() { }
     }
 }

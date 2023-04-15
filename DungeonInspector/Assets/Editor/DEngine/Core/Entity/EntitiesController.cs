@@ -10,6 +10,7 @@ namespace DungeonInspector
     {
         private List<DGameEntity> _entities;
 
+        public int Count => _entities.Count;
         public DEntitiesController()
         {
             _entities = new List<DGameEntity>();

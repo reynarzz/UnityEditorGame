@@ -19,11 +19,11 @@ namespace DungeonInspector
             }
             set
             {
-                if (_mainCamera == null)
+               // if (_mainCamera == null)
                 {
                     _mainCamera = value;
                 }
-                else
+               // else
                 {
                     Debug.Log("Main camera already set");
                 }
@@ -60,6 +60,7 @@ namespace DungeonInspector
 
             var screen = BoundsRect;
             screen.height += 24;
+             
             // Background.
             EditorGUI.DrawRect(screen, Color.black * 0.7f);
 

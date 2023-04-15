@@ -28,6 +28,17 @@ namespace DungeonInspector
             return new DVector2(vector.x, vector.y);
         }
 
+        public static implicit operator UnityEngine.Vector2Int(DVector2 vector)
+        {
+            return new UnityEngine.Vector2Int((int)vector.x, (int)vector.y);
+        }
+
+        public static implicit operator DVector2(UnityEngine.Vector2Int vector)
+        {
+            return new DVector2(vector.x, vector.y);
+        }
+
+
         public static DVector2 operator /(DVector2 a, float n)
         {
             return new DVector2(a.x / n, a.y / n);
