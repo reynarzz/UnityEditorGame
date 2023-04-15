@@ -5,16 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
+using System.IO;
 
 namespace DungeonInspector
 {
     public class DTilesPainter : DBehavior
     {
-        private List<(Vector2, Texture2D)> _tiles;
+        private List<(TileDataInfo, Texture2D)> _tiles;
 
         private Vector2Int _mouseTileGuidePosition;
         private E_SpriteAtlas _worldSpriteAtlas;
         private DCamera _camera;
+        private DGameMaster _gameMaster;
 
         public override void OnStart()
         {
@@ -22,27 +24,49 @@ namespace DungeonInspector
 
             _camera = FindGameEntity("Camera").GetComponent<DCamera>();
 
-            _tiles = new List<(Vector2, Texture2D)>();
+            _gameMaster = FindGameEntity("GameMaster").GetComponent<DGameMaster>();
+
+            var tiles = _gameMaster.CurrentWorldData;
+
+            _tiles = new List<(TileDataInfo, Texture2D)>();
+
+            //for (int i = 0; i < length; i++)
+            //{
+
+            //}
             WorldEditorEditor.OnSave_Test = OnSave;
         }
 
         private void OnSave()
         {
-            if(_tiles.Count > 0)
+            if (_tiles.Count > 0)
             {
-                var tiles = new TileDataInfo[_tiles.Count];
+                var tiles = new Dictionary<DVector2, List<TileDataInfo>>();
 
                 for (int i = 0; i < _tiles.Count; i++)
                 {
                     var worldPosition = _tiles[i].Item1;
                     var texName = _tiles[i].Item2.name;
 
-                    tiles[i] = new TileDataInfo() { TileName = texName, WorldPosition = (DVector2)worldPosition };
+                    var data = new TileDataInfo() { TileName = texName, WorldPosition = worldPosition.WorldPosition };
+
+                    tiles.Add(data.WorldPosition, new List<TileDataInfo>() { data });
                 }
+
+                //for (int i = 0; i < _tiles.Count; i++)
+                //{
+                //    var worldPosition = _tiles[i].Item1;
+                //    var texName = _tiles[i].Item2.name;
+
+                //    tiles[i] = new TileDataInfo() { TileName = texName, WorldPosition = (DVector2)worldPosition };
+                //}
 
                 var worldData = new WorldData(tiles);
                 var json = JsonConvert.SerializeObject(worldData, Formatting.Indented);
 
+                var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
+
+                File.WriteAllText(worldLevelPath, json);
                 Debug.Log(json);
             }
         }
@@ -65,7 +89,7 @@ namespace DungeonInspector
         {
             for (int i = 0; i < _tiles.Count; i++)
             {
-                Graphics.DrawTexture(_camera.World2RectPos(_tiles[i].Item1, Vector2.one), _tiles[i].Item2);
+                Graphics.DrawTexture(_camera.World2RectPos(_tiles[i].Item1.WorldPosition, Vector2.one), _tiles[i].Item2);
 
             }
 
@@ -79,11 +103,9 @@ namespace DungeonInspector
         {
             if (/*Event.current.type == EventType.MouseDown &&*/ Event.current.isMouse && Event.current.button == 0)
             {
-                if(!_tiles.Exists(x => x.Item1 == _mouseTileGuidePosition))
-                _tiles.Add((_mouseTileGuidePosition, WorldEditorEditor.SelectedTex));
+                if (!_tiles.Exists(x => x.Item1.WorldPosition == _mouseTileGuidePosition))
+                    _tiles.Add((new TileDataInfo() { IsWalkable = true, WorldPosition = _mouseTileGuidePosition }, WorldEditorEditor.SelectedTex));
             }
-
         }
-
     }
 }

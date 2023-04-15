@@ -10,6 +10,9 @@ namespace DungeonInspector
     {
         public override void OnInitialize()
         {
+            // Game Master
+            new DGameEntity("GameMaster", typeof(DGameMaster));
+
             // Main Player
             new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player));
 

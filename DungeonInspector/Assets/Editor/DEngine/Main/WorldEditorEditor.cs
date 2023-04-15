@@ -13,7 +13,7 @@ namespace DungeonInspector
 {
     public struct SelectedTexInfo
     {
-        public int TexIndex { get; set; }
+        public string TexIndex { get; set; }
         public Texture2D Tex { get; set; }
     }
 

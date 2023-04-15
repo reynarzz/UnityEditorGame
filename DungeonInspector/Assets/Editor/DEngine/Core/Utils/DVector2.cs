@@ -42,6 +42,18 @@ namespace DungeonInspector
             return new DVector2(vector.x, vector.y);
         }
 
+        // Json deserializer needs this
+        public static implicit operator DVector2(string vector)
+        {
+            var start = vector.IndexOf('(');
+            var comma = vector.IndexOf(',');
+            var end = vector.IndexOf(')');
+
+            var xStr = vector.Substring(start+1, comma-1);
+            var yStr = vector.Substring(comma+1, end - comma -1);
+
+            return new DVector2(float.Parse(xStr), float.Parse(yStr));
+        }
 
         public static DVector2 operator /(DVector2 a, float n)
         {

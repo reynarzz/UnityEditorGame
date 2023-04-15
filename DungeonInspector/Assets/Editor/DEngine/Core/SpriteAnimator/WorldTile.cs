@@ -27,12 +27,12 @@ namespace DungeonInspector
         None,
         Loop
     }
-      
+    
     [Serializable]
     public class WorldTile
     {
         [SerializeField] private TileType _type;
-        [SerializeField] private Texture2D _defaultTexture;
+        [SerializeField] private string _textureName;
 
         private SpriteAnimation _idleAnimation;
         private SpriteAnimation _interactableAnimation;
@@ -40,7 +40,7 @@ namespace DungeonInspector
 
         public int ZSorting => _zSorting;
         public Vector2Int WorldPosition { get; set; }
-        public Texture2D Texture => _defaultTexture;
+        public string Texture => _textureName;
         public TileType Type => _type;
     }
 }

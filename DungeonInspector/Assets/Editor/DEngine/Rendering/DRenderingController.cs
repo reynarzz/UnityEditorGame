@@ -33,7 +33,7 @@ namespace DungeonInspector
                 {
                     for (int i = 0; i < item.Value.Count; i++)
                     {
-                        Render(item.Value[i], CameraTest);
+                        Draw(item.Value[i], CameraTest);
                     }
                 }
             }
@@ -74,7 +74,7 @@ namespace DungeonInspector
             return false;
         }
 
-        public void Render(DRendererComponent renderer, DCamera camera)
+        private void Draw(DRendererComponent renderer, DCamera camera)
         {
             var renderingTex = renderer.Texture;
 

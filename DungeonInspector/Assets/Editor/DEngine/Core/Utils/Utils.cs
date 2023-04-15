@@ -58,5 +58,16 @@ namespace DungeonInspector
                 EditorGUI.DrawRect(new Rect(viewportRect.x - cameraPos.x, viewportRect.y - totalSpaceY + i * pixelPerUnit + cameraPos.y, totalSpaceX * xCount, 1), color);
             }
         }
+
+        public static void LOG(this object msg)
+        {
+            Debug.Log(msg);
+        }
+
+        public static void LOGError(this object msg)
+        {
+            Debug.LogError(msg);
+        }
+
     }
 }
