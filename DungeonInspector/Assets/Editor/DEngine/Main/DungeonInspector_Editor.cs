@@ -10,6 +10,8 @@ namespace DungeonInspector
         private DSandboxBase _sandbox;
         private DTime _time;
 
+        private bool _started = false;
+
         private void OnEnable()
         {
             new DIEngineCoreServices();
@@ -22,13 +24,19 @@ namespace DungeonInspector
 
             _sandbox.OnInitialize();
 
+            _renderer.CameraTest = DCamera.MainCamera;
             _componentsContainer.OnStart();
 
-            _renderer.CameraTest = DCamera.MainCamera;
         }
 
         public override void OnInspectorGUI()
         {
+            if (!_started)
+            {
+                _started = true;
+                //_componentsContainer.OnStart();
+            }
+
             _time.Update();
             _componentsContainer.Update();
             _renderer.Update();

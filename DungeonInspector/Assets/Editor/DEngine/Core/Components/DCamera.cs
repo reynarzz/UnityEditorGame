@@ -25,7 +25,7 @@ namespace DungeonInspector
                 }
                // else
                 {
-                    Debug.Log("Main camera already set");
+                    //Debug.Log("Main camera already set");
                 }
             }
         }
@@ -62,7 +62,7 @@ namespace DungeonInspector
             screen.height += 24;
              
             // Background.
-            EditorGUI.DrawRect(screen, Color.black * 0.7f);
+            EditorGUI.DrawRect(screen, Color.black * 0.6f);
 
             GUILayout.Space(ScreenSize.y);
 

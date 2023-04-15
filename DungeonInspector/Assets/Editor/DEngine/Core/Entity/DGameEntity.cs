@@ -67,12 +67,12 @@ namespace DungeonInspector
 
                     behavior.GameEntity = this;
                     _behaviorComponents_Test.Add(behavior);
+                    //Debug.Log(component.GetType().Name);
                 }
 
                 if (type == typeof(DRendererComponent) || type.IsSubclassOf(typeof(DRendererComponent)))
                 {
                     var renderer = component as DRendererComponent;
-                    renderer.Transform = Transform;
 
                     DIEngineCoreServices.Get<DRenderingController>().AddRenderer(renderer);
                 }

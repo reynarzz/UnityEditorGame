@@ -27,7 +27,7 @@ namespace DungeonInspector
                 _renderersOrdered = _renderers.OrderByDescending(x => x.Key);
             }
 
-            if(_renderers.Count > 0)
+            if (_renderers.Count > 0)
             {
                 foreach (var item in _renderersOrdered)
                 {
@@ -85,13 +85,8 @@ namespace DungeonInspector
 
             var rect = camera.World2RectPos(renderer.Transform.Position, renderer.Transform.Scale);
 
-            // maybe snapping doesn't go here.
-            bool snap = true;
-
-            if (snap)
-            {
-                rect = new Rect((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
-            }
+            // snaping.
+            rect = new Rect((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
 
             if (rect.y < camera.BoundsRect.height && rect.y > camera.BoundsRect.y)
             {

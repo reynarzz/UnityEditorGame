@@ -7,25 +7,28 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class SpriteAnimator
+    public class DAnimatorComponent : DBehavior
     {
-        private readonly SpriteAnimation[] _animations;
+        private List<SpriteAnimation> _animations;
 
         private int _currentAnimIndex;
-        private Texture2D _tex;
 
-        public Texture2D CurrentTex => _tex;
         public float Speed { get; set; } = -1;
-        public SpriteAnimator(params SpriteAnimation[] animations)
+
+        private DRendererComponent _renderer;
+
+        public override void OnStart()
         {
-            _animations = animations;
+            _animations = new List<SpriteAnimation>();
+            _renderer = GetComponent<DRendererComponent>();
         }
 
-        public void Update()
+        public override void UpdateFrame()
         {
-            //DrawSprite(_playerPos, , _camera_Test, _playerAnimator.CurrentTex);
-
-            _animations[_currentAnimIndex].Update(DTime.DeltaTime);
+            if(_animations.Count > 0)
+            {
+                _animations[_currentAnimIndex].Update(DTime.DeltaTime);
+            }
         }
 
         public void Play(int index)
@@ -44,8 +47,17 @@ namespace DungeonInspector
                 _animations[_currentAnimIndex].Play();
             }
 
-            _tex = _animations[_currentAnimIndex].CurrentTexture;
+            _renderer.Texture = _animations[_currentAnimIndex].CurrentTexture;
         }
+
+        public void AddAnimation(params SpriteAnimation[] animation)
+        {
+            for (int i = 0; i < animation.Length; i++)
+            {
+                _animations.Add(animation[i]);
+            }
+        }
+
 
         public void Stop()
         {

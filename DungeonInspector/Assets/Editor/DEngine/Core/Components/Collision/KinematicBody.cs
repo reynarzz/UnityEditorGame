@@ -6,8 +6,11 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class DAnimatorComponent
+    public class KinematicBody : DBehavior
     {
+        public override void UpdateFrame()
+        {
 
+        }
     }
 }

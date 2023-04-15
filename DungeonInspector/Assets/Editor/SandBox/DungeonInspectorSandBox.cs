@@ -11,16 +11,16 @@ namespace DungeonInspector
         public override void OnInitialize()
         {
             // Main Player
-            new DGameEntity("Player", typeof(DRendererComponent), typeof(Player));
+            new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player));
 
             //Camera
             new DGameEntity("Camera", typeof(DCamera), typeof(DCameraFollow));
 
             // Tile Painter
-            new DGameEntity("TilePainter", typeof(DTilesPainter), typeof(DRenderingGroup));
+            new DGameEntity("TilePainter", typeof(DRenderingGroup), typeof(DTilesPainter));
 
         }
-        
+
         public override void OnQuit()
         {
 

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Unity.VisualScripting.YamlDotNet.Core.Tokens;
 using UnityEngine;
 
 namespace DungeonInspector
@@ -10,19 +11,27 @@ namespace DungeonInspector
     public class DRendererComponent : DTransformableComponent
     {
         public int ZSorting { get; set; } = 0;
+        private DTransformComponent _transform;
+
+        public DRendererComponent()
+        {
+            _transform = new DTransformComponent();
+        }
+
         public Texture2D Texture { get; set; }
 
-        public override DTransformComponent Transform 
+        new public DTransformComponent Transform
         {
-            get 
+            get
             {
-                // below is the fix to the texture ratio
-                //TODO: _playerAnimator.CurrentTex.width / _playerAnimator.CurrentTex.height
+                _transform.Position = base.Transform.Position;
 
-                return base.Transform; 
+                if (Texture != null)
+                {
+                    _transform.Scale = new DVector2(base.Transform.Scale.x + Texture.width / Texture.height, base.Transform.Scale.y + Texture.height / Texture.width);
+                }
+                return _transform;
             }
-            
-            set => base.Transform = value; 
         }
     }
 }

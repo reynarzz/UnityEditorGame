@@ -16,12 +16,13 @@ namespace DungeonInspector
         private E_SpriteAtlas _worldSpriteAtlas;
         private DCamera _camera;
 
-        public override void Init()
+        public override void OnStart()
         {
             _worldSpriteAtlas = Resources.Load<E_SpriteAtlas>("World/World1");
 
             _camera = FindGameEntity("Camera").GetComponent<DCamera>();
 
+            _tiles = new List<(Vector2, Texture2D)>();
             WorldEditorEditor.OnSave_Test = OnSave;
         }
 
@@ -52,15 +53,7 @@ namespace DungeonInspector
 
             var newMousePos = _camera.Mouse2WorldPos(mouse.mousePosition);
 
-            if (_tiles == null)
-                _tiles = new List<(Vector2, Texture2D)>();
-
-
-
-            newMousePos.x = Mathf.RoundToInt(newMousePos.x);
-            newMousePos.y = Mathf.RoundToInt(newMousePos.y);
-
-            _mouseTileGuidePosition = new Vector2Int((int)newMousePos.x, (int)newMousePos.y);
+            _mouseTileGuidePosition = new Vector2Int(Mathf.RoundToInt(newMousePos.x), Mathf.RoundToInt(newMousePos.y));
 
             SetTile();
 

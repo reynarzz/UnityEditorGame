@@ -12,7 +12,7 @@ namespace DungeonInspector
         private DCamera _camera;
         private Player _player;
 
-        public override void Init()
+        public override void OnStart()
         {
             _camera = GetComponent<DCamera>();
             _player = FindGameEntity("Player").GetComponent<Player>();
@@ -23,9 +23,6 @@ namespace DungeonInspector
             var playerPos = new DVector2((int)_player.Transform.Position.x, (int)_player.Transform.Position.y);
 
             _camera.Transform.Position = UnityEngine.Vector2.Lerp(_camera.Transform.Position, playerPos, 7 * DTime.DeltaTime);
-
-            //Debug.Log($"{_camera.Transform.Position}, {playerPos}");
-            UnityEngine.Graphics.DrawTexture(_camera.World2RectPos(_camera.Transform.Position, UnityEngine.Vector2.one), Texture2D.redTexture);
         }
     }
-}
+} 

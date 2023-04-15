@@ -56,9 +56,9 @@ namespace DungeonInspector
         {
             var updatables = entity.GetAllUpdatableComponents();
 
-            for (int j = 0; j < updatables.Count; j++)
+            for (int i = 0; i < updatables.Count; i++)
             {
-                updatables[j].Init();
+                updatables[i].OnStart();
             }
         }
 
