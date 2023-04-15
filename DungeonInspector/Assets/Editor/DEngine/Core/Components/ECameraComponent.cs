@@ -53,7 +53,7 @@ namespace DungeonInspector
             return new DVector2(xPos + Transform.Position.x * PixelsPerUnit, yPos + Transform.Position.y * PixelsPerUnit) / PixelsPerUnit;
         }
 
-        public override void Loop()
+        public override void UpdateFrame()
         {
             ScreenSize = new DVector2(EditorGUIUtility.currentViewWidth, ScreenSize.y);
             BoundsRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 0, ScreenSize.x, ScreenSize.y);

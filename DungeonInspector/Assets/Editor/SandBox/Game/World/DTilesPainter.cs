@@ -46,7 +46,7 @@ namespace DungeonInspector
             }
         }
 
-        public override void Loop()
+        public override void UpdateFrame()
         {
             var mouse = Event.current;
 

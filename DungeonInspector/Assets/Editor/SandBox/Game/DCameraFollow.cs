@@ -18,7 +18,7 @@ namespace DungeonInspector
             _player = FindGameEntity("Player").GetComponent<Player>();
         }
 
-        public override void Loop()
+        public override void UpdateFrame()
         {
             var playerPos = new DVector2((int)_player.Transform.Position.x, (int)_player.Transform.Position.y);
 

@@ -5,7 +5,7 @@ namespace DungeonInspector
     public class Player : DBehavior
     {
         private SpriteAnimator _playerAnimator;
-        private const float _moveSpeed = 7f;
+        private const float _moveSpeed = 10f;
         UnityEngine.Vector2Int _playerWalkDir = new UnityEngine.Vector2Int();
 
         public override void Init()
@@ -27,9 +27,9 @@ namespace DungeonInspector
         {
             return new SpriteAnimation(UnityEngine.Resources.Load<E_SpriteAtlas>(atlasName));
         }
+         
 
-
-        public override void Loop()
+        public override void UpdateFrame()
         {
             var e = UnityEngine.Event.current; 
             if (e.keyCode == UnityEngine.KeyCode.F)

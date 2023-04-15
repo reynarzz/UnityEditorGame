@@ -70,7 +70,7 @@ namespace DungeonInspector
 
                 for (int j = 0; j < updatables.Count; j++)
                 {
-                    updatables[j].Loop();
+                    updatables[j].UpdateFrame();
                 }
             }
         }

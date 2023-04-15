@@ -12,6 +12,9 @@ namespace DungeonInspector
     {
         public float x { get; set; }
         public float y { get; set; }
+        [JsonIgnore] public float Magnitude => (float)Math.Sqrt(x * x + y * y);
+        [JsonIgnore] public float SqrMagnitude => x * x + y * y;
+        [JsonIgnore] public DVector2 Normalize => this / Magnitude;
 
         public DVector2(float x, float y)
         {
@@ -50,11 +53,7 @@ namespace DungeonInspector
             return new DVector2(a.x * n, a.y * n);
         }
 
-        [JsonIgnore] public float Magnitude => (float)Math.Sqrt(x * x + y * y);
-        [JsonIgnore] public float SqrMagnitude => x * x + y * y;
-
-        [JsonIgnore] public DVector2 Normalize => this / Magnitude;
-
+       
         public static float Dot(DVector2 a, DVector2 b)
         {
             return a.x * b.x + a.y * b.y;

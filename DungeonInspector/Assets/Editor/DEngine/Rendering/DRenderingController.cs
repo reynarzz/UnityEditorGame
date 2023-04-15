@@ -11,7 +11,7 @@ namespace DungeonInspector
     {
         private Dictionary<int, List<DRendererComponent>> _renderers;
         private IOrderedEnumerable<KeyValuePair<int, List<DRendererComponent>>> _renderersOrdered;
-        private bool _pendingToOrder;
+        private bool _pendingToReorder;
         public DCamera CameraTest { get; set; }
 
         public DRenderingController()
@@ -21,9 +21,9 @@ namespace DungeonInspector
 
         public void Update()
         {
-            if (_pendingToOrder)
+            if (_pendingToReorder)
             {
-                _pendingToOrder = false;
+                _pendingToReorder = false;
                 _renderersOrdered = _renderers.OrderByDescending(x => x.Key);
             }
 
@@ -50,13 +50,13 @@ namespace DungeonInspector
                 _renderers.Add(renderer.ZSorting, new List<DRendererComponent>() { renderer });
             }
 
-            _pendingToOrder = true;
+            _pendingToReorder = true;
         }
 
         public bool RemoveRenderer(DRendererComponent renderer)
         {
             // Todo
-            _pendingToOrder = true;
+            _pendingToReorder = true;
 
             if (_renderers.TryGetValue(renderer.ZSorting, out var rendererList))
             {
