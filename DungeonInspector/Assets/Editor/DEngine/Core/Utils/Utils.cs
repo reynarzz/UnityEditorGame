@@ -44,16 +44,18 @@ namespace DungeonInspector
             var totalSpaceX = (screenSize.x - (pixelPerUnit * (xCount))) / 2f;
             var totalSpaceY = (screenSize.y - (pixelPerUnit * yCount)) / 2f;
 
+            var cameraPos = camera.Transform.Position;
+
             Debug.Log(pixelPerUnit * xCount + "w: " + screenSize.x + ". s: " + totalSpaceX);
 
             for (int i = 0; i < Mathf.RoundToInt(xCount); i++)
             {
-                EditorGUI.DrawRect(new Rect(viewportRect.x + totalSpaceX + i * pixelPerUnit - camera.position.x + pixelPerUnit / 2, viewportRect.y + camera.position.y, 1f, pixelPerUnit * yCount), color);
+                EditorGUI.DrawRect(new Rect(viewportRect.x + totalSpaceX + i * pixelPerUnit - cameraPos.x + pixelPerUnit / 2, viewportRect.y + cameraPos.y, 1f, pixelPerUnit * yCount), color);
             }
 
             for (int i = 0; i < Mathf.RoundToInt(yCount); i++)
             {
-                EditorGUI.DrawRect(new Rect(viewportRect.x - camera.position.x, viewportRect.y - totalSpaceY + i * pixelPerUnit + camera.position.y, totalSpaceX * xCount, 1), color);
+                EditorGUI.DrawRect(new Rect(viewportRect.x - cameraPos.x, viewportRect.y - totalSpaceY + i * pixelPerUnit + cameraPos.y, totalSpaceX * xCount, 1), color);
             }
         }
     }

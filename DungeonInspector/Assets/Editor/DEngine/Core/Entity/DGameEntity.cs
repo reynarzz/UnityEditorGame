@@ -18,7 +18,7 @@ namespace DungeonInspector
         public string Name { get; set; }
         public DGameEntity() : this(_defaultName) { }
 
-        private List<DUpdatableComponent> _updatableComponents;
+        private List<DBehavior> _behaviorComponents_Test;
         //public DGameEntity(params Type[] components)
         //{
 
@@ -34,7 +34,7 @@ namespace DungeonInspector
 
             _transform = new DTransformComponent();
 
-            _updatableComponents = new List<DUpdatableComponent>();
+            _behaviorComponents_Test = new List<DBehavior>();
 
             _components = new Dictionary<Type, DComponent>()
             {
@@ -51,18 +51,24 @@ namespace DungeonInspector
             T component = default;
 
             if (!_components.ContainsKey(type))
-            { 
+            {
                 component = new T();
-                
-                if (type.IsSubclassOf(typeof(DUpdatableComponent)))
+
+                if (type.IsSubclassOf(typeof(DTransformableComponent)))
                 {
-                    _updatableComponents.Add(component as DUpdatableComponent);
+                    var updatable = component as DTransformableComponent;
+                    updatable.Transform = Transform;
+
                 }
 
                 if (type.IsSubclassOf(typeof(DBehavior)))
                 {
-                    (component as DBehavior).GameEntity = this;
+                    var behavior = component as DBehavior;
+
+                    behavior.GameEntity = this;
+                    _behaviorComponents_Test.Add(behavior);
                 }
+
                 if (type == typeof(DRendererComponent) || type.IsSubclassOf(typeof(DRendererComponent)))
                 {
                     var renderer = component as DRendererComponent;
@@ -71,7 +77,12 @@ namespace DungeonInspector
                     DIEngineCoreServices.Get<DRenderingController>().AddRenderer(renderer);
                 }
 
-                
+                // Temporal
+                if (type == typeof(DCamera))
+                {
+                    DCamera.MainCamera = component as DCamera;
+                }
+
 
                 component.OnRemoved += OnComponentRemoved;
 
@@ -105,40 +116,40 @@ namespace DungeonInspector
             return component != null;
         }
 
-        public List<DUpdatableComponent> GetAllUpdatableComponents()
+        public List<DBehavior> GetAllUpdatableComponents()
         {
-            return _updatableComponents;
+            return _behaviorComponents_Test;
         }
 
         private void OnComponentRemoved(DComponent component)
         {
             var updatableRenderer = component as DRendererComponent;
 
-            if(updatableRenderer != null)
+            if (updatableRenderer != null)
             {
                 var result = DIEngineCoreServices.Get<DRenderingController>().RemoveRenderer(updatableRenderer);
 
             }
 
-            var updatable = component as DUpdatableComponent;
+            var behavior = component as DBehavior;
 
-            if (updatable != null)
+            if (behavior != null)
             {
-                _updatableComponents.Remove(updatable);
+                _behaviorComponents_Test.Remove(behavior);
 
             }
-             
+
             _components.Remove(component.GetType());
-            
+
             // Removing
-            
+
         }
 
         public void Destroy()
         {
             DIEngineCoreServices.Get<DEntitiesController>().RemoveEntity(this);
 
-            for (int i = _components.Values.Count-1; i > 0; i--)
+            for (int i = _components.Values.Count - 1; i > 0; i--)
             {
                 _components.Values.ElementAt(i).Destroy();
             }

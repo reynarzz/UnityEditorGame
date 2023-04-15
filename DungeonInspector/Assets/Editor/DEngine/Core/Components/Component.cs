@@ -22,9 +22,9 @@ namespace DungeonInspector
         }
     }
 
-    public class DUpdatableComponent : DComponent
+    public class DTransformableComponent : DComponent
     {
-        public virtual void Start() { }
-        public virtual void Update() { }
+        public virtual DTransformComponent Transform { get; set; }
+       
     }
 }

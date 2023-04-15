@@ -8,24 +8,41 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class DCamera : DUpdatableComponent
+    public class DCamera : DBehavior
     {
+        private static DCamera _mainCamera;
+        public static DCamera MainCamera
+        {
+            get
+            {
+                return _mainCamera;
+            }
+            set
+            {
+                if (_mainCamera == null)
+                {
+                    _mainCamera = value;
+                }
+                else
+                {
+                    Debug.Log("Main camera already set");
+                }
+            }
+        }
+
         public DVector2 ScreenSize { get; set; }
-        public DVector2 position { get; set; }
         public int PixelsPerUnit { get; set; } = 32;
         public Rect BoundsRect { get; set; }
-
 
         public DCamera()
         {
             ScreenSize = new DVector2(0, 360);
 
-            position = default;
         }
 
         public Rect World2RectPos(DVector2 pos, DVector2 scale)
         {
-            return Utils.World2RectPos(pos, scale, BoundsRect, position, PixelsPerUnit);
+            return Utils.World2RectPos(pos, scale, BoundsRect, Transform.Position, PixelsPerUnit);
         }
 
         public DVector2 Mouse2WorldPos(DVector2 mousePosition)
@@ -33,7 +50,7 @@ namespace DungeonInspector
             var xPos = mousePosition.x - BoundsRect.x - BoundsRect.width / 2;
             var yPos = -(mousePosition.y - BoundsRect.y - BoundsRect.height / 2);
 
-            return new DVector2(xPos + position.x, yPos + position.y) / PixelsPerUnit;
+            return new DVector2(xPos + Transform.Position.x, yPos + Transform.Position.y) / PixelsPerUnit;
         }
 
         public override void Update()

@@ -21,9 +21,11 @@ namespace DungeonInspector
             _animations = animations;
         }
 
-        public void Update(float dt)
+        public void Update()
         {
-            _animations[_currentAnimIndex].Update(dt);
+            //DrawSprite(_playerPos, , _camera_Test, _playerAnimator.CurrentTex);
+
+            _animations[_currentAnimIndex].Update(DTime.DeltaTime);
         }
 
         public void Play(int index)

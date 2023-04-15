@@ -6,14 +6,15 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public abstract class DBehavior : DUpdatableComponent
+    public abstract class DBehavior : DTransformableComponent
     {
         public DGameEntity GameEntity { get; set; }
-        public DTransformComponent Transform => GameEntity.Transform;
 
         public virtual void OnDestroy() { }
+        public virtual void Start() { }
+        public virtual void Update() { }
 
-        public T GetComponent<T>() where T: DComponent, new()
+        public T GetComponent<T>() where T : DComponent, new()
         {
             return GameEntity.GetComponent<T>();
         }
@@ -21,6 +22,11 @@ namespace DungeonInspector
         public T AddComponent<T>() where T : DComponent, new()
         {
             return GameEntity.AddComponent<T>();
+        }
+
+        public DGameEntity FindGameEntity(string name)
+        {
+            return DIEngineCoreServices.Get<DEntitiesController>().FindGameEntity(name);
         }
     }
 }

@@ -30,16 +30,34 @@ namespace DungeonInspector
             return _entities;
         }
 
+        public DGameEntity FindGameEntity(string name)
+        {
+            for (int i = 0; i < _entities.Count; i++)
+            {
+                if (_entities[i].Name.Equals(name))
+                {
+                    return _entities[i];
+                }
+            }
+
+            return null;
+        }
+
         public void OnStart()
         {
             for (int i = 0; i < _entities.Count; i++)
             {
-                var updatables = _entities[i].GetAllUpdatableComponents();
+                OnStartBehaviors(_entities[i]);
+            }
+        }
 
-                for (int j = 0; j < updatables.Count; j++)
-                {
-                    updatables[j].Start();
-                }
+        private void OnStartBehaviors(DGameEntity entity)
+        {
+            var updatables = entity.GetAllUpdatableComponents();
+
+            for (int j = 0; j < updatables.Count; j++)
+            {
+                updatables[j].Start();
             }
         }
 

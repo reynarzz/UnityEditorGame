@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class DungeonInspectorMain : DSandboxBase
+    public class DungeonInspectorSandBox : DSandboxBase
     {
         public override void OnInitialize()
         {
@@ -14,6 +14,9 @@ namespace DungeonInspector
             var comp = entity.AddComponent<DRendererComponent>();
              entity.AddComponent<Player>();
 
+            var camera = new DGameEntity("Camera");
+            camera.AddComponent<DCamera>();
+            camera.AddComponent<DCameraFollow>();
 
             //var camera = new DGameEntity();
             //camera.AddComponent<DCamera>();
