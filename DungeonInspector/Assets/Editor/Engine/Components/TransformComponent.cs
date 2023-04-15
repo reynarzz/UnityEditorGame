@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class TransformComponent : Component
+    public class DTransformComponent : DComponent
     {
         public Vector2 Position { get; set; }
         public Vector2 Scale { get; set; }

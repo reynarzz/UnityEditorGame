@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class Renderer
+    public class RenderingSystem
     {
+        public void Update()
+        {
+
+        }
     }
 }

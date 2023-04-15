@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 namespace DungeonInspector
@@ -30,6 +31,30 @@ namespace DungeonInspector
                             viewportRect.y + viewportRect.height * 0.5f + gamePos.y - gameScale.y * 0.5f + cameraPos.y,
                             gameScale.x,
                             gameScale.y);
+        }
+
+        public static void DrawGrid(Vector2 screenSize, Color color, DCamera camera)
+        {
+            var xCount = 20f; //Mathf.RoundToInt(screenSize.x / _pixelPerUnit) -1;
+            var yCount = 20f;// Mathf.RoundToInt(screenSize.y / _pixelPerUnit) - 1;
+
+            var pixelPerUnit = camera.PixelsPerUnit;
+            var viewportRect = camera.BoundsRect;
+
+            var totalSpaceX = (screenSize.x - (pixelPerUnit * (xCount))) / 2f;
+            var totalSpaceY = (screenSize.y - (pixelPerUnit * yCount)) / 2f;
+
+            Debug.Log(pixelPerUnit * xCount + "w: " + screenSize.x + ". s: " + totalSpaceX);
+
+            for (int i = 0; i < Mathf.RoundToInt(xCount); i++)
+            {
+                EditorGUI.DrawRect(new Rect(viewportRect.x + totalSpaceX + i * pixelPerUnit - camera.position.x + pixelPerUnit / 2, viewportRect.y + camera.position.y, 1f, pixelPerUnit * yCount), color);
+            }
+
+            for (int i = 0; i < Mathf.RoundToInt(yCount); i++)
+            {
+                EditorGUI.DrawRect(new Rect(viewportRect.x - camera.position.x, viewportRect.y - totalSpaceY + i * pixelPerUnit + camera.position.y, totalSpaceX * xCount, 1), color);
+            }
         }
     }
 }

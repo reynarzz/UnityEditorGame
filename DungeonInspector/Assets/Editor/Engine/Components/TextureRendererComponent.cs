@@ -7,9 +7,8 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class TextureRendererComponent : Component
+    public class DRendererComponent : DComponent
     {
         public Texture2D Texture { get; set; }
-        public Rect Bounds { get; set; }
     }
 }

@@ -6,10 +6,14 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public abstract class Component
+    public abstract class DComponent
+    {
+        
+    }
+
+    public abstract class DUpdatableComponent : DComponent
     {
         public virtual void Start() { }
         public virtual void Update() { }
-
     }
 }
