@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class DCamera
+    public class DCamera : DUpdatableComponent
     {
         public DVector2 ScreenSize { get; set; }
         public DVector2 position { get; set; }
@@ -36,10 +36,18 @@ namespace DungeonInspector
             return new DVector2(xPos + position.x, yPos + position.y) / PixelsPerUnit;
         }
 
-        public void Update()
+        public override void Update()
         {
             ScreenSize = new DVector2(EditorGUIUtility.currentViewWidth, ScreenSize.y);
             BoundsRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 0, ScreenSize.x, ScreenSize.y);
+
+            var screen = BoundsRect;
+            screen.height += 24;
+            // Background.
+            EditorGUI.DrawRect(screen, Color.black * 0.7f);
+
+            GUILayout.Space(ScreenSize.y);
+
         }
     }
 }

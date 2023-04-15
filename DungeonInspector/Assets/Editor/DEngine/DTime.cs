@@ -10,12 +10,12 @@ namespace DungeonInspector
     public class DTime
     {
         private Stopwatch _stopWatch;
-        private float _time = 0f;
-        private float _dt = 0f;
+        private static float _time = 0f;
+        private static float _dt = 0f;
         private float _prev = 0f;
 
-        public float TimeSinceStarted => _time;
-        public float DeltaTime => _dt;
+        public static float TimeSinceStarted => _time;
+        public static float DeltaTime => _dt;
 
         public DTime()
         {

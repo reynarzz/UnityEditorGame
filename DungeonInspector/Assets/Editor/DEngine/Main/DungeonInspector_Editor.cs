@@ -22,9 +22,9 @@ namespace DungeonInspector
 
         private Vector2Int _mouseTileGuidePosition;
 
-        private ComponentsContainer _componentsContainer; 
-        private RenderingSystem _renderer;
-        private DCamera _camera;
+        private DEntitiesController _componentsContainer; 
+        private DRenderingController _renderer;
+        private DCamera _camera_Test;
         private DTime _time;
 
         private DSandboxBase _sandbox;
@@ -32,12 +32,14 @@ namespace DungeonInspector
         private void OnEnable()
         {
             _time = new DTime();
-            _camera = new DCamera();
-            _renderer = new RenderingSystem();
+            _camera_Test = new DCamera();
             _sandbox = new DungeonInspectorMain();
-            _componentsContainer = new ComponentsContainer();
+            _renderer = DIEngineCoreServices.Get<DRenderingController>();
+            _componentsContainer = DIEngineCoreServices.Get<DEntitiesController>();
             
             _playerPos = default;
+
+            _renderer.CameraTest = _camera_Test;
 
             var name = "Character2/WalkLeft";
             var walkLeft = GetAnimation(name);
@@ -57,6 +59,8 @@ namespace DungeonInspector
 
             _sandbox.Time = _time;
             _sandbox.OnInitialize();
+
+            _componentsContainer.OnStart();
         }
 
         private SpriteAnimation GetAnimation(string atlasName)
@@ -66,31 +70,21 @@ namespace DungeonInspector
 
         public override void OnInspectorGUI()
         {
+            _time.Update();
+            _componentsContainer.Update();
+            // remove this camera thing
+            _camera_Test.Update();
+            _camera_Test.position = Vector2.Lerp(_camera_Test.position, new Vector2((int)_playerPos.x, (int)_playerPos.y) * (int)_camera_Test.PixelsPerUnit, 7 * DTime.DeltaTime);
+
+            _renderer.Update();
 
             Repaint();
 
-            _time.Update();
-            _camera.Update();
-            _renderer.Update();
-
-        
-            
-
-            var screen = _camera.BoundsRect;
-            screen.height += 24;
-            // Background.
-            EditorGUI.DrawRect(screen, Color.black * 0.7f);
-
-            GUILayout.Space(_camera.ScreenSize.y);
-
-            
-
-            _camera.position = Vector2.Lerp(_camera.position, new Vector2((int)_playerPos.x, (int)_playerPos.y) * (int)_camera.PixelsPerUnit, 7 * _time.DeltaTime);
 
 
             var mouse = Event.current;
             
-            var newMousePos = _camera.Mouse2WorldPos(mouse.mousePosition);
+            var newMousePos = _camera_Test.Mouse2WorldPos(mouse.mousePosition);
 
 
             newMousePos.x = Mathf.RoundToInt(newMousePos.x);
@@ -101,19 +95,21 @@ namespace DungeonInspector
 
             SetTile();
 
-            for (int i = 0; i < _tiles.Count; i++)
-            {
-                DrawSprite(_tiles[i].Item1, new Vector2(1, 1), _camera, _tiles[i].Item2);
-            }
-
-            // Mouse sprite pointer
-            DrawSprite(newMousePos, Vector2.one, _camera, WorldEditorEditor.SelectedTex);
-
-            PlayerMovement();
-            _playerAnimator.Update(_time.DeltaTime);
 
 
-            DrawSprite(_playerPos, new Vector2(1 + _playerAnimator.CurrentTex.width / _playerAnimator.CurrentTex.height, 1 + _playerAnimator.CurrentTex.height / _playerAnimator.CurrentTex.width), _camera, _playerAnimator.CurrentTex);
+            //for (int i = 0; i < _tiles.Count; i++)
+            //{
+            //    DrawSprite(_tiles[i].Item1, new Vector2(1, 1), _camera_Test, _tiles[i].Item2);
+            //}
+
+            //// Mouse sprite pointer
+            //DrawSprite(newMousePos, Vector2.one, _camera_Test, WorldEditorEditor.SelectedTex);
+
+            //PlayerMovement();
+            //_playerAnimator.Update(_time.DeltaTime);
+
+
+            //DrawSprite(_playerPos, new Vector2(1 + _playerAnimator.CurrentTex.width / _playerAnimator.CurrentTex.height, 1 + _playerAnimator.CurrentTex.height / _playerAnimator.CurrentTex.width), _camera_Test, _playerAnimator.CurrentTex);
         }
 
 
@@ -185,36 +181,33 @@ namespace DungeonInspector
 
             var dir = (Vector2)_playerWalkDir;
 
-            _playerPos += dir * _moveSpeed * _camera.PixelsPerUnit * _time.DeltaTime;
+            _playerPos += dir * _moveSpeed * _camera_Test.PixelsPerUnit * DTime.DeltaTime;
         }
 
-        private Rect DrawSprite(Vector2 worldPos, Vector2 scale, DCamera camera, Texture2D sprite = null)
-        {
-            if (sprite == null)
-            {
-                sprite = Texture2D.whiteTexture;
-            }
+        //private Rect DrawSprite(Vector2 worldPos, Vector2 scale, DCamera camera, Texture2D sprite = null)
+        //{
+        //    if (sprite == null)
+        //    {
+        //        sprite = Texture2D.whiteTexture;
+        //    }
 
-            var matrix = GUI.matrix;
-            //GUI.matrix = Matrix4x4.TRS(pos, Quaternion.Euler(0,0, zRot), Vector3.one);
-            var finalRect = _camera.World2RectPos(worldPos, scale);
+        //    var finalRect = _camera_Test.World2RectPos(worldPos, scale);
 
-            bool snap = true;
+        //    bool snap = true;
 
-            if (snap)
-            {
-                finalRect = new Rect((int)finalRect.x, (int)finalRect.y, (int)finalRect.width, (int)finalRect.height);
-            }
+        //    if (snap)
+        //    {
+        //        finalRect = new Rect((int)finalRect.x, (int)finalRect.y, (int)finalRect.width, (int)finalRect.height);
+        //    }
 
-            if (finalRect.y < camera.BoundsRect.height && finalRect.y > camera.BoundsRect.y)
-            {
-                Graphics.DrawTexture(finalRect, sprite);
-                GUI.matrix = matrix;
-            }
+        //    if (finalRect.y < camera.BoundsRect.height && finalRect.y > camera.BoundsRect.y)
+        //    {
+        //        Graphics.DrawTexture(finalRect, sprite);
+        //    }
 
 
-            return finalRect;
-        }
+        //    return finalRect;
+        //}
 
 
         

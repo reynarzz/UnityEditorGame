@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class Player : DBehaviorComponent
+    public class Player : DBehavior
     {
         public override void Start()
         {
@@ -15,7 +12,12 @@ namespace DungeonInspector
 
         public override void Update()
         {
-            Transform.Position = new DVector2();
+            var e = Event.current; 
+            if (e.keyCode == KeyCode.F)
+            {
+                GameEntity.Destroy();
+            }
+            Transform.Position = new DVector2(MathF.Cos(DTime.TimeSinceStarted), MathF.Sin(DTime.TimeSinceStarted));
         }
     }
 }

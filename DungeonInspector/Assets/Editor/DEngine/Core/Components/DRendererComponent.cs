@@ -9,6 +9,8 @@ namespace DungeonInspector
 {
     public class DRendererComponent : DComponent
     {
+        public int ZSorting { get; set; } = 0;
         public Texture2D Texture { get; set; }
+        public DTransformComponent Transform { get; set; }
     }
 }
