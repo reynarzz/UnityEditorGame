@@ -37,6 +37,7 @@ namespace DungeonInspector
     public class PlayerData
     {
         // Data about the player
+        public DVector2 Position { get; set; }
     }
 
     [Serializable]

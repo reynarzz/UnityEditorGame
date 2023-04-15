@@ -12,7 +12,7 @@ namespace DungeonInspector
 
         public virtual void OnDestroy() { }
         public virtual void OnStart() { }
-        public virtual void UpdateFrame() { }
+        public virtual void OnUpdate() { }
 
         public T GetComponent<T>() where T : DComponent, new()
         {

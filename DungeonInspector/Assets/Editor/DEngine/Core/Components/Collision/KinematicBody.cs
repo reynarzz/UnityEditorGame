@@ -8,7 +8,7 @@ namespace DungeonInspector
 {
     public class KinematicBody : DBehavior
     {
-        public override void UpdateFrame()
+        public override void OnUpdate()
         {
 
         }

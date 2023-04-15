@@ -23,7 +23,7 @@ namespace DungeonInspector
             _renderer = GetComponent<DRendererComponent>();
         }
 
-        public override void UpdateFrame()
+        public override void OnUpdate()
         {
             if(_animations.Count > 0)
             {

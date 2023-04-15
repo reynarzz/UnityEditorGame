@@ -32,14 +32,13 @@ namespace DungeonInspector
         }
 
 
-        public override void UpdateFrame()
+        public override void OnUpdate()
         {
             var e = UnityEngine.Event.current;
             if (e.keyCode == UnityEngine.KeyCode.F)
             {
                 GameEntity.Destroy();
             }
-            //Transform.Position = new DVector2(MathF.Cos(DTime.TimeSinceStarted), MathF.Sin(DTime.TimeSinceStarted));
 
             PlayerMovement();
         }
