@@ -15,7 +15,7 @@ namespace DungeonInspector
         public override void OnStart()
         {
             _camera = GetComp<DCamera>();
-            _player = FindGameEntity("Player").GetComponent<Player>();
+            _player = FindGameEntity("Player").GetComp<Player>();
         }
 
         public override void OnUpdate()

@@ -11,11 +11,20 @@ namespace DungeonInspector
     public class DGameMaster : DBehavior
     {
         private DTilemap _tilemap;
+        private DCamera _camera;
+
         public DTilemap Tilemap => _tilemap;
+        public DCamera Camera => _camera;
+
+        private TilesDatabase _tilesDatabase;
+        public TilesDatabase TilesDatabase => _tilesDatabase;
 
         public override void OnStart()
         {
-            _tilemap = GetComp<DTilemap>();
+            _tilemap = FindGameEntity("TileMaster").GetComp<DTilemap>();
+            _camera = FindGameEntity("Camera").GetComp<DCamera>();
+
+            _tilesDatabase = new TilesDatabase();
         }
 
         private EnvironmentData GetWorldData()

@@ -22,7 +22,7 @@ namespace DungeonInspector
             _animations = new List<SpriteAnimation>();
             _renderer = GetComp<DRendererComponent>();
         }
-
+          
         public override void OnUpdate()
         {
             if(_animations.Count > 0)

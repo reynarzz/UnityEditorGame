@@ -16,10 +16,10 @@ namespace DungeonInspector
 
         public T GetComp<T>() where T : DComponent, new()
         {
-            return GameEntity.GetComponent<T>();
+            return GameEntity.GetComp<T>();
         }
 
-        public T AddComponent<T>() where T : DComponent, new()
+        public T AddComp<T>() where T : DComponent, new()
         {
             return GameEntity.AddComponent<T>();
         }

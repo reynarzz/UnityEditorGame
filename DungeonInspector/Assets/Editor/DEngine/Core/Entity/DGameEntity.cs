@@ -102,7 +102,7 @@ namespace DungeonInspector
             return (T)AddComponent(typeof(T));
         }
 
-        public T GetComponent<T>() where T : DComponent, new()
+        public T GetComp<T>() where T : DComponent, new()
         {
             var type = typeof(T);
 
@@ -116,7 +116,7 @@ namespace DungeonInspector
 
         public bool TryGetComponent<T>(out T component) where T : DComponent, new()
         {
-            component = GetComponent<T>();
+            component = GetComp<T>();
 
             return component != null;
         }

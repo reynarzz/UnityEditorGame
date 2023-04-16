@@ -32,7 +32,7 @@ namespace DungeonInspector
             _playerAnimator.Play(4);
             _playerAnimator.Stop();
 
-            _gameMaster = FindGameEntity("GameMaster").GetComponent<DGameMaster>();
+            _gameMaster = FindGameEntity("GameMaster").GetComp<DGameMaster>();
         }
 
 
@@ -150,7 +150,7 @@ namespace DungeonInspector
                 return destine;
             }
 
-            return destine;/*currentPos*/;
+            return currentPos;
         }
     }
 }
