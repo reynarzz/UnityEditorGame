@@ -51,6 +51,12 @@ namespace DungeonInspector
             }
         }
 
+        public DTile GetTile(DVector2 position, int zSorting)
+        {
+            return GetTile(position.x, position.y, zSorting);
+        }
+
+
         public DTile GetTile(float x, float y, int zSorting)
         {
             var layer = GetTileLayers((int)x, (int)y);

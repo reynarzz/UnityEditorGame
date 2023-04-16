@@ -19,35 +19,67 @@ namespace DungeonInspector
         private TilesDatabase _tilesDatabase;
         public TilesDatabase TilesDatabase => _tilesDatabase;
 
-        private Player _player;
-
         private TileBehaviorsContainer _tbContainer;
 
+
+        private Dictionary<TileBehavior, List<Player>> _tilesBehaviors;
         public override void OnStart()
         {
             _tilemap = FindGameEntity("TileMaster").GetComp<DTilemap>();
             _camera = FindGameEntity("Camera").GetComp<DCamera>();
 
             _tilesDatabase = new TilesDatabase();
-            _player = FindGameEntity("Player").GetComp<Player>();
 
             _tbContainer = new TileBehaviorsContainer();
+            _tilesBehaviors = new Dictionary<TileBehavior, List<Player>>();
         }
 
         public override void OnUpdate()
         {
+            foreach (var item in _tilesBehaviors)
+            {
+                // This should be cached
+                var behavior = _tbContainer.GetBehavior(item.Key);
 
+                for (int i = 0; i < item.Value.Count; i++)
+                {
+                    behavior.OnUpdate(item.Value[i]);
+                }
+            }
         }
 
-        private void OnPlayerReachTile()
+        public void OnPlayerEnterTile(Player player, DTile tile)
         {
-            var tile = _tilemap.GetTile(_player.Transform.Position.x, _player.Transform.Position.y, 0);
+            //var tile = _tilemap.GetTile(_player.Transform.Position.x, _player.Transform.Position.y, 0);
 
-            var behavior = _tbContainer.GetBehavior(tile.TileBehavior);
+            _tbContainer.GetBehavior(tile.TileBehavior).OnEnter(player);
 
-            // detect when player enters tile
-            // detect when player exits tile
-            // and how to update the tile properly
+            if (_tilesBehaviors.TryGetValue(tile.TileBehavior, out var playersList))
+            {
+                if (!playersList.Contains(player))
+                {
+                    playersList.Add(player);
+                }
+            }
+            else
+            {
+                _tilesBehaviors.Add(tile.TileBehavior, new List<Player>() { player });
+            }
+        }
+
+        public void OnPlayerExitTile(Player player, DTile tile)
+        {
+            _tbContainer.GetBehavior(tile.TileBehavior).OnExit(player);
+
+            if (_tilesBehaviors.TryGetValue(tile.TileBehavior, out var playersList))
+            {
+                playersList.Remove(player);
+
+                if (playersList.Count == 0)
+                {
+                    _tilesBehaviors.Remove(tile.TileBehavior);
+                }
+            }
         }
     }
 }

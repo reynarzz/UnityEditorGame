@@ -16,6 +16,27 @@ namespace DungeonInspector
         [JsonIgnore] public float SqrMagnitude => x * x + y * y;
         [JsonIgnore] public DVector2 Normalize => this / Magnitude;
 
+        public DVector2 Floor()
+        {
+            return new DVector2(MathF.Floor(x), MathF.Floor(y));
+        }
+
+        public DVector2 Ceil()
+        {
+            return new DVector2(MathF.Ceiling(x), MathF.Ceiling(y));
+        }
+
+        public DVector2 Round()
+        {
+            return new DVector2(MathF.Round(x), MathF.Round(y));
+        }
+
+        public DVector2 Abs()
+        {
+            return new DVector2(MathF.Abs(x), MathF.Abs(y));
+        }
+
+
         public DVector2(float x, float y)
         {
             this.x = x;

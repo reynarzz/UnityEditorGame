@@ -18,7 +18,7 @@ namespace DungeonInspector
             _tiles = new List<(DTile, Texture2D)>();
 
             _worldSpriteAtlas = Resources.Load<TilesGroup>("World/World1Tiles");
-
+             
             for (int i = 0; i < _worldSpriteAtlas.TextureCount; i++)
             {
                 var tileData = _worldSpriteAtlas.GetTile(i);

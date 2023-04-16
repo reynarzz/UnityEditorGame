@@ -15,6 +15,8 @@ namespace DungeonInspector
         private float _moveTime = 0;
         private const float _maxTime = 0.1f;
 
+        public Action<Player, DTile> OnTileReached;
+
         public DVector2 PrevPosition { get; private set; }
 
         public override void OnStart()
@@ -34,6 +36,7 @@ namespace DungeonInspector
             _playerAnimator.Stop();
 
             _gameMaster = FindGameEntity("GameMaster").GetComp<DGameMaster>();
+
             Transform.Offset = new DVector2(0, 0.7f);
         }
 
@@ -138,8 +141,12 @@ namespace DungeonInspector
 
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
 
-            if ((UnityEngine.Vector2Int)Transform.Position == (UnityEngine.Vector2Int)_gridPos)
+
+            if ((UnityEngine.Vector2Int)Transform.Position.Round() == (UnityEngine.Vector2Int)_gridPos.Round() && !_canMove)
             {
+                //OnTileReached(this, _gameMaster.Tilemap.GetTile(Transform.Position, 0));
+                _gameMaster.OnPlayerEnterTile(this, _gameMaster.Tilemap.GetTile(Transform.Position, 0));
+
                 _canMove = true;
             }
 
