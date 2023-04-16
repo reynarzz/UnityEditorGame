@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro.EditorUtilities;
+using UnityEditor;
 using UnityEngine;
 
 namespace DungeonInspector
@@ -14,13 +16,23 @@ namespace DungeonInspector
         private bool _pendingToReorder;
         public DCamera CameraTest { get; set; }
 
+        private Material _mat;
+        private Material _maskMat;
+        private Texture2D _viewportRect;
+
         public DRenderingController()
         {
             _renderers = new Dictionary<int, List<DRendererComponent>>();
+
+            _mat = Resources.Load<Material>("Materials/DStandard");
+            _maskMat = Resources.Load<Material>("Materials/Mask");
+            _viewportRect = new Texture2D(1, 1);
         }
 
         public void Update()
         {
+            DrawMask();
+
             if (_pendingToReorder)
             {
                 _pendingToReorder = false;
@@ -74,6 +86,11 @@ namespace DungeonInspector
             return false;
         }
 
+        private void DrawMask()
+        {
+            Graphics.DrawTexture(CameraTest.BoundsRect, _viewportRect, _maskMat);
+        }
+
         private void Draw(DRendererComponent renderer, DCamera camera)
         {
             var renderingTex = renderer.Texture;
@@ -88,10 +105,7 @@ namespace DungeonInspector
             // snaping.
             rect = new Rect((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
 
-            if (rect.y < camera.BoundsRect.height && rect.y > camera.BoundsRect.y)
-            {
-                Graphics.DrawTexture(rect, renderingTex);
-            }
+            Graphics.DrawTexture(rect, renderingTex, _mat);
         }
     }
 }

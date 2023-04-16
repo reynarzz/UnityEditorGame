@@ -31,16 +31,17 @@ namespace DungeonInspector
     [Serializable]
     public class WorldTile
     {
-        [SerializeField] private TileType _type;
-        [SerializeField] private string _textureName;
+        private string _textureName;
+        private int _zSorting = 0;
+        private bool _isWalkable;
+        private TileType _type;
 
         private SpriteAnimation _idleAnimation;
         private SpriteAnimation _interactableAnimation;
-        [SerializeField] private int _zSorting = 0;
 
-        public int ZSorting => _zSorting;
-        public Vector2Int WorldPosition { get; set; }
         public string Texture => _textureName;
+        public bool IsWalkable => _isWalkable;
+        public int ZSorting => _zSorting;
         public TileType Type => _type;
     }
 }

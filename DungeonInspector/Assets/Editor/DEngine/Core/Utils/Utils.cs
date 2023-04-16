@@ -33,6 +33,11 @@ namespace DungeonInspector
                             gameScale.y);
         }
 
+        public static Rect World2RectNCamPos(Vector2 pos, Vector2 scale, Rect viewportRect, int pixelsPerUnit)
+        {
+            return World2RectPos(pos, scale, viewportRect, default, pixelsPerUnit);
+        }
+
         public static void DrawGrid(Vector2 screenSize, Color color, DCamera camera)
         {
             var xCount = 20f; //Mathf.RoundToInt(screenSize.x / _pixelPerUnit) -1;

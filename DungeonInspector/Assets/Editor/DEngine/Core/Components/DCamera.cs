@@ -17,7 +17,7 @@ namespace DungeonInspector
 
         public DCamera()
         {
-            ScreenSize = new DVector2(0, 360);
+            ScreenSize = new DVector2(640, 360);
 
         }
 
@@ -36,14 +36,9 @@ namespace DungeonInspector
 
         public override void OnUpdate()
         {
-            ScreenSize = new DVector2(EditorGUIUtility.currentViewWidth, ScreenSize.y);
+            ScreenSize = new DVector2(ScreenSize.x/*EditorGUIUtility.currentViewWidth*/, ScreenSize.y);
             BoundsRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 0, ScreenSize.x, ScreenSize.y);
 
-            var screen = BoundsRect;
-            screen.height += 24;
-             
-            // Background.
-            EditorGUI.DrawRect(screen, Color.black * 0.6f);
 
             GUILayout.Space(ScreenSize.y);
 

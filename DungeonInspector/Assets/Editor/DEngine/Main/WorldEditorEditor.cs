@@ -28,6 +28,8 @@ namespace DungeonInspector
 
         public static Texture2D SelectedTex => _selectedTex;
         private WorldTile _testTile_DELETE;
+
+
         private void OnEnable()
         {
             _worldSpriteAtlas = Resources.Load<E_SpriteAtlas>("World/World1");
@@ -84,18 +86,29 @@ namespace DungeonInspector
         private void EditTileType(WorldTile tile)
         {
 
-            //GUILayout.BeginHorizontal();
-            //GUILayout.Label("Tile Type");
-            //tile.SetValue("_type", (TileType)EditorGUILayout.EnumPopup(tile.Type, GUILayout.MaxWidth(90)));
-            //GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Tile Type");
+            tile.SetValue("_type", (TileType)EditorGUILayout.EnumPopup(tile.Type, GUILayout.MaxWidth(190)));
+            GUILayout.EndHorizontal();
 
-            //var rect = GUILayoutUtility.GetLastRect();
+            var rect = GUILayoutUtility.GetLastRect();
 
-            //GUILayout.BeginHorizontal();
-            //GUILayout.Label("Default Texture");
-            //tile.SetValue("_defaultTexture", (Texture2D)EditorGUILayout.ObjectField(tile.Texture, typeof(Texture2D), false, GUILayout.MaxWidth(90), GUILayout.MinHeight(90)));
-            //GUILayout.EndHorizontal();
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Name");
+            tile.SetValue("_textureName", _selectedTex.name); 
+            EditorGUILayout.LabelField(_selectedTex.name, GUILayout.MaxWidth(190));
+            GUILayout.EndHorizontal();
 
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Is Walkable");
+            tile.SetValue("_isWalkable", EditorGUILayout.Toggle(tile.IsWalkable, GUILayout.MaxWidth(190)));
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Z Sorting");
+            tile.SetValue("_zSorting", EditorGUILayout.IntSlider(tile.ZSorting, 0, 10, GUILayout.MaxWidth(190)));
+            GUILayout.EndHorizontal();
 
             //SpriteAnimationOptions();
 

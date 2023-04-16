@@ -6,7 +6,7 @@ Shader "Unlit/DStandard"
     }
     SubShader
     {
-        Tags { "Queue" = "Transparent" "RenderType"="Opaque" }
+        Tags { "RenderType"="Opaque" }
 
         Blend SrcAlpha OneMinusSrcAlpha
         ZWrite Off
@@ -15,7 +15,8 @@ Shader "Unlit/DStandard"
         Stencil
         {
             Ref 2
-            comp Equal
+            Comp NotEqual
+            pass replace
         }
 
         Pass
@@ -54,7 +55,8 @@ Shader "Unlit/DStandard"
             {
                 fixed4 col = tex2D(_MainTex, i.uv);
                 
-                return col;
+                float c = 0.15f;
+                return fixed4(c, c, c,1);
             }
             ENDCG
         }

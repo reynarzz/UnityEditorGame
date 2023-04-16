@@ -17,6 +17,7 @@ namespace DungeonInspector
         private E_SpriteAtlas _worldSpriteAtlas;
         private DCamera _camera;
         private DGameMaster _gameMaster;
+        private Material _mat_DELETE;
 
         public override void OnStart()
         {
@@ -25,6 +26,7 @@ namespace DungeonInspector
             _camera = FindGameEntity("Camera").GetComponent<DCamera>();
 
             _gameMaster = FindGameEntity("GameMaster").GetComponent<DGameMaster>();
+            _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
 
             var tiles = _gameMaster.CurrentWorldData;
 
@@ -89,13 +91,13 @@ namespace DungeonInspector
         {
             for (int i = 0; i < _tiles.Count; i++)
             {
-                Graphics.DrawTexture(_camera.World2RectPos(_tiles[i].Item1.WorldPosition, Vector2.one), _tiles[i].Item2);
+                Graphics.DrawTexture(_camera.World2RectPos(_tiles[i].Item1.WorldPosition, Vector2.one), _tiles[i].Item2, _mat_DELETE);
 
             }
 
             //// Mouse sprite pointer
             //DrawSprite(newMousePos, Vector2.one, _camera_Test, WorldEditorEditor.SelectedTex);
-            Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, Vector2.one), WorldEditorEditor.SelectedTex);
+            Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, Vector2.one), WorldEditorEditor.SelectedTex, _mat_DELETE);
         }
 
         // Improve input system and all this.
