@@ -9,8 +9,8 @@ namespace DungeonInspector
 {
     public class SpriteAnimation 
     {
-        [SerializeField] private E_SpriteAtlas _atlas;
-        [SerializeField] private float _animationSpeed = 1;
+        private E_SpriteAtlas _atlas;
+        private float _animationSpeed = 1;
 
         private int _spriteIndex = 0;
         private float _time;

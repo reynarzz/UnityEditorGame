@@ -1,50 +1,113 @@
 ﻿using DungeonInspector;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
 namespace DungeonInspector
 {
+    public enum DTilePainterMode
+    {
+        Brush,
+        Eraser
+    }
+
     public class DWorldEditor : DBehavior
     {
         private Vector2 _scroll;
-        private static (DTile, Texture2D) _selectedTile;
+        private (DTile, Texture2D) _selectedTile;
 
-        public static Action OnSave_Test;
-
-        public static (DTile, Texture2D) SelectTile => _selectedTile;
+        private DTilemap _tilemap;
 
         private TilesDatabase _tilesDatabase;
         private DCamera _camera;
 
+        public DTilePainterMode Mode { get; private set; }
+
+        private string[] _modes;
+
+        private Vector2Int _mouseTileGuidePosition;
+        private DGameMaster _gameMaster;
+        private Material _mat_DELETE;
+
         public override void OnStart()
         {
             var gameMaster = FindGameEntity("GameMaster").GetComp<DGameMaster>();
+
+            _tilemap = gameMaster.Tilemap;
+
             _tilesDatabase = gameMaster.TilesDatabase;
             _camera = gameMaster.Camera;
 
             _selectedTile = _tilesDatabase.GetTileAndTex(0);
+
+            _modes = new string[] { "Brush", "Eraser" };
+
+
+
+            _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
+
+            Load();
+        }
+
+        private void MousePointer()
+        {
+            var mouse = Event.current;
+
+            var newMousePos = _camera.Mouse2WorldPos(mouse.mousePosition);
+
+            _mouseTileGuidePosition = new Vector2Int(Mathf.RoundToInt(newMousePos.x), Mathf.RoundToInt(newMousePos.y));
+
+            var tex = default(Texture2D);
+
+            tex = Mode == DTilePainterMode.Brush ? _selectedTile.Item2 : Texture2D.whiteTexture;
+
+            if (/*Event.current.type == EventType.MouseDown &&*/Event.current.isMouse && Event.current.button == 0)
+            {
+                if (Mode == DTilePainterMode.Brush)
+                {
+
+                    _tilemap.SetTile(_selectedTile.Item1, _mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
+                }
+                else
+                {
+                    _tilemap.RemoveTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
+                }
+            }
+
+            //// Mouse sprite pointer
+            //DrawSprite(newMousePos, Vector2.one, _camera_Test, WorldEditorEditor.SelectedTex);
+            Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, Vector2.one), tex, _mat_DELETE);
+        }
+        private void Load()
+        {
+            var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
+
+            var json = File.ReadAllText(worldLevelPath);
+
+            var data = JsonConvert.DeserializeObject<EnvironmentData>(json);
+
+            for (int i = 0; i < data.Count; i++)
+            {
+                var info = data.GetTile(i);
+
+                _tilemap.SetTile(_tilesDatabase.GetTile(info.Index), info.Position.x, info.Position.y);
+            }
         }
 
         public override void OnUpdate()
         {
-            GUILayout.Space(200);
-            GUILayout.BeginArea(new Rect(_camera.ViewportRect.x, _camera.ViewportRect.y + _camera.ViewportRect.height, EditorGUIUtility.currentViewWidth, 200));
-           
-            GUILayout.BeginHorizontal(EditorStyles.helpBox);
-            if (GUILayout.Button("Pencil"))
-            {
+            MousePointer();
+            //TODO: offset is wrong Fix this.
+            GUILayout.Space(_camera.ScreenSize.y);
 
-            }
+            //GUILayout.Space(250);
+            //GUILayout.BeginArea(new Rect(_camera.ViewportRect.x, _camera.ViewportRect.y + _camera.ViewportRect.height, EditorGUIUtility.currentViewWidth, 200));
 
-            if (GUILayout.Button("Eraser"))
-            {
-
-            }
-
-            GUILayout.EndHorizontal();
+            Mode = (DTilePainterMode)GUILayout.Toolbar((int)Mode, _modes);
 
             GUILayout.BeginVertical(EditorStyles.helpBox);
             _scroll = GUILayout.BeginScrollView(_scroll);
@@ -76,10 +139,42 @@ namespace DungeonInspector
 
             if (GUILayout.Button("Save"))
             {
-                OnSave_Test?.Invoke();
+                OnSave();
             }
 
-            GUILayout.EndArea();
+            //GUILayout.EndArea();
+        }
+
+
+        // Improve input system and all this.
+        private void AddTile()
+        {
+        }
+
+        private void OnSave()
+        {
+            if (_tilemap.Tiles.Count > 0)
+            {
+                var tiles = new List<TileInfo>();
+
+                foreach (var tile in _tilemap.Tiles)
+                {
+                    foreach (var item in tile.Value)
+                    {
+                        var position = tile.Key;
+
+                        tiles.Add(new TileInfo() { Index = item.Value.Index, Position = position });
+                    }
+                }
+
+                var worldData = new EnvironmentData(tiles.ToArray());
+                var json = JsonConvert.SerializeObject(worldData, Formatting.Indented);
+
+                var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
+
+                File.WriteAllText(worldLevelPath, json);
+                Debug.Log(json);
+            }
         }
 
         private void EditTileType(DTile tile)

@@ -33,6 +33,13 @@ namespace DungeonInspector
             return new DVector2(xPos + Transform.Position.x * PixelsPerUnit, yPos + Transform.Position.y * PixelsPerUnit) / PixelsPerUnit;
         }
 
+        public bool IsInside(DVector2 worldpos, Vector2 scale)
+        {
+            var rect = World2RectPos(worldpos, scale);
+
+            return false;
+        }
+
         public override void OnUpdate()
         {
             ScreenSize = new DVector2(EditorGUIUtility.currentViewWidth, ScreenSize.y);

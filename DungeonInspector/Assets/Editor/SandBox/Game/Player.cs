@@ -52,13 +52,13 @@ namespace DungeonInspector
             PlayerMovement();
         }
 
+        DVector2 _gridPos = default;
 
         private void PlayerMovement()
         {
             var e = UnityEngine.Event.current;
             // var _playerWalkDir = new Vector2Int();
 
-            DVector2 _gridPos = default;
 
             if (e.type == UnityEngine.EventType.KeyDown && _canMove)
             {
@@ -121,7 +121,7 @@ namespace DungeonInspector
             }
             else if (_canMove)
             {
-                _playerAnimator.Play(4);
+                //_playerAnimator.Play(4);
             }
 
             // Debug.Log(_playerWalkDir);

@@ -41,6 +41,16 @@ namespace DungeonInspector
             }
         }
 
+        public void RemoveTile(float x, float y)
+        {
+            var pos = new DVector2((int)x, (int)y);
+
+            if (_tiles.TryGetValue(pos, out var layers))
+            {
+                _tiles.Remove(pos);
+            }
+        }
+
         public DTile GetTile(int x, int y, int zSorting)
         {
             var layer = GetTileLayers(x, y);

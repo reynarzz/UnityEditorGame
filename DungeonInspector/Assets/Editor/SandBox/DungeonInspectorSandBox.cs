@@ -20,7 +20,7 @@ namespace DungeonInspector
             new DGameEntity("Camera", typeof(DCamera), typeof(DCameraFollow));
 
             // Tile Painter
-            new DGameEntity("TileMaster", typeof(DRenderingGroup), typeof(DTilemap), typeof(DTilemapRenderer), typeof(DTilesPainter));
+            new DGameEntity("TileMaster", typeof(DRenderingGroup), typeof(DTilemap), typeof(DTilemapRenderer));
 
             // World Editor
             new DGameEntity("WorldEditor", typeof(DWorldEditor));

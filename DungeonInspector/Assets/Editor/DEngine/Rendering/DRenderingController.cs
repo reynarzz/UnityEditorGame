@@ -89,7 +89,7 @@ namespace DungeonInspector
         private void DrawMask()
         {
             Graphics.DrawTexture(CameraTest.ViewportRect, _viewportRect, _maskMat);
-            GUILayout.Space(CameraTest.ScreenSize.y - 18);
+            //GUILayout.Space(CameraTest.ScreenSize.y - 18);
         }
 
         private void Draw(DRendererComponent renderer, DCamera camera)
