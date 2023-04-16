@@ -14,9 +14,9 @@ namespace DungeonInspector
         private static float _dt = 0f;
         private float _prev = 0f;
 
-        public static float TimeSinceStarted => _time;
+        public static float Time => _time;
         public static float DeltaTime => _dt;
-        public static float Time { get; set; } = 1;
+        public static float TimeScale { get; set; } = 1;
 
         public DTime()
         {
@@ -30,7 +30,7 @@ namespace DungeonInspector
         {
             var secElapsep = _stopWatch.ElapsedMilliseconds / 1000f;
 
-            _dt = (secElapsep - _prev) * Time;
+            _dt = (secElapsep - _prev) * TimeScale;
             _time += _dt;
             _prev = secElapsep;
         }

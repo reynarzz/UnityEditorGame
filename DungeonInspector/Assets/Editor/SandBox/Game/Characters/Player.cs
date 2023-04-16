@@ -150,7 +150,10 @@ namespace DungeonInspector
                 _canMove = true;
             }
 
+
             //Transform.Position += dir * _moveSpeed * DTime.DeltaTime;
+
+           
         }
 
         private DVector2 GetMoveDir(DVector2 currentPos, int x, int y)

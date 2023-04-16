@@ -9,6 +9,7 @@ namespace DungeonInspector
     public class DEntitiesController : IDService
     {
         private List<DGameEntity> _entities;
+        private bool _started = false;
 
         public int Count => _entities.Count;
         public DEntitiesController()
@@ -58,14 +59,6 @@ namespace DungeonInspector
             }
         }
 
-        public void OnStart()
-        {
-            for (int i = 0; i < _entities.Count; i++)
-            {
-                OnStartBehaviors(_entities[i]);
-            }
-        }
-
         private void OnStartBehaviors(DGameEntity entity)
         {
             var updatables = entity.GetAllUpdatableComponents();
@@ -78,6 +71,18 @@ namespace DungeonInspector
 
         public void Update()
         {
+            // Start
+            if (!_started)
+            {
+                _started = true;
+                for (int i = 0; i < _entities.Count; i++)
+                {
+                    OnStartBehaviors(_entities[i]);
+                }
+            }
+
+            // Update
+
             for (int i = 0; i < _entities.Count; i++)
             {
                 var updatables = _entities[i].GetAllUpdatableComponents();
@@ -89,6 +94,6 @@ namespace DungeonInspector
             }
         }
 
-      
+
     }
 }

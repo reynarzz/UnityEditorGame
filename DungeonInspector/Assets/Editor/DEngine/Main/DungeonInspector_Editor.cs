@@ -10,12 +10,9 @@ namespace DungeonInspector
         private DSandboxBase _sandbox;
         private DTime _time;
 
-        private bool _started = false;
 
         private void OnEnable()
         {
-            _started = false;
-
             new DIEngineCoreServices();
 
             _time = new DTime();
@@ -33,17 +30,11 @@ namespace DungeonInspector
 
         public override void OnInspectorGUI()
         {
-            if (!_started)
-            {
-                _started = true;
-                _componentsContainer.OnStart();
-            }
-
-            _time.Update(); 
+            _time.Update();
             _componentsContainer.Update();
             _renderer.Update();
 
-            Repaint(); 
+            Repaint();
         }
 
         private void OnDestroy()
