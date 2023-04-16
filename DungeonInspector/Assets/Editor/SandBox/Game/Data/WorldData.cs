@@ -13,11 +13,18 @@ namespace DungeonInspector
     {
         [JsonProperty] private TileInfo[] _tiles;
 
+        public int Count => _tiles.Length;
+
         // Newtonsoft json needs the default constructor
         private EnvironmentData() { }
         public EnvironmentData(TileInfo[] tiles)
         {
             _tiles = tiles;
+        }
+
+        public TileInfo GetTile(int index)
+        {
+            return _tiles[index];
         }
     }
 

@@ -25,7 +25,7 @@ namespace DungeonInspector
             _tilesDatabase = gameMaster.TilesDatabase;
             _camera = gameMaster.Camera;
 
-            _selectedTile = _tilesDatabase.GetTile(0);
+            _selectedTile = _tilesDatabase.GetTileAndTex(0);
         }
 
         public override void OnUpdate()
@@ -53,7 +53,7 @@ namespace DungeonInspector
 
             for (int i = 0; i < _tilesDatabase.Count; i++)
             {
-                var tilePair = _tilesDatabase.GetTile(i);
+                var tilePair = _tilesDatabase.GetTileAndTex(i);
 
                 var tex = tilePair.Item2;
 

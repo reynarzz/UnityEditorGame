@@ -37,9 +37,14 @@ namespace DungeonInspector
 
         }
 
-        public (DTile, Texture2D) GetTile(int index)
+        public (DTile, Texture2D) GetTileAndTex(int index)
         {
             return _tiles[index];
+        }
+
+        public DTile GetTile(int index)
+        {
+            return _tiles[index].Item1;
         }
 
         public Texture2D GetTileTexture(int index)

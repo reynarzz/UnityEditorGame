@@ -11,7 +11,6 @@ namespace DungeonInspector
         private const float _moveSpeed = 15f;
         UnityEngine.Vector2Int _playerWalkDir = new UnityEngine.Vector2Int();
 
-        private DVector2 _gridPos;
         private bool _canMove = true;
         private float _moveTime = 0;
         private const float _maxTime = 0.1f;
@@ -59,6 +58,7 @@ namespace DungeonInspector
             var e = UnityEngine.Event.current;
             // var _playerWalkDir = new Vector2Int();
 
+            DVector2 _gridPos = default;
 
             if (e.type == UnityEngine.EventType.KeyDown && _canMove)
             {
@@ -131,6 +131,8 @@ namespace DungeonInspector
 
             _moveTime += DTime.DeltaTime;
 
+            //_gridPos.y += 0.1f;
+
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
 
             if ((UnityEngine.Vector2Int)Transform.Position == (UnityEngine.Vector2Int)_gridPos)
@@ -145,7 +147,7 @@ namespace DungeonInspector
         {
             var destine = new Vector2Int((int)currentPos.x + x, (int)currentPos.y + y);
 
-            if (_gameMaster.Tilemap.IsWalkable(destine.x, destine.y))
+            if (_gameMaster.Tilemap.IsTileWalkable(destine.x, destine.y))
             {
                 return destine;
             }

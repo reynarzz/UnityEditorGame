@@ -70,7 +70,7 @@ namespace DungeonInspector
             return null;
         }
 
-        public bool IsWalkable(int x, int y)
+        public bool IsTileWalkable(int x, int y)
         {
             var layers = GetTileLayers(x, y);
 
