@@ -47,7 +47,7 @@ namespace DungeonInspector
             _modes = new string[] { "Brush", "Eraser" };
 
 
-
+            
             _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
 
             Load();
@@ -63,10 +63,20 @@ namespace DungeonInspector
 
             var tex = default(Texture2D);
 
-            tex = Mode == DTilePainterMode.Brush ? _selectedTile.Item2 : Texture2D.whiteTexture;
 
-            if (/*Event.current.type == EventType.MouseDown &&*/Event.current.isMouse && Event.current.button == 0)
+
+
+            if (/*Event.current.type == EventType.MouseDown &&*/Event.current.isMouse)
             {
+                if(Event.current.button == 0)
+                {
+                    Mode = DTilePainterMode.Brush;
+                }
+                else if(Event.current.button == 1)
+                {
+                    Mode = DTilePainterMode.Eraser;
+                }
+                
                 if (Mode == DTilePainterMode.Brush)
                 {
 
@@ -77,6 +87,9 @@ namespace DungeonInspector
                     _tilemap.RemoveTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
                 }
             }
+
+            tex = Mode == DTilePainterMode.Brush ? _selectedTile.Item2 : Texture2D.whiteTexture;
+
 
             //// Mouse sprite pointer
             //DrawSprite(newMousePos, Vector2.one, _camera_Test, WorldEditorEditor.SelectedTex);
@@ -97,6 +110,8 @@ namespace DungeonInspector
                 _tilemap.SetTile(_tilesDatabase.GetTile(info.Index), info.Position.x, info.Position.y);
             }
         }
+
+
 
         public override void OnUpdate()
         {
@@ -120,10 +135,19 @@ namespace DungeonInspector
 
                 var tex = tilePair.Item2;
 
-                if (GUILayout.Button(new GUIContent(tex, tex.name), GUILayout.MinHeight(40)))
+                var color = GUI.backgroundColor;
+
+                if (_selectedTile.Item1 == tilePair.Item1)
+                {
+                    GUI.backgroundColor = Color.black * 0.4f;
+                }
+
+                if (GUILayout.Button(new GUIContent(tex, tex.name), GUILayout.Width(40), GUILayout.Height(40)))
                 {
                     _selectedTile = tilePair;
                 }
+
+                GUI.backgroundColor = color;
             }
 
             GUILayout.EndHorizontal();

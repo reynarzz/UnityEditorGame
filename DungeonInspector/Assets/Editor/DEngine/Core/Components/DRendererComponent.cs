@@ -26,10 +26,15 @@ namespace DungeonInspector
             get
             {
                 _transform.Position = base.Transform.Position;
+                _transform.Offset = base.Transform.Offset;
 
                 if (Texture != null)
                 {
-                    _transform.Scale = new DVector2(base.Transform.Scale.x + Texture.width / Texture.height, base.Transform.Scale.y + Texture.height / Texture.width);
+                    //_transform.Scale = new DVector2(base.Transform.Scale.x + Texture.width / Texture.height, base.Transform.Scale.y + Texture.height / Texture.width);
+                    
+                    
+                    //_transform.Scale = new DVector2(base.Transform.Scale.x + Texture.width / Texture.height, base.Transform.Scale.y + Texture.height / Texture.width);
+
                 }
                 return _transform;
             }

@@ -75,6 +75,9 @@ namespace DungeonInspector
             }
         }
 
-        
+        public void OnStartGUI()
+        {
+            UnityEngine.Debug.Log("Gui started");
+        }
     }
 }

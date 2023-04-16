@@ -114,7 +114,7 @@ namespace DungeonInspector
             }
 
             // snaping.
-            rect = new Rect((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);
+            rect = new Rect((int)rect.x + renderer.Transform.Offset.x * DCamera.PixelsPerUnit, (int)rect.y - renderer.Transform.Offset.y * DCamera.PixelsPerUnit, (int)rect.width, (int)rect.height);
 
             Graphics.DrawTexture(rect, renderingTex, _mat);
         }
