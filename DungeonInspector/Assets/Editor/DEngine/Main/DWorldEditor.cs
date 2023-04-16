@@ -213,7 +213,7 @@ namespace DungeonInspector
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("Name");
-            EditorGUILayout.LabelField(tile.Texture, GUILayout.MaxWidth(190));
+            EditorGUILayout.LabelField(tile.TextureName, GUILayout.MaxWidth(190));
             GUILayout.EndHorizontal();
 
 

@@ -9,7 +9,7 @@ namespace DungeonInspector
 {
     public class TilesDatabase
     {
-        private E_SpriteAtlas _worldSpriteAtlas;
+        private TilesGroup _worldSpriteAtlas;
         private List<(DTile, Texture2D)> _tiles;
         public int Count => _tiles.Count;
 
@@ -17,22 +17,22 @@ namespace DungeonInspector
         {
             _tiles = new List<(DTile, Texture2D)>();
 
-            _worldSpriteAtlas = Resources.Load<E_SpriteAtlas>("World/World1");
+            _worldSpriteAtlas = Resources.Load<TilesGroup>("World/World1Tiles");
 
             for (int i = 0; i < _worldSpriteAtlas.TextureCount; i++)
             {
-                var tex = _worldSpriteAtlas.GetTexture(i);
+                var tileData = _worldSpriteAtlas.GetTile(i);
 
                 var tile = new DTile()
                 {
                     Index = i,
-                    IsWalkable = false,
-                    Type = TileType.Static,
-                    Texture = tex.name,
+                    IsWalkable = tileData.Tile.IsWalkable,
+                    Type = tileData.Tile.Type,
+                    TextureName = tileData.Texture.name,
                     ZSorting = 0,
                 };
 
-                _tiles.Add((tile, tex));
+                _tiles.Add((tile, tileData.Texture));
             }
 
         }

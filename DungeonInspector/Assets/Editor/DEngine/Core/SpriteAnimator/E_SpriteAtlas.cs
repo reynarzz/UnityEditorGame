@@ -15,9 +15,33 @@ namespace DungeonInspector
 
         public int TextureCount => _textures.Length;
 
-        public Texture2D GetTexture(int index) 
+        public Texture2D GetTexture(int index)
         {
-            return _textures[index];    
+            return _textures[index];
+        }
+    }
+
+    [Serializable]
+    public class TileData
+    {
+        [SerializeField] private Texture2D _texture;
+        [SerializeField] private DTile _tile;
+
+        public Texture2D Texture => _texture;
+        public DTile Tile => _tile;
+    }
+
+    [CreateAssetMenu]
+    public class TilesGroup : ScriptableObject
+    {
+        [SerializeField] private TileData[] _tiles;
+
+        
+        public int TextureCount => _tiles.Length;
+
+        public TileData GetTile(int index)
+        {
+            return _tiles[index];
         }
     }
 
@@ -35,7 +59,7 @@ namespace DungeonInspector
 
             base.OnInspectorGUI();
 
-           
+
         }
     }
 }

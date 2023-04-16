@@ -58,9 +58,9 @@ namespace DungeonInspector
         //public TileType Type => _type;
 
         public int Index { get; set; }
-        public string Texture { get; set; }
-        public bool IsWalkable { get; set; }
-        public int ZSorting { get; set; }
-        public TileType Type { get; set; }
+        public string TextureName { get; set; }
+        public bool IsWalkable;
+        public int ZSorting;
+        public TileType Type;
     }
 }

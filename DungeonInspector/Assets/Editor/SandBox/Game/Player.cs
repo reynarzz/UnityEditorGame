@@ -32,7 +32,7 @@ namespace DungeonInspector
             _playerAnimator.Stop();
 
             _gameMaster = FindGameEntity("GameMaster").GetComp<DGameMaster>();
-            Transform.Offset = new DVector2(0, 0.9f);
+            Transform.Offset = new DVector2(0, 0.3f);
         }
 
 
