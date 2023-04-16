@@ -20,7 +20,7 @@ namespace DungeonInspector
         public DVector2 PrevPosition { get; private set; }
         private ActorHealth _health;
 
-        public override void OnStart()
+        protected override void OnAwake()
         {
             var name = "Character2/WalkLeft";
             var walkLeft = GetAnimation(name);
@@ -38,9 +38,8 @@ namespace DungeonInspector
 
             _gameMaster = FindGameEntity("GameMaster").GetComp<DGameMaster>();
 
-            Transform.Offset = new DVector2(0, 0.7f);
-
             _health = AddComp<ActorHealth>();
+            Transform.Offset = new DVector2(0, 0.7f);
         }
 
 
@@ -50,7 +49,7 @@ namespace DungeonInspector
         }
 
 
-        public override void OnUpdate()
+        protected override void OnUpdate()
         {
             var e = UnityEngine.Event.current;
             if (e.keyCode == UnityEngine.KeyCode.F)

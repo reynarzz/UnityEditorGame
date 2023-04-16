@@ -13,7 +13,7 @@ namespace DungeonInspector
 
         private DTransformComponent _transform;
         public DTransformComponent Transform => _transform;
-        private List<DBehavior> _behaviorComponents_Test;
+        private List<IDBehavior> _behaviorComponents_Test;
 
         private const string _defaultName = "GameEntity";
         public string Name { get; set; }
@@ -28,7 +28,7 @@ namespace DungeonInspector
 
             _transform = new DTransformComponent();
 
-            _behaviorComponents_Test = new List<DBehavior>();
+            _behaviorComponents_Test = new List<IDBehavior>();
 
             _components = new Dictionary<Type, DComponent>()
             {
@@ -61,15 +61,6 @@ namespace DungeonInspector
 
                 }
 
-                if (type.IsSubclassOf(typeof(DBehavior)))
-                {
-                    var behavior = component as DBehavior;
-
-                    behavior.GameEntity = this;
-                    _behaviorComponents_Test.Add(behavior);
-                    //Debug.Log(component.GetType().Name);
-                }
-
                 if (type == typeof(DRendererComponent) || type.IsSubclassOf(typeof(DRendererComponent)))
                 {
                     var renderer = component as DRendererComponent;
@@ -83,6 +74,15 @@ namespace DungeonInspector
                     DCamera.MainCamera = component as DCamera;
                 }
 
+                if (type.IsSubclassOf(typeof(DBehavior)))
+                {
+                    var behavior = component as DBehavior;
+
+                    behavior.GameEntity = this;
+                    _behaviorComponents_Test.Add(behavior);
+
+                    //Debug.Log(component.GetType().Name);
+                }
 
                 component.OnRemoved += OnComponentRemoved;
 
@@ -121,7 +121,7 @@ namespace DungeonInspector
             return component != null;
         }
 
-        public List<DBehavior> GetAllUpdatableComponents()
+        public List<IDBehavior> GetAllUpdatableComponents()
         {
             return _behaviorComponents_Test;
         }

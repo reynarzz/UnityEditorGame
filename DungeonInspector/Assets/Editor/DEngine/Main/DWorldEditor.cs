@@ -35,7 +35,7 @@ namespace DungeonInspector
         private Texture2D _selectionFrame;
         private GUIStyle _style;
 
-        public override void OnStart()
+        protected override void OnStart()
         {
             var gameMaster = FindGameEntity("GameMaster").GetComp<DGameMaster>();
 
@@ -122,7 +122,7 @@ namespace DungeonInspector
 
 
 
-        public override void OnUpdate()
+        protected override void OnUpdate()
         {
 
             if (_style == null)

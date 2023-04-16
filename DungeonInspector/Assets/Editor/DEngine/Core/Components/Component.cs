@@ -19,7 +19,11 @@ namespace DungeonInspector
 
             OnRemoved(this);
             OnRemoved = null;
+
+            OnDestroy();
         }
+
+        public virtual void OnDestroy() { }
     }
 
     public class DTransformableComponent : DComponent

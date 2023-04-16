@@ -14,7 +14,7 @@ namespace DungeonInspector
         private DCamera _camera;
         private TilesDatabase _tilesDatabase;
 
-        public override void OnStart()
+        protected override void OnStart()
         {
             _tilemap = GetComp<DTilemap>();
             var gameMaster = FindGameEntity("GameMaster").GetComp<DGameMaster>();
@@ -25,7 +25,7 @@ namespace DungeonInspector
 
         }
 
-        public override void OnUpdate()
+        protected override void OnUpdate()
         {
             TestDraw_Remove();
         }

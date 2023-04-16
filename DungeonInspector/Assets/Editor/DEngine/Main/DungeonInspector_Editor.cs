@@ -28,7 +28,7 @@ namespace DungeonInspector
 
             _renderer.CameraTest = DCamera.MainCamera;
 
-            _componentsContainer.OnStart();
+            _componentsContainer.OnAwake();
         }
 
         public override void OnInspectorGUI()
@@ -36,7 +36,7 @@ namespace DungeonInspector
             if (!_started)
             {
                 _started = true;
-                _componentsContainer.OnStartGUI();
+                _componentsContainer.OnStart();
             }
 
             _time.Update(); 

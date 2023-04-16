@@ -23,7 +23,7 @@ namespace DungeonInspector
 
 
         private Dictionary<TileBehavior, List<Actor>> _tilesBehaviors;
-        public override void OnStart()
+        protected override void OnStart()
         {
             _tilemap = FindGameEntity("TileMaster").GetComp<DTilemap>();
             _camera = FindGameEntity("Camera").GetComp<DCamera>();
@@ -34,7 +34,7 @@ namespace DungeonInspector
             _tilesBehaviors = new Dictionary<TileBehavior, List<Actor>>();
         }
 
-        public override void OnUpdate()
+        protected override void OnUpdate()
         {
             UpdateTilesBehavior();
         }

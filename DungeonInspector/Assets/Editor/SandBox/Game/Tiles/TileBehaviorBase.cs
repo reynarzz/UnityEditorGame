@@ -26,13 +26,5 @@ namespace DungeonInspector
         protected virtual void OnEnter() { }
         protected virtual void OnExit() { }
         protected virtual void OnUpdate() { }
-
-
-        public bool TryGetActorBehavior<T>(out T behavior) where T : DBehavior, new()
-        {
-            behavior = _actor.GetComp<T>();
-
-            return behavior != null;
-        }
     }
 }

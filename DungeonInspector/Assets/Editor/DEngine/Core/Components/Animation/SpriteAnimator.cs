@@ -17,13 +17,14 @@ namespace DungeonInspector
 
         private DRendererComponent _renderer;
 
-        public override void OnStart()
+        protected override void OnAwake()
         {
             _animations = new List<SpriteAnimation>();
             _renderer = GetComp<DRendererComponent>();
         }
-          
-        public override void OnUpdate()
+
+
+        protected override void OnUpdate()
         {
             if(_animations.Count > 0)
             {
@@ -33,7 +34,7 @@ namespace DungeonInspector
 
         public void Play(int index)
         {
-            if (_currentAnimIndex != index)
+            if (_currentAnimIndex != index && _animations.Count > index)
             {
                 // Reset previous
                 _animations[_currentAnimIndex].Stop();

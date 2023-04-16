@@ -12,13 +12,13 @@ namespace DungeonInspector
         private DCamera _camera;
         private Player _player;
 
-        public override void OnStart()
+        protected override void OnStart()
         {
             _camera = GetComp<DCamera>();
             _player = FindGameEntity("Player").GetComp<Player>();
         }
 
-        public override void OnUpdate()
+        protected override void OnUpdate()
         {
             var playerPos = new DVector2(_player.Transform.Position.x, _player.Transform.Position.y);
 

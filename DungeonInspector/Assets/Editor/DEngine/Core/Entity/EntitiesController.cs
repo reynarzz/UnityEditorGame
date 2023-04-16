@@ -44,6 +44,20 @@ namespace DungeonInspector
             return null;
         }
 
+        // TODO: call awake right after object creation
+        public void OnAwake()
+        {
+            for (int i = 0; i < _entities.Count; i++)
+            {
+                var updatables = _entities[i].GetAllUpdatableComponents();
+
+                for (int j = 0; j < updatables.Count; j++)
+                {
+                    updatables[j].Awake();
+                }
+            }
+        }
+
         public void OnStart()
         {
             for (int i = 0; i < _entities.Count; i++)
@@ -58,7 +72,7 @@ namespace DungeonInspector
 
             for (int i = 0; i < updatables.Count; i++)
             {
-                updatables[i].OnStart();
+                updatables[i].Start();
             }
         }
 
@@ -70,14 +84,11 @@ namespace DungeonInspector
 
                 for (int j = 0; j < updatables.Count; j++)
                 {
-                    updatables[j].OnUpdate();
+                    updatables[j].Update();
                 }
             }
         }
 
-        public void OnStartGUI()
-        {
-            UnityEngine.Debug.Log("Gui started");
-        }
+      
     }
 }

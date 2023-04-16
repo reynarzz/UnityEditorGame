@@ -11,7 +11,7 @@ namespace DungeonInspector
         private Dictionary<DVector2, Dictionary<int, DTile>> _tiles;
         public Dictionary<DVector2, Dictionary<int, DTile>> Tiles => _tiles;
 
-        public override void OnStart()
+        protected override void OnStart()
         {
             _tiles = new Dictionary<DVector2, Dictionary<int, DTile>>();
         }
