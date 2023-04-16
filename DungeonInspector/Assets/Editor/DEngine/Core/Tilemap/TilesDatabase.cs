@@ -29,7 +29,7 @@ namespace DungeonInspector
                     IsWalkable = tileData.Tile.IsWalkable,
                     Type = tileData.Tile.Type,
                     TextureName = tileData.Texture.name,
-                    ZSorting = 0,
+                    ZSorting = tileData.Tile.ZSorting,
                 };
 
                 _tiles.Add((tile, tileData.Texture));

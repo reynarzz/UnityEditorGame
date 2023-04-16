@@ -32,10 +32,9 @@ namespace DungeonInspector
 
                 if (Texture != null)
                 {
-                    //_transform.Scale = new DVector2(base.Transform.Scale.x + Texture.width / Texture.height, base.Transform.Scale.y + Texture.height / Texture.width);
+                    _transform.Scale = new DVector2(base.Transform.Scale.x + Texture.width / Texture.height, base.Transform.Scale.y + Texture.height / Texture.width) / 1.2f;
                     //Debug.Log(Texture.width + ", " + Texture.height);
                     
-                    _transform.Scale = new DVector2(base.Transform.Scale.x - 0.1f, base.Transform.Scale.y + 0.2f);
 
                 }
                 return _transform;

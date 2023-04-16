@@ -32,6 +32,8 @@ namespace DungeonInspector
         private Vector2Int _mouseTileGuidePosition;
         private DGameMaster _gameMaster;
         private Material _mat_DELETE;
+        private Texture2D _selectionFrame;
+        private GUIStyle _style;
 
         public override void OnStart()
         {
@@ -49,6 +51,8 @@ namespace DungeonInspector
 
             
             _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
+            _selectionFrame = Resources.Load<Texture2D>("GameAssets/LevelEditor/SelectionFrame");
+
 
             Load();
         }
@@ -88,15 +92,20 @@ namespace DungeonInspector
                 }
             }
 
-            tex = Mode == DTilePainterMode.Brush ? _selectedTile.Item2 : Texture2D.whiteTexture;
+            tex = Mode == DTilePainterMode.Brush ? _selectedTile.Item2 : _selectionFrame;
 
 
             //// Mouse sprite pointer
             //DrawSprite(newMousePos, Vector2.one, _camera_Test, WorldEditorEditor.SelectedTex);
+
             Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, Vector2.one), tex, _mat_DELETE);
+
+            //Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, Vector2.one), _selectionFrame, _mat_DELETE);
+
         }
         private void Load()
         {
+
             var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
 
             var json = File.ReadAllText(worldLevelPath);
@@ -115,6 +124,13 @@ namespace DungeonInspector
 
         public override void OnUpdate()
         {
+
+            if (_style == null)
+            {
+                _style = new GUIStyle(GUI.skin.label);
+                _style.fontSize = 20;
+            }
+
             MousePointer();
             //TODO: offset is wrong Fix this.
             GUILayout.Space(_camera.ScreenSize.y);
@@ -154,10 +170,10 @@ namespace DungeonInspector
 
             GUILayout.EndScrollView();
 
-            GUILayout.BeginVertical(EditorStyles.helpBox);
 
-            EditTileType(_selectedTile.Item1);
-            GUILayout.EndVertical();
+            //EditTileType(_selectedTile.Item1);
+
+            ShowWorldTileData();
 
             GUILayout.EndVertical();
 
@@ -201,8 +217,32 @@ namespace DungeonInspector
             }
         }
 
+        private void ShowWorldTileData()
+        {
+
+
+            var tile = _tilemap.GetTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y, 0);
+            if(tile != null)
+            {
+                GUILayout.BeginVertical(EditorStyles.helpBox);
+
+                var texture = _tilesDatabase.GetTileTexture(tile.Index);
+
+                GUILayout.BeginHorizontal();
+                GUILayout.Label(texture, _style);
+                GUILayout.Label(tile.TextureName);
+                GUILayout.EndHorizontal();
+
+                GUILayout.EndVertical();
+
+            }
+
+
+        }
+
         private void EditTileType(DTile tile)
         {
+            GUILayout.BeginVertical(EditorStyles.helpBox);
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("Tile Type");
@@ -233,6 +273,9 @@ namespace DungeonInspector
             //_interactableAnimation;
             //_zSorting;
             //
+
+
+            GUILayout.EndVertical();
         }
 
         //private void SpriteAnimationOptions()
