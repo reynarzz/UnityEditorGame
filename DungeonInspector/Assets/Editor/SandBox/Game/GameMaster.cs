@@ -22,7 +22,7 @@ namespace DungeonInspector
         private TileBehaviorsContainer _tbContainer;
 
 
-        private Dictionary<TileBehavior, List<Player>> _tilesBehaviors;
+        private Dictionary<TileBehavior, List<Actor>> _tilesBehaviors;
         public override void OnStart()
         {
             _tilemap = FindGameEntity("TileMaster").GetComp<DTilemap>();
@@ -31,10 +31,15 @@ namespace DungeonInspector
             _tilesDatabase = new TilesDatabase();
 
             _tbContainer = new TileBehaviorsContainer();
-            _tilesBehaviors = new Dictionary<TileBehavior, List<Player>>();
+            _tilesBehaviors = new Dictionary<TileBehavior, List<Actor>>();
         }
 
         public override void OnUpdate()
+        {
+            UpdateTilesBehavior();
+        }
+
+        private void UpdateTilesBehavior()
         {
             foreach (var item in _tilesBehaviors)
             {
@@ -48,11 +53,11 @@ namespace DungeonInspector
             }
         }
 
-        public void OnPlayerEnterTile(Player player, DTile tile)
+        public void OnPlayerEnterTile(Actor player, DTile tile)
         {
-            //var tile = _tilemap.GetTile(_player.Transform.Position.x, _player.Transform.Position.y, 0);
+            var behavior = _tbContainer.GetBehavior(tile.TileBehavior);
 
-            _tbContainer.GetBehavior(tile.TileBehavior).OnEnter(player);
+            behavior.OnEnter(player);
 
             if (_tilesBehaviors.TryGetValue(tile.TileBehavior, out var playersList))
             {
@@ -63,13 +68,15 @@ namespace DungeonInspector
             }
             else
             {
-                _tilesBehaviors.Add(tile.TileBehavior, new List<Player>() { player });
+                _tilesBehaviors.Add(tile.TileBehavior, new List<Actor>() { player });
             }
         }
 
-        public void OnPlayerExitTile(Player player, DTile tile)
+        public void OnPlayerExitTile(Actor player, DTile tile)
         {
-            _tbContainer.GetBehavior(tile.TileBehavior).OnExit(player);
+            var behavior = _tbContainer.GetBehavior(tile.TileBehavior);
+
+            behavior.OnExit(player);
 
             if (_tilesBehaviors.TryGetValue(tile.TileBehavior, out var playersList))
             {

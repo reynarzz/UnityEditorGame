@@ -6,16 +6,24 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class Default_TB : TileBehaviorBase 
+    public class Default_TB : TileBehaviorBase
     {
-        public override void OnEnter(Player player)
+        protected override void OnEnter()
         {
-            $"Actor {player.GameEntity.Name}, Enter".LOG();
+
+            if (TryGetActorBehavior<ActorHealth>(out var health))
+            {
+                _LOG.LOG($"Actor: '{Actor.Name}' Health is: " + health.Health);
+            }
+            else
+            {
+                $"Actor '{Actor.Name}', Enter".LOG();
+            }
         }
 
-        public override void OnExit(Player player)
+        protected override void OnExit()
         {
-            $"Actor {player.GameEntity.Name}, Exit".LOG();
+            $"Actor '{Actor.GameEntity.Name}', Exit".LOG();
         }
     }
 }

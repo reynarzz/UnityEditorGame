@@ -64,6 +64,10 @@ namespace DungeonInspector
             }
         }
 
+    }
+
+    public static class _LOG
+    {
         public static void LOG(this object msg)
         {
             Debug.Log(msg);
@@ -73,6 +77,5 @@ namespace DungeonInspector
         {
             Debug.LogError(msg);
         }
-
     }
 }

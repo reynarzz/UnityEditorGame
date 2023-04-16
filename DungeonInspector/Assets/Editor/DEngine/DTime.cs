@@ -16,6 +16,7 @@ namespace DungeonInspector
 
         public static float TimeSinceStarted => _time;
         public static float DeltaTime => _dt;
+        public static float Time { get; set; } = 1;
 
         public DTime()
         {
@@ -29,7 +30,7 @@ namespace DungeonInspector
         {
             var secElapsep = _stopWatch.ElapsedMilliseconds / 1000f;
 
-            _dt = secElapsep - _prev;
+            _dt = (secElapsep - _prev) * Time;
             _time += _dt;
             _prev = secElapsep;
         }

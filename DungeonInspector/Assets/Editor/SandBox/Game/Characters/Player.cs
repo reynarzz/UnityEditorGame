@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class Player : DBehavior
+    public class Player : Actor
     {
         private DAnimatorComponent _playerAnimator;
         private DGameMaster _gameMaster;
@@ -18,6 +18,7 @@ namespace DungeonInspector
         public Action<Player, DTile> OnTileReached;
 
         public DVector2 PrevPosition { get; private set; }
+        private ActorHealth _health;
 
         public override void OnStart()
         {
@@ -38,6 +39,8 @@ namespace DungeonInspector
             _gameMaster = FindGameEntity("GameMaster").GetComp<DGameMaster>();
 
             Transform.Offset = new DVector2(0, 0.7f);
+
+            _health = AddComp<ActorHealth>();
         }
 
 
@@ -112,7 +115,6 @@ namespace DungeonInspector
 
                     _playerAnimator.Play(3);
                     //_playerWalkDir = new UnityEngine.Vector2Int(0, -1);
-
                 }
                 else //if (_playerWalkDir.x == 0 && _playerWalkDir.y == 0)
                 {
@@ -133,7 +135,6 @@ namespace DungeonInspector
             // Debug.Log(_playerWalkDir);
 
             var dir = (UnityEngine.Vector2)_playerWalkDir;
-
 
             _moveTime += DTime.DeltaTime;
 

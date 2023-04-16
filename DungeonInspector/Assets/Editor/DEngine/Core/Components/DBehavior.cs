@@ -10,7 +10,9 @@ namespace DungeonInspector
     {
         public DGameEntity GameEntity { get; set; }
 
+        public string Name => GameEntity.Name;
         public virtual void OnDestroy() { }
+        public virtual void OnAwake() { }
         public virtual void OnStart() { }
         public virtual void OnUpdate() { }
 

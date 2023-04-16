@@ -6,11 +6,8 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class ChangeLevel_TB : TileBehaviorBase
+    public class ActorHealth : DBehavior
     {
-        protected override void OnEnter()
-        {
-            
-        }
+        public float Health { get; set; }
     }
 }

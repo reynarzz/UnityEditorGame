@@ -140,7 +140,14 @@ namespace DungeonInspector
 
             Mode = (DTilePainterMode)GUILayout.Toolbar((int)Mode, _modes);
 
+            TilesPicker();
+        }
+
+        private void TilesPicker()
+        {
             GUILayout.BeginVertical(EditorStyles.helpBox);
+            GUILayout.Label("Tiles");
+
             _scroll = GUILayout.BeginScrollView(_scroll);
 
             GUILayout.BeginHorizontal();
@@ -182,10 +189,14 @@ namespace DungeonInspector
             {
                 OnSave();
             }
-            
+
             //GUILayout.EndArea();
         }
 
+        private void EnemyPicker()
+        {
+
+        }
 
         // Improve input system and all this.
         private void AddTile()

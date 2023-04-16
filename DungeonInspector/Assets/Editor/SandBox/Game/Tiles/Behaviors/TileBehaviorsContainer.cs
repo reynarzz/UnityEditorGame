@@ -19,7 +19,7 @@ namespace DungeonInspector
             };
         }
 
-        public TileBehaviorBase GetBehavior(TileBehavior behavior)
+        public ITileBehaviorBase GetBehavior(TileBehavior behavior)
         {
             if(_behaviors.TryGetValue(behavior, out TileBehaviorBase behav))
             {
