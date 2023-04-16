@@ -31,19 +31,7 @@ namespace DungeonInspector
         public DTile Tile => _tile;
     }
 
-    [CreateAssetMenu]
-    public class TilesGroup : ScriptableObject
-    {
-        [SerializeField] private TileData[] _tiles;
-
-        
-        public int TextureCount => _tiles.Length;
-
-        public TileData GetTile(int index)
-        {
-            return _tiles[index];
-        }
-    }
+    
 
     [CustomEditor(typeof(E_SpriteAtlas))]
     public class TlasEditor : Editor

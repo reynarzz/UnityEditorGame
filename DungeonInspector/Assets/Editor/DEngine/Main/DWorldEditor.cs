@@ -173,15 +173,16 @@ namespace DungeonInspector
 
             //EditTileType(_selectedTile.Item1);
 
-            ShowWorldTileData();
 
             GUILayout.EndVertical();
+
+            ShowWorldTileData();
 
             if (GUILayout.Button("Save"))
             {
                 OnSave();
             }
-
+            
             //GUILayout.EndArea();
         }
 
@@ -224,7 +225,7 @@ namespace DungeonInspector
             var tile = _tilemap.GetTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y, 0);
             if(tile != null)
             {
-                GUILayout.BeginVertical(EditorStyles.helpBox);
+                GUILayout.BeginVertical();
 
                 var texture = _tilesDatabase.GetTileTexture(tile.Index);
 
@@ -234,7 +235,6 @@ namespace DungeonInspector
                 GUILayout.EndHorizontal();
 
                 GUILayout.EndVertical();
-
             }
 
 

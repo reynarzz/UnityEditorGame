@@ -10,12 +10,7 @@ using static PlasticGui.PlasticTableColumn;
 
 namespace DungeonInspector
 {
-    public enum TileType
-    {
-        Static,
-        Interactable,
-        InteractableWhenTouch
-    }
+    
 
     public enum InteractableTileType
     {
@@ -38,29 +33,5 @@ namespace DungeonInspector
         public DVector2 Position { get; set; }
     }
 
-    [Serializable]
-    public class DTile
-    {
-        //private string _textureName;
-        //private int _zSorting = 0;
-        //private bool _isWalkable;
-        //private TileType _type;
-
-        //private SpriteAnimation _idleAnimation; // use array with the names of the textures
-        //private SpriteAnimation _interactableAnimation;
-
-        private string[] _idleTexAnim;
-        private string[] _interactableTexAnim;
-
-        //public string Texture => _textureName;
-        //public bool IsWalkable { get; set; }
-        //public int ZSorting => _zSorting;
-        //public TileType Type => _type;
-
-        public int Index { get; set; }
-        public string TextureName { get; set; }
-        public bool IsWalkable;
-        public int ZSorting;
-        public TileType Type;
-    }
+    
 }

@@ -15,6 +15,8 @@ namespace DungeonInspector
         private float _moveTime = 0;
         private const float _maxTime = 0.1f;
 
+        public DVector2 PrevPosition { get; private set; }
+
         public override void OnStart()
         {
             var name = "Character2/WalkLeft";

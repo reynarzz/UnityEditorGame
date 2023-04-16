@@ -19,23 +19,35 @@ namespace DungeonInspector
         private TilesDatabase _tilesDatabase;
         public TilesDatabase TilesDatabase => _tilesDatabase;
 
+        private Player _player;
+
+        private TileBehaviorsContainer _tbContainer;
+
         public override void OnStart()
         {
             _tilemap = FindGameEntity("TileMaster").GetComp<DTilemap>();
             _camera = FindGameEntity("Camera").GetComp<DCamera>();
 
             _tilesDatabase = new TilesDatabase();
+            _player = FindGameEntity("Player").GetComp<Player>();
+
+            _tbContainer = new TileBehaviorsContainer();
         }
 
-        private EnvironmentData GetWorldData()
+        public override void OnUpdate()
         {
-            var worldJson = Resources.Load<TextAsset>("World1")?.text;
 
-            if (worldJson != null)
-            {
-                return JsonConvert.DeserializeObject<EnvironmentData>(worldJson);
-            }
-            return null;
+        }
+
+        private void OnPlayerReachTile()
+        {
+            var tile = _tilemap.GetTile(_player.Transform.Position.x, _player.Transform.Position.y, 0);
+
+            var behavior = _tbContainer.GetBehavior(tile.TileBehavior);
+
+            // detect when player enters tile
+            // detect when player exits tile
+            // and how to update the tile properly
         }
     }
 }

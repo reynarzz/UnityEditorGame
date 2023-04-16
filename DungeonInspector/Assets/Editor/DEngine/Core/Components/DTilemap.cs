@@ -51,9 +51,9 @@ namespace DungeonInspector
             }
         }
 
-        public DTile GetTile(int x, int y, int zSorting)
+        public DTile GetTile(float x, float y, int zSorting)
         {
-            var layer = GetTileLayers(x, y);
+            var layer = GetTileLayers((int)x, (int)y);
 
             if (layer != null)
             {
