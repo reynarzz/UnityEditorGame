@@ -13,34 +13,30 @@ namespace DungeonInspector
         public static int PixelsPerUnit { get; set; } = 32;
         public static DCamera MainCamera { get; set; }
         public DVector2 ScreenSize { get; set; }
-        public Rect BoundsRect { get; set; }
+        public Rect ViewportRect { get; set; }
 
         public DCamera()
         {
             ScreenSize = new DVector2(640, 360);
-
         }
 
         public Rect World2RectPos(DVector2 pos, DVector2 scale)
         {
-            return Utils.World2RectPos(pos, scale, BoundsRect, Transform.Position, PixelsPerUnit);
+            return Utils.World2RectPos(pos, scale, ViewportRect, Transform.Position, PixelsPerUnit);
         }
 
         public DVector2 Mouse2WorldPos(DVector2 mousePosition)
         {
-            var xPos = mousePosition.x - BoundsRect.x - BoundsRect.width / 2;
-            var yPos = -(mousePosition.y - BoundsRect.y - BoundsRect.height / 2);
+            var xPos = mousePosition.x - ViewportRect.x - ViewportRect.width / 2;
+            var yPos = -(mousePosition.y - ViewportRect.y - ViewportRect.height / 2);
 
             return new DVector2(xPos + Transform.Position.x * PixelsPerUnit, yPos + Transform.Position.y * PixelsPerUnit) / PixelsPerUnit;
         }
 
         public override void OnUpdate()
         {
-            ScreenSize = new DVector2(ScreenSize.x/*EditorGUIUtility.currentViewWidth*/, ScreenSize.y);
-            BoundsRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 0, ScreenSize.x, ScreenSize.y);
-
-
-            GUILayout.Space(ScreenSize.y);
+            ScreenSize = new DVector2(EditorGUIUtility.currentViewWidth, ScreenSize.y);
+            ViewportRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 0, ScreenSize.x, ScreenSize.y);
 
         }
     }

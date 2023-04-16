@@ -88,7 +88,8 @@ namespace DungeonInspector
 
         private void DrawMask()
         {
-            Graphics.DrawTexture(CameraTest.BoundsRect, _viewportRect, _maskMat);
+            Graphics.DrawTexture(CameraTest.ViewportRect, _viewportRect, _maskMat);
+            GUILayout.Space(CameraTest.ScreenSize.y - 18);
         }
 
         private void Draw(DRendererComponent renderer, DCamera camera)
@@ -100,7 +101,17 @@ namespace DungeonInspector
                 renderingTex = Texture2D.whiteTexture;
             }
 
-            var rect = camera.World2RectPos(renderer.Transform.Position, renderer.Transform.Scale);
+            var rect = default(Rect);
+
+            if (renderer.TransformWithCamera)
+            {
+                rect = camera.World2RectPos(renderer.Transform.Position, renderer.Transform.Scale);
+            }
+            else
+            {
+                // rect will not be moved by the camera
+                rect = Utils.World2RectNCamPos(renderer.Transform.Position, renderer.Transform.Scale, camera.ViewportRect, DCamera.PixelsPerUnit);
+            }
 
             // snaping.
             rect = new Rect((int)rect.x, (int)rect.y, (int)rect.width, (int)rect.height);

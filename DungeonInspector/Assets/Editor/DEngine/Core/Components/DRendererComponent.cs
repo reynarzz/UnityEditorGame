@@ -12,6 +12,7 @@ namespace DungeonInspector
     {
         public int ZSorting { get; set; } = 0;
         private DTransformComponent _transform;
+        public bool TransformWithCamera { get; set; } = true;
 
         public DRendererComponent()
         {

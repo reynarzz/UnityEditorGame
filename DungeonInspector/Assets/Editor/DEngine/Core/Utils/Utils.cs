@@ -44,7 +44,7 @@ namespace DungeonInspector
             var yCount = 20f;// Mathf.RoundToInt(screenSize.y / _pixelPerUnit) - 1;
 
             var pixelPerUnit = DCamera.PixelsPerUnit;
-            var viewportRect = camera.BoundsRect;
+            var viewportRect = camera.ViewportRect;
 
             var totalSpaceX = (screenSize.x - (pixelPerUnit * (xCount))) / 2f;
             var totalSpaceY = (screenSize.y - (pixelPerUnit * yCount)) / 2f;
