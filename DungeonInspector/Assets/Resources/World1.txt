@@ -2,92 +2,154 @@
   "_data": {
     "(1, -1)": [
       {
-        "IsWalkable": false,
-        "TileName": "wall_right",
-        "WorldPosition": {
-          "x": 1.0,
-          "y": -1.0
-        }
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
       }
     ],
     "(0, -1)": [
       {
-        "IsWalkable": false,
-        "TileName": "wall_right",
-        "WorldPosition": {
-          "x": 0.0,
-          "y": -1.0
-        }
-      }
-    ],
-    "(0, -2)": [
-      {
-        "IsWalkable": false,
-        "TileName": "wall_right",
-        "WorldPosition": {
-          "x": 0.0,
-          "y": -2.0
-        }
-      }
-    ],
-    "(0, 0)": [
-      {
-        "IsWalkable": false,
-        "TileName": "wall_right",
-        "WorldPosition": {
-          "x": 0.0,
-          "y": 0.0
-        }
-      }
-    ],
-    "(0, 1)": [
-      {
-        "IsWalkable": false,
-        "TileName": "wall_right",
-        "WorldPosition": {
-          "x": 0.0,
-          "y": 1.0
-        }
-      }
-    ],
-    "(-1, 1)": [
-      {
-        "IsWalkable": false,
-        "TileName": "wall_right",
-        "WorldPosition": {
-          "x": -1.0,
-          "y": 1.0
-        }
-      }
-    ],
-    "(-2, 0)": [
-      {
-        "IsWalkable": false,
-        "TileName": "wall_right",
-        "WorldPosition": {
-          "x": -2.0,
-          "y": 0.0
-        }
-      }
-    ],
-    "(-1, 0)": [
-      {
-        "IsWalkable": false,
-        "TileName": "wall_right",
-        "WorldPosition": {
-          "x": -1.0,
-          "y": 0.0
-        }
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
       }
     ],
     "(-1, -1)": [
       {
-        "IsWalkable": false,
-        "TileName": "wall_right",
-        "WorldPosition": {
-          "x": -1.0,
-          "y": -1.0
-        }
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(-1, 0)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(-1, 1)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(0, 1)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(0, 0)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(1, 0)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(1, 1)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(2, 0)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(2, -1)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(2, -2)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(2, -3)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(1, -2)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(0, -2)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(-1, -2)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(-1, -3)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(0, -3)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
+      }
+    ],
+    "(1, -3)": [
+      {
+        "Texture": "floor_1 1",
+        "IsWalkable": true,
+        "ZSorting": 0,
+        "Type": 0
       }
     ]
   }

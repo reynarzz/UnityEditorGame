@@ -14,7 +14,7 @@ namespace DungeonInspector
         public virtual void OnStart() { }
         public virtual void OnUpdate() { }
 
-        public T GetComponent<T>() where T : DComponent, new()
+        public T GetComp<T>() where T : DComponent, new()
         {
             return GameEntity.GetComponent<T>();
         }

@@ -25,7 +25,7 @@ namespace DungeonInspector
             var idle = GetAnimation("Character2/Idle");
             idle.Speed = 7;
 
-            _playerAnimator = GetComponent<DAnimatorComponent>();
+            _playerAnimator = GetComp<DAnimatorComponent>();
 
             _playerAnimator.AddAnimation(walkLeft, walkLeft, walkLeft, walkLeft, idle);
 
@@ -145,12 +145,12 @@ namespace DungeonInspector
         {
             var destine = new Vector2Int((int)currentPos.x + x, (int)currentPos.y + y);
 
-            if (_gameMaster.CurrentWorldData.IsWalkable(destine.x, destine.y))
+            if (_gameMaster.Tilemap.IsWalkable(destine.x, destine.y))
             {
                 return destine;
             }
 
-            return destine/*currentPos*/;
+            return destine;/*currentPos*/;
         }
     }
 }

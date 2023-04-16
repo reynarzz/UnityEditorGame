@@ -6,6 +6,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 
@@ -23,18 +24,34 @@ namespace DungeonInspector
         private Vector2 _scroll;
 
         private E_SpriteAtlas _worldSpriteAtlas;
-        private static Texture2D _selectedTex;
+        private static (DTile, Texture2D) _selectedTile;
         public static Action OnSave_Test;
 
-        public static Texture2D SelectedTex => _selectedTex;
-        private WorldTile _testTile_DELETE;
+        public static (DTile, Texture2D) SelectTile => _selectedTile;
 
+        private List<(DTile, Texture2D)> _tiles;
 
         private void OnEnable()
         {
             _worldSpriteAtlas = Resources.Load<E_SpriteAtlas>("World/World1");
-            _selectedTex =  _worldSpriteAtlas.GetTexture(0); 
-            _testTile_DELETE = new WorldTile();
+            _tiles = new List<(DTile, Texture2D)>();
+
+            for (int i = 0; i < _worldSpriteAtlas.TextureCount; i++)
+            {
+                var tex = _worldSpriteAtlas.GetTexture(i);
+                var tile = new DTile()
+                {
+                    Index = i,
+                    IsWalkable = false,
+                    Type = TileType.Static,
+                    Texture = tex.name,
+                    ZSorting = 0,
+                };
+
+                _tiles.Add((tile, tex));
+            }
+
+            _selectedTile = _tiles[0];
         }
 
         public override void OnInspectorGUI()
@@ -57,12 +74,14 @@ namespace DungeonInspector
             _scroll = GUILayout.BeginScrollView(_scroll);
 
             GUILayout.BeginHorizontal();
-            for (int i = 0; i < _worldSpriteAtlas.TextureCount; i++)
+            for (int i = 0; i < _tiles.Count; i++)
             {
-                var tex = _worldSpriteAtlas.GetTexture(i);
+                var tex = _tiles[i].Item2;
+                var tile = _tiles[i].Item2;
+
                 if (GUILayout.Button(new GUIContent(tex, tex.name), GUILayout.MinHeight(40)))
                 {
-                    _selectedTex = tex;
+                    _selectedTile = _tiles[i];
                 }
             }
 
@@ -72,7 +91,7 @@ namespace DungeonInspector
 
             GUILayout.BeginVertical(EditorStyles.helpBox);
 
-            EditTileType(_testTile_DELETE);
+            EditTileType(_selectedTile.Item1);
             GUILayout.EndVertical();
 
             GUILayout.EndVertical();
@@ -83,31 +102,30 @@ namespace DungeonInspector
             }
         }
 
-        private void EditTileType(WorldTile tile)
+        private void EditTileType(DTile tile)
         {
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("Tile Type");
-            tile.SetValue("_type", (TileType)EditorGUILayout.EnumPopup(tile.Type, GUILayout.MaxWidth(190)));
+            tile.Type = (TileType)EditorGUILayout.EnumPopup(tile.Type, GUILayout.MaxWidth(190));
             GUILayout.EndHorizontal();
 
             var rect = GUILayoutUtility.GetLastRect();
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("Name");
-            tile.SetValue("_textureName", _selectedTex.name); 
-            EditorGUILayout.LabelField(_selectedTex.name, GUILayout.MaxWidth(190));
+            EditorGUILayout.LabelField(tile.Texture, GUILayout.MaxWidth(190));
             GUILayout.EndHorizontal();
 
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("Is Walkable");
-            tile.SetValue("_isWalkable", EditorGUILayout.Toggle(tile.IsWalkable, GUILayout.MaxWidth(190)));
+            tile.IsWalkable = EditorGUILayout.Toggle(tile.IsWalkable, GUILayout.MaxWidth(190));
             GUILayout.EndHorizontal();
 
             GUILayout.BeginHorizontal();
             GUILayout.Label("Z Sorting");
-            tile.SetValue("_zSorting", EditorGUILayout.IntSlider(tile.ZSorting, 0, 10, GUILayout.MaxWidth(190)));
+            tile.ZSorting = EditorGUILayout.IntSlider(tile.ZSorting, 0, 10, GUILayout.MaxWidth(190));
             GUILayout.EndHorizontal();
 
             //SpriteAnimationOptions();

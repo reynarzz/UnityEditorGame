@@ -11,7 +11,7 @@ namespace DungeonInspector
         public override void OnInitialize()
         {
             // Game Master
-            new DGameEntity("GameMaster", typeof(DGameMaster));
+            new DGameEntity("GameMaster", typeof(DTilemap), typeof(DGameMaster));
 
             // Main Player
             new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player));
@@ -24,9 +24,6 @@ namespace DungeonInspector
 
         }
 
-        public override void OnQuit()
-        {
-
-        }
+        public override void OnQuit() { }
     }
 }

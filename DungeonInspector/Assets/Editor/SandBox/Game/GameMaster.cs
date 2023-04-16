@@ -10,24 +10,23 @@ namespace DungeonInspector
 {
     public class DGameMaster : DBehavior
     {
-        private WorldData _currentWorldData;
-        public WorldData CurrentWorldData => GetWorldData();
+        private DTilemap _tilemap;
+        public DTilemap Tilemap => _tilemap;
 
         public override void OnStart()
         {
-          
+            _tilemap = GetComp<DTilemap>();
         }
 
-        private WorldData GetWorldData()
+        private EnvironmentData GetWorldData()
         {
             var worldJson = Resources.Load<TextAsset>("World1")?.text;
 
             if (worldJson != null)
             {
-                return JsonConvert.DeserializeObject<WorldData>(worldJson);
+                return JsonConvert.DeserializeObject<EnvironmentData>(worldJson);
             }
             return null;
         }
-
     }
 }

@@ -20,7 +20,7 @@ namespace DungeonInspector
         public override void OnStart()
         {
             _animations = new List<SpriteAnimation>();
-            _renderer = GetComponent<DRendererComponent>();
+            _renderer = GetComp<DRendererComponent>();
         }
 
         public override void OnUpdate()
