@@ -32,7 +32,7 @@ namespace DungeonInspector
         //private SpriteAnimation _idleAnimation; // use array with the names of the textures
         //private SpriteAnimation _interactableAnimation;
 
-        private string[] _idleTexAnim;
+        public string[] IdleTexAnim;
         private string[] _interactableTexAnim;
 
         //public string Texture => _textureName;

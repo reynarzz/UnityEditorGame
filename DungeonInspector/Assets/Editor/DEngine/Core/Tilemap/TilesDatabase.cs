@@ -25,13 +25,17 @@ namespace DungeonInspector
                 {
                     var tileData = _worldSpriteAtlas.GetTile(i);
 
+                    var textureName = tileData.Texture ? tileData.Texture.name: tileData.Animation.GetSpriteNames()[0];
+
                     var tile = new DTile()
                     {
                         Index = i,
                         IsWalkable = tileData.Tile.IsWalkable,
                         Type = tileData.Tile.Type,
-                        TextureName = tileData.Texture.name,
+                        TextureName = textureName,
                         ZSorting = tileData.Tile.ZSorting,
+                        TileBehavior = tileData.Tile.TileBehavior,
+                        IdleTexAnim = tileData.Animation?.GetSpriteNames() ?? null
                     };
 
                     _tiles.Add((tile, tileData.Texture));

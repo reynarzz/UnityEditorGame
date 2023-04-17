@@ -36,7 +36,7 @@ namespace DungeonInspector
             _camera = FindGameEntity("Camera").GetComp<DCamera>();
 
             _tilesDatabase = new TilesDatabase("World/World1Tiles");
-            _animatedTiles = new TilesDatabase(null/*path here*/);
+            _animatedTiles = new TilesDatabase("World/TilesAnimated");
             _enemyDatabase = new EnemyDatabase();
             _tbContainer = new TileBehaviorsContainer();
             _tilesBehaviors = new Dictionary<TileBehavior, List<Actor>>();

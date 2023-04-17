@@ -8,7 +8,7 @@ using UnityEngine;
 namespace DungeonInspector
 {
     [Serializable]
-    public class DSpriteAnimation 
+    public class DSpriteAnimation
     {
         [SerializeField] private E_SpriteAtlas _atlas;
         private int _spriteIndex = 0;
@@ -31,7 +31,7 @@ namespace DungeonInspector
         {
             if (_play)
             {
-                if(_spriteIndex >= _atlas.TextureCount)
+                if (_spriteIndex >= _atlas.TextureCount)
                 {
                     _spriteIndex = 0;
                 }
@@ -40,7 +40,7 @@ namespace DungeonInspector
 
                 _time += dt * Speed;
 
-                if(_time >= 1f)
+                if (_time >= 1f)
                 {
                     _time = 0;
 
@@ -64,6 +64,24 @@ namespace DungeonInspector
         public void Pause()
         {
             _play = false;
+        }
+
+        public string[] GetSpriteNames()
+        {
+            var names = default(string[]);
+
+            if (_atlas != null)
+            {
+                names = new string[_atlas.TextureCount];
+
+                for (int i = 0; i < _atlas.TextureCount; i++)
+                {
+                    names[i] = _atlas.GetTexture(i).name;
+                }
+
+            }
+
+            return names;
         }
     }
 }

@@ -42,8 +42,8 @@ namespace DungeonInspector
         private enum TileDatabaseType
         {
             Static,
+            Animated,
             Interactable,
-            Animated
         }
 
         protected override void OnStart()
@@ -208,7 +208,7 @@ namespace DungeonInspector
                     }
 
                     //TODO: change the texture animation for animated tiles.
-                    if (GUILayout.Button(new GUIContent(tex, tex.name), GUILayout.Width(40), GUILayout.Height(40)))
+                    if (GUILayout.Button(new GUIContent(tex, tilePair.Item1.TextureName), GUILayout.Width(40), GUILayout.Height(40)))
                     {
                         _selectedTile = tilePair;
                     }
