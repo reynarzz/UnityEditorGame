@@ -19,7 +19,7 @@ namespace DungeonInspector
 
         public DVector2 PrevPosition { get; private set; }
         private ActorHealth _health;
-
+        private DRendererComponent _renderer;
         protected override void OnAwake()
         {
             var name = "Character2/WalkLeft";
@@ -37,7 +37,7 @@ namespace DungeonInspector
             _playerAnimator.Stop();
 
             _gameMaster = FindGameEntity("GameMaster").GetComp<DGameMaster>();
-
+            _renderer = GetComp<DRendererComponent>();
             _health = AddComp<ActorHealth>();
             Transform.Offset = new DVector2(0, 0.7f);
         }
@@ -78,6 +78,7 @@ namespace DungeonInspector
 
                     _canMove = false;
                     _moveTime = 0;
+                    _renderer.FlipX = true;
 
                     //_playerWalkDir = new UnityEngine.Vector2Int(-1, 0);
                 }
@@ -90,8 +91,7 @@ namespace DungeonInspector
 
                     _playerAnimator.Play(1);
                     _moveTime = 0;
-
-
+                    _renderer.FlipX = false;
                 }
                 else if (e.keyCode == UnityEngine.KeyCode.W)
                 {
@@ -140,12 +140,12 @@ namespace DungeonInspector
             //_gridPos.y += 0.1f;
 
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
-
+            
 
             if ((UnityEngine.Vector2Int)Transform.Position.Round() == (UnityEngine.Vector2Int)_gridPos.Round() && !_canMove)
             {
                 //OnTileReached(this, _gameMaster.Tilemap.GetTile(Transform.Position, 0));
-                _gameMaster.OnPlayerEnterTile(this, _gameMaster.Tilemap.GetTile(Transform.Position, 0));
+                _gameMaster.OnActorEnterTile(this, _gameMaster.Tilemap.GetTile(Transform.Position, 0));
 
                 _canMove = true;
             }

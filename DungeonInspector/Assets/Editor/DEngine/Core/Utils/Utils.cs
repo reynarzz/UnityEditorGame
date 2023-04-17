@@ -64,6 +64,10 @@ namespace DungeonInspector
             }
         }
 
+        public static T Load<T>(string pathFromRes) where T: UnityEngine.Object
+        {
+            return Resources.Load<T>(pathFromRes);
+        }
     }
 
     public static class _LOG

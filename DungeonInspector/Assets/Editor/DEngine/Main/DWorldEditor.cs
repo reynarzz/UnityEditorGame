@@ -141,6 +141,14 @@ namespace DungeonInspector
             Mode = (DTilePainterMode)GUILayout.Toolbar((int)Mode, _modes);
 
             TilesPicker();
+
+
+            ShowWorldTileData();
+
+            if (GUILayout.Button("Save"))
+            {
+                OnSave();
+            }
         }
 
         private void TilesPicker()
@@ -177,25 +185,45 @@ namespace DungeonInspector
 
             GUILayout.EndScrollView();
 
-
-            //EditTileType(_selectedTile.Item1);
-
-
             GUILayout.EndVertical();
 
-            ShowWorldTileData();
-
-            if (GUILayout.Button("Save"))
-            {
-                OnSave();
-            }
-
-            //GUILayout.EndArea();
         }
 
         private void EnemyPicker()
         {
+            GUILayout.BeginVertical(EditorStyles.helpBox);
+            GUILayout.Label("Tiles");
 
+            _scroll = GUILayout.BeginScrollView(_scroll);
+
+            GUILayout.BeginHorizontal();
+
+            for (int i = 0; i < _tilesDatabase.Count; i++)
+            {
+                var tilePair = _tilesDatabase.GetTileAndTex(i);
+
+                var tex = tilePair.Item2;
+
+                var color = GUI.backgroundColor;
+
+                if (_selectedTile.Item1 == tilePair.Item1)
+                {
+                    GUI.backgroundColor = Color.black * 0.4f;
+                }
+
+                if (GUILayout.Button(new GUIContent(tex, tex.name), GUILayout.Width(40), GUILayout.Height(40)))
+                {
+                    _selectedTile = tilePair;
+                }
+
+                GUI.backgroundColor = color;
+            }
+
+            GUILayout.EndHorizontal();
+
+            GUILayout.EndScrollView();
+
+            GUILayout.EndVertical();
         }
 
         // Improve input system and all this.

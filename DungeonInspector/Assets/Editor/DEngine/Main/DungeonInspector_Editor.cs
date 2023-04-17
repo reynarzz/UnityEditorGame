@@ -27,7 +27,7 @@ namespace DungeonInspector
 
             _componentsContainer.OnAwake();
         }
-
+        
         public override void OnInspectorGUI()
         {
             _time.Update();

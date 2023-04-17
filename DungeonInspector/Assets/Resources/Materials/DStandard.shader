@@ -3,6 +3,7 @@ Shader "Unlit/DStandard"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
+        _flip ("Flip", vector) = (0, 0, 0, 0)
     }
     SubShader
     {
@@ -17,7 +18,7 @@ Shader "Unlit/DStandard"
             Ref 2
             comp Equal
         }
-
+        
         Pass
         {
             CGPROGRAM
@@ -41,6 +42,7 @@ Shader "Unlit/DStandard"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
+            uniform float2 _flip;
 
             v2f vert (appdata v)
             {
@@ -52,7 +54,7 @@ Shader "Unlit/DStandard"
 
             fixed4 frag (v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, i.uv);
+                fixed4 col = tex2D(_MainTex, float2(abs(i.uv.x - _flip.x), abs(i.uv.y - _flip.y)));
                 
                 return col;
             }

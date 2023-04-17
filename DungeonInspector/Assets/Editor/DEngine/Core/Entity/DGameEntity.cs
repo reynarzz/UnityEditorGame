@@ -46,6 +46,7 @@ namespace DungeonInspector
             DIEngineCoreServices.Get<DEntitiesController>().AddEntity(this);
         }
 
+        // TODO: refactor
         public DComponent AddComponent(Type type)
         {
             DComponent component = null;
@@ -53,6 +54,7 @@ namespace DungeonInspector
             if (!_components.ContainsKey(type))
             {
                 component = Activator.CreateInstance(type) as DComponent;
+                component.Entity = this;
 
                 if (type.IsSubclassOf(typeof(DTransformableComponent)))
                 {

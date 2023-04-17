@@ -53,7 +53,7 @@ namespace DungeonInspector
             }
         }
 
-        public void OnPlayerEnterTile(Actor player, DTile tile)
+        public void OnActorEnterTile(Actor player, DTile tile)
         {
             var behavior = _tbContainer.GetBehavior(tile.TileBehavior);
 
@@ -72,7 +72,7 @@ namespace DungeonInspector
             }
         }
 
-        public void OnPlayerExitTile(Actor player, DTile tile)
+        public void OnActorExitTile(Actor player, DTile tile)
         {
             var behavior = _tbContainer.GetBehavior(tile.TileBehavior);
 

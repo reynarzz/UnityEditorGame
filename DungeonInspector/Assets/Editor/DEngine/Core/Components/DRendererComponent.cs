@@ -20,6 +20,7 @@ namespace DungeonInspector
         }
 
         public bool FlipX { get; set; }
+        public bool FlipY { get; set; }
 
         public Texture2D Texture { get; set; }
 
