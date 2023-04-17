@@ -20,23 +20,30 @@ namespace DungeonInspector
             if (!string.IsNullOrEmpty(tilesGroupPath))
             {
                 _worldSpriteAtlas = Resources.Load<TilesGroup>(tilesGroupPath);
+            }
+        }
 
+        public void Init(LevelData levelData)
+        {
+            if (_worldSpriteAtlas)
+            {
                 for (int i = 0; i < _worldSpriteAtlas.TextureCount; i++)
                 {
                     var tileData = _worldSpriteAtlas.GetTile(i);
 
-                    var textureName = tileData.Texture ? tileData.Texture.name: tileData.Animation.GetSpriteNames()[0];
+                    var textureName = tileData.Texture ? tileData.Texture.name : tileData.Animation.GetSpriteNames()[0];
 
                     var tile = new DTile()
                     {
                         Index = i,
-                        RuntimeData = null, // TODO
+                        RuntimeData = levelData.GetLevelTileData(i), // TODO
                         IsWalkable = tileData.IsWalkable,
                         Type = tileData.Type,
                         TextureName = textureName,
                         ZSorting = tileData.ZSorting,
                         TileBehavior = tileData.TileBehavior,
-                        IdleTexAnim = tileData.Animation?.GetSpriteNames() ?? null
+                        IdleTexAnim = tileData.Animation?.GetSpriteNames() ?? null,
+                        
                     };
 
                     _tiles.Add((tile, tileData.Texture));

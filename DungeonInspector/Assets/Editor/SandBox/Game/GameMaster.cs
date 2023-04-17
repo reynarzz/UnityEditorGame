@@ -43,19 +43,21 @@ namespace DungeonInspector
             _tbContainer = new TileBehaviorsContainer();
             _tilesBehaviors = new Dictionary<TileBehavior, List<Actor>>();
 
-        }
-
-        protected override void OnStart()
-        {
-            Load();
-        }
-        private void Load()
-        {
             var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
 
             var json = File.ReadAllText(worldLevelPath);
 
             _levelData = JsonConvert.DeserializeObject<LevelData>(json);
+        }
+
+        protected override void OnStart()
+        {
+
+            Load();
+        }
+        private void Load()
+        {
+            _tilesDatabase.Init(_levelData);
 
             for (int i = 0; i < _levelData.Count; i++)
             {
@@ -63,6 +65,8 @@ namespace DungeonInspector
 
                 _tilemap.SetTile(_tilesDatabase.GetTile(info.Index), info.Position.x, info.Position.y);
             }
+
+
         }
 
 

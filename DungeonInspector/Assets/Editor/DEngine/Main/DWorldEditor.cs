@@ -207,6 +207,7 @@ namespace DungeonInspector
             if (_tilemap.Tiles.Count > 0)
             {
                 var tiles = new List<TileData>();
+                var tileBehaviorData = new List<BaseTD>();
 
                 foreach (var tile in _tilemap.Tiles)
                 {
@@ -215,10 +216,11 @@ namespace DungeonInspector
                         var position = tile.Key;
 
                         tiles.Add(new TileData() { Index = item.Value.Index, Position = position });
+                        tileBehaviorData.Add(item.Value.RuntimeData);
                     }
                 }
 
-                var worldData = new LevelData(tiles.ToArray());
+                var worldData = new LevelData(tiles.ToArray(), tileBehaviorData.ToArray());
                 var json = JsonConvert.SerializeObject(worldData, Formatting.Indented);
 
                 var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
@@ -230,8 +232,6 @@ namespace DungeonInspector
 
         private void ShowWorldTileData()
         {
-
-
             var tile = _tilemap.GetTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y, 0);
             if (tile != null)
             {
@@ -242,6 +242,7 @@ namespace DungeonInspector
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(texture, _style);
                 GUILayout.Label(tile.TextureName);
+                GUILayout.Label("Asset Index: " + tile.Index);
                 GUILayout.EndHorizontal();
 
                 GUILayout.EndVertical();

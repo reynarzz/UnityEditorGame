@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using TMPro.EditorUtilities;
 using UnityEditor;
 using UnityEngine;
+using static PlasticGui.PlasticTableColumn;
+using UnityEngine.Rendering.RendererUtils;
 
 namespace DungeonInspector
 {
@@ -41,7 +43,7 @@ namespace DungeonInspector
 
             if (_renderers.Count > 0)
             {
-                foreach (var item in _renderersOrdered)
+                foreach (var item in _renderers)
                 {
                     for (int i = 0; i < item.Value.Count; i++)
                     {
@@ -50,7 +52,7 @@ namespace DungeonInspector
                 }
             }
         }
-
+       
         public void AddRenderer(DRendererComponent renderer)
         {
             if (_renderers.TryGetValue(renderer.ZSorting, out var rendererList))

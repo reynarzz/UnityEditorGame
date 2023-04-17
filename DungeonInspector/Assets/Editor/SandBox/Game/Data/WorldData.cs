@@ -5,27 +5,43 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using Newtonsoft.Json;
+using System.Runtime.Serialization;
 
 namespace DungeonInspector
 {
 
 
     [Serializable]
-    public class LevelData
+    public class LevelData 
     {
         [JsonProperty] private TileData[] _tiles;
+        [JsonProperty] private BaseTD[] _tilesBehaviorData;
 
-        [JsonProperty] private Dictionary<DVector2, BaseTD> _levelTileData;
+        [JsonIgnore] private Dictionary<DVector2, BaseTD> _levelTileData;
 
         public int Count => _tiles.Length;
 
-        // Newtonsoft json needs the default constructor
+        // Newtonsoft json needs the default constructor to deserialize.
         private LevelData() { }
-        public LevelData(TileData[] tiles)
+
+        public LevelData(TileData[] tiles, BaseTD[] tileBehaviorData)
+        {
+            _tilesBehaviorData = tileBehaviorData;
+
+            _tiles = tiles;
+        }
+
+        [OnDeserialized]
+        private void OnDeserialized(StreamingContext context)
         {
             _levelTileData = new Dictionary<DVector2, BaseTD>();
 
-            _tiles = tiles;
+            for (int i = 0; i < _tiles.Length; i++)
+            {
+                var data = _tilesBehaviorData.ElementAtOrDefault(i);
+
+                _levelTileData.Add(_tiles[i].Position, data);
+            }
         }
 
         public TileData GetTile(int saveIndex)
@@ -41,6 +57,11 @@ namespace DungeonInspector
             }
 
             return null;
+        }
+
+        public BaseTD GetLevelTileData(int saveIndex)
+        {
+            return _tilesBehaviorData.ElementAtOrDefault(saveIndex);
         }
     }
 
