@@ -7,9 +7,10 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class SpriteAnimation 
+    [Serializable]
+    public class DSpriteAnimation 
     {
-        private E_SpriteAtlas _atlas;
+        [SerializeField] private E_SpriteAtlas _atlas;
         private int _spriteIndex = 0;
         private float _time;
         private bool _play = false;
@@ -19,8 +20,8 @@ namespace DungeonInspector
         private Texture2D _currentTex;
         public Texture2D CurrentTexture => _currentTex;
 
-        public SpriteAnimation() { }
-        public SpriteAnimation(E_SpriteAtlas spriteAtlas)
+        public DSpriteAnimation() { }
+        public DSpriteAnimation(E_SpriteAtlas spriteAtlas)
         {
             _atlas = spriteAtlas;
             _currentTex = _atlas.GetTexture(0);

@@ -9,7 +9,7 @@ namespace DungeonInspector
 {
     public class DAnimatorComponent : DBehavior
     {
-        private List<SpriteAnimation> _animations;
+        private List<DSpriteAnimation> _animations;
 
         private int _currentAnimIndex = -1;
 
@@ -19,7 +19,7 @@ namespace DungeonInspector
 
         protected override void OnAwake()
         {
-            _animations = new List<SpriteAnimation>();
+            _animations = new List<DSpriteAnimation>();
             _renderer = GetComp<DRendererComponent>();
         }
 
@@ -54,7 +54,7 @@ namespace DungeonInspector
             _renderer.Sprite = _animations[_currentAnimIndex].CurrentTexture;
         }
 
-        public void AddAnimation(params SpriteAnimation[] animation)
+        public void AddAnimation(params DSpriteAnimation[] animation)
         {
             for (int i = 0; i < animation.Length; i++)
             {

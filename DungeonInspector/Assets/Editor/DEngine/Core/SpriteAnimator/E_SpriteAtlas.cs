@@ -27,10 +27,11 @@ namespace DungeonInspector
         [SerializeField] private Texture2D _texture;
         [SerializeField] private DTile _tile;
 
+        [SerializeField] DSpriteAnimation _animation;
         public Texture2D Texture => _texture;
         public DTile Tile => _tile;
+        public DSpriteAnimation Animation => _animation;
     }
-
     
 
     [CustomEditor(typeof(E_SpriteAtlas))]

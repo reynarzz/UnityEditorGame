@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace DungeonInspector
 {
@@ -17,9 +18,13 @@ namespace DungeonInspector
         public DCamera Camera => _camera;
 
         private TilesDatabase _tilesDatabase;
+        private TilesDatabase _animatedTiles;
         private EnemyDatabase _enemyDatabase;
+
         public TilesDatabase TilesDatabase => _tilesDatabase;
+        public TilesDatabase AnimatedTiles => _animatedTiles;
         public EnemyDatabase EnemyDatabase => _enemyDatabase;
+
 
         private TileBehaviorsContainer _tbContainer;
 
@@ -30,7 +35,8 @@ namespace DungeonInspector
             _tilemap = FindGameEntity("TileMaster").GetComp<DTilemap>();
             _camera = FindGameEntity("Camera").GetComp<DCamera>();
 
-            _tilesDatabase = new TilesDatabase();
+            _tilesDatabase = new TilesDatabase("World/World1Tiles");
+            _animatedTiles = new TilesDatabase(null/*path here*/);
             _enemyDatabase = new EnemyDatabase();
             _tbContainer = new TileBehaviorsContainer();
             _tilesBehaviors = new Dictionary<TileBehavior, List<Actor>>();

@@ -7,9 +7,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
 
-namespace Assets.Editor.SandBox.Game
+namespace DungeonInspector
 {
-    internal class PathFindingExample
+    public class PathFindingExample
     {
         public void Pathfinding()
         {
@@ -25,7 +25,7 @@ namespace Assets.Editor.SandBox.Game
                 { 1, 0, 1 },
                 { 1, 1, 1 },
             };
-
+            // Everione has to use the same worldgrid instance to avoid collision.
             var worldGrid = new WorldGrid(tiles);
             var pathfinder = new PathFinder(worldGrid, pathfinderOptions);
 

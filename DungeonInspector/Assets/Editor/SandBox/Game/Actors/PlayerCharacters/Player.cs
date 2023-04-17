@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
+    // dungeon with pokemon-like battles.
     public class Player : Actor
     {
         private DAnimatorComponent _playerAnimator;
@@ -47,9 +48,9 @@ namespace DungeonInspector
             Transform.Position = new DVector2(0, -3);
         }
 
-        private SpriteAnimation GetAnimation(string atlasName)
+        private DSpriteAnimation GetAnimation(string atlasName)
         {
-            return new SpriteAnimation(UnityEngine.Resources.Load<E_SpriteAtlas>(atlasName));
+            return new DSpriteAnimation(UnityEngine.Resources.Load<E_SpriteAtlas>(atlasName));
         }
 
 

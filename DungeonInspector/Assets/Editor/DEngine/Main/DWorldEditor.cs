@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 namespace DungeonInspector
 {
@@ -17,12 +18,14 @@ namespace DungeonInspector
 
     public class DWorldEditor : DBehavior
     {
+        private Vector2 _tilesScroll;
         private Vector2 _scroll;
         private (DTile, Texture2D) _selectedTile;
 
         private DTilemap _tilemap;
 
-        private TilesDatabase _tilesDatabase;
+        private TilesDatabase _staticTiles;
+        private TilesDatabase _animatedTiles;
         private DCamera _camera;
 
         public DTilePainterMode Mode { get; private set; }
@@ -30,10 +33,18 @@ namespace DungeonInspector
         private string[] _modes;
 
         private Vector2Int _mouseTileGuidePosition;
-        private DGameMaster _gameMaster;
         private Material _mat_DELETE;
         private Texture2D _selectionFrame;
         private GUIStyle _style;
+
+        private TileDatabaseType _type;
+
+        private enum TileDatabaseType
+        {
+            Static,
+            Interactable,
+            Animated
+        }
 
         protected override void OnStart()
         {
@@ -41,16 +52,17 @@ namespace DungeonInspector
 
             _tilemap = gameMaster.Tilemap;
 
-            _tilesDatabase = gameMaster.TilesDatabase;
-            _tilesDatabase = gameMaster.TilesDatabase;
+            _staticTiles = gameMaster.TilesDatabase;
+            _animatedTiles = gameMaster.AnimatedTiles;
+
             _camera = gameMaster.Camera;
 
-            _selectedTile = _tilesDatabase.GetTileAndTex(0);
+            _selectedTile = _staticTiles.GetTileAndTex(0);
 
             _modes = new string[] { "Brush", "Eraser" };
 
 
-            
+
             _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
             _selectionFrame = Resources.Load<Texture2D>("GameAssets/LevelEditor/SelectionFrame");
 
@@ -73,15 +85,15 @@ namespace DungeonInspector
 
             if (/*Event.current.type == EventType.MouseDown &&*/Event.current.isMouse)
             {
-                if(Event.current.button == 0)
+                if (Event.current.button == 0)
                 {
                     Mode = DTilePainterMode.Brush;
                 }
-                else if(Event.current.button == 1)
+                else if (Event.current.button == 1)
                 {
                     Mode = DTilePainterMode.Eraser;
                 }
-                
+
                 if (Mode == DTilePainterMode.Brush)
                 {
 
@@ -117,7 +129,7 @@ namespace DungeonInspector
             {
                 var info = data.GetTile(i);
 
-                _tilemap.SetTile(_tilesDatabase.GetTile(info.Index), info.Position.x, info.Position.y);
+                _tilemap.SetTile(_staticTiles.GetTile(info.Index), info.Position.x, info.Position.y);
             }
         }
 
@@ -142,7 +154,6 @@ namespace DungeonInspector
             Mode = (DTilePainterMode)GUILayout.Toolbar((int)Mode, _modes);
 
             TilesPicker();
-            EnemyPicker();
 
             ShowWorldTileData();
 
@@ -151,80 +162,67 @@ namespace DungeonInspector
                 OnSave();
             }
         }
+        
 
         private void TilesPicker()
         {
             GUILayout.BeginVertical(EditorStyles.helpBox);
+            GUILayout.BeginHorizontal();
             GUILayout.Label("Tiles");
-
-            _scroll = GUILayout.BeginScrollView(_scroll);
-
-            GUILayout.BeginHorizontal();
-
-            for (int i = 0; i < _tilesDatabase.Count; i++)
-            {
-                var tilePair = _tilesDatabase.GetTileAndTex(i);
-
-                var tex = tilePair.Item2;
-
-                var color = GUI.backgroundColor;
-
-                if (_selectedTile.Item1 == tilePair.Item1)
-                {
-                    GUI.backgroundColor = Color.black * 0.4f;
-                }
-
-                if (GUILayout.Button(new GUIContent(tex, tex.name), GUILayout.Width(40), GUILayout.Height(40)))
-                {
-                    _selectedTile = tilePair;
-                }
-
-                GUI.backgroundColor = color;
-            }
+            _type = (TileDatabaseType)EditorGUILayout.EnumPopup(_type);
 
             GUILayout.EndHorizontal();
 
-            GUILayout.EndScrollView();
+            var tileDatabase = default(TilesDatabase);
 
-            GUILayout.EndVertical();
-
-        }
-
-        private void EnemyPicker()
-        {
-            GUILayout.BeginVertical(EditorStyles.helpBox);
-            GUILayout.Label("Enemies");
-
-            _scroll = GUILayout.BeginScrollView(_scroll);
-
-            GUILayout.BeginHorizontal();
-
-            for (int i = 0; i < _tilesDatabase.Count; i++)
+            switch (_type)
             {
-                var tilePair = _tilesDatabase.GetTileAndTex(i);
-
-                var tex = tilePair.Item2;
-
-                var color = GUI.backgroundColor;
-
-                if (_selectedTile.Item1 == tilePair.Item1)
-                {
-                    GUI.backgroundColor = Color.black * 0.4f;
-                }
-
-                if (GUILayout.Button(new GUIContent(tex, tex.name), GUILayout.Width(40), GUILayout.Height(40)))
-                {
-                    _selectedTile = tilePair;
-                }
-
-                GUI.backgroundColor = color;
+                case TileDatabaseType.Static:
+                    tileDatabase = _staticTiles;
+                    break;
+                case TileDatabaseType.Interactable:
+                    tileDatabase = _animatedTiles;
+                    break;
+                case TileDatabaseType.Animated:
+                    break;
             }
 
-            GUILayout.EndHorizontal();
+            if (tileDatabase != null)
+            {
+                _scroll = GUILayout.BeginScrollView(_scroll);
 
-            GUILayout.EndScrollView();
+                GUILayout.BeginHorizontal();
+
+
+                for (int i = 0; i < tileDatabase.Count; i++)
+                {
+                    var tilePair = tileDatabase.GetTileAndTex(i);
+
+                    var tex = tilePair.Item2;
+
+                    var color = GUI.backgroundColor;
+
+                    if (_selectedTile.Item1 == tilePair.Item1)
+                    {
+                        GUI.backgroundColor = Color.black * 0.4f;
+                    }
+
+                    //TODO: change the texture animation for animated tiles.
+                    if (GUILayout.Button(new GUIContent(tex, tex.name), GUILayout.Width(40), GUILayout.Height(40)))
+                    {
+                        _selectedTile = tilePair;
+                    }
+
+                    GUI.backgroundColor = color;
+                }
+
+                GUILayout.EndHorizontal();
+
+                GUILayout.EndScrollView();
+            }
 
             GUILayout.EndVertical();
+
         }
 
         // Improve input system and all this.
@@ -263,11 +261,11 @@ namespace DungeonInspector
 
 
             var tile = _tilemap.GetTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y, 0);
-            if(tile != null)
+            if (tile != null)
             {
                 GUILayout.BeginVertical();
 
-                var texture = _tilesDatabase.GetTileTexture(tile.Index);
+                var texture = _staticTiles.GetTileTexture(tile.Index);
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(texture, _style);

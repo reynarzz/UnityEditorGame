@@ -116,10 +116,20 @@ namespace DungeonInspector
             // snaping.
             rect = new Rect((int)rect.x + renderer.Transform.Offset.x * DCamera.PixelsPerUnit, (int)rect.y - renderer.Transform.Offset.y * DCamera.PixelsPerUnit, (int)rect.width, (int)rect.height);
 
+            var mat = default(Material);
 
-            _mat.SetVector("_flip", new Vector4(renderer.FlipX ? 1 : 0, renderer.FlipY ? 1 : 0));
-            Graphics.DrawTexture(rect, renderingTex, _mat);
-            _mat.SetVector("_flip", default);
+            if (renderer.Material)
+            {
+                mat = renderer.Material;
+            }
+            else
+            {
+                mat = _mat;
+            }
+
+            mat.SetVector("_flip", new Vector4(renderer.FlipX ? 1 : 0, renderer.FlipY ? 1 : 0));
+            Graphics.DrawTexture(rect, renderingTex, mat);
+            mat.SetVector("_flip", default);
         }
     }
 }

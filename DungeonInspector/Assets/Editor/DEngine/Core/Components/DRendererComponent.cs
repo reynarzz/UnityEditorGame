@@ -14,6 +14,8 @@ namespace DungeonInspector
         private DTransformComponent _transform;
         public bool TransformWithCamera { get; set; } = true;
 
+        public Material Material { get; set; }
+
         public DRendererComponent()
         {
             _transform = new DTransformComponent();

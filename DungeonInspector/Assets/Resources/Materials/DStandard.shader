@@ -44,6 +44,12 @@ Shader "Unlit/DStandard"
             float4 _MainTex_ST;
             uniform float2 _flip;
 
+            float luminosity(half4 color)
+            {
+                return 0.21 * color.r + 0.72 * color.g + 0.07 * color.b;
+
+            }
+
             v2f vert (appdata v)
             {
                 v2f o;
@@ -56,8 +62,16 @@ Shader "Unlit/DStandard"
             {
                 fixed4 col = tex2D(_MainTex, float2(abs(i.uv.x - _flip.x), abs(i.uv.y - _flip.y)));
                 
-                return col;
+                float lum = luminosity(col);
+                //col = float4(lum, lum, lum, col.a);
+
+                // hit effect
+                //col = float4(1, 1, 1, col.a);
+
+                return  col;
             }
+            
+           
             ENDCG
         }
     }

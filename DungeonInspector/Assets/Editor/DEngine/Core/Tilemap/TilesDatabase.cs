@@ -13,28 +13,30 @@ namespace DungeonInspector
         private List<(DTile, Texture2D)> _tiles;
         public int Count => _tiles.Count;
 
-        public TilesDatabase()
+        public TilesDatabase(string tilesGroupPath)
         {
             _tiles = new List<(DTile, Texture2D)>();
 
-            _worldSpriteAtlas = Resources.Load<TilesGroup>("World/World1Tiles");
-             
-            for (int i = 0; i < _worldSpriteAtlas.TextureCount; i++)
+            if (!string.IsNullOrEmpty(tilesGroupPath))
             {
-                var tileData = _worldSpriteAtlas.GetTile(i);
+                _worldSpriteAtlas = Resources.Load<TilesGroup>(tilesGroupPath);
 
-                var tile = new DTile()
+                for (int i = 0; i < _worldSpriteAtlas.TextureCount; i++)
                 {
-                    Index = i,
-                    IsWalkable = tileData.Tile.IsWalkable,
-                    Type = tileData.Tile.Type,
-                    TextureName = tileData.Texture.name,
-                    ZSorting = tileData.Tile.ZSorting,
-                };
+                    var tileData = _worldSpriteAtlas.GetTile(i);
 
-                _tiles.Add((tile, tileData.Texture));
+                    var tile = new DTile()
+                    {
+                        Index = i,
+                        IsWalkable = tileData.Tile.IsWalkable,
+                        Type = tileData.Tile.Type,
+                        TextureName = tileData.Texture.name,
+                        ZSorting = tileData.Tile.ZSorting,
+                    };
+
+                    _tiles.Add((tile, tileData.Texture));
+                }
             }
-
         }
 
         public (DTile, Texture2D) GetTileAndTex(int index)
