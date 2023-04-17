@@ -17,19 +17,21 @@ namespace DungeonInspector
         public DCamera Camera => _camera;
 
         private TilesDatabase _tilesDatabase;
+        private EnemyDatabase _enemyDatabase;
         public TilesDatabase TilesDatabase => _tilesDatabase;
+        public EnemyDatabase EnemyDatabase => _enemyDatabase;
 
         private TileBehaviorsContainer _tbContainer;
 
 
         private Dictionary<TileBehavior, List<Actor>> _tilesBehaviors;
-        protected override void OnStart()
+        protected override void OnAwake()
         {
             _tilemap = FindGameEntity("TileMaster").GetComp<DTilemap>();
             _camera = FindGameEntity("Camera").GetComp<DCamera>();
 
             _tilesDatabase = new TilesDatabase();
-
+            _enemyDatabase = new EnemyDatabase();
             _tbContainer = new TileBehaviorsContainer();
             _tilesBehaviors = new Dictionary<TileBehavior, List<Actor>>();
         }

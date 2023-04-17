@@ -99,7 +99,7 @@ namespace DungeonInspector
             return component;
         }
 
-        public T AddComponent<T>() where T : DComponent, new()
+        public T AddComp<T>() where T : DComponent, new()
         {
             return (T)AddComponent(typeof(T));
         }

@@ -8,5 +8,9 @@ namespace DungeonInspector
 {
     public class EnemyBase : Actor
     {
+        protected override void OnAwake()
+        {
+            Transform.Offset = new DVector2(0, 0.7f);
+        }
     }
 }

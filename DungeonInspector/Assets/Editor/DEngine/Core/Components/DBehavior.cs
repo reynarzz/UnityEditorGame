@@ -40,7 +40,7 @@ namespace DungeonInspector
 
         public T AddComp<T>() where T : DComponent, new()
         {
-            return GameEntity.AddComponent<T>();
+            return GameEntity.AddComp<T>();
         }
 
         public bool TryGetComp<T>(out T behavior) where T : DBehavior, new()

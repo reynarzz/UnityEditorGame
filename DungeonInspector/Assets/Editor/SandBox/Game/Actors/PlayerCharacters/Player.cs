@@ -14,7 +14,6 @@ namespace DungeonInspector
 
         public Action<Player, DTile> OnTileReached;
 
-        public DVector2 PrevPosition { get; private set; }
         private ActorHealth _health;
         private DRendererComponent _renderer;
         DVector2 _gridPos = default;
@@ -37,11 +36,15 @@ namespace DungeonInspector
             _renderer.Sprite = idle.CurrentTexture;
 
             _health = AddComp<ActorHealth>();
-            Transform.Offset = new DVector2(0, 0.7f);
+            
         }
 
         protected override void OnStart()
         {
+            Transform.Offset = new DVector2(0, 0.7f);
+
+            _gridPos = new DVector2(0, -3);
+            Transform.Position = new DVector2(0, -3);
         }
 
         private SpriteAnimation GetAnimation(string atlasName)

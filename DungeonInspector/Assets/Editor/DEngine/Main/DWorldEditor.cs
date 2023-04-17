@@ -42,6 +42,7 @@ namespace DungeonInspector
             _tilemap = gameMaster.Tilemap;
 
             _tilesDatabase = gameMaster.TilesDatabase;
+            _tilesDatabase = gameMaster.TilesDatabase;
             _camera = gameMaster.Camera;
 
             _selectedTile = _tilesDatabase.GetTileAndTex(0);
@@ -141,7 +142,7 @@ namespace DungeonInspector
             Mode = (DTilePainterMode)GUILayout.Toolbar((int)Mode, _modes);
 
             TilesPicker();
-
+            EnemyPicker();
 
             ShowWorldTileData();
 
@@ -192,7 +193,7 @@ namespace DungeonInspector
         private void EnemyPicker()
         {
             GUILayout.BeginVertical(EditorStyles.helpBox);
-            GUILayout.Label("Tiles");
+            GUILayout.Label("Enemies");
 
             _scroll = GUILayout.BeginScrollView(_scroll);
 
