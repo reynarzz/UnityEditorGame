@@ -94,7 +94,7 @@ namespace DungeonInspector
 
         private void Draw(DRendererComponent renderer, DCamera camera)
         {
-            var renderingTex = renderer.Texture;
+            var renderingTex = renderer.Sprite;
 
             if (renderingTex == null)
             {
@@ -120,7 +120,6 @@ namespace DungeonInspector
             _mat.SetVector("_flip", new Vector4(renderer.FlipX ? 1 : 0, renderer.FlipY ? 1 : 0));
             Graphics.DrawTexture(rect, renderingTex, _mat);
             _mat.SetVector("_flip", default);
-
         }
     }
 }

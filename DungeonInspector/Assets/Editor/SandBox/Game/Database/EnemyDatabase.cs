@@ -13,7 +13,7 @@ namespace DungeonInspector
         public EnemyDatabase()
         {
             var enemy1 = GetEnemy<EnemyBase>("Orc");
-            enemy1.Texture = Utils.Load<UnityEngine.Texture2D>("");
+            enemy1.Sprite = Utils.Load<UnityEngine.Texture2D>("");
             _enemyRenderers = new List<DRendererComponent>()
             {
                 enemy1

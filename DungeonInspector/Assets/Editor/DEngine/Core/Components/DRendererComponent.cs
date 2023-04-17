@@ -22,7 +22,7 @@ namespace DungeonInspector
         public bool FlipX { get; set; }
         public bool FlipY { get; set; }
 
-        public Texture2D Texture { get; set; }
+        public Texture2D Sprite { get; set; }
 
         new public DTransformComponent Transform
         {
@@ -31,9 +31,9 @@ namespace DungeonInspector
                 _transform.Position = base.Transform.Position;
                 _transform.Offset = base.Transform.Offset;
 
-                if (Texture != null)
+                if (Sprite != null)
                 {
-                    _transform.Scale = new DVector2(base.Transform.Scale.x + Texture.width / Texture.height, base.Transform.Scale.y + Texture.height / Texture.width) / 1.2f;
+                    _transform.Scale = new DVector2(base.Transform.Scale.x + Sprite.width / Sprite.height, base.Transform.Scale.y + Sprite.height / Sprite.width) / 1.2f;
                     //Debug.Log(Texture.width + ", " + Texture.height);
                     
 

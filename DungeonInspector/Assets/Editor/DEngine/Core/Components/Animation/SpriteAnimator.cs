@@ -11,7 +11,7 @@ namespace DungeonInspector
     {
         private List<SpriteAnimation> _animations;
 
-        private int _currentAnimIndex;
+        private int _currentAnimIndex = -1;
 
         public float Speed { get; set; } = -1;
 
@@ -26,7 +26,7 @@ namespace DungeonInspector
 
         protected override void OnUpdate()
         {
-            if(_animations.Count > 0)
+            if(_currentAnimIndex >= 0 && _animations.Count > 0)
             {
                 _animations[_currentAnimIndex].Update(DTime.DeltaTime);
             }
@@ -37,7 +37,10 @@ namespace DungeonInspector
             if (_currentAnimIndex != index && _animations.Count > index)
             {
                 // Reset previous
-                _animations[_currentAnimIndex].Stop();
+                if(_currentAnimIndex >= 0)
+                {
+                    _animations[_currentAnimIndex].Stop();
+                }
 
                 _currentAnimIndex = index;
                 
@@ -48,7 +51,7 @@ namespace DungeonInspector
                 _animations[_currentAnimIndex].Play();
             }
 
-            _renderer.Texture = _animations[_currentAnimIndex].CurrentTexture;
+            _renderer.Sprite = _animations[_currentAnimIndex].CurrentTexture;
         }
 
         public void AddAnimation(params SpriteAnimation[] animation)
@@ -57,17 +60,26 @@ namespace DungeonInspector
             {
                 _animations.Add(animation[i]);
             }
+
+            Play(0);
         }
 
 
         public void Stop()
         {
-            _animations[_currentAnimIndex].Stop();
+            if(_currentAnimIndex >= 0)
+            {
+                _animations[_currentAnimIndex].Stop();
+            }
+            _currentAnimIndex = -1;
         }
 
         public void Pause()
         {
-            _animations[_currentAnimIndex].Pause();
+            if (_currentAnimIndex >= 0)
+            {
+                _animations[_currentAnimIndex].Pause();
+            }
         }
     }
 }

@@ -10,13 +10,11 @@ namespace DungeonInspector
     public class SpriteAnimation 
     {
         private E_SpriteAtlas _atlas;
-        private float _animationSpeed = 1;
-
         private int _spriteIndex = 0;
         private float _time;
         private bool _play = false;
 
-        public float Speed { get => _animationSpeed; set => _animationSpeed = value; }
+        public float Speed { get; set; } = 1;
 
         private Texture2D _currentTex;
         public Texture2D CurrentTexture => _currentTex;
@@ -41,7 +39,7 @@ namespace DungeonInspector
 
                 _time += dt * Speed;
 
-                if(_time >= 1)
+                if(_time >= 1f)
                 {
                     _time = 0;
 

@@ -30,11 +30,11 @@ namespace DungeonInspector
         
         public override void OnInspectorGUI()
         {
+            Repaint();
+
             _time.Update();
             _componentsContainer.Update();
             _renderer.Update();
-
-            Repaint();
         }
 
         private void OnDestroy()
