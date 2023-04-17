@@ -65,9 +65,6 @@ namespace DungeonInspector
 
             _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
             _selectionFrame = Resources.Load<Texture2D>("GameAssets/LevelEditor/SelectionFrame");
-
-
-            Load();
         }
 
         private void MousePointer()
@@ -116,23 +113,7 @@ namespace DungeonInspector
             //Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, Vector2.one), _selectionFrame, _mat_DELETE);
 
         }
-        private void Load()
-        {
-
-            var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
-
-            var json = File.ReadAllText(worldLevelPath);
-
-            var data = JsonConvert.DeserializeObject<LevelData>(json);
-
-            for (int i = 0; i < data.Count; i++)
-            {
-                var info = data.GetTile(i);
-
-                _tilemap.SetTile(_staticTiles.GetTile(info.Index), info.Position.x, info.Position.y);
-            }
-        }
-
+   
 
 
         protected override void OnUpdate()
@@ -145,11 +126,7 @@ namespace DungeonInspector
             }
 
             MousePointer();
-            //TODO: offset is wrong Fix this.
-            GUILayout.Space(_camera.ScreenSize.y);
-
-            //GUILayout.Space(250);
-            //GUILayout.BeginArea(new Rect(_camera.ViewportRect.x, _camera.ViewportRect.y + _camera.ViewportRect.height, EditorGUIUtility.currentViewWidth, 200));
+            
 
             Mode = (DTilePainterMode)GUILayout.Toolbar((int)Mode, _modes);
 
@@ -167,10 +144,10 @@ namespace DungeonInspector
         private void TilesPicker()
         {
             GUILayout.BeginVertical(EditorStyles.helpBox);
+
             GUILayout.BeginHorizontal();
             GUILayout.Label("Tiles");
             _type = (TileDatabaseType)EditorGUILayout.EnumPopup(_type);
-
             GUILayout.EndHorizontal();
 
             var tileDatabase = default(TilesDatabase);
@@ -223,11 +200,6 @@ namespace DungeonInspector
 
             GUILayout.EndVertical();
 
-        }
-
-        // Improve input system and all this.
-        private void AddTile()
-        {
         }
 
         private void OnSave()
@@ -315,15 +287,5 @@ namespace DungeonInspector
 
             GUILayout.EndVertical();
         }
-
-        //private void SpriteAnimationOptions()
-        //{
-        //    GUILayout.BeginHorizontal();
-        //    GUILayout.Label("Idle Animation");
-        //    tile.SetValue("_idleAnimation", (SpriteAnimation)EditorGUILayout.ObjectField(tile.Texture, typeof(Texture2D), false, GUILayout.MaxWidth(90), GUILayout.MinHeight(90)));
-        //    GUILayout.EndHorizontal();
-        //}
-
-
     }
 }

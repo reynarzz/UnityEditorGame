@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace DungeonInspector
 {
@@ -11,7 +12,7 @@ namespace DungeonInspector
         private Dictionary<DVector2, Dictionary<int, DTileRuntime>> _tiles;
         public Dictionary<DVector2, Dictionary<int, DTileRuntime>> Tiles => _tiles;
 
-        protected override void OnStart()
+        protected override void OnAwake()
         {
             _tiles = new Dictionary<DVector2, Dictionary<int, DTileRuntime>>();
         }
@@ -22,7 +23,7 @@ namespace DungeonInspector
 
             if (_tiles.TryGetValue(pos, out var layers))
             {
-                if(!layers.TryGetValue(tile.ZSorting, out var tileData))
+                if (!layers.TryGetValue(tile.ZSorting, out var tileData))
                 {
                     layers.Add(tile.ZSorting, tile);
                 }
@@ -69,7 +70,7 @@ namespace DungeonInspector
                 }
                 else
                 {
-                    $"Cannot find tile in ZSorting layer: {zSorting}".LOGError();
+                    Debug.Log($"Cannot find tile in ZSorting layer: {zSorting}");
                 }
             }
 

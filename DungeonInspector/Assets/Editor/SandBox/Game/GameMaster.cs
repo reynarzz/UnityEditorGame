@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,6 +29,7 @@ namespace DungeonInspector
 
         private TileBehaviorsContainer _tbContainer;
 
+        private LevelData _levelData;
 
         private Dictionary<TileBehavior, List<Actor>> _tilesBehaviors;
         protected override void OnAwake()
@@ -40,7 +42,29 @@ namespace DungeonInspector
             _enemyDatabase = new EnemyDatabase();
             _tbContainer = new TileBehaviorsContainer();
             _tilesBehaviors = new Dictionary<TileBehavior, List<Actor>>();
+
         }
+
+        protected override void OnStart()
+        {
+            Load();
+        }
+        private void Load()
+        {
+            var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
+
+            var json = File.ReadAllText(worldLevelPath);
+
+            _levelData = JsonConvert.DeserializeObject<LevelData>(json);
+
+            for (int i = 0; i < _levelData.Count; i++)
+            {
+                var info = _levelData.GetTile(i);
+
+                _tilemap.SetTile(_tilesDatabase.GetTile(info.Index), info.Position.x, info.Position.y);
+            }
+        }
+
 
         protected override void OnUpdate()
         {
@@ -56,7 +80,8 @@ namespace DungeonInspector
 
                 for (int i = 0; i < item.Value.Count; i++)
                 {
-                    behavior.OnUpdate(item.Value[i]);
+                    
+                    behavior.OnUpdate(item.Value[i], _levelData.GetLevelTileData(item.Value[i].Transform.Position));
                 }
             }
         }
@@ -64,8 +89,8 @@ namespace DungeonInspector
         public void OnActorEnterTile(Actor player, DTileRuntime tile)
         {
             var behavior = _tbContainer.GetBehavior(tile.TileBehavior);
-
-            behavior.OnEnter(player);
+            
+            behavior.OnEnter(player, _levelData.GetLevelTileData(player.Transform.Position));
 
             if (_tilesBehaviors.TryGetValue(tile.TileBehavior, out var playersList))
             {
@@ -84,7 +109,7 @@ namespace DungeonInspector
         {
             var behavior = _tbContainer.GetBehavior(tile.TileBehavior);
 
-            behavior.OnExit(player);
+            behavior.OnExit(player, _levelData.GetLevelTileData(player.Transform.Position));
 
             if (_tilesBehaviors.TryGetValue(tile.TileBehavior, out var playersList))
             {

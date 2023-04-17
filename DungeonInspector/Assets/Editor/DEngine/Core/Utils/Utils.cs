@@ -11,12 +11,12 @@ namespace DungeonInspector
 {
     public static class Utils
     {
-        public static T GetValue<T>(this object target, string fieldName)
+        public static T GetValue<T>(object target, string fieldName)
         {
             return (T)target.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance).GetValue(target);
         }
 
-        public static void SetValue<T>(this object target, string fieldName, T value)
+        public static void SetValue<T>(object target, string fieldName, T value)
         {
             target.GetType().GetField(fieldName, BindingFlags.NonPublic | BindingFlags.Instance).SetValue(target, value);
         }
@@ -65,22 +65,9 @@ namespace DungeonInspector
             }
         }
 
-        public static T Load<T>(string pathFromRes) where T: UnityEngine.Object
+        public static T Load<T>(string pathFromRes) where T : UnityEngine.Object
         {
             return Resources.Load<T>(pathFromRes);
-        }
-    }
-
-    public static class _LOG
-    {
-        public static void LOG(this object msg)
-        {
-            Debug.Log(msg);
-        }
-
-        public static void LOGError(this object msg)
-        {
-            Debug.LogError(msg);
         }
     }
 }

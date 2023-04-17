@@ -8,20 +8,20 @@ namespace DungeonInspector
 {
     public class TileBehaviorsContainer
     {
-        private Dictionary<TileBehavior, TileBehaviorBase> _behaviors;
+        private Dictionary<TileBehavior, ITileBehaviorBase> _behaviors;
 
         public TileBehaviorsContainer()
         {
-            _behaviors = new Dictionary<TileBehavior, TileBehaviorBase>()
+            _behaviors = new Dictionary<TileBehavior, ITileBehaviorBase>()
             {
-                { TileBehavior.None , new Default_TB() },
-                { TileBehavior.ChangeLevel, new ChangeLevel_TB() }
+                { TileBehavior.None , new DefaultTB() },
+                { TileBehavior.ChangeLevel, new ChangeLevelTB() }
             };
         }
 
         public ITileBehaviorBase GetBehavior(TileBehavior behavior)
         {
-            if(_behaviors.TryGetValue(behavior, out TileBehaviorBase behav))
+            if(_behaviors.TryGetValue(behavior, out ITileBehaviorBase behav))
             {
                 return behav;
             }

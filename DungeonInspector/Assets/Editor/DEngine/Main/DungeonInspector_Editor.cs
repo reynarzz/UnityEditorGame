@@ -20,7 +20,7 @@ namespace DungeonInspector
         {
             Repaint();
 
-            _engine?.UpdateGUI();
+            _engine?.Update();
         }
 
         private void OnDestroy()

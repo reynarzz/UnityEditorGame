@@ -12,7 +12,6 @@ namespace DungeonInspector
     {
         [SerializeField] private TileData[] _tiles;
 
-
         public int TextureCount => _tiles.Length;
 
         public TileData GetTile(int index)

@@ -15,7 +15,7 @@ namespace DungeonInspector
     {
         [JsonProperty] private TileInfo[] _tiles;
 
-        [JsonProperty] private Dictionary<DVector2, LevelTileData> _levelTileData;
+        [JsonProperty] private Dictionary<DVector2, BaseTD> _levelTileData;
 
         public int Count => _tiles.Length;
 
@@ -23,6 +23,8 @@ namespace DungeonInspector
         private LevelData() { }
         public LevelData(TileInfo[] tiles)
         {
+            _levelTileData = new Dictionary<DVector2, BaseTD>();
+
             _tiles = tiles;
         }
 
@@ -31,7 +33,7 @@ namespace DungeonInspector
             return _tiles[saveIndex];
         }
 
-        public LevelTileData GetLevelTileData(DVector2 position)
+        public BaseTD GetLevelTileData(DVector2 position)
         {
             if (_levelTileData.TryGetValue(position, out var value))
             {

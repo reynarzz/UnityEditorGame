@@ -33,7 +33,7 @@ namespace DungeonInspector
             _componentsContainer.OnAwake();
         }
 
-        public void UpdateGUI()
+        public void Update()
         {
             _time.Update();
             _input.Update();
