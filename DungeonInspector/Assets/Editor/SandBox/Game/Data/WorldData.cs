@@ -8,23 +8,37 @@ using Newtonsoft.Json;
 
 namespace DungeonInspector
 {
+
+
     [Serializable]
-    public class EnvironmentData
+    public class LevelData
     {
         [JsonProperty] private TileInfo[] _tiles;
+
+        [JsonProperty] private Dictionary<DVector2, LevelTileData> _levelTileData;
 
         public int Count => _tiles.Length;
 
         // Newtonsoft json needs the default constructor
-        private EnvironmentData() { }
-        public EnvironmentData(TileInfo[] tiles)
+        private LevelData() { }
+        public LevelData(TileInfo[] tiles)
         {
             _tiles = tiles;
         }
 
-        public TileInfo GetTile(int index)
+        public TileInfo GetTile(int saveIndex)
         {
-            return _tiles[index];
+            return _tiles[saveIndex];
+        }
+
+        public LevelTileData GetLevelTileData(DVector2 position)
+        {
+            if (_levelTileData.TryGetValue(position, out var value))
+            {
+                return value;
+            }
+
+            return null;
         }
     }
 

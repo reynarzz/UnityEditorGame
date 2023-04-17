@@ -13,11 +13,12 @@ namespace DungeonInspector
 
         private bool _canMove = true;
 
-        public Action<Player, DTile> OnTileReached;
+        public Action<Player, DTileRuntime> OnTileReached;
 
         private ActorHealth _health;
         private DRendererComponent _renderer;
         DVector2 _gridPos = default;
+        private Vector2Int _moveDir = default;
 
         protected override void OnAwake()
         {
@@ -37,7 +38,7 @@ namespace DungeonInspector
             _renderer.Sprite = idle.CurrentTexture;
 
             _health = AddComp<ActorHealth>();
-            
+
         }
 
         protected override void OnStart()
@@ -61,50 +62,43 @@ namespace DungeonInspector
 
         private void PlayerMovement()
         {
-            var e = Event.current;
-
-            if (e.type == UnityEngine.EventType.KeyDown)
+            if (_canMove)
             {
-                if (_canMove)
+                if (DInput.IsKey(UnityEngine.KeyCode.A))
                 {
-                    if (e.keyCode == UnityEngine.KeyCode.A)
-                    {
-                        //e.Use();
+                    _moveDir.x = -1;
+                    _moveDir.y = 0;
 
-                        _gridPos = GetMoveDir(_gridPos, -1, 0);
+                    _renderer.FlipX = true;
+                }
+                else if (DInput.IsKey(UnityEngine.KeyCode.D))
+                {
+                    _moveDir.x = 1;
+                    _moveDir.y = 0;
 
-                        _canMove = false;
-                        _renderer.FlipX = true;
-                    }
-                    else if (e.keyCode == UnityEngine.KeyCode.D)
-                    {
-                        //e.Use();
+                    _renderer.FlipX = false;
+                }
+                else if (DInput.IsKey(UnityEngine.KeyCode.W))
+                {
+                    _moveDir.x = 0;
+                    _moveDir.y = 1;
+                }
+                else if (DInput.IsKey(UnityEngine.KeyCode.S))
+                {
+                    _moveDir.x = 0;
+                    _moveDir.y = -1;
+                }
+                else
+                {
+                    _moveDir = default;
+                }
 
-                        _gridPos = GetMoveDir(_gridPos, 1, 0);
-
-                        _canMove = false;
-
-                        _renderer.FlipX = false;
-                    }
-                    else if (e.keyCode == UnityEngine.KeyCode.W)
-                    {
-                        //e.Use();
-
-                        _gridPos = GetMoveDir(_gridPos, 0, 1);
-
-                        _canMove = false;
-                    }
-                    else if (e.keyCode == UnityEngine.KeyCode.S)
-                    {
-                        //e.Use();
-
-                        _gridPos = GetMoveDir(_gridPos, 0, -1);
-
-                        _canMove = false;
-                    }
+                if (_moveDir != default)
+                {
+                    _canMove = false;
+                    _gridPos = GetMoveDir(_gridPos, _moveDir.x, _moveDir.y);
                 }
             }
-
 
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
 

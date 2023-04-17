@@ -20,7 +20,7 @@ namespace DungeonInspector
     {
         private Vector2 _tilesScroll;
         private Vector2 _scroll;
-        private (DTile, Texture2D) _selectedTile;
+        private (DTileRuntime, Texture2D) _selectedTile;
 
         private DTilemap _tilemap;
 
@@ -123,7 +123,7 @@ namespace DungeonInspector
 
             var json = File.ReadAllText(worldLevelPath);
 
-            var data = JsonConvert.DeserializeObject<EnvironmentData>(json);
+            var data = JsonConvert.DeserializeObject<LevelData>(json);
 
             for (int i = 0; i < data.Count; i++)
             {
@@ -246,7 +246,7 @@ namespace DungeonInspector
                     }
                 }
 
-                var worldData = new EnvironmentData(tiles.ToArray());
+                var worldData = new LevelData(tiles.ToArray());
                 var json = JsonConvert.SerializeObject(worldData, Formatting.Indented);
 
                 var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
@@ -278,7 +278,7 @@ namespace DungeonInspector
 
         }
 
-        private void EditTileType(DTile tile)
+        private void EditTileType(DTileRuntime tile)
         {
             GUILayout.BeginVertical(EditorStyles.helpBox);
 

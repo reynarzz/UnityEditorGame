@@ -10,12 +10,12 @@ namespace DungeonInspector
     public class TilesDatabase
     {
         private TilesGroup _worldSpriteAtlas;
-        private List<(DTile, Texture2D)> _tiles;
+        private List<(DTileRuntime, Texture2D)> _tiles;
         public int Count => _tiles.Count;
 
         public TilesDatabase(string tilesGroupPath)
         {
-            _tiles = new List<(DTile, Texture2D)>();
+            _tiles = new List<(DTileRuntime, Texture2D)>();
 
             if (!string.IsNullOrEmpty(tilesGroupPath))
             {
@@ -27,7 +27,7 @@ namespace DungeonInspector
 
                     var textureName = tileData.Texture ? tileData.Texture.name: tileData.Animation.GetSpriteNames()[0];
 
-                    var tile = new DTile()
+                    var tile = new DTileRuntime()
                     {
                         Index = i,
                         IsWalkable = tileData.Tile.IsWalkable,
@@ -43,12 +43,12 @@ namespace DungeonInspector
             }
         }
 
-        public (DTile, Texture2D) GetTileAndTex(int index)
+        public (DTileRuntime, Texture2D) GetTileAndTex(int index)
         {
             return _tiles[index];
         }
 
-        public DTile GetTile(int index)
+        public DTileRuntime GetTile(int index)
         {
             return _tiles[index].Item1;
         }

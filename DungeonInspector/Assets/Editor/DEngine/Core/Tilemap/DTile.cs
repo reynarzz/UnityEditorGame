@@ -22,7 +22,7 @@ namespace DungeonInspector
     }
 
     [Serializable]
-    public class DTile
+    public class DTileRuntime
     {
         //private string _textureName;
         //private int _zSorting = 0;
@@ -32,8 +32,8 @@ namespace DungeonInspector
         //private SpriteAnimation _idleAnimation; // use array with the names of the textures
         //private SpriteAnimation _interactableAnimation;
 
-        public string[] IdleTexAnim;
-        private string[] _interactableTexAnim;
+        public string[] IdleTexAnim { get; set; }
+        [NonSerialized] private string[] _interactableTexAnim;
 
         //public string Texture => _textureName;
         //public bool IsWalkable { get; set; }

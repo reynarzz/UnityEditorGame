@@ -25,11 +25,11 @@ namespace DungeonInspector
     public class TileData
     {
         [SerializeField] private Texture2D _texture;
-        [SerializeField] private DTile _tile;
+        [SerializeField] private DTileRuntime _tile;
 
         [SerializeField] DSpriteAnimation _animation;
         public Texture2D Texture => _texture;
-        public DTile Tile => _tile;
+        public DTileRuntime Tile => _tile;
         public DSpriteAnimation Animation => _animation;
     }
     
