@@ -10,8 +10,6 @@ using static PlasticGui.PlasticTableColumn;
 
 namespace DungeonInspector
 {
-    
-
     public enum InteractableTileType
     {
         AnimateOneTime,
@@ -26,8 +24,9 @@ namespace DungeonInspector
     }
 
     [Serializable]
-    public struct TileInfo
+    public class TileInfo
     {
+        public BaseTD TileBehaviorData { get; set; }
         public int Index { get; set; }
         /// <summary>In wolrd position</summary>
         public DVector2 Position { get; set; }

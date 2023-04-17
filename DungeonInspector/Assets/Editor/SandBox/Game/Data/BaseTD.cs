@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
+    [Serializable]
     public abstract class BaseTD
     {
 

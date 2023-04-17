@@ -30,6 +30,7 @@ namespace DungeonInspector
                     var tile = new DTileRuntime()
                     {
                         Index = i,
+                        TileBehaviorData = null, // TODO
                         IsWalkable = tileData.Tile.IsWalkable,
                         Type = tileData.Tile.Type,
                         TextureName = textureName,

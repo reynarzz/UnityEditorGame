@@ -12,6 +12,7 @@ namespace DungeonInspector
 {
     public enum DTilePainterMode
     {
+        Select,
         Brush,
         Eraser
     }
@@ -59,7 +60,7 @@ namespace DungeonInspector
 
             _selectedTile = _staticTiles.GetTileAndTex(0);
 
-            _modes = new string[] { "Brush", "Eraser" };
+            _modes = new string[] { "Select", "Brush", "Eraser" };
 
 
 
@@ -73,7 +74,10 @@ namespace DungeonInspector
 
             var newMousePos = _camera.Mouse2WorldPos(mouse.mousePosition);
 
-            _mouseTileGuidePosition = new Vector2Int(Mathf.RoundToInt(newMousePos.x), Mathf.RoundToInt(newMousePos.y));
+            if(Mode != DTilePainterMode.Select)
+            {
+                _mouseTileGuidePosition = new Vector2Int(Mathf.RoundToInt(newMousePos.x), Mathf.RoundToInt(newMousePos.y));
+            }
 
             var tex = default(Texture2D);
 
@@ -82,23 +86,18 @@ namespace DungeonInspector
 
             if (/*Event.current.type == EventType.MouseDown &&*/Event.current.isMouse)
             {
-                if (Event.current.button == 0)
-                {
-                    Mode = DTilePainterMode.Brush;
-                }
-                else if (Event.current.button == 1)
-                {
-                    Mode = DTilePainterMode.Eraser;
-                }
-
+                
                 if (Mode == DTilePainterMode.Brush)
                 {
-
                     _tilemap.SetTile(_selectedTile.Item1, _mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
                 }
-                else
+                else if(Mode == DTilePainterMode.Eraser)
                 {
                     _tilemap.RemoveTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
+                }
+                else if(Event.current.type == EventType.MouseDown)
+                {
+                    _mouseTileGuidePosition = new Vector2Int(Mathf.RoundToInt(newMousePos.x), Mathf.RoundToInt(newMousePos.y));
                 }
             }
 
@@ -132,6 +131,7 @@ namespace DungeonInspector
 
             TilesPicker();
 
+            if(Mode == DTilePainterMode.Select)
             ShowWorldTileData();
 
             if (GUILayout.Button("Save"))

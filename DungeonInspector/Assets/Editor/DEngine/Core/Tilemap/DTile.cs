@@ -45,5 +45,6 @@ namespace DungeonInspector
         public int ZSorting;
         public TileType Type;
         public TileBehavior TileBehavior;
+        public BaseTD TileBehaviorData { get; set; }
     }
 }
