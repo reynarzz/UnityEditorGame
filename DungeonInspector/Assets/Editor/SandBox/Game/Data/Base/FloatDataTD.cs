@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class ChangeLevelTD : BaseTD
+    public class FloatDataTD
     {
-        public int LevelIndex { get; set; }
+        public float Value { get; }
     }
 }

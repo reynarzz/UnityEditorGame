@@ -74,28 +74,26 @@ namespace DungeonInspector
 
             var newMousePos = _camera.Mouse2WorldPos(mouse.mousePosition);
 
-            if(Mode != DTilePainterMode.Select)
+            if (Mode != DTilePainterMode.Select)
             {
                 _mouseTileGuidePosition = new Vector2Int(Mathf.RoundToInt(newMousePos.x), Mathf.RoundToInt(newMousePos.y));
             }
 
             var tex = default(Texture2D);
 
+            var isInside = _camera.IsInside(newMousePos, Vector2.one * 0.01f);
 
-
-
-            if (/*Event.current.type == EventType.MouseDown &&*/Event.current.isMouse)
+            if (/*Event.current.type == EventType.MouseDown &&*/Event.current.isMouse && isInside)
             {
-                
                 if (Mode == DTilePainterMode.Brush)
                 {
                     _tilemap.SetTile(_selectedTile.Item1, _mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
                 }
-                else if(Mode == DTilePainterMode.Eraser)
+                else if (Mode == DTilePainterMode.Eraser)
                 {
                     _tilemap.RemoveTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
                 }
-                else if(Event.current.type == EventType.MouseDown)
+                else if (Event.current.type == EventType.MouseDown)
                 {
                     _mouseTileGuidePosition = new Vector2Int(Mathf.RoundToInt(newMousePos.x), Mathf.RoundToInt(newMousePos.y));
                 }
@@ -112,7 +110,7 @@ namespace DungeonInspector
             //Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, Vector2.one), _selectionFrame, _mat_DELETE);
 
         }
-   
+
 
 
         protected override void OnUpdate()
@@ -125,21 +123,21 @@ namespace DungeonInspector
             }
 
             MousePointer();
-            
+
 
             Mode = (DTilePainterMode)GUILayout.Toolbar((int)Mode, _modes);
 
             TilesPicker();
 
-            if(Mode == DTilePainterMode.Select)
-            ShowWorldTileData();
+            if (Mode == DTilePainterMode.Select)
+                ShowWorldTileData();
 
             if (GUILayout.Button("Save"))
             {
                 OnSave();
             }
         }
-        
+
 
         private void TilesPicker()
         {
@@ -245,10 +243,59 @@ namespace DungeonInspector
                 GUILayout.Label("Asset Index: " + tile.Index);
                 GUILayout.EndHorizontal();
 
+                RenderMembers(_value);
+
                 GUILayout.EndVertical();
+
             }
+        }
+        private StringDataTD _value = new StringDataTD();
 
+        private void RenderMembers(object type)
+        {
+            if (type != null)
+            {
 
+                var props = type.GetType().GetProperties();
+
+                for (int i = 0; i < props.Length; i++)
+                {
+                    var property = props[i];
+                    var name = property.Name;
+                    var value = property.GetValue(type);
+                    var propType = property.PropertyType;
+
+                    if (propType.IsValueType)
+                    {
+                        if (propType.IsAssignableFrom(typeof(float)))
+                        {
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Label(name);
+                            value = EditorGUILayout.FloatField((float)value);
+                            GUILayout.EndHorizontal();
+                        }
+                        else if (propType.IsAssignableFrom(typeof(int)))
+                        {
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Label(name);
+                            value = EditorGUILayout.IntField((int)value);
+                            GUILayout.EndHorizontal();
+                        }
+                    }
+                    else
+                    {
+                        if (propType.IsAssignableFrom(typeof(string)))
+                        {
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Label(name);
+                            value = EditorGUILayout.TextField((string)value);
+                            GUILayout.EndHorizontal();
+                        }
+                    }
+
+                    property.SetValue(type, value);
+                }
+            }
         }
 
         private void EditTileType(DTile tile)

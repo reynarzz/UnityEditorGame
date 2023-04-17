@@ -33,11 +33,12 @@ namespace DungeonInspector
             return new DVector2(xPos + Transform.Position.x * PixelsPerUnit, yPos + Transform.Position.y * PixelsPerUnit) / PixelsPerUnit;
         }
 
-        public bool IsInside(DVector2 worldpos, Vector2 scale)
+        public bool IsInside(DVector2 worldpos, DVector2 scale)
         {
             var rect = World2RectPos(worldpos, scale);
 
-            return false;
+            return rect.x >= ViewportRect.x && rect.x <= ViewportRect.x + ViewportRect.width &&
+                   rect.y >= ViewportRect.y && rect.y <= ViewportRect.y + ViewportRect.height;
         }
 
         protected override void OnUpdate()
