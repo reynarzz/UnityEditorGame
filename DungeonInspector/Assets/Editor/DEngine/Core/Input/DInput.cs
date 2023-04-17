@@ -28,7 +28,6 @@ namespace DungeonInspector
                 }
 
                 _keyDown = true;
-
             }
             else if (ev.type == EventType.KeyUp)
             {

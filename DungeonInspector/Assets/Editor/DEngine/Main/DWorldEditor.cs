@@ -28,7 +28,7 @@ namespace DungeonInspector
         private TilesDatabase _animatedTiles;
         private DCamera _camera;
 
-        public DTilePainterMode Mode { get; private set; }
+        public DTilePainterMode Mode { get; private set; } = DTilePainterMode.Eraser;
 
         private string[] _modes;
 

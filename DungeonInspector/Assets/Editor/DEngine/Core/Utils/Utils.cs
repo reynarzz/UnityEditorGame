@@ -33,6 +33,7 @@ namespace DungeonInspector
                             gameScale.y);
         }
 
+        /// <summary>World2Rect without take the camera movement into account</summary>
         public static Rect World2RectNCamPos(Vector2 pos, Vector2 scale, Rect viewportRect, int pixelsPerUnit)
         {
             return World2RectPos(pos, scale, viewportRect, default, pixelsPerUnit);

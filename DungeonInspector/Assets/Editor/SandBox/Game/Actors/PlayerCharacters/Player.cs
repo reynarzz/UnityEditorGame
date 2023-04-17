@@ -90,10 +90,11 @@ namespace DungeonInspector
                 }
                 else
                 {
-                    _moveDir = default;
+                    _moveDir.x = 0;
+                    _moveDir.y = 0;
                 }
 
-                if (_moveDir != default)
+                if (_moveDir.x != 0 || _moveDir.y != 0)
                 {
                     _canMove = false;
                     _gridPos = GetMoveDir(_gridPos, _moveDir.x, _moveDir.y);
@@ -107,7 +108,7 @@ namespace DungeonInspector
                 _gameMaster.OnActorEnterTile(this, _gameMaster.Tilemap.GetTile(Transform.Position, 0));
             }
 
-            if ((Transform.Position - _gridPos).SqrMagnitude >= 0.0001f)
+            if ((Transform.Position - _gridPos).SqrMagnitude >= 0.01f)
             {
                 _playerAnimator.Play(1);
             }
