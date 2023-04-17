@@ -86,7 +86,16 @@ namespace DungeonInspector
             return new DVector2(a.x * n, a.y * n);
         }
 
-       
+        public static DVector2 operator -(DVector2 a, DVector2 b)
+        {
+            return new DVector2(a.x - b.x, a.y - b.y);
+        }
+
+        public static DVector2 operator +(DVector2 a, DVector2 b)
+        {
+            return new DVector2(a.x + b.x, a.y + b.y);
+        }
+
         public static float Dot(DVector2 a, DVector2 b)
         {
             return a.x * b.x + a.y * b.y;

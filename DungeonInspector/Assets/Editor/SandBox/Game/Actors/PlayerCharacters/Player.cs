@@ -22,15 +22,15 @@ namespace DungeonInspector
         protected override void OnAwake()
         {
             var name = "Character2/WalkLeft";
-            var walkLeft = GetAnimation(name);
-            walkLeft.Speed = 14;
+            var walk = GetAnimation(name);
+            walk.Speed = 14;
 
             var idle = GetAnimation("Character2/Idle");
             idle.Speed = 5;
 
             _playerAnimator = GetComp<DAnimatorComponent>();
 
-            _playerAnimator.AddAnimation(idle, walkLeft);
+            _playerAnimator.AddAnimation(idle, walk);
 
             _gameMaster = FindGameEntity("GameMaster").GetComp<DGameMaster>();
             _renderer = GetComp<DRendererComponent>();
@@ -104,23 +104,21 @@ namespace DungeonInspector
 
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
 
-            if ((UnityEngine.Vector2Int)Transform.Position.Round() == (UnityEngine.Vector2Int)_gridPos.Round())
+            if ((UnityEngine.Vector2Int)Transform.Position.Round() == (UnityEngine.Vector2Int)_gridPos.Round() && !_canMove)
             {
-                if (!_canMove)
-                {
-                    _gameMaster.OnActorEnterTile(this, _gameMaster.Tilemap.GetTile(Transform.Position, 0));
+                _gameMaster.OnActorEnterTile(this, _gameMaster.Tilemap.GetTile(Transform.Position, 0));
+            }
 
-                    _canMove = true;
-                }
-
-                if (!e.isKey)
-                {
-                    _playerAnimator.Play(0);
-                }
+            if ((Transform.Position - _gridPos).SqrMagnitude >= 0.0001f)
+            {
+                _playerAnimator.Play(1);
             }
             else
             {
-                _playerAnimator.Play(1);
+                _canMove = true;
+
+                _playerAnimator.Play(0);
+
             }
         }
 
