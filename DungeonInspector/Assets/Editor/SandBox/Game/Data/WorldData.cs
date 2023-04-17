@@ -13,7 +13,7 @@ namespace DungeonInspector
     [Serializable]
     public class LevelData
     {
-        [JsonProperty] private TileInfo[] _tiles;
+        [JsonProperty] private TileData[] _tiles;
 
         [JsonProperty] private Dictionary<DVector2, BaseTD> _levelTileData;
 
@@ -21,14 +21,14 @@ namespace DungeonInspector
 
         // Newtonsoft json needs the default constructor
         private LevelData() { }
-        public LevelData(TileInfo[] tiles)
+        public LevelData(TileData[] tiles)
         {
             _levelTileData = new Dictionary<DVector2, BaseTD>();
 
             _tiles = tiles;
         }
 
-        public TileInfo GetTile(int saveIndex)
+        public TileData GetTile(int saveIndex)
         {
             return _tiles[saveIndex];
         }

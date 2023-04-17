@@ -86,7 +86,7 @@ namespace DungeonInspector
             }
         }
 
-        public void OnActorEnterTile(Actor player, DTileRuntime tile)
+        public void OnActorEnterTile(Actor player, DTile tile)
         {
             var behavior = _tbContainer.GetBehavior(tile.TileBehavior);
             
@@ -105,7 +105,7 @@ namespace DungeonInspector
             }
         }
 
-        public void OnActorExitTile(Actor player, DTileRuntime tile)
+        public void OnActorExitTile(Actor player, DTile tile)
         {
             var behavior = _tbContainer.GetBehavior(tile.TileBehavior);
 

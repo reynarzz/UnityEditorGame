@@ -10,12 +10,12 @@ namespace DungeonInspector
     public class TilesDatabase
     {
         private TilesGroup _worldSpriteAtlas;
-        private List<(DTileRuntime, Texture2D)> _tiles;
+        private List<(DTile, Texture2D)> _tiles;
         public int Count => _tiles.Count;
 
         public TilesDatabase(string tilesGroupPath)
         {
-            _tiles = new List<(DTileRuntime, Texture2D)>();
+            _tiles = new List<(DTile, Texture2D)>();
 
             if (!string.IsNullOrEmpty(tilesGroupPath))
             {
@@ -27,15 +27,15 @@ namespace DungeonInspector
 
                     var textureName = tileData.Texture ? tileData.Texture.name: tileData.Animation.GetSpriteNames()[0];
 
-                    var tile = new DTileRuntime()
+                    var tile = new DTile()
                     {
                         Index = i,
-                        TileBehaviorData = null, // TODO
-                        IsWalkable = tileData.Tile.IsWalkable,
-                        Type = tileData.Tile.Type,
+                        RuntimeData = null, // TODO
+                        IsWalkable = tileData.IsWalkable,
+                        Type = tileData.Type,
                         TextureName = textureName,
-                        ZSorting = tileData.Tile.ZSorting,
-                        TileBehavior = tileData.Tile.TileBehavior,
+                        ZSorting = tileData.ZSorting,
+                        TileBehavior = tileData.TileBehavior,
                         IdleTexAnim = tileData.Animation?.GetSpriteNames() ?? null
                     };
 
@@ -44,12 +44,12 @@ namespace DungeonInspector
             }
         }
 
-        public (DTileRuntime, Texture2D) GetTileAndTex(int index)
+        public (DTile, Texture2D) GetTileAndTex(int index)
         {
             return _tiles[index];
         }
 
-        public DTileRuntime GetTile(int index)
+        public DTile GetTile(int index)
         {
             return _tiles[index].Item1;
         }

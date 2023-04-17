@@ -21,7 +21,7 @@ namespace DungeonInspector
     {
         private Vector2 _tilesScroll;
         private Vector2 _scroll;
-        private (DTileRuntime, Texture2D) _selectedTile;
+        private (DTile, Texture2D) _selectedTile;
 
         private DTilemap _tilemap;
 
@@ -206,7 +206,7 @@ namespace DungeonInspector
         {
             if (_tilemap.Tiles.Count > 0)
             {
-                var tiles = new List<TileInfo>();
+                var tiles = new List<TileData>();
 
                 foreach (var tile in _tilemap.Tiles)
                 {
@@ -214,7 +214,7 @@ namespace DungeonInspector
                     {
                         var position = tile.Key;
 
-                        tiles.Add(new TileInfo() { Index = item.Value.Index, Position = position });
+                        tiles.Add(new TileData() { Index = item.Value.Index, Position = position });
                     }
                 }
 
@@ -250,7 +250,7 @@ namespace DungeonInspector
 
         }
 
-        private void EditTileType(DTileRuntime tile)
+        private void EditTileType(DTile tile)
         {
             GUILayout.BeginVertical(EditorStyles.helpBox);
 

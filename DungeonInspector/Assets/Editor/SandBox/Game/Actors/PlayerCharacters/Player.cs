@@ -13,7 +13,7 @@ namespace DungeonInspector
 
         private bool _canMove = true;
 
-        public Action<Player, DTileRuntime> OnTileReached;
+        public Action<Player, DTile> OnTileReached;
 
         private ActorHealth _health;
         private DRendererComponent _renderer;

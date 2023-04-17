@@ -8,6 +8,21 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
+    public enum TileBehavior
+    {
+        None,
+        Damage,
+        IncreaseHealth,
+        ChangeLevel
+    }
+
+    public enum TileType
+    {
+        Static,
+        Interactable,
+        InteractableWhenTouch
+    }
+
     [CreateAssetMenu]
     public class E_SpriteAtlas : ScriptableObject
     {
@@ -22,17 +37,27 @@ namespace DungeonInspector
     }
 
     [Serializable]
-    public class TileData
+    public class DTile
     {
         [SerializeField] private Texture2D _texture;
-        [SerializeField] private DTileRuntime _tile;
 
         [SerializeField] DSpriteAnimation _animation;
         public Texture2D Texture => _texture;
-        public DTileRuntime Tile => _tile;
+
+        [NonSerialized] private string[] _interactableTexAnim;
+
+        public string[] IdleTexAnim { get; set; }
+
+        public int Index { get; set; }
+        public string TextureName { get; set; }
+        public bool IsWalkable;
+        public int ZSorting;
+        public TileType Type;
+        public TileBehavior TileBehavior;
+        public BaseTD RuntimeData { get; set; }
         public DSpriteAnimation Animation => _animation;
     }
-    
+
 
     [CustomEditor(typeof(E_SpriteAtlas))]
     public class TlasEditor : Editor

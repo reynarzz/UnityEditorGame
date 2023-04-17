@@ -10,11 +10,11 @@ namespace DungeonInspector
     [CreateAssetMenu]
     public class TilesGroup : ScriptableObject
     {
-        [SerializeField] private TileData[] _tiles;
+        [SerializeField] private DTile[] _tiles;
 
         public int TextureCount => _tiles.Length;
 
-        public TileData GetTile(int index)
+        public DTile GetTile(int index)
         {
             return _tiles[index];
         }

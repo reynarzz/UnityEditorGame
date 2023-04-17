@@ -15,21 +15,9 @@ namespace DungeonInspector
 
     public abstract class TileBehaviorBase<T> : ITileBehaviorBase where T : BaseTD
     {
-        void ITileBehaviorBase.OnEnter(Actor actor, BaseTD data)
-        {
-            OnEnter(actor, data as T);
-        }
-
-        void ITileBehaviorBase.OnExit(Actor actor, BaseTD data)
-        {
-            OnExit(actor, data as T);
-
-        }
-
-        void ITileBehaviorBase.OnUpdate(Actor actor, BaseTD data)
-        {
-            OnUpdate(actor, data as T);
-        }
+        void ITileBehaviorBase.OnEnter(Actor actor, BaseTD data) { OnEnter(actor, data as T); }
+        void ITileBehaviorBase.OnExit(Actor actor, BaseTD data) { OnExit(actor, data as T); }
+        void ITileBehaviorBase.OnUpdate(Actor actor, BaseTD data) { OnUpdate(actor, data as T); }
 
         protected virtual void OnEnter(Actor actor, T data) { }
         protected virtual void OnExit(Actor actor, T data) { }

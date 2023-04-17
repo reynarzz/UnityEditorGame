@@ -24,13 +24,11 @@ namespace DungeonInspector
     }
 
     [Serializable]
-    public class TileInfo
+    public class TileData
     {
         public BaseTD TileBehaviorData { get; set; }
         public int Index { get; set; }
         /// <summary>In wolrd position</summary>
         public DVector2 Position { get; set; }
     }
-
-    
 }

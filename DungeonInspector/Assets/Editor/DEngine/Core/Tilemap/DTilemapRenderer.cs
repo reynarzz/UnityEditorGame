@@ -44,7 +44,7 @@ namespace DungeonInspector
             }
         }
 
-        private Texture2D GetTexFromTile(DTileRuntime tile)
+        private Texture2D GetTexFromTile(DTile tile)
         {
             return _tilesDatabase.GetTileTexture(tile.Index);
         }

@@ -9,15 +9,15 @@ namespace DungeonInspector
 {
     public class DTilemap : DBehavior
     {
-        private Dictionary<DVector2, Dictionary<int, DTileRuntime>> _tiles;
-        public Dictionary<DVector2, Dictionary<int, DTileRuntime>> Tiles => _tiles;
+        private Dictionary<DVector2, Dictionary<int, DTile>> _tiles;
+        public Dictionary<DVector2, Dictionary<int, DTile>> Tiles => _tiles;
 
         protected override void OnAwake()
         {
-            _tiles = new Dictionary<DVector2, Dictionary<int, DTileRuntime>>();
+            _tiles = new Dictionary<DVector2, Dictionary<int, DTile>>();
         }
 
-        public void SetTile(DTileRuntime tile, float x, float y)
+        public void SetTile(DTile tile, float x, float y)
         {
             var pos = new DVector2((int)x, (int)y);
 
@@ -34,7 +34,7 @@ namespace DungeonInspector
             }
             else
             {
-                var dict = new Dictionary<int, DTileRuntime>();
+                var dict = new Dictionary<int, DTile>();
 
                 dict.Add(tile.ZSorting, tile);
 
@@ -52,13 +52,13 @@ namespace DungeonInspector
             }
         }
 
-        public DTileRuntime GetTile(DVector2 position, int zSorting)
+        public DTile GetTile(DVector2 position, int zSorting)
         {
             return GetTile(position.x, position.y, zSorting);
         }
 
 
-        public DTileRuntime GetTile(float x, float y, int zSorting)
+        public DTile GetTile(float x, float y, int zSorting)
         {
             var layer = GetTileLayers((int)x, (int)y);
 
@@ -77,7 +77,7 @@ namespace DungeonInspector
             return default;
         }
 
-        public Dictionary<int, DTileRuntime> GetTileLayers(int x, int y)
+        public Dictionary<int, DTile> GetTileLayers(int x, int y)
         {
             if (_tiles.TryGetValue(new DVector2(x, y), out var tilesLayers))
             {
