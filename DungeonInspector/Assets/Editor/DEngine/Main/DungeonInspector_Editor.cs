@@ -9,13 +9,14 @@ namespace DungeonInspector
         private DRenderingController _renderer;
         private DSandboxBase _sandbox;
         private DTime _time;
-
+        private DInput _input;
 
         private void OnEnable()
         {
             new DIEngineCoreServices();
 
             _time = new DTime();
+            _input = new DInput();
             _sandbox = new DungeonInspectorSandBox();
             _renderer = DIEngineCoreServices.Get<DRenderingController>();
             _componentsContainer = DIEngineCoreServices.Get<DEntitiesController>();
@@ -33,6 +34,7 @@ namespace DungeonInspector
             Repaint();
 
             _time.Update();
+            _input.Update();
             _componentsContainer.Update();
             _renderer.Update();
         }

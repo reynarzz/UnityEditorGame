@@ -10,14 +10,14 @@ namespace DungeonInspector
     {
         protected override void OnEnter()
         {
-            if (Actor.TryGetComp<ActorHealth>(out var health))
-            {
-                _LOG.LOG($"Actor: '{Actor.Name}' Health is: " + health.Health);
-            }
-            else
-            {
-                $"Actor '{Actor.Name}', Enter".LOG();
-            }
+            //if (Actor.TryGetComp<ActorHealth>(out var health))
+            //{
+            //    _LOG.LOG($"Actor: '{Actor.Name}' Health is: " + health.Health);
+            //}
+            //else
+            //{
+            //    $"Actor '{Actor.Name}', Enter".LOG();
+            //}
         }
 
         protected override void OnExit()

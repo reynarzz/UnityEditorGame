@@ -9,11 +9,8 @@ namespace DungeonInspector
         private DGameMaster _gameMaster;
 
         private const float _moveSpeed = 15f;
-        UnityEngine.Vector2Int _playerWalkDir = new UnityEngine.Vector2Int();
 
         private bool _canMove = true;
-        private float _moveTime = 0;
-        private const float _maxTime = 0.1f;
 
         public Action<Player, DTile> OnTileReached;
 
@@ -29,7 +26,7 @@ namespace DungeonInspector
             walkLeft.Speed = 14;
 
             var idle = GetAnimation("Character2/Idle");
-            idle.Speed = 7;
+            idle.Speed = 5;
 
             _playerAnimator = GetComp<DAnimatorComponent>();
 
@@ -43,6 +40,9 @@ namespace DungeonInspector
             Transform.Offset = new DVector2(0, 0.7f);
         }
 
+        protected override void OnStart()
+        {
+        }
 
         private SpriteAnimation GetAnimation(string atlasName)
         {
@@ -55,81 +55,54 @@ namespace DungeonInspector
             PlayerMovement();
         }
 
-
         private void PlayerMovement()
         {
-            var e = UnityEngine.Event.current;
-            // var _playerWalkDir = new Vector2Int();
+            var e = Event.current;
 
-            
-            if (e.type == UnityEngine.EventType.KeyDown && _canMove)
+            if (e.type == UnityEngine.EventType.KeyDown)
             {
-                if (e.keyCode == UnityEngine.KeyCode.A)
+                if (_canMove)
                 {
+                    if (e.keyCode == UnityEngine.KeyCode.A)
+                    {
+                        //e.Use();
 
-                    _gridPos = GetMoveDir(_gridPos, -1, 0);
+                        _gridPos = GetMoveDir(_gridPos, -1, 0);
 
-                    _canMove = false;
-                    _moveTime = 0;
-                    _renderer.FlipX = true;
+                        _canMove = false;
+                        _renderer.FlipX = true;
+                    }
+                    else if (e.keyCode == UnityEngine.KeyCode.D)
+                    {
+                        //e.Use();
 
-                    _playerWalkDir = new UnityEngine.Vector2Int(-1, 0);
+                        _gridPos = GetMoveDir(_gridPos, 1, 0);
+
+                        _canMove = false;
+
+                        _renderer.FlipX = false;
+                    }
+                    else if (e.keyCode == UnityEngine.KeyCode.W)
+                    {
+                        //e.Use();
+
+                        _gridPos = GetMoveDir(_gridPos, 0, 1);
+
+                        _canMove = false;
+                    }
+                    else if (e.keyCode == UnityEngine.KeyCode.S)
+                    {
+                        //e.Use();
+
+                        _gridPos = GetMoveDir(_gridPos, 0, -1);
+
+                        _canMove = false;
+                    }
                 }
-                else if (e.keyCode == UnityEngine.KeyCode.D)
-                {
-                    _playerWalkDir = new UnityEngine.Vector2Int(1, 0);
-                    _gridPos = GetMoveDir(_gridPos, 1, 0);
-
-                    _canMove = false;
-
-
-                    _moveTime = 0;
-                    _renderer.FlipX = false;
-                }
-                else if (e.keyCode == UnityEngine.KeyCode.W)
-                {
-
-                    _gridPos = GetMoveDir(_gridPos, 0, 1);
-
-                    _canMove = false;
-                    _moveTime = 0;
-
-                    _playerWalkDir = new UnityEngine.Vector2Int(0, 1);
-
-                }
-                else if (e.keyCode == UnityEngine.KeyCode.S)
-                {
-                    _gridPos = GetMoveDir(_gridPos, 0, -1);
-
-                    _canMove = false;
-                    _moveTime = 0;
-
-                    //_playerWalkDir = new UnityEngine.Vector2Int(0, -1);
-                }
-                else //if (_playerWalkDir.x == 0 && _playerWalkDir.y == 0)
-                {
-                    //_playerAnimator.Play(4);
-                    _playerWalkDir = default;
-                }
-                //if (e.type == EventType.KeyUp || !e.isKey)
-                //{
-                //    _playerWalkDir = default;
-                //   // _playerAnimator.Stop();
-                //}
             }
-            else 
-            {
-                //_playerAnimator.Play(4);
-            }
-
-
-            var dir = (UnityEngine.Vector2)_playerWalkDir;
-
-            _moveTime += DTime.DeltaTime;
 
 
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
-
 
             if ((UnityEngine.Vector2Int)Transform.Position.Round() == (UnityEngine.Vector2Int)_gridPos.Round())
             {
