@@ -33,6 +33,18 @@ namespace DungeonInspector
                             gameScale.y);
         }
 
+        public static Rect World2RectPosKeepPivot(Vector2 pos, Vector2 scale, Rect viewportRect, Vector2 cameraPos, int pixelsPerUnit)
+        {
+            var gameScale = scale * pixelsPerUnit;
+            pos.y = -pos.y;
+            var gamePos = pos * pixelsPerUnit;
+
+            return new Rect(viewportRect.x + viewportRect.width * 0.5f + gamePos.x - cameraPos.x * pixelsPerUnit,
+                            viewportRect.y + viewportRect.height * 0.5f + gamePos.y + cameraPos.y * pixelsPerUnit,
+                            gameScale.x,
+                            gameScale.y);
+        }
+
         /// <summary>World2Rect without take the camera movement into account</summary>
         public static Rect World2RectNCamPos(Vector2 pos, Vector2 scale, Rect viewportRect, int pixelsPerUnit)
         {

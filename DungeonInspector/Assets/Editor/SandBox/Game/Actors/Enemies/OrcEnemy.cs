@@ -14,7 +14,7 @@ namespace DungeonInspector
 
         protected override void OnStart()
         {
-            _player = GameEntity.FindGameEntity("Player").GetComp<Player>();
+            _player = DGameEntity.FindGameEntity("Player").GetComp<Player>();
             _renderer = GetComp<DRendererComponent>();
         }
 

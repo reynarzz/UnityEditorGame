@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class GameEntity
+    public class DGameEntity
     {
         private Dictionary<Type, DComponent> _components;
 
@@ -18,13 +18,13 @@ namespace DungeonInspector
         private const string _defaultName = "GameEntity";
         public string Name { get; set; }
 
-        public GameEntity() : this(_defaultName) { }
-        public GameEntity(string name) : this(name, null) { }
-        public GameEntity(params Type[] components) : this(_defaultName, components) { }
+        public DGameEntity() : this(_defaultName) { }
+        public DGameEntity(string name) : this(name, null) { }
+        public DGameEntity(params Type[] components) : this(_defaultName, components) { }
 
         public bool IsActive { get; set; } = true;
 
-        public GameEntity(string name, params Type[] components)
+        public DGameEntity(string name, params Type[] components)
         {
             Name = name;
 
@@ -70,6 +70,13 @@ namespace DungeonInspector
                     var renderer = component as DRendererComponent;
 
                     DIEngineCoreServices.Get<DRenderingController>().Add(renderer);
+                }
+
+                if(type == typeof(DPhysicsComponent) || type.IsSubclassOf(typeof(DPhysicsComponent)))
+                {
+                    var renderer = component as DPhysicsComponent;
+
+                    DIEngineCoreServices.Get<DPhysicsController>().Add(renderer);
                 }
 
                 // Temporal
@@ -138,10 +145,16 @@ namespace DungeonInspector
         private void OnComponentRemoved(DComponent component)
         {
             var updatableRenderer = component as DRendererComponent;
+            var physics = component as DPhysicsComponent;
 
             if (updatableRenderer != null)
             {
                 DIEngineCoreServices.Get<DRenderingController>().Remove(updatableRenderer);
+            }
+
+            if(physics != null)
+            {
+                DIEngineCoreServices.Get<DPhysicsController>().Remove(physics);
             }
 
             var behavior = component as DBehavior;
@@ -157,7 +170,7 @@ namespace DungeonInspector
             // Removing
         }
 
-        public static GameEntity FindGameEntity(string name)
+        public static DGameEntity FindGameEntity(string name)
         {
             return DIEngineCoreServices.Get<DEntitiesController>().FindGameEntity(name);
         }

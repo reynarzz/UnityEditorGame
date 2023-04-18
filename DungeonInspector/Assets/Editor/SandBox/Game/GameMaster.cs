@@ -33,8 +33,8 @@ namespace DungeonInspector
         private Dictionary<TileBehavior, List<Actor>> _tilesBehaviors;
         protected override void OnAwake()
         {
-            _tilemap = GameEntity.FindGameEntity("TileMaster").GetComp<DTilemap>();
-            _camera = GameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();
+            _tilemap = DGameEntity.FindGameEntity("TileMaster").GetComp<DTilemap>();
+            _camera = DGameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();
 
             _tilesDatabase = new TilesDatabase("World/World1Tiles");
             _animatedTiles = new TilesDatabase("World/TilesAnimated");

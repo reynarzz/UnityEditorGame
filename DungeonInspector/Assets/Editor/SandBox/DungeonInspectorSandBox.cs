@@ -11,19 +11,19 @@ namespace DungeonInspector
         public override void OnInitialize()
         {
             //Camera 
-            new GameEntity("MainCamera", typeof(DCamera), typeof(DCameraFollow));
+            new DGameEntity("MainCamera", typeof(DCamera), typeof(DCameraFollow));
 
             // Main Player
-            new GameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player));
+            new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player));
 
             // Tile Painter
-            new GameEntity("TileMaster", typeof(DRenderingGroup), typeof(DTilemap), typeof(DTilemapRenderer));
+            new DGameEntity("TileMaster", typeof(DRenderingGroup), typeof(DTilemap), typeof(DTilemapRenderer));
 
             // World Editor
-            new GameEntity("WorldEditor", typeof(DWorldEditor)).IsActive = false;
+            new DGameEntity("WorldEditor", typeof(DWorldEditor)).IsActive = false;
 
             // Game Master
-            new GameEntity("GameMaster", typeof(GameMaster));
+            new DGameEntity("GameMaster", typeof(GameMaster));
 
             
             

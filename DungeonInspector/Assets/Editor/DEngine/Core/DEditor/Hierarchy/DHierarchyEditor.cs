@@ -50,7 +50,7 @@ namespace DungeonInspector
             GUILayout.EndArea();
         }
 
-        private void DrawTransformUI(GameEntity entity)
+        private void DrawTransformUI(DGameEntity entity)
         {
             GUILayout.BeginVertical(EditorStyles.helpBox);
 
@@ -66,11 +66,11 @@ namespace DungeonInspector
             GUILayout.EndVertical();
         }
 
-        private void DrawComponent(GameEntity entity)
+        private void DrawComponent(DGameEntity entity)
         {
             var components = entity.GetAllComponents();
 
-            GUILayout.BeginVertical(EditorStyles.helpBox);
+            GUILayout.BeginVertical();
 
             if (EditorGUILayout.Foldout(true, "Components"))
             {
@@ -78,7 +78,29 @@ namespace DungeonInspector
 
                 foreach (var component in components)
                 {
+                    GUILayout.BeginVertical(EditorStyles.helpBox);
                     GUILayout.Label(component.GetType().Name);
+
+                    if (component.GetType() == typeof(DBoxCollider))
+                    {
+                        var box = (component as DBoxCollider);
+
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label("IsTrigger");
+                        EditorGUILayout.Toggle(box.IsTrigger);
+                        GUILayout.EndHorizontal();
+
+                        box.Center = EditorGUILayout.Vector2Field(string.Empty, box.Center, GUILayout.MaxWidth(_rect.width - 50));
+                        box.Size = EditorGUILayout.Vector2Field(string.Empty, box.Size, GUILayout.MaxWidth(_rect.width - 50));
+
+                    }
+
+                    if (component.GetType() == typeof(DPhysicsComponent))
+                    {
+                        
+                    }
+                    
+                    GUILayout.EndVertical();
                     //GUILayout.Label("x", GUILayout.MaxWidth(15));
                     //var x = EditorGUILayout.FloatField(entity.Transform.Position.x);
                     //GUILayout.Label("y", GUILayout.MaxWidth(15));

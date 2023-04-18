@@ -29,6 +29,18 @@ namespace DungeonInspector
             _viewportRect = new Texture2D(1, 1);
         }
 
+        private Action _debugCallback;
+
+        public void AddDebugGUI(Action debugCallback)
+        {
+            _debugCallback += debugCallback;
+        }
+
+        public void RemoveDebugGUI(Action debugCallback)
+        {
+            _debugCallback -= debugCallback;
+        }
+
         public void AddCamera(DCamera camera)
         {
             _cameras.Add(camera);
@@ -147,6 +159,8 @@ namespace DungeonInspector
                 mat.SetVector("_flip", new Vector4(renderer.FlipX ? 1 : 0, renderer.FlipY ? 1 : 0));
                 Graphics.DrawTexture(rect, renderingTex, mat);
                 mat.SetVector("_flip", default);
+
+                _debugCallback?.Invoke();
             }
         }
     }

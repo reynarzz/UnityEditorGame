@@ -67,7 +67,6 @@ Shader "Unlit/DStandard"
 
                 // hit effect
                 //col = float4(1, 1, 1, col.a);
-
                 return  col;
             }
             

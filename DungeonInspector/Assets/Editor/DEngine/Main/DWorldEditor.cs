@@ -49,7 +49,7 @@ namespace DungeonInspector
 
         protected override void OnStart()
         {
-            var gameMaster = GameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
+            var gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
 
             _tilemap = gameMaster.Tilemap;
 

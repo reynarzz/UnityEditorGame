@@ -12,7 +12,7 @@ namespace DungeonInspector
 
         private bool _isAlive = true;
         public bool IsAlive => _isAlive;
-        public GameEntity Entity { get; set; }
+        public DGameEntity Entity { get; set; }
         public bool Enabled { get; set; } = true;
         public void Destroy()
         {

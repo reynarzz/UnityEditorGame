@@ -35,12 +35,21 @@ namespace DungeonInspector
 
             _playerAnimator.AddAnimation(idle, walk);
 
-            _gameMaster = GameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
+            _gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
             _renderer = GetComp<DRendererComponent>();
             _renderer.Sprite = idle.CurrentTexture;
 
+            AddComp<DBoxCollider>();
+            AddComp<DPhysicsComponent>();
             _health = AddComp<ActorHealth>();
 
+        }
+
+        protected override void OnTriggerEnter(DBoxCollider collider)
+        {
+            Debug.Log("Enter: " + collider.Name);
+
+            collider.Entity.Destroy();
         }
 
         protected override void OnStart()
@@ -126,7 +135,7 @@ namespace DungeonInspector
             {
                 _canMove = true;
                 _tileEnter = false;
-                
+
                 _playerAnimator.Play(0);
 
                 //if (!_tryingToWalk)

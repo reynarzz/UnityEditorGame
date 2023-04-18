@@ -15,6 +15,10 @@ namespace DungeonInspector
         public DVector2 ScreenSize { get; set; }
         public Rect ViewportRect { get; set; }
 
+        public static Rect _viewportRect { get; set; }
+        public static DVector2 _Position { get; set; }
+
+
         public DCamera()
         {
             ScreenSize = new DVector2(640, 360);
@@ -45,8 +49,9 @@ namespace DungeonInspector
         protected override void OnUpdate()
         {
             ScreenSize = new DVector2(EditorGUIUtility.currentViewWidth, ScreenSize.y);
-            ViewportRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 0, ScreenSize.x, ScreenSize.y);
-            
+            _viewportRect = ViewportRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 0, ScreenSize.x, ScreenSize.y);
+
+            _Position = Transform.Position;
             // should not be here
             GUILayoutUtility.GetRect(ViewportRect.width, ViewportRect.height);
 

@@ -6,33 +6,33 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class DEntitiesController : EngineSystemBase<GameEntity>
+    public class DEntitiesController : EngineSystemBase<DGameEntity>
     {
-        private List<GameEntity> _entities;
+        private List<DGameEntity> _entities;
         private bool _started = false;
 
         public int Count => _entities.Count;
         public DEntitiesController()
         {
-            _entities = new List<GameEntity>();
+            _entities = new List<DGameEntity>();
         }
 
-        public override void Add(GameEntity entity)
+        public override void Add(DGameEntity entity)
         {
             _entities.Add(entity);
         }
 
-        public override void Remove(GameEntity entity)
+        public override void Remove(DGameEntity entity)
         {
             _entities.Remove(entity);
         }
 
-        public List<GameEntity> GetAllGameEntities()
+        public List<DGameEntity> GetAllGameEntities()
         {
             return _entities;
         }
 
-        public GameEntity FindGameEntity(string name)
+        public DGameEntity FindGameEntity(string name)
         {
             for (int i = 0; i < _entities.Count; i++)
             {
@@ -64,7 +64,7 @@ namespace DungeonInspector
             }
         }
 
-        private void OnStartBehaviors(GameEntity entity)
+        private void OnStartBehaviors(DGameEntity entity)
         {
             var updatables = entity.GetAllUpdatableComponents();
 
