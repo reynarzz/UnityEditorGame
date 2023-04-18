@@ -30,9 +30,9 @@ namespace DungeonInspector
             _physics = DIEngineCoreServices.Get<DPhysicsController>();
             _renderer = DIEngineCoreServices.Get<DRenderingController>();
 
+            _sandbox.OnInitialize();
             _time.Init();
             _input.Init();
-            _sandbox.OnInitialize();
             _physics.Init();
             _renderer.Init();
             _components.Init();

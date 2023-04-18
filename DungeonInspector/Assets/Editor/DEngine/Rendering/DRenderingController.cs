@@ -14,16 +14,18 @@ namespace DungeonInspector
         private Dictionary<int, List<DRendererComponent>> _renderers;
         private IOrderedEnumerable<KeyValuePair<int, List<DRendererComponent>>> _renderersOrdered;
         private bool _pendingToReorder;
-        private DCamera _camera;
 
         private Material _mat;
         private Material _maskMat;
         private Texture2D _viewportRect;
+        public DCamera CurrentCamera => _cameras.LastOrDefault();
 
+        private List<DCamera> _cameras;
         public DRenderingController()
         {
             _renderers = new Dictionary<int, List<DRendererComponent>>();
-
+            _cameras = new List<DCamera>();
+            _cameras = new List<DCamera>();
             _mat = Resources.Load<Material>("Materials/DStandard");
             _maskMat = Resources.Load<Material>("Materials/Mask");
             _viewportRect = new Texture2D(1, 1);
@@ -31,7 +33,16 @@ namespace DungeonInspector
 
         public void Init()
         {
-            _camera = GameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();
+        }
+
+        public void AddCamera(DCamera camera)
+        {
+            _cameras.Add(camera);
+        }
+
+        public void RemoveCamera(DCamera camera)
+        {
+            _cameras.Remove(camera);
         }
 
         public void Update()
@@ -50,7 +61,7 @@ namespace DungeonInspector
                 {
                     for (int i = 0; i < item.Value.Count; i++)
                     {
-                        Draw(item.Value[i], _camera);
+                        Draw(item.Value[i], _cameras[_cameras.Count - 1]);
                     }
                 }
             }
@@ -95,7 +106,7 @@ namespace DungeonInspector
 
         private void DrawMask()
         {
-            var rect = _camera.ViewportRect;
+            var rect = CurrentCamera.ViewportRect;
 
             //rect.height += 12;
             Graphics.DrawTexture(rect, _viewportRect, _maskMat);
@@ -104,7 +115,7 @@ namespace DungeonInspector
 
         private void Draw(DRendererComponent renderer, DCamera camera)
         {
-            if (renderer.Entity.IsActive && renderer.Enabled)
+            if (camera != null && renderer.Entity.IsActive && renderer.Enabled)
             {
                 var renderingTex = renderer.Sprite;
 

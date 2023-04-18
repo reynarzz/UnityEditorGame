@@ -24,6 +24,7 @@ namespace DungeonInspector
             var entity = new GameEntity(name, typeof(T));
 
             var renderer = entity.AddComp<DRendererComponent>();
+            entity.AddComp<DPhysicsComponent>();
 
             renderer.Sprite = Utils.Load<UnityEngine.Texture2D>(texturePath);
 

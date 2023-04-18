@@ -41,7 +41,7 @@ namespace DungeonInspector
             {
                 for (int i = 0; i < components.Length; i++)
                 {
-                    AddComponent(components[i]);
+                    AddComp(components[i]);
                 }
             }
 
@@ -49,7 +49,7 @@ namespace DungeonInspector
         }
 
         // TODO: refactor
-        public DComponent AddComponent(Type type)
+        public DComponent AddComp(Type type)
         {
             DComponent component = null;
 
@@ -103,7 +103,7 @@ namespace DungeonInspector
 
         public T AddComp<T>() where T : DComponent, new()
         {
-            return (T)AddComponent(typeof(T));
+            return (T)AddComp(typeof(T));
         }
 
         public T GetComp<T>() where T : DComponent, new()
