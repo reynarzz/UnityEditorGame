@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Win32;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,7 +26,25 @@ namespace DungeonInspector
             return _tilesAsset.GetTile(index);
         }
 
-       
+        public DTile GetNewTile(TileData data)
+        {
+            var tile = GetTile(data.TileAssetIndex);
+
+            return new DTile()
+            {
+                AssetIndex = data.TileAssetIndex,
+                WorldIndex = data.WorldIndex,
+                Behavior = tile.Behavior,
+                Type = tile.Type,
+                ZSorting = tile.ZSorting,
+                IsWalkable = tile.IsWalkable,
+                Texture = tile.Texture,
+                IdleTexAnim = tile.IdleTexAnim,
+                Animation = tile.Animation,
+                RuntimeData = data.TileBehaviorData,
+            };
+        }
+
         public Texture2D GetTileTexture(int index)
         {
             return _tilesAsset.GetTile(index).Texture;

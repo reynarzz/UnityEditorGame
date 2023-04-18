@@ -12,6 +12,7 @@ namespace DungeonInspector
         private const float _moveSpeed = 15f;
 
         private bool _canMove = true;
+        private bool _tileEnter = false;
 
         public Action<Player, DTile> OnTileReached;
 
@@ -19,6 +20,7 @@ namespace DungeonInspector
         private DRendererComponent _renderer;
         DVector2 _gridPos = default;
         private Vector2Int _moveDir = default;
+        private bool _tryingToWalk;
 
         protected override void OnAwake()
         {
@@ -68,8 +70,8 @@ namespace DungeonInspector
                 {
                     _moveDir.x = -1;
                     _moveDir.y = 0;
-
                     _renderer.FlipX = true;
+                    _tryingToWalk = true;
                 }
                 else if (DInput.IsKey(UnityEngine.KeyCode.D))
                 {
@@ -77,19 +79,24 @@ namespace DungeonInspector
                     _moveDir.y = 0;
 
                     _renderer.FlipX = false;
+                    _tryingToWalk = true;
                 }
                 else if (DInput.IsKey(UnityEngine.KeyCode.W))
                 {
                     _moveDir.x = 0;
                     _moveDir.y = 1;
+                    _tryingToWalk = true;
                 }
                 else if (DInput.IsKey(UnityEngine.KeyCode.S))
                 {
                     _moveDir.x = 0;
                     _moveDir.y = -1;
+                    _tryingToWalk = true;
                 }
                 else
                 {
+                    _tryingToWalk = false;
+
                     _moveDir.x = 0;
                     _moveDir.y = 0;
                 }
@@ -103,21 +110,34 @@ namespace DungeonInspector
 
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
 
-            if ((UnityEngine.Vector2Int)Transform.Position.Round() == (UnityEngine.Vector2Int)_gridPos.Round() && !_canMove)
+            if (Transform.Position.RoundToInt() == _gridPos.RoundToInt() && !_canMove && !_tileEnter)
             {
-                _gameMaster.OnActorEnterTile(this, _gameMaster.Tilemap.GetTile(Transform.Position, 0));
+                _tileEnter = true;
+                var currentTile = _gameMaster.Tilemap.GetTile(Transform.Position.Round(), 0);
+
+                _gameMaster.OnActorEnterTile(this, currentTile);
             }
 
-            if ((Transform.Position - _gridPos).SqrMagnitude >= 0.01f)
+            if ((Transform.Position - _gridPos).SqrMagnitude >= 0.001f)
             {
                 _playerAnimator.Play(1);
             }
             else
             {
                 _canMove = true;
+                _tileEnter = false;
 
                 _playerAnimator.Play(0);
 
+                //if (!_tryingToWalk)
+                //{
+                //    _playerAnimator.Play(0);
+                //}
+                //else
+                //{
+                //    _playerAnimator.Play(1);
+
+                //}
             }
         }
 

@@ -15,8 +15,6 @@ namespace DungeonInspector
     public class LevelData 
     {
         [JsonProperty] private TileData[] _tiles;
-        [JsonProperty] private BaseTD[] _tilesBehaviorData;
-
         [JsonIgnore] private Dictionary<DVector2, BaseTD> _levelTileData;
 
         public int Count => _tiles.Length;
@@ -24,10 +22,8 @@ namespace DungeonInspector
         // Newtonsoft json needs the default constructor to deserialize.
         private LevelData() { }
 
-        public LevelData(TileData[] tiles, BaseTD[] tileBehaviorData)
+        public LevelData(TileData[] tiles)
         {
-            _tilesBehaviorData = tileBehaviorData;
-
             _tiles = tiles;
         }
 
@@ -38,9 +34,9 @@ namespace DungeonInspector
 
             for (int i = 0; i < _tiles.Length; i++)
             {
-                var data = _tilesBehaviorData.ElementAtOrDefault(i);
+                var data = _tiles.ElementAtOrDefault(i);
 
-                _levelTileData.Add(_tiles[i].Position, data);
+                _levelTileData.Add(data.Position, data.TileBehaviorData);
             }
         }
 
@@ -61,7 +57,7 @@ namespace DungeonInspector
 
         public BaseTD GetLevelTileData(int saveIndex)
         {
-            return _tilesBehaviorData.ElementAtOrDefault(saveIndex);
+            return GetTile(saveIndex).TileBehaviorData;
         }
     }
 

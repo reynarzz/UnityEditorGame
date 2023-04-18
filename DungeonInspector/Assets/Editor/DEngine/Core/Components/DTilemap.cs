@@ -32,7 +32,7 @@ namespace DungeonInspector
                 Type = tile.Type,
                 ZSorting = tile.ZSorting,
                 Texture = tile.Texture,
-                RuntimeData = null,
+                RuntimeData = tile.RuntimeData,
                 IdleTexAnim = tile.IdleTexAnim,
             };
 

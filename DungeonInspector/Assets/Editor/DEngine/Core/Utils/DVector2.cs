@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Unity.VisualScripting;
+using UnityEngine;
 
 namespace DungeonInspector
 {
@@ -29,6 +30,11 @@ namespace DungeonInspector
         public DVector2 Round()
         {
             return new DVector2(MathF.Round(x), MathF.Round(y));
+        }
+
+        public Vector2Int RoundToInt()
+        {
+            return new Vector2Int((int)MathF.Round(x), (int)MathF.Round(y));
         }
 
         public DVector2 Abs()

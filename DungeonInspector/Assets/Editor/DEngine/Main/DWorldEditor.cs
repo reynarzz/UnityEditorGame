@@ -203,7 +203,6 @@ namespace DungeonInspector
             if (_tilemap.Tiles.Count > 0)
             {
                 var tiles = new List<TileData>();
-                var tileBehaviorData = new List<BaseTD>();
 
                 foreach (var tile in _tilemap.Tiles)
                 {
@@ -211,13 +210,18 @@ namespace DungeonInspector
                     {
                         var position = tile.Key;
 
-                        tiles.Add(new TileData() { TileAssetIndex = item.Value.AssetIndex, Position = position });
-                        tileBehaviorData.Add(item.Value.RuntimeData);
+                        tiles.Add(new TileData()
+                        {
+                            TileAssetIndex = item.Value.AssetIndex,
+                            Position = position,
+                            TileBehaviorData = item.Value.RuntimeData,
+                            WorldIndex = tiles.Count
+                        });
                     }
                 }
 
-                var worldData = new LevelData(tiles.ToArray(), tileBehaviorData.ToArray());
-                var json = JsonConvert.SerializeObject(worldData, Formatting.Indented);
+                var worldData = new LevelData(tiles.ToArray());
+                var json = JsonConvert.SerializeObject(worldData, typeof(BaseTD), Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
 
                 var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
 
@@ -234,7 +238,7 @@ namespace DungeonInspector
                 GUILayout.BeginVertical();
 
                 var texture = _staticTiles.GetTileTexture(tile.AssetIndex);
-               
+
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(texture, _style);
                 GUILayout.Label(tile.TextureName);
@@ -250,7 +254,7 @@ namespace DungeonInspector
 
         private BaseTD GetDataSafe(DTile tile)
         {
-            
+
             if (tile.RuntimeData == null)
             {
                 switch (tile.Behavior)

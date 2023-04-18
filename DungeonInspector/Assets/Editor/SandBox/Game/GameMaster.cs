@@ -47,7 +47,7 @@ namespace DungeonInspector
 
             var json = File.ReadAllText(worldLevelPath);
 
-            _levelData = JsonConvert.DeserializeObject<LevelData>(json);
+            _levelData = JsonConvert.DeserializeObject<LevelData>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
         }
 
         protected override void OnStart()
@@ -61,10 +61,8 @@ namespace DungeonInspector
             {
                 var info = _levelData.GetTile(i);
 
-                _tilemap.SetNewTile(_tilesDatabase.GetTile(info.TileAssetIndex), info.Position.x, info.Position.y);
+                _tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
             }
-
-
         }
 
 
@@ -82,46 +80,50 @@ namespace DungeonInspector
 
                 for (int i = 0; i < item.Value.Count; i++)
                 {
-                    
-                    behavior.OnUpdate(item.Value[i], _levelData.GetLevelTileData(item.Value[i].Transform.Position));
+                    behavior.OnUpdate(item.Value[i], GetLevelData(item.Value[i].Transform.Position));
                 }
             }
         }
 
-        public void OnActorEnterTile(Actor player, DTile tile)
+        public void OnActorEnterTile(Actor actor, DTile tile)
         {
             var behavior = _tbContainer.GetBehavior(tile.Behavior);
             
-            behavior.OnEnter(player, _levelData.GetLevelTileData(player.Transform.Position));
+            behavior.OnEnter(actor, GetLevelData(actor.Transform.Position));
 
             if (_tilesBehaviors.TryGetValue(tile.Behavior, out var playersList))
             {
-                if (!playersList.Contains(player))
+                if (!playersList.Contains(actor))
                 {
-                    playersList.Add(player);
+                    playersList.Add(actor);
                 }
             }
             else
             {
-                _tilesBehaviors.Add(tile.Behavior, new List<Actor>() { player });
+                _tilesBehaviors.Add(tile.Behavior, new List<Actor>() { actor });
             }
         }
 
-        public void OnActorExitTile(Actor player, DTile tile)
+        public void OnActorExitTile(Actor actor, DTile tile)
         {
             var behavior = _tbContainer.GetBehavior(tile.Behavior);
 
-            behavior.OnExit(player, _levelData.GetLevelTileData(player.Transform.Position));
+            behavior.OnExit(actor, GetLevelData(actor.Transform.Position));
 
             if (_tilesBehaviors.TryGetValue(tile.Behavior, out var playersList))
             {
-                playersList.Remove(player);
+                playersList.Remove(actor);
 
                 if (playersList.Count == 0)
                 {
                     _tilesBehaviors.Remove(tile.Behavior);
                 }
             }
+        }
+
+        public BaseTD GetLevelData(DVector2 vector)
+        {
+            return _levelData.GetLevelTileData(vector.Round());
         }
     }
 }

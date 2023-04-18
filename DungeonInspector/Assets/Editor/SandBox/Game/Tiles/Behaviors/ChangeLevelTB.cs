@@ -11,7 +11,7 @@ namespace DungeonInspector
     {
         protected override void OnEnter(Actor actor, ChangeLevelTD data)
         {
-            Debug.Log("Change level");
+            Debug.Log("Change level: " + data.Value);
         }
     }
 }
