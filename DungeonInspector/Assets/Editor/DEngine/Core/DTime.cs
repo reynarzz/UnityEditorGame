@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class DTime : IDService
+    public class DTime : EngineSystemBase
     {
         private Stopwatch _stopWatch;
         private static float _time = 0f;
@@ -18,14 +18,14 @@ namespace DungeonInspector
         public static float DeltaTime => _dt;
         public static float TimeScale { get; set; } = 1;
 
-        public void Init()
+        public DTime()
         {
             _stopWatch = new Stopwatch();
             _stopWatch.Start();
             _prev = _stopWatch.ElapsedMilliseconds / 1000f;
         }
 
-        public void Update()
+        public override void Update()
         {
             var secElapsep = _stopWatch.ElapsedMilliseconds / 1000f;
 

@@ -9,7 +9,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class DRenderingController : IDService<DRendererComponent>
+    public class DRenderingController : EngineSystemBase<DRendererComponent>
     {
         private Dictionary<int, List<DRendererComponent>> _renderers;
         private IOrderedEnumerable<KeyValuePair<int, List<DRendererComponent>>> _renderersOrdered;
@@ -25,14 +25,9 @@ namespace DungeonInspector
         {
             _renderers = new Dictionary<int, List<DRendererComponent>>();
             _cameras = new List<DCamera>();
-            _cameras = new List<DCamera>();
             _mat = Resources.Load<Material>("Materials/DStandard");
             _maskMat = Resources.Load<Material>("Materials/Mask");
             _viewportRect = new Texture2D(1, 1);
-        }
-
-        public void Init()
-        {
         }
 
         public void AddCamera(DCamera camera)
@@ -45,7 +40,7 @@ namespace DungeonInspector
             _cameras.Remove(camera);
         }
 
-        public void Update()
+        public override void Update()
         {
             DrawMask();
 
@@ -67,7 +62,7 @@ namespace DungeonInspector
             }
         }
 
-        public void Add(DRendererComponent renderer)
+        public override void Add(DRendererComponent renderer)
         {
             if (_renderers.TryGetValue(renderer.ZSorting, out var rendererList))
             {
@@ -81,7 +76,7 @@ namespace DungeonInspector
             _pendingToReorder = true;
         }
 
-        public void Remove(DRendererComponent renderer)
+        public override void Remove(DRendererComponent renderer)
         {
             // Todo
             _pendingToReorder = true;

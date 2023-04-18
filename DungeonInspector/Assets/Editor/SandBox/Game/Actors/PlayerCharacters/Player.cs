@@ -118,7 +118,7 @@ namespace DungeonInspector
                 _gameMaster.OnActorEnterTile(this, currentTile);
             }
 
-            if ((Transform.Position - _gridPos).SqrMagnitude >= 0.001f)
+            if ((Transform.Position - _gridPos).SqrMagnitude >= 0.0001f)
             {
                 _playerAnimator.Play(1);
             }
@@ -126,7 +126,7 @@ namespace DungeonInspector
             {
                 _canMove = true;
                 _tileEnter = false;
-
+                
                 _playerAnimator.Play(0);
 
                 //if (!_tryingToWalk)

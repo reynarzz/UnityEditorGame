@@ -1,42 +1,42 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 
 namespace DungeonInspector
 {
-    public interface IDService 
+    public abstract class EngineSystemBase 
     {
-        void Init();
-        void Update();
+        public virtual void Init() { }
+        public virtual void Update() { }
     }
 
-    public interface IDService<T> : IDService
+    public abstract class EngineSystemBase<T> : EngineSystemBase
     {
-        void Add(T element);
-        void Remove(T element);
+        public virtual void Add(T element) { }
+        public virtual void Remove(T element) { }
     }
 
     public class DIEngineCoreServices
     {
-        private static Dictionary<Type, IDService> _services;
+        private static Dictionary<Type, EngineSystemBase> _services;
 
         public DIEngineCoreServices()
         {
-            _services = new Dictionary<Type, IDService>()
+            _services = new Dictionary<Type, EngineSystemBase>()
             {
+                { typeof(DTime), new DTime() },
+                { typeof(DInput), new DInput() },
                 { typeof(DEntitiesController), new DEntitiesController() },
                 { typeof(DRenderingController), new DRenderingController() },
                 { typeof(DPhysicsController), new DPhysicsController() },
-                { typeof(DTime), new DTime() },
-                { typeof(DInput), new DInput() },
+                { typeof(DEditorSystem), new DEditorSystem() },
+                
             };
         }
 
-        public static T Get<T>() where T : IDService
+        public static T Get<T>() where T : EngineSystemBase
         {
             var type = typeof(T);
             if (_services.TryGetValue(type, out var service))

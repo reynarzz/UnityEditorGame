@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class DInput : IDService
+    public class DInput : EngineSystemBase
     {
         private static KeyCode _currentKey;
         private static KeyCode _prevKey;
@@ -16,10 +16,8 @@ namespace DungeonInspector
 
         public static string CurrentKeyString() => _currentKey.ToString();
 
-        public void Init() { }
-
         //TODO:Listen for multiple keys held down
-        public void Update()
+        public override void Update()
         {
             var ev = Event.current;
 

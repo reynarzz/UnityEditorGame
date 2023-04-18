@@ -6,23 +6,26 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class DPhysicsController : IDService<DPhysicsComponent>
+    public class DPhysicsController : EngineSystemBase<DPhysicsComponent>
     {
-        public void Init()
+        private List<DPhysicsComponent> _components;
+
+        public override void Init()
         {
 
         }
 
-        public void Add(DPhysicsComponent element)
-        {
-        }
-        
-        public void Remove(DPhysicsComponent element)
+        public override void Add(DPhysicsComponent element)
         {
         }
 
-        public void Update()
+        public override void Remove(DPhysicsComponent element)
         {
+        }
+
+        public override void Update()
+        {
+
         }
     }
 }

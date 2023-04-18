@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class DEntitiesController : IDService<GameEntity>
+    public class DEntitiesController : EngineSystemBase<GameEntity>
     {
         private List<GameEntity> _entities;
         private bool _started = false;
@@ -17,12 +17,12 @@ namespace DungeonInspector
             _entities = new List<GameEntity>();
         }
 
-        public void Add(GameEntity entity)
+        public override void Add(GameEntity entity)
         {
             _entities.Add(entity);
         }
 
-        public void Remove(GameEntity entity)
+        public override void Remove(GameEntity entity)
         {
             _entities.Remove(entity);
         }
@@ -46,7 +46,7 @@ namespace DungeonInspector
         }
 
         // TODO: call awake right after object creation
-        public void Init()
+        public override void Init()
         {
             for (int i = 0; i < _entities.Count; i++)
             {
@@ -74,7 +74,7 @@ namespace DungeonInspector
             }
         }
 
-        public void Update()
+        public override void Update()
         {
             // Start
             if (!_started)

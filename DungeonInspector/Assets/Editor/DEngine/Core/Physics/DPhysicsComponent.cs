@@ -8,6 +8,6 @@ namespace DungeonInspector
 {
     public class DPhysicsComponent : DBehavior
     {
-
+        public bool IsTrigger { get; set; }
     }
 }

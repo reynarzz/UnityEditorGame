@@ -10,12 +10,13 @@ namespace DungeonInspector
 {
     public class DEngine
     {
-        private readonly IDService _components;
-        private readonly IDService _physics;
-        private readonly IDService _input;
-        private readonly IDService _time;
+        private readonly EngineSystemBase _editorSystem;
+        private readonly EngineSystemBase _components;
+        private readonly EngineSystemBase _renderer;
+        private readonly EngineSystemBase _physics;
+        private readonly EngineSystemBase _input;
+        private readonly EngineSystemBase _time;
 
-        private readonly DRenderingController _renderer;
         private readonly DSandboxBase _sandbox;
 
         public DEngine(DSandboxBase sandbox)
@@ -29,6 +30,7 @@ namespace DungeonInspector
             _components = DIEngineCoreServices.Get<DEntitiesController>();
             _physics = DIEngineCoreServices.Get<DPhysicsController>();
             _renderer = DIEngineCoreServices.Get<DRenderingController>();
+            _editorSystem = DIEngineCoreServices.Get<DEditorSystem>();
 
             _sandbox.OnInitialize();
             _time.Init();
@@ -36,6 +38,8 @@ namespace DungeonInspector
             _physics.Init();
             _renderer.Init();
             _components.Init();
+
+            _editorSystem.Init();
         }
 
         public void Update()
@@ -45,6 +49,7 @@ namespace DungeonInspector
             _components.Update();
             _physics.Update();
             _renderer.Update();
+            _editorSystem.Update();
         }
 
         public void Destroy()

@@ -130,6 +130,11 @@ namespace DungeonInspector
             return _behaviorComponents_Test;
         }
 
+        public Dictionary<Type, DComponent>.ValueCollection GetAllComponents()
+        {
+            return _components.Values;
+        }
+
         private void OnComponentRemoved(DComponent component)
         {
             var updatableRenderer = component as DRendererComponent;
