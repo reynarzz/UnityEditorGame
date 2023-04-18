@@ -98,7 +98,7 @@ namespace DungeonInspector
                     _mouseTileGuidePosition = new Vector2Int(Mathf.RoundToInt(newMousePos.x), Mathf.RoundToInt(newMousePos.y));
                 }
             }
-
+            
             tex = Mode == DTilePainterMode.Brush ? _selectedTile.Texture : _selectionFrame;
 
 

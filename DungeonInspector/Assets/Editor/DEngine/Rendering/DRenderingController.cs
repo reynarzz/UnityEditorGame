@@ -157,8 +157,10 @@ namespace DungeonInspector
                 }
 
                 mat.SetVector("_flip", new Vector4(renderer.FlipX ? 1 : 0, renderer.FlipY ? 1 : 0));
+                mat.SetFloat("_zRotate", renderer.ZRotate);
                 Graphics.DrawTexture(rect, renderingTex, mat);
                 mat.SetVector("_flip", default);
+                mat.SetFloat("_zRotate", default);
 
                 _debugCallback?.Invoke();
             }

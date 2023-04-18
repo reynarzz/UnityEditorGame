@@ -22,6 +22,9 @@ namespace DungeonInspector
         private Vector2Int _moveDir = default;
         private bool _tryingToWalk;
 
+        private DGameEntity _weaponTest;
+        private DRendererComponent _weaponRendererTest;
+
         protected override void OnAwake()
         {
             var name = "Character2/WalkLeft";
@@ -43,6 +46,8 @@ namespace DungeonInspector
             AddComp<DPhysicsComponent>();
             _health = AddComp<ActorHealth>();
 
+            _weaponTest = new DGameEntity("WeaponTest");
+            _weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
         }
 
         protected override void OnTriggerEnter(DBoxCollider collider)
@@ -117,7 +122,15 @@ namespace DungeonInspector
                 }
             }
 
+            var mouseDiff = DInput.GetMouseWorldPos() - Transform.Position;
+
+           var angle = Mathf.Atan2(mouseDiff.y, mouseDiff.x);
+
+            _weaponTest.Transform.Position = Transform.Position + Transform.Offset + new DVector2(Mathf.Cos(angle), Mathf.Sin(angle));
+            _weaponRendererTest.ZRotate = angle;
+
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
+            //_renderer.ZRotate += DTime.DeltaTime;
 
             if (Transform.Position.RoundToInt() == _gridPos.RoundToInt() && !_canMove && !_tileEnter)
             {

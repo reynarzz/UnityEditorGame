@@ -33,6 +33,15 @@ namespace DungeonInspector
                             gameScale.y);
         }
 
+        public static DVector2 Mouse2WorldPos(DVector2 mousePosition, Rect ViewportRect, DVector2 cameraPos, float pixelsPerUnit)
+        {
+            var xPos = mousePosition.x - ViewportRect.x - ViewportRect.width / 2;
+            var yPos = -(mousePosition.y - ViewportRect.y - ViewportRect.height / 2);
+
+            return new DVector2(xPos + cameraPos.x * pixelsPerUnit, yPos + cameraPos.y * pixelsPerUnit) / pixelsPerUnit;
+        }
+
+
         public static Rect World2RectPosKeepPivot(Vector2 pos, Vector2 scale, Rect viewportRect, Vector2 cameraPos, int pixelsPerUnit)
         {
             var gameScale = scale * pixelsPerUnit;

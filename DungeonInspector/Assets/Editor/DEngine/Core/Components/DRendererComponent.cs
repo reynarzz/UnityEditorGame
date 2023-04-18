@@ -13,6 +13,7 @@ namespace DungeonInspector
         private DTransformComponent _transform;
         public bool TransformWithCamera { get; set; } = true;
 
+        public float ZRotate { get; set; }
         public Material Material { get; set; }
 
         public DRendererComponent()

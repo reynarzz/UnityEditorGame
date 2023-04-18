@@ -42,6 +42,13 @@ namespace DungeonInspector
             }
         }
 
+        public static DVector2 GetMouseWorldPos()
+        {
+            var mouse = Event.current;
+
+            return Utils.Mouse2WorldPos(mouse.mousePosition, DCamera._viewportRect, DCamera._Position, DCamera.PixelsPerUnit);
+        }
+
         public static bool IsKey(KeyCode key)
         {
             return _currentKey == key;

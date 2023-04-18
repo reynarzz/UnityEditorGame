@@ -42,7 +42,8 @@ Shader "Unlit/DStandard"
 
             sampler2D _MainTex;
             float4 _MainTex_ST;
-            uniform float2 _flip;
+            uniform float3 _flip;
+            uniform float _zRotate;
 
             float luminosity(half4 color)
             {
@@ -50,10 +51,28 @@ Shader "Unlit/DStandard"
 
             }
 
+#define mat4 float4x4
+#define vec4 float4
+
             v2f vert (appdata v)
             {
                 v2f o;
-                o.vertex = UnityObjectToClipPos(v.vertex);
+
+                float c = cos(_zRotate);
+                float s = sin(_zRotate);
+
+                mat4 rot = mat4(vec4(c,-s, 0,0),
+                                vec4(s, c, 0, 0),
+                                vec4(0, 0, 1, 0),
+                                vec4(0, 0, 0, 1));
+
+                vec4 vertex = mul(unity_ObjectToWorld, v.vertex);
+        
+                vertex = mul(rot, vertex + 1 * float4(0.1, 0.1, 0, 1) * abs(sign(_zRotate)));
+                mat4 V = UNITY_MATRIX_V;// mul(UNITY_MATRIX_V, rot);
+                mat4 mvp  = mul(V, UNITY_MATRIX_P);
+
+                o.vertex = mul(mvp, vertex);
                 o.uv = TRANSFORM_TEX(v.uv, _MainTex);
                 return o;
             }
