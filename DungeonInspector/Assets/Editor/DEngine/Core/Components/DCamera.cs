@@ -45,7 +45,7 @@ namespace DungeonInspector
         {
             ScreenSize = new DVector2(EditorGUIUtility.currentViewWidth, ScreenSize.y);
             ViewportRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 0, ScreenSize.x, ScreenSize.y);
-
+            
             // should not be here
             GUILayoutUtility.GetRect(ViewportRect.width, ViewportRect.height);
 

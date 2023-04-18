@@ -52,18 +52,16 @@ namespace DungeonInspector
 
         protected override void OnStart()
         {
-
+             
             Load();
         }
         private void Load()
         {
-            _tilesDatabase.Init(_levelData);
-
             for (int i = 0; i < _levelData.Count; i++)
             {
                 var info = _levelData.GetTile(i);
 
-                _tilemap.SetTile(_tilesDatabase.GetTile(info.Index), info.Position.x, info.Position.y);
+                _tilemap.SetNewTile(_tilesDatabase.GetTile(info.TileAssetIndex), info.Position.x, info.Position.y);
             }
 
 
@@ -92,11 +90,11 @@ namespace DungeonInspector
 
         public void OnActorEnterTile(Actor player, DTile tile)
         {
-            var behavior = _tbContainer.GetBehavior(tile.TileBehavior);
+            var behavior = _tbContainer.GetBehavior(tile.Behavior);
             
             behavior.OnEnter(player, _levelData.GetLevelTileData(player.Transform.Position));
 
-            if (_tilesBehaviors.TryGetValue(tile.TileBehavior, out var playersList))
+            if (_tilesBehaviors.TryGetValue(tile.Behavior, out var playersList))
             {
                 if (!playersList.Contains(player))
                 {
@@ -105,23 +103,23 @@ namespace DungeonInspector
             }
             else
             {
-                _tilesBehaviors.Add(tile.TileBehavior, new List<Actor>() { player });
+                _tilesBehaviors.Add(tile.Behavior, new List<Actor>() { player });
             }
         }
 
         public void OnActorExitTile(Actor player, DTile tile)
         {
-            var behavior = _tbContainer.GetBehavior(tile.TileBehavior);
+            var behavior = _tbContainer.GetBehavior(tile.Behavior);
 
             behavior.OnExit(player, _levelData.GetLevelTileData(player.Transform.Position));
 
-            if (_tilesBehaviors.TryGetValue(tile.TileBehavior, out var playersList))
+            if (_tilesBehaviors.TryGetValue(tile.Behavior, out var playersList))
             {
                 playersList.Remove(player);
 
                 if (playersList.Count == 0)
                 {
-                    _tilesBehaviors.Remove(tile.TileBehavior);
+                    _tilesBehaviors.Remove(tile.Behavior);
                 }
             }
         }

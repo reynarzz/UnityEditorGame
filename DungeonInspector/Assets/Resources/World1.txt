@@ -2,7 +2,7 @@
   "_tiles": [
     {
       "TileBehaviorData": null,
-      "Index": 9,
+      "TileAssetIndex": 9,
       "Position": {
         "x": -1.0,
         "y": -3.0
@@ -10,7 +10,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 1,
+      "TileAssetIndex": 1,
       "Position": {
         "x": -2.0,
         "y": 1.0
@@ -18,7 +18,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 13,
+      "TileAssetIndex": 13,
       "Position": {
         "x": 0.0,
         "y": -5.0
@@ -26,7 +26,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 21,
+      "TileAssetIndex": 21,
       "Position": {
         "x": -3.0,
         "y": -1.0
@@ -34,7 +34,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 1,
+      "TileAssetIndex": 1,
       "Position": {
         "x": -1.0,
         "y": -1.0
@@ -42,7 +42,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 21,
+      "TileAssetIndex": 21,
       "Position": {
         "x": -3.0,
         "y": 0.0
@@ -50,7 +50,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 33,
+      "TileAssetIndex": 33,
       "Position": {
         "x": 1.0,
         "y": 3.0
@@ -58,7 +58,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 0,
+      "TileAssetIndex": 0,
       "Position": {
         "x": 0.0,
         "y": -1.0
@@ -66,7 +66,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 21,
+      "TileAssetIndex": 21,
       "Position": {
         "x": -3.0,
         "y": 1.0
@@ -74,7 +74,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 0,
+      "TileAssetIndex": 0,
       "Position": {
         "x": 1.0,
         "y": 0.0
@@ -82,7 +82,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 3,
+      "TileAssetIndex": 3,
       "Position": {
         "x": -1.0,
         "y": 0.0
@@ -90,7 +90,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 1,
+      "TileAssetIndex": 1,
       "Position": {
         "x": -1.0,
         "y": 1.0
@@ -98,7 +98,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 14,
+      "TileAssetIndex": 14,
       "Position": {
         "x": 1.0,
         "y": 1.0
@@ -106,7 +106,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 0,
+      "TileAssetIndex": 0,
       "Position": {
         "x": 13.0,
         "y": -9.0
@@ -114,7 +114,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 24,
+      "TileAssetIndex": 24,
       "Position": {
         "x": 2.0,
         "y": 3.0
@@ -122,7 +122,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 31,
+      "TileAssetIndex": 31,
       "Position": {
         "x": 2.0,
         "y": 1.0
@@ -130,7 +130,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 0,
+      "TileAssetIndex": 0,
       "Position": {
         "x": -1.0,
         "y": -2.0
@@ -138,7 +138,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 3,
+      "TileAssetIndex": 3,
       "Position": {
         "x": 1.0,
         "y": -2.0
@@ -146,7 +146,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 31,
+      "TileAssetIndex": 31,
       "Position": {
         "x": 2.0,
         "y": 0.0
@@ -154,7 +154,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 3,
+      "TileAssetIndex": 3,
       "Position": {
         "x": 0.0,
         "y": 0.0
@@ -162,7 +162,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 20,
+      "TileAssetIndex": 20,
       "Position": {
         "x": -1.0,
         "y": 2.0
@@ -170,7 +170,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 20,
+      "TileAssetIndex": 20,
       "Position": {
         "x": 0.0,
         "y": 2.0
@@ -178,7 +178,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 9,
+      "TileAssetIndex": 9,
       "Position": {
         "x": 0.0,
         "y": -4.0
@@ -186,7 +186,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 21,
+      "TileAssetIndex": 21,
       "Position": {
         "x": -3.0,
         "y": 2.0
@@ -194,7 +194,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 9,
+      "TileAssetIndex": 9,
       "Position": {
         "x": 0.0,
         "y": -3.0
@@ -202,7 +202,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 0,
+      "TileAssetIndex": 0,
       "Position": {
         "x": 2.0,
         "y": -2.0
@@ -210,7 +210,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 33,
+      "TileAssetIndex": 33,
       "Position": {
         "x": -2.0,
         "y": 3.0
@@ -218,7 +218,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 33,
+      "TileAssetIndex": 33,
       "Position": {
         "x": -1.0,
         "y": 3.0
@@ -226,7 +226,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 0,
+      "TileAssetIndex": 0,
       "Position": {
         "x": -2.0,
         "y": 0.0
@@ -234,7 +234,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 0,
+      "TileAssetIndex": 0,
       "Position": {
         "x": 1.0,
         "y": -1.0
@@ -242,7 +242,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 1,
+      "TileAssetIndex": 1,
       "Position": {
         "x": 0.0,
         "y": 1.0
@@ -250,7 +250,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 0,
+      "TileAssetIndex": 0,
       "Position": {
         "x": 0.0,
         "y": -2.0
@@ -258,7 +258,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 0,
+      "TileAssetIndex": 0,
       "Position": {
         "x": 2.0,
         "y": -1.0
@@ -266,7 +266,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 20,
+      "TileAssetIndex": 20,
       "Position": {
         "x": 1.0,
         "y": 2.0
@@ -274,7 +274,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 20,
+      "TileAssetIndex": 20,
       "Position": {
         "x": -2.0,
         "y": 2.0
@@ -282,7 +282,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 32,
+      "TileAssetIndex": 32,
       "Position": {
         "x": 7.0,
         "y": -12.0
@@ -290,7 +290,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 32,
+      "TileAssetIndex": 32,
       "Position": {
         "x": 5.0,
         "y": -12.0
@@ -298,7 +298,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 23,
+      "TileAssetIndex": 23,
       "Position": {
         "x": -3.0,
         "y": 3.0
@@ -306,7 +306,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 31,
+      "TileAssetIndex": 31,
       "Position": {
         "x": 2.0,
         "y": 2.0
@@ -314,7 +314,7 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 33,
+      "TileAssetIndex": 33,
       "Position": {
         "x": 0.0,
         "y": 3.0
@@ -322,10 +322,18 @@
     },
     {
       "TileBehaviorData": null,
-      "Index": 0,
+      "TileAssetIndex": 0,
       "Position": {
         "x": -2.0,
         "y": -1.0
+      }
+    },
+    {
+      "TileBehaviorData": null,
+      "TileAssetIndex": 13,
+      "Position": {
+        "x": 2.0,
+        "y": -6.0
       }
     }
   ],
@@ -370,7 +378,8 @@
     null,
     null,
     null,
+    null,
     null
   ],
-  "Count": 41
+  "Count": 42
 }

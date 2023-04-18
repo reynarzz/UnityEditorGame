@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class StringDataTD
+    public class StringDataTD : BaseTD
     {
         public string Value { get; set; }
     }

@@ -12,11 +12,14 @@ namespace DungeonInspector
     {
         [SerializeField] private DTile[] _tiles;
 
-        public int TextureCount => _tiles.Length;
+        public int Count => _tiles.Length;
 
         public DTile GetTile(int index)
         {
-            return _tiles[index];
+            var dTile = _tiles[index];
+            dTile.AssetIndex = index;
+
+            return dTile;
         }
     }
 }

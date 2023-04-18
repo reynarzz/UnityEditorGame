@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class IntDataTD : BaseTD
+    public class DPhysicsComponent : DBehavior
     {
-        public virtual int Value { get; set; }
+
     }
 }

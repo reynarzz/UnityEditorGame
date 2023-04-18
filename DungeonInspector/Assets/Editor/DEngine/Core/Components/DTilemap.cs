@@ -17,6 +17,28 @@ namespace DungeonInspector
             _tiles = new Dictionary<DVector2, Dictionary<int, DTile>>();
         }
 
+        private int _index_REMOVE;
+        public void SetNewTile(DTile tile, float x, float y)
+        {
+            var copy = new DTile() 
+            {
+                AssetIndex = tile.AssetIndex,
+
+                WorldIndex = _index_REMOVE++, // TODO---------------------------------
+                
+                IsWalkable = tile.IsWalkable,
+                Animation = tile.Animation,
+                Behavior = tile.Behavior,
+                Type = tile.Type,
+                ZSorting = tile.ZSorting,
+                Texture = tile.Texture,
+                RuntimeData = null,
+                IdleTexAnim = tile.IdleTexAnim,
+            };
+
+            SetTile(copy, x, y);
+        }
+
         public void SetTile(DTile tile, float x, float y)
         {
             var pos = new DVector2((int)x, (int)y);
@@ -41,6 +63,7 @@ namespace DungeonInspector
                 _tiles.Add(pos, dict);
             }
         }
+
 
         public void RemoveTile(float x, float y)
         {

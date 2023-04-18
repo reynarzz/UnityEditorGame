@@ -21,7 +21,7 @@ namespace DungeonInspector
     {
         private Vector2 _tilesScroll;
         private Vector2 _scroll;
-        private (DTile, Texture2D) _selectedTile;
+        private DTile _selectedTile;
 
         private DTilemap _tilemap;
 
@@ -29,7 +29,7 @@ namespace DungeonInspector
         private TilesDatabase _animatedTiles;
         private DCamera _camera;
 
-        public DTilePainterMode Mode { get; private set; } = DTilePainterMode.Eraser;
+        public DTilePainterMode Mode { get; private set; } = DTilePainterMode.Select;
 
         private string[] _modes;
 
@@ -58,7 +58,7 @@ namespace DungeonInspector
 
             _camera = gameMaster.Camera;
 
-            _selectedTile = _staticTiles.GetTileAndTex(0);
+            _selectedTile = _staticTiles.GetTile(0);
 
             _modes = new string[] { "Select", "Brush", "Eraser" };
 
@@ -87,7 +87,7 @@ namespace DungeonInspector
             {
                 if (Mode == DTilePainterMode.Brush)
                 {
-                    _tilemap.SetTile(_selectedTile.Item1, _mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
+                    _tilemap.SetNewTile(_selectedTile, _mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
                 }
                 else if (Mode == DTilePainterMode.Eraser)
                 {
@@ -99,7 +99,7 @@ namespace DungeonInspector
                 }
             }
 
-            tex = Mode == DTilePainterMode.Brush ? _selectedTile.Item2 : _selectionFrame;
+            tex = Mode == DTilePainterMode.Brush ? _selectedTile.Texture : _selectionFrame;
 
 
             //// Mouse sprite pointer
@@ -171,21 +171,19 @@ namespace DungeonInspector
 
                 for (int i = 0; i < tileDatabase.Count; i++)
                 {
-                    var tilePair = tileDatabase.GetTileAndTex(i);
-
-                    var tex = tilePair.Item2;
+                    var tile = tileDatabase.GetTile(i);
 
                     var color = GUI.backgroundColor;
 
-                    if (_selectedTile.Item1 == tilePair.Item1)
+                    if (_selectedTile == tile)
                     {
                         GUI.backgroundColor = Color.black * 0.4f;
                     }
 
                     //TODO: change the texture animation for animated tiles.
-                    if (GUILayout.Button(new GUIContent(tex, tilePair.Item1.TextureName), GUILayout.Width(40), GUILayout.Height(40)))
+                    if (GUILayout.Button(new GUIContent(tile.Texture, tile.Texture.name), GUILayout.Width(40), GUILayout.Height(40)))
                     {
-                        _selectedTile = tilePair;
+                        _selectedTile = tile;
                     }
 
                     GUI.backgroundColor = color;
@@ -213,7 +211,7 @@ namespace DungeonInspector
                     {
                         var position = tile.Key;
 
-                        tiles.Add(new TileData() { Index = item.Value.Index, Position = position });
+                        tiles.Add(new TileData() { TileAssetIndex = item.Value.AssetIndex, Position = position });
                         tileBehaviorData.Add(item.Value.RuntimeData);
                     }
                 }
@@ -235,27 +233,46 @@ namespace DungeonInspector
             {
                 GUILayout.BeginVertical();
 
-                var texture = _staticTiles.GetTileTexture(tile.Index);
-
+                var texture = _staticTiles.GetTileTexture(tile.AssetIndex);
+               
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(texture, _style);
                 GUILayout.Label(tile.TextureName);
-                GUILayout.Label("Asset Index: " + tile.Index);
+                GUILayout.Label("World Index: " + tile.WorldIndex);
                 GUILayout.EndHorizontal();
 
-                RenderMembers(_value);
+                RenderMembers(GetDataSafe(tile));
 
                 GUILayout.EndVertical();
 
             }
         }
-        private StringDataTD _value = new StringDataTD();
 
-        private void RenderMembers(object type)
+        private BaseTD GetDataSafe(DTile tile)
+        {
+            
+            if (tile.RuntimeData == null)
+            {
+                switch (tile.Behavior)
+                {
+                    case TileBehavior.Damage:
+                        tile.RuntimeData = new IntDataTD();
+                        break;
+                    case TileBehavior.IncreaseHealth:
+                        break;
+                    case TileBehavior.ChangeLevel:
+                        tile.RuntimeData = new ChangeLevelTD();
+                        break;
+                }
+            }
+
+            return tile.RuntimeData;
+        }
+
+        private void RenderMembers(BaseTD type)
         {
             if (type != null)
             {
-
                 var props = type.GetType().GetProperties();
 
                 for (int i = 0; i < props.Length; i++)

@@ -14,278 +14,324 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp-Editor:DungeonInspector:TilesGroup
   _tiles:
   - _texture: {fileID: 2800000, guid: 79b62de4c0c71d34080e67144dd5a3bc, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 93023f5997e819048be0b42e6e24cd83, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: d481f8fe88fb8b740a93b09de0833842, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 14a4119919af288499ca57459ec8833d, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: eecac6ee9354e644c9941370d3ed150f, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: b5440ed821f2e3d42aed87252a374ea9, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: d4ed685f93eb2c44db611c09435c4541, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 167134942083b4146bedbb30bae6d6d9, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 5d5734806ea5c3345a273fbd1df3a289, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 2586b3813e3088b49ba39d862bdfd691, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 239d036cd74484b4d988e4b289da1f84, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 8c70c73b4c53ff645b80c15fafce6a7a, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 64501ae6df7cfc44fac73e03462a0e8e, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 628145b064052a042bdcd5ce6c3f8967, type: 3}
-    _tile:
-      IsWalkable: 1
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 3
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 3
   - _texture: {fileID: 2800000, guid: 16af7c26a4775b340aee68b9fd5bd248, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 89cd2f58c3ff7734481599bdd7f7ba48, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: ee07918269b9ccf4eb1b902dae657820, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 23daceeffe8e52741b31ffdef952b540, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: af52e13e33040464a97a3a06b62477eb, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 9f8f3a7a264b61e4bbf32d7bcba5d4d1, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 414aa2caac1d21f4fba85234e5c6f519, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 7cb122d60692cfa419c2bff98b01800f, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 8f94721f5f65704459b582b327e44404, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 843ca1e87b4beb64aa01f2b3d1da7772, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 78a15e422a546174f9c262b79afc06b5, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 08359f6ea44ab4247a8ff822962e9466, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 6e9c2b24e3828b54eaa36604c9ad18e4, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 9e1601ec73d338e44b89484ef02d0c53, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 6d7e4b8aef3a895429b9fabbd48f23dd, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: af922694a868edc4a82ba83eae3a1dd7, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: d18cbab7174311b408c10f0a9df57151, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: cfd63be58bc217f418e4fde7f5cb2dd3, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 70750852f5c4ebf42a7a05f3db4a1161, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 294cb378e1a74bd4296f612aa7739fa7, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: d320872ffbbcdf542ae785783cbd7ea8, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 09d2ed2200c122040a950548167a5ba8, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 13c4c74c42bda464ab1bf6852592cfe8, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 529b9c3238a3fdb47a437695d68d66f1, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: e229db491e15653498e2abb7e8e82c01, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: ed5d069abf0cb404db01abd9a61e134e, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 6cd1f6d7be2faa948a452a02fe92621d, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 8c136b068eac8274484f647168f56ef0, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 68014235134a8b045b96449f2dd1e52d, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 479592dc8b21bb24389390e07a976177, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: 43fc221095765804da16876c39191ada, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
   - _texture: {fileID: 2800000, guid: c33d88ce0834a18439f9d6fcfc9bd944, type: 3}
-    _tile:
-      IsWalkable: 0
-      ZSorting: 0
-      Type: 0
-      TileBehavior: 0
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0

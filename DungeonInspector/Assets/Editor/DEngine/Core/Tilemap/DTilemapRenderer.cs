@@ -37,18 +37,11 @@ namespace DungeonInspector
             {
                 foreach (var s in item.Value)
                 {
-                    var tex = GetTexFromTile(s.Value);
+                    var tex = _tilesDatabase.GetTileTexture(s.Value.AssetIndex);
 
                     Graphics.DrawTexture(_camera.World2RectPos(item.Key, Vector2.one), tex, _mat_DELETE);
                 }
             }
         }
-
-        private Texture2D GetTexFromTile(DTile tile)
-        {
-            return _tilesDatabase.GetTileTexture(tile.Index);
-        }
-
-
     }
 }

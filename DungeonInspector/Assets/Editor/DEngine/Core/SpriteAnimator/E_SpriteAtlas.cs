@@ -42,38 +42,36 @@ namespace DungeonInspector
         [SerializeField] private Texture2D _texture;
 
         [SerializeField] DSpriteAnimation _animation;
-        public Texture2D Texture => _texture;
+        public Texture2D Texture { get => _texture; set => _texture = value; }
 
         [NonSerialized] private string[] _interactableTexAnim;
 
         public string[] IdleTexAnim { get; set; }
 
-        public int Index { get; set; }
-        public string TextureName { get; set; }
+        public int AssetIndex { get; set; }
+        public int WorldIndex { get; set; }
+        public string TextureName 
+        {
+            get 
+            {
+                if (_texture)
+                {
+                    return _texture.name;
+                }
+                else
+                {
+                    // get animation with texture name
+                }
+                return "Empty Texture";
+            }
+        }
+        public BaseTD RuntimeData { get; set; }
+        public DSpriteAnimation Animation { get; set; }
+
+
         public bool IsWalkable;
         public int ZSorting;
         public TileType Type;
-        public TileBehavior TileBehavior;
-        public BaseTD RuntimeData { get; set; }
-        public DSpriteAnimation Animation => _animation;
-    }
-
-
-    [CustomEditor(typeof(E_SpriteAtlas))]
-    public class TlasEditor : Editor
-    {
-        public override void OnInspectorGUI()
-        {
-
-            if (GUILayout.Button("Organize by name"))
-            {
-                //(target as E_SpriteAtlas).
-                //_textures
-            }
-
-            base.OnInspectorGUI();
-
-
-        }
+        public TileBehavior Behavior;
     }
 }
