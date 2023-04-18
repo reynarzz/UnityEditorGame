@@ -49,7 +49,7 @@ namespace DungeonInspector
         {
             Debug.Log("Enter: " + collider.Name);
 
-            collider.Entity.Destroy();
+            //collider.Entity.Destroy();
         }
 
         protected override void OnStart()

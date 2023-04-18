@@ -90,9 +90,10 @@ namespace DungeonInspector
                 }
             }
         }
+
         public bool DetectCollision(DPhysicsComponent a, DPhysicsComponent b)
         {
-            return ((a.Collider.AABB.Min.x >= b.Collider.AABB.Min.x && a.Collider.AABB.Min.x <= b.Collider.AABB.Max.x ||
+            return (((a.Collider.AABB.Min.x >= b.Collider.AABB.Min.x && a.Collider.AABB.Min.x <= b.Collider.AABB.Max.x ||
                    a.Collider.AABB.Max.x <= b.Collider.AABB.Max.x && a.Collider.AABB.Max.x >= b.Collider.AABB.Min.x) &&
                    (a.Collider.AABB.Min.y >= b.Collider.AABB.Min.y && a.Collider.AABB.Min.y <= b.Collider.AABB.Max.y ||
                    a.Collider.AABB.Max.y <= b.Collider.AABB.Max.y && a.Collider.AABB.Max.y >= b.Collider.AABB.Min.y))
@@ -100,7 +101,8 @@ namespace DungeonInspector
                    ((b.Collider.AABB.Min.x >= a.Collider.AABB.Min.x && b.Collider.AABB.Min.x <= a.Collider.AABB.Max.x ||
                    b.Collider.AABB.Max.x <= a.Collider.AABB.Max.x && b.Collider.AABB.Max.x >= a.Collider.AABB.Min.x) &&
                    (b.Collider.AABB.Min.y >= a.Collider.AABB.Min.y && b.Collider.AABB.Min.y <= a.Collider.AABB.Max.y ||
-                   b.Collider.AABB.Max.y <= a.Collider.AABB.Max.y && b.Collider.AABB.Max.y >= a.Collider.AABB.Min.y));
+                   b.Collider.AABB.Max.y <= a.Collider.AABB.Max.y && b.Collider.AABB.Max.y >= a.Collider.AABB.Min.y)))
+                   && a.Collider.IsTrigger && b.Collider.IsTrigger;
 
         }
     }

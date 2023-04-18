@@ -11,8 +11,6 @@ namespace DungeonInspector
     {
         public DVector2 Max { get; set; }
         public DVector2 Min { get; set; }
-
-        public static AABB Default => new AABB { Max = new DVector2(1, 1), Min = new DVector2(0, 0) };
     }
 
     public class DPhysicsComponent : DBehavior

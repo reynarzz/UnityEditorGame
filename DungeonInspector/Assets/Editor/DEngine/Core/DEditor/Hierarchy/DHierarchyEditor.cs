@@ -87,7 +87,12 @@ namespace DungeonInspector
 
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("IsTrigger");
-                        EditorGUILayout.Toggle(box.IsTrigger);
+                        box.IsTrigger = EditorGUILayout.Toggle(box.IsTrigger);
+                        GUILayout.EndHorizontal();
+
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label("Debug");
+                        box.Debug = EditorGUILayout.Toggle(box.Debug);
                         GUILayout.EndHorizontal();
 
                         box.Center = EditorGUILayout.Vector2Field(string.Empty, box.Center, GUILayout.MaxWidth(_rect.width - 50));
@@ -97,9 +102,9 @@ namespace DungeonInspector
 
                     if (component.GetType() == typeof(DPhysicsComponent))
                     {
-                        
+
                     }
-                    
+
                     GUILayout.EndVertical();
                     //GUILayout.Label("x", GUILayout.MaxWidth(15));
                     //var x = EditorGUILayout.FloatField(entity.Transform.Position.x);

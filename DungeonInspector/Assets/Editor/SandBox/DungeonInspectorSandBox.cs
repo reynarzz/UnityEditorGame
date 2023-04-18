@@ -19,11 +19,12 @@ namespace DungeonInspector
             // Tile Painter
             new DGameEntity("TileMaster", typeof(DRenderingGroup), typeof(DTilemap), typeof(DTilemapRenderer));
 
+            // Game Master
+            new DGameEntity("GameMaster", typeof(GameMaster));
+
             // World Editor
             new DGameEntity("WorldEditor", typeof(DWorldEditor)).IsActive = false;
 
-            // Game Master
-            new DGameEntity("GameMaster", typeof(GameMaster));
 
             
             
