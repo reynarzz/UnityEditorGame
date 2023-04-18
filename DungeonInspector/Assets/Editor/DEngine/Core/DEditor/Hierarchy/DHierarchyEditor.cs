@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Unity.VisualScripting;
 using UnityEditor;
 using UnityEngine;
 
@@ -26,7 +25,7 @@ namespace DungeonInspector
             GUILayout.BeginArea(_rect);
 
             var color = GUI.backgroundColor;
-            GUI.backgroundColor = Color.black * 0.7f;
+            GUI.backgroundColor = Color.black * 0.4f;
             GUILayout.BeginVertical(EditorStyles.helpBox);
             GUI.backgroundColor = color;
             GUILayout.Label("Hierarchy");
