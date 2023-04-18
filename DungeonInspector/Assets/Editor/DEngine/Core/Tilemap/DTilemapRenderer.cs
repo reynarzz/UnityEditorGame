@@ -17,7 +17,7 @@ namespace DungeonInspector
         protected override void OnStart()
         {
             _tilemap = GetComp<DTilemap>();
-            var gameMaster = FindGameEntity("GameMaster").GetComp<DGameMaster>();
+            var gameMaster = GameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
             _tilesDatabase = gameMaster.TilesDatabase;
             _camera = gameMaster.Camera;
 

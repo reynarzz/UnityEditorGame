@@ -6,33 +6,33 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class DEntitiesController : IDService
+    public class DEntitiesController : IDService<GameEntity>
     {
-        private List<DGameEntity> _entities;
+        private List<GameEntity> _entities;
         private bool _started = false;
 
         public int Count => _entities.Count;
         public DEntitiesController()
         {
-            _entities = new List<DGameEntity>();
+            _entities = new List<GameEntity>();
         }
 
-        public void AddEntity(DGameEntity entity)
+        public void Add(GameEntity entity)
         {
             _entities.Add(entity);
         }
 
-        public void RemoveEntity(DGameEntity entity)
+        public void Remove(GameEntity entity)
         {
             _entities.Remove(entity);
         }
 
-        public List<DGameEntity> GetAllGameEntities()
+        public List<GameEntity> GetAllGameEntities()
         {
             return _entities;
         }
 
-        public DGameEntity FindGameEntity(string name)
+        public GameEntity FindGameEntity(string name)
         {
             for (int i = 0; i < _entities.Count; i++)
             {
@@ -46,20 +46,25 @@ namespace DungeonInspector
         }
 
         // TODO: call awake right after object creation
-        public void OnAwake()
+        public void Init()
         {
             for (int i = 0; i < _entities.Count; i++)
             {
-                var updatables = _entities[i].GetAllUpdatableComponents();
+                var entity = _entities[i];
 
-                for (int j = 0; j < updatables.Count; j++)
+                if (entity.IsActive)
                 {
-                    updatables[j].Awake();
+                    var updatables = entity.GetAllUpdatableComponents();
+
+                    for (int j = 0; j < updatables.Count; j++)
+                    {
+                        updatables[j].Awake();
+                    }
                 }
             }
         }
 
-        private void OnStartBehaviors(DGameEntity entity)
+        private void OnStartBehaviors(GameEntity entity)
         {
             var updatables = entity.GetAllUpdatableComponents();
 
@@ -85,11 +90,16 @@ namespace DungeonInspector
 
             for (int i = 0; i < _entities.Count; i++)
             {
-                var updatables = _entities[i].GetAllUpdatableComponents();
+                var entity = _entities[i];
 
-                for (int j = 0; j < updatables.Count; j++)
+                if (entity.IsActive)
                 {
-                    updatables[j].Update();
+                    var updatables = entity.GetAllUpdatableComponents();
+
+                    for (int j = 0; j < updatables.Count; j++)
+                    {
+                        updatables[j].Update();
+                    }
                 }
             }
         }

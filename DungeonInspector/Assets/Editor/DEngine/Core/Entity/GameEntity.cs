@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class DGameEntity
+    public class GameEntity
     {
         private Dictionary<Type, DComponent> _components;
 
@@ -18,11 +18,13 @@ namespace DungeonInspector
         private const string _defaultName = "GameEntity";
         public string Name { get; set; }
 
-        public DGameEntity() : this(_defaultName) { }
-        public DGameEntity(string name) : this(name, null) { }
-        public DGameEntity(params Type[] components) : this(_defaultName, components) { }
+        public GameEntity() : this(_defaultName) { }
+        public GameEntity(string name) : this(name, null) { }
+        public GameEntity(params Type[] components) : this(_defaultName, components) { }
 
-        public DGameEntity(string name, params Type[] components)
+        public bool IsActive { get; set; } = true;
+
+        public GameEntity(string name, params Type[] components)
         {
             Name = name;
 
@@ -43,7 +45,7 @@ namespace DungeonInspector
                 }
             }
 
-            DIEngineCoreServices.Get<DEntitiesController>().AddEntity(this);
+            DIEngineCoreServices.Get<DEntitiesController>().Add(this);
         }
 
         // TODO: refactor
@@ -67,7 +69,7 @@ namespace DungeonInspector
                 {
                     var renderer = component as DRendererComponent;
 
-                    DIEngineCoreServices.Get<DRenderingController>().AddRenderer(renderer);
+                    DIEngineCoreServices.Get<DRenderingController>().Add(renderer);
                 }
 
                 // Temporal
@@ -80,7 +82,7 @@ namespace DungeonInspector
                 {
                     var behavior = component as DBehavior;
 
-                    behavior.GameEntity = this;
+                    behavior.Entity = this;
                     _behaviorComponents_Test.Add(behavior);
 
                     //Debug.Log(component.GetType().Name);
@@ -134,8 +136,7 @@ namespace DungeonInspector
 
             if (updatableRenderer != null)
             {
-                var result = DIEngineCoreServices.Get<DRenderingController>().RemoveRenderer(updatableRenderer);
-
+                DIEngineCoreServices.Get<DRenderingController>().Remove(updatableRenderer);
             }
 
             var behavior = component as DBehavior;
@@ -149,12 +150,16 @@ namespace DungeonInspector
             _components.Remove(component.GetType());
 
             // Removing
+        }
 
+        public static GameEntity FindGameEntity(string name)
+        {
+            return DIEngineCoreServices.Get<DEntitiesController>().FindGameEntity(name);
         }
 
         public void Destroy()
         {
-            DIEngineCoreServices.Get<DEntitiesController>().RemoveEntity(this);
+            DIEngineCoreServices.Get<DEntitiesController>().Remove(this);
 
             for (int i = _components.Values.Count - 1; i > 0; i--)
             {

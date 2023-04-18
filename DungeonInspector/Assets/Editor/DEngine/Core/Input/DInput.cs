@@ -8,14 +8,17 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class DInput
+    public class DInput : IDService
     {
         private static KeyCode _currentKey;
         private static KeyCode _prevKey;
         private bool _keyDown;
 
-        //TODO:Listen for multiple keys held down
+        public static string CurrentKeyString() => _currentKey.ToString();
 
+        public void Init() { }
+
+        //TODO:Listen for multiple keys held down
         public void Update()
         {
             var ev = Event.current;
@@ -46,6 +49,7 @@ namespace DungeonInspector
             return _currentKey == key;
         }
 
+        // TODO: fix, if same key is called in the same frame will be false, and cannot read more that one key at a time.
         public static bool IsKeyDown(KeyCode key)
         {
             if(_prevKey != _currentKey && _currentKey == key)
@@ -58,7 +62,7 @@ namespace DungeonInspector
             return false;
         }
 
-        public static string CurrentKeyString() => _currentKey.ToString();
 
+        
     }
 }

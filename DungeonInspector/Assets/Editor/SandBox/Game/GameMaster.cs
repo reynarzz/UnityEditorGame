@@ -6,11 +6,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 namespace DungeonInspector
 {
-    public class DGameMaster : DBehavior
+    public class GameMaster : DBehavior
     {
         private DTilemap _tilemap;
         private DCamera _camera;
@@ -34,8 +33,8 @@ namespace DungeonInspector
         private Dictionary<TileBehavior, List<Actor>> _tilesBehaviors;
         protected override void OnAwake()
         {
-            _tilemap = FindGameEntity("TileMaster").GetComp<DTilemap>();
-            _camera = FindGameEntity("Camera").GetComp<DCamera>();
+            _tilemap = GameEntity.FindGameEntity("TileMaster").GetComp<DTilemap>();
+            _camera = GameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();
 
             _tilesDatabase = new TilesDatabase("World/World1Tiles");
             _animatedTiles = new TilesDatabase("World/TilesAnimated");
@@ -52,9 +51,9 @@ namespace DungeonInspector
 
         protected override void OnStart()
         {
-             
             Load();
         }
+
         private void Load()
         {
             for (int i = 0; i < _levelData.Count; i++)
@@ -88,7 +87,7 @@ namespace DungeonInspector
         public void OnActorEnterTile(Actor actor, DTile tile)
         {
             var behavior = _tbContainer.GetBehavior(tile.Behavior);
-            
+
             behavior.OnEnter(actor, GetLevelData(actor.Transform.Position));
 
             if (_tilesBehaviors.TryGetValue(tile.Behavior, out var playersList))

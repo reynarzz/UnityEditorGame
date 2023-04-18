@@ -21,7 +21,7 @@ namespace DungeonInspector
 
         private DRendererComponent GetEnemy<T>(string name, string texturePath) where T : DBehavior
         {
-            var entity = new DGameEntity(name, typeof(T));
+            var entity = new GameEntity(name, typeof(T));
 
             var renderer = entity.AddComp<DRendererComponent>();
 

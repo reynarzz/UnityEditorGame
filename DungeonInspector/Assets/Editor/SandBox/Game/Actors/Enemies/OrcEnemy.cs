@@ -13,7 +13,7 @@ namespace DungeonInspector
         private DRendererComponent _renderer;
         protected override void OnStart()
         {
-            _player = FindGameEntity("Player").GetComp<Player>();
+            _player = GameEntity.FindGameEntity("Player").GetComp<Player>();
             _renderer = GetComp<DRendererComponent>();
         }
 

@@ -4,40 +4,46 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Windows;
 
 namespace DungeonInspector
 {
     public class DEngine
     {
-        private readonly DEntitiesController _componentsContainer;
+        private readonly IDService _components;
+        private readonly IDService _physics;
+        private readonly IDService _input;
+        private readonly IDService _time;
+
         private readonly DRenderingController _renderer;
         private readonly DSandboxBase _sandbox;
-        private readonly DTime _time;
-        private readonly DInput _input;
 
         public DEngine(DSandboxBase sandbox)
         {
+            _sandbox = sandbox;
+
             new DIEngineCoreServices();
 
-            _time = new DTime();
-            _input = new DInput();
-            _sandbox = sandbox;
+            _time = DIEngineCoreServices.Get<DTime>();
+            _input = DIEngineCoreServices.Get<DInput>();
+            _components = DIEngineCoreServices.Get<DEntitiesController>();
+            _physics = DIEngineCoreServices.Get<DPhysicsController>();
             _renderer = DIEngineCoreServices.Get<DRenderingController>();
-            _componentsContainer = DIEngineCoreServices.Get<DEntitiesController>();
 
-
+            _time.Init();
+            _input.Init();
             _sandbox.OnInitialize();
-
-            _renderer.CameraTest = DCamera.MainCamera;
-
-            _componentsContainer.OnAwake();
+            _physics.Init();
+            _renderer.Init();
+            _components.Init();
         }
 
         public void Update()
         {
             _time.Update();
             _input.Update();
-            _componentsContainer.Update();
+            _components.Update();
+            _physics.Update();
             _renderer.Update();
         }
 
@@ -45,6 +51,5 @@ namespace DungeonInspector
         {
             _sandbox.OnQuit();
         }
-
     }
 }

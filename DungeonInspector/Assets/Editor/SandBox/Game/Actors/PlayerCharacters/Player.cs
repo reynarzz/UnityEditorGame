@@ -7,7 +7,7 @@ namespace DungeonInspector
     public class Player : Actor
     {
         private DAnimatorComponent _playerAnimator;
-        private DGameMaster _gameMaster;
+        private GameMaster _gameMaster;
 
         private const float _moveSpeed = 15f;
 
@@ -35,7 +35,7 @@ namespace DungeonInspector
 
             _playerAnimator.AddAnimation(idle, walk);
 
-            _gameMaster = FindGameEntity("GameMaster").GetComp<DGameMaster>();
+            _gameMaster = GameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
             _renderer = GetComp<DRendererComponent>();
             _renderer.Sprite = idle.CurrentTexture;
 

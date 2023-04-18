@@ -19,9 +19,7 @@ namespace DungeonInspector
 
     public abstract class DBehavior : DTransformableComponent, IDBehavior
     {
-        public DGameEntity GameEntity { get; set; }
-
-        public string Name => GameEntity.Name;
+        public string Name => Entity.Name;
 
         private bool _isStarted = false;
         private bool _isAwaken = false;
@@ -35,26 +33,22 @@ namespace DungeonInspector
 
         public T GetComp<T>() where T : DComponent, new()
         {
-            return GameEntity.GetComp<T>();
+            return Entity.GetComp<T>();
         }
 
         public T AddComp<T>() where T : DComponent, new()
         {
-            return GameEntity.AddComp<T>();
+            return Entity.AddComp<T>();
         }
 
         public bool TryGetComp<T>(out T behavior) where T : DBehavior, new()
         {
-            behavior = GameEntity.GetComp<T>();
+            behavior = Entity.GetComp<T>();
 
             return behavior != null;
         }
 
-        public DGameEntity FindGameEntity(string name)
-        {
-            return DIEngineCoreServices.Get<DEntitiesController>().FindGameEntity(name);
-        }
-
+        
         void IDBehavior.Awake()
         {
             _isAwaken = true;

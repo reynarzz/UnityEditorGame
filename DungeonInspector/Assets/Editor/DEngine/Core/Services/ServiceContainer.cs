@@ -8,7 +8,17 @@ using Unity.VisualScripting;
 
 namespace DungeonInspector
 {
-    public interface IDService {  }
+    public interface IDService 
+    {
+        void Init();
+        void Update();
+    }
+
+    public interface IDService<T> : IDService
+    {
+        void Add(T element);
+        void Remove(T element);
+    }
 
     public class DIEngineCoreServices
     {
@@ -19,8 +29,10 @@ namespace DungeonInspector
             _services = new Dictionary<Type, IDService>()
             {
                 { typeof(DEntitiesController), new DEntitiesController() },
-                { typeof(DRenderingController), new DRenderingController() }
-                
+                { typeof(DRenderingController), new DRenderingController() },
+                { typeof(DPhysicsController), new DPhysicsController() },
+                { typeof(DTime), new DTime() },
+                { typeof(DInput), new DInput() },
             };
         }
 
