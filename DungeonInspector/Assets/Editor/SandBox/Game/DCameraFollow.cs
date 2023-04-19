@@ -23,6 +23,9 @@ namespace DungeonInspector
             var playerPos = new DVector2(_player.Transform.Position.x, _player.Transform.Position.y);
 
             _camera.Transform.Position = UnityEngine.Vector2.Lerp(_camera.Transform.Position, playerPos, 7 * DTime.DeltaTime);
+
+            //_camera.Transform.Position = playerPos;
+
         }
     }
 } 

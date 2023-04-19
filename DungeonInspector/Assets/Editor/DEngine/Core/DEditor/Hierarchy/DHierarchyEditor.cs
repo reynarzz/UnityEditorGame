@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace DungeonInspector
 {
@@ -100,10 +101,28 @@ namespace DungeonInspector
 
                     }
 
-                    if (component.GetType() == typeof(DPhysicsComponent))
+                    if (component.GetType() == typeof(HealthBarUI))
                     {
+                        var health = (component as HealthBarUI);
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label("Percent", GUILayout.MaxWidth(40));
+                        health.Percentage = EditorGUILayout.Slider(health.Percentage, 0, 1);
+                        GUILayout.EndHorizontal();
+
+                        GUILayout.BeginHorizontal();
+                       // GUILayout.Label("Percent", GUILayout.MaxWidth(40));
+                        health.Color = EditorGUILayout.ColorField(health.Color);
+                        health.CutOffColor = EditorGUILayout.ColorField(health.CutOffColor);
+                        GUILayout.EndHorizontal();
 
                     }
+
+                    if (component.GetType() == typeof(ActorHealth))
+                    {
+                        var health = (component as ActorHealth);
+                        GUILayout.Label("Health: " + health.Health);
+                    }
+
 
                     GUILayout.EndVertical();
                     //GUILayout.Label("x", GUILayout.MaxWidth(15));

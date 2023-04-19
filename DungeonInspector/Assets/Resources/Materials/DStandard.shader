@@ -3,7 +3,7 @@ Shader "Unlit/DStandard"
     Properties
     {
         _MainTex ("Texture", 2D) = "white" {}
-        _flip ("Flip", vector) = (0, 0, 0, 0)
+        _flip("Flip", vector) = (0, 0, 0, 0)
     }
     SubShader
     {
@@ -43,7 +43,9 @@ Shader "Unlit/DStandard"
             sampler2D _MainTex;
             float4 _MainTex_ST;
             uniform float3 _flip;
-            uniform float _zRotate;
+            uniform half4 _color;
+            uniform float _xCutOff;
+            uniform half4 _cutOffColor;
 
             float luminosity(half4 color)
             {
@@ -58,18 +60,21 @@ Shader "Unlit/DStandard"
             {
                 v2f o;
 
-                float c = cos(_zRotate);
-                float s = sin(_zRotate);
+                float c = cos(_flip.z);
+                float s = sin(_flip.z);
 
                 mat4 rot = mat4(vec4(c,-s, 0,0),
                                 vec4(s, c, 0, 0),
                                 vec4(0, 0, 1, 0),
                                 vec4(0, 0, 0, 1));
 
-                vec4 vertex = mul(unity_ObjectToWorld, v.vertex);
+                vec4 vertex = v.vertex;
+
+               // vertex = mul(rot, vertex + float4(150, 150, 0, 1) * abs(sign(_flip.z)));
+                vertex = mul(unity_ObjectToWorld, v.vertex);
         
-                vertex = mul(rot, vertex + 1 * float4(0.1, 0.1, 0, 1) * abs(sign(_zRotate)));
-                mat4 V = UNITY_MATRIX_V;// mul(UNITY_MATRIX_V, rot);
+                //vertex = mul(rot, vertex);
+                mat4 V =  mul(UNITY_MATRIX_V, rot);
                 mat4 mvp  = mul(V, UNITY_MATRIX_P);
 
                 o.vertex = mul(mvp, vertex);
@@ -77,10 +82,28 @@ Shader "Unlit/DStandard"
                 return o;
             }
 
-            fixed4 frag (v2f i) : SV_Target
+            fixed4 frag(v2f i) : SV_Target
             {
-                fixed4 col = tex2D(_MainTex, float2(abs(i.uv.x - _flip.x), abs(i.uv.y - _flip.y)));
+                float2 uv = i.uv;
+
+               /* float pixel = 32;
+
+                uv = float2(uv.x * pixel, uv.y * pixel);
+
+                uv.x = ((int)uv.x) / pixel;
+                uv.y = ((int)uv.y) / pixel;*/
+
+                fixed4 col = tex2D(_MainTex, float2(abs(uv.x - _flip.x), abs(uv.y - _flip.y)));
                 
+                if (uv.x >= _xCutOff)
+                {
+                    col = col * _color;
+                }
+                else
+                {
+                    col = _cutOffColor;
+                }
+
                 float lum = luminosity(col);
                 //col = float4(lum, lum, lum, col.a);
 

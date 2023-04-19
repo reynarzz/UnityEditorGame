@@ -49,6 +49,7 @@ namespace DungeonInspector
          
         }
 
+
         private void RaiseOnTriggerEvent(DPhysicsComponent physicObj, DPhysicsComponent target)
         {
             if (physicObj.Collider != null && physicObj.Collider.IsTrigger)

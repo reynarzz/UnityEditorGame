@@ -48,6 +48,10 @@ namespace DungeonInspector
 
             _weaponTest = new DGameEntity("WeaponTest");
             _weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
+
+            _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_golden_sword");
+            Entity.Tag = "Player";
+            _health.EnemyTag = "Enemy";
         }
 
         protected override void OnTriggerEnter(DBoxCollider collider)
@@ -124,10 +128,12 @@ namespace DungeonInspector
 
             var mouseDiff = DInput.GetMouseWorldPos() - Transform.Position;
 
-           var angle = Mathf.Atan2(mouseDiff.y, mouseDiff.x);
+            var angle = Mathf.Atan2(mouseDiff.y, mouseDiff.x);
 
-            _weaponTest.Transform.Position = Transform.Position + Transform.Offset + new DVector2(Mathf.Cos(angle), Mathf.Sin(angle));
-            _weaponRendererTest.ZRotate = angle;
+            //_weaponRendererTest.Transform.Scale = new DVector2(0.48f, -0.52f);
+
+            //_weaponTest.Transform.Position = (Transform.Position + Transform.Offset);/*+ new DVector2(Mathf.Cos(angle), Mathf.Sin(angle))*/;
+            //_weaponRendererTest.ZRotate = angle + Mathf.Deg2Rad * -90;
 
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
             //_renderer.ZRotate += DTime.DeltaTime;

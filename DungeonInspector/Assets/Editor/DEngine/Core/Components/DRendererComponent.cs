@@ -12,7 +12,7 @@ namespace DungeonInspector
         public int ZSorting { get; set; } = 0;
         private DTransformComponent _transform;
         public bool TransformWithCamera { get; set; } = true;
-
+        public Color32 Color { get; set; } = UnityEngine.Color.white;
         public float ZRotate { get; set; }
         public Material Material { get; set; }
 
@@ -23,6 +23,8 @@ namespace DungeonInspector
 
         public bool FlipX { get; set; }
         public bool FlipY { get; set; }
+        public float CutOffValue { get; set; } = -1;
+        public Color CutOffColor { get; set; } = UnityEngine.Color.white;
 
         public Texture2D Sprite { get; set; }
 
@@ -41,6 +43,12 @@ namespace DungeonInspector
 
                 }
                 return _transform;
+            }
+            set
+            {
+                base.Transform.Position = value.Position;
+                base.Transform.Offset = value.Offset;
+                base.Transform.Scale = value.Scale;
             }
         }
     }

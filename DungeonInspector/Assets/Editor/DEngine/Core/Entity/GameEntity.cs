@@ -17,6 +17,7 @@ namespace DungeonInspector
 
         private const string _defaultName = "GameEntity";
         public string Name { get; set; }
+        public string Tag { get; set; }
 
         public DGameEntity() : this(_defaultName) { }
         public DGameEntity(string name) : this(name, null) { }
@@ -142,6 +143,7 @@ namespace DungeonInspector
             return _components.Values;
         }
 
+        // TODO: This should be happening at the end of the frame not inmmediatelly.
         private void OnComponentRemoved(DComponent component)
         {
             var updatableRenderer = component as DRendererComponent;

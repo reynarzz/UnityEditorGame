@@ -21,11 +21,12 @@ namespace DungeonInspector
 
         private DRendererComponent GetEnemy<T>(string name, string texturePath) where T : DBehavior
         {
-            var entity = new DGameEntity(name, typeof(T));
+            var entity = new DGameEntity(name, typeof(T), typeof(HealthBarUI), typeof(DPhysicsComponent), typeof(DBoxCollider));
+            entity.Tag = "Enemy";
+
+            entity.AddComp<ActorHealth>().EnemyTag = "Player";
 
             var renderer = entity.AddComp<DRendererComponent>();
-            entity.AddComp<DPhysicsComponent>();
-            entity.AddComp<DBoxCollider>();
 
             renderer.Sprite = Utils.Load<UnityEngine.Texture2D>(texturePath);
 
