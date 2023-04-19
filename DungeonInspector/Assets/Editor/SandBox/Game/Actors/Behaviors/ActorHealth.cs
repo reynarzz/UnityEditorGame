@@ -30,14 +30,19 @@ namespace DungeonInspector
         {
             if (_healthBar != null && collider.Entity.Tag == EnemyTag)
             {
-                Health--;
+                AddAmount(-1);
+            }
+        }
 
-                _healthBar.OnChancePercentage(Health / _maxHealth);
+        public void AddAmount(float amount)
+        {
+            Health += amount;
 
-                if(Health == 0)
-                {
-                    OnHealthDepleted?.Invoke();
-                }
+            _healthBar.OnChancePercentage(Health / _maxHealth);
+
+            if (Health <= 0)
+            {
+                OnHealthDepleted?.Invoke();
             }
         }
     }

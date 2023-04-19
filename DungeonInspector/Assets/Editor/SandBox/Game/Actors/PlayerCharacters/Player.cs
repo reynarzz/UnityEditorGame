@@ -25,7 +25,6 @@ namespace DungeonInspector
 
         private DGameEntity _weaponTest;
         private DRendererComponent _weaponRendererTest;
-        private DBoxCollider _enemy;
         private DRendererComponent _rayHitGuideTest;
         private DRendererComponent _rayDraw;
 
@@ -48,7 +47,6 @@ namespace DungeonInspector
 
             AddComp<DBoxCollider>();
             AddComp<DPhysicsComponent>();
-            _health = AddComp<ActorHealth>();
 
             _weaponTest = new DGameEntity("WeaponTest");
             _weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
@@ -56,7 +54,8 @@ namespace DungeonInspector
             _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_golden_sword");
             _weaponRendererTest.ZSorting = 3;
             Entity.Tag = "Player";
-            _health.EnemyTag = "Enemy";
+            //_health = AddComp<ActorHealth>();
+            //_health.EnemyTag = "Enemy";
 
             _rayDraw = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
             _rayDraw.ZSorting = 3;
@@ -67,8 +66,7 @@ namespace DungeonInspector
         {
             Transform.Offset = new DVector2(0, 0.7f);
 
-            Transform.Position = _gridPos = new DVector2(-2, -1);
-            _enemy = DGameEntity.FindGameEntity("Orc").GetComp<DBoxCollider>();
+            Transform.Position = _gridPos = new DVector2(3, -1);
 
             _rayHitGuideTest.Transform.Scale = new DVector2(0.2f, 0.2f);
             _rayHitGuideTest.ZSorting = 3;
@@ -85,7 +83,7 @@ namespace DungeonInspector
 
         }
 
-        
+
         private DSpriteAnimation GetAnimation(string atlasName)
         {
             return new DSpriteAnimation(UnityEngine.Resources.Load<E_SpriteAtlas>(atlasName));
@@ -96,6 +94,7 @@ namespace DungeonInspector
         {
             PlayerMovement();
         }
+        private bool _testHitDamageRay;
 
         private void PlayerMovement()
         {
@@ -157,31 +156,41 @@ namespace DungeonInspector
             _weaponTest.Transform.Position = (Transform.Position + Transform.Offset - dist);/*+ */;
             _weaponTest.Transform.Rotation = angle + Mathf.Deg2Rad * -90;
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
-            
+
 
             // if (DVector2.Dot(DVector2.Right, DInput.GetMouseWorldPos() - Transform.Position) < 0)
             _renderer.FlipX = DInput.GetMouseWorldPos().x - Transform.Position.x < 0;
 
-            if(_enemy != null)
+            if (Utils.Raycast(Transform.Position, dir, 0, out var info))
             {
-                if (Utils.Raycast(Transform.Position, dir, 0, out var info))
-                {
-                    _rayHitGuideTest.Entity.IsActive = true;
-                    _rayHitGuideTest.Entity.Transform.Position = info.Point;
-                    
-                    var magnitude = (_rayHitGuideTest.Entity.Transform.Position + Transform.Position).Magnitude;
+                _rayHitGuideTest.Entity.IsActive = true;
+                _rayHitGuideTest.Entity.Transform.Position = info.Point;
 
-                    //_rayDraw.Entity.Transform.Position = Transform.Position;// + new DVector2(magnitude / 2, 0);
-                    //_rayDraw.Entity.Transform.Rotation = angle;
-                    //_rayDraw.Transform.Scale = new DVector2(magnitude, 0.06f);
-                }
-                else
+
+                var health = info.Target.GetComp<ActorHealth>();
+
+                if(health != null && !_testHitDamageRay)
                 {
-                    _rayHitGuideTest.Entity.IsActive = false;
+                    Debug.Log(info.Target.Name);
+                    _testHitDamageRay = true;
+                    health.AddAmount(-2);
                 }
+                else if(health == null)
+                {
+                    _testHitDamageRay = false;
+                }
+                //var magnitude = (_rayHitGuideTest.Entity.Transform.Position + Transform.Position).Magnitude;
+
+                //_rayDraw.Entity.Transform.Position = Transform.Position;// + new DVector2(magnitude / 2, 0);
+                //_rayDraw.Entity.Transform.Rotation = angle;
+                //_rayDraw.Transform.Scale = new DVector2(magnitude, 0.06f);
+            }
+            else
+            {
+                _testHitDamageRay = false;
+                _rayHitGuideTest.Entity.IsActive = false;
             }
 
-           
 
             if (Transform.Position.RoundToInt() == _gridPos.RoundToInt() && !_canMove && !_tileEnter)
             {

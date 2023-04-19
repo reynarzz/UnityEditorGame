@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -103,25 +104,32 @@ namespace DungeonInspector
 
             hitInfo = default;
 
-            var closest = default(DGameEntity);
+            var closestPoint = new DVector2(100000, 100000);
 
             for (int i = 0; i < colliders.Count; i++)
             {
                 var collider = colliders[i].Collider;
 
-                var aaBB = collider.AABB;
-
-                collision = Raycast(new DRay(origin, direction), aaBB, length, out hitInfo);
-
-                if (collision)
+                if (collider.IsTrigger)
                 {
-                    //TODO: this should compare the bounding boxes.
-                    if(closest == null || collider.Transform.Position.SqrMagnitude < closest.Transform.Position.SqrMagnitude)
+                    var aaBB = collider.AABB;
+
+                    var hit = default(DRayHitInfo);
+
+                    var success = Raycast(new DRay(origin, direction), aaBB, length, out hit);
+
+                    if (success)
                     {
-                        hitInfo.Target = collider.Entity;
-                        closest = collider.Entity;
+                        if (hit.Point.SqrMagnitude < closestPoint.SqrMagnitude)
+                        {
+                            hit.Target = collider.Entity;
+                            closestPoint = hit.Point;
+                            hitInfo = hit;
+                            collision = true;
+                        }
                     }
                 }
+                
             }
 
             return collision;

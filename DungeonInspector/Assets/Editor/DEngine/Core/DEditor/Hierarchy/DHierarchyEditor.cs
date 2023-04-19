@@ -13,6 +13,7 @@ namespace DungeonInspector
         private DEntitiesController _entitiesController;
         private Rect _rect = new Rect(0, 0, 200, 350);
         private Vector2 _scroll;
+        private bool _show = false;
 
         public DHierarchyEditor()
         {
@@ -27,30 +28,39 @@ namespace DungeonInspector
 
             var color = GUI.backgroundColor;
             GUI.backgroundColor = Color.black * 0.4f;
+
             GUILayout.BeginVertical(EditorStyles.helpBox);
             GUI.backgroundColor = color;
+            GUILayout.BeginHorizontal();
+            _show = EditorGUILayout.Toggle(_show, GUILayout.MaxWidth(15));
             GUILayout.Label("Hierarchy");
+            GUILayout.EndHorizontal();
             GUILayout.BeginVertical(EditorStyles.helpBox);
             GUILayout.Label($"FPS: {DTime.FPs}");
             GUILayout.EndVertical();
-            _scroll = GUILayout.BeginScrollView(_scroll);
 
-
-            for (int i = 0; i < entities.Count; i++)
+            if (_show)
             {
-                GUILayout.BeginVertical(EditorStyles.helpBox);
-                GUILayout.BeginHorizontal();
-                entities[i].IsActive = EditorGUILayout.Toggle(entities[i].IsActive, GUILayout.MaxWidth(15));
-                GUILayout.Label(entities[i].Name);
-                GUILayout.EndHorizontal();
+                _scroll = GUILayout.BeginScrollView(_scroll);
 
-                DrawComponent(entities[i]);
-                GUILayout.EndVertical();
+                for (int i = 0; i < entities.Count; i++)
+                {
+                    GUILayout.BeginVertical(EditorStyles.helpBox);
+                    GUILayout.BeginHorizontal();
+                    entities[i].IsActive = EditorGUILayout.Toggle(entities[i].IsActive, GUILayout.MaxWidth(15));
+                    GUILayout.Label(entities[i].Name);
+                    GUILayout.EndHorizontal();
+
+                    DrawComponent(entities[i]);
+                    GUILayout.EndVertical();
+                }
+                GUILayout.EndScrollView();
+
             }
-            GUILayout.EndScrollView();
-
             GUILayout.EndVertical();
+
             GUILayout.EndArea();
+
         }
 
         private void DrawComponent(DGameEntity entity)
