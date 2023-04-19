@@ -162,7 +162,7 @@ namespace DungeonInspector
                 mat.SetVector("_cutOffColor", renderer.CutOffColor);
                 mat.SetFloat("_xCutOff", renderer.CutOffValue);
                 mat.SetVector("_color", (Color)renderer.Color);
-                mat.SetVector("_flip", new Vector4(renderer.FlipX ? 1 : 0, renderer.FlipY ? 1 : 0, renderer.ZRotate));
+                mat.SetVector("_flip", new Vector4(renderer.FlipX ? 1 : 0, renderer.FlipY ? 1 : 0, renderer.Transform.Rotation));
                 Graphics.DrawTexture(rect, renderingTex, mat);
                 mat.SetVector("_flip", default);
                 mat.SetVector("_cutOffColor", Color.white);

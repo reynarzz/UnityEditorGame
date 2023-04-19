@@ -10,8 +10,8 @@ namespace DungeonInspector
 {
     public class DBoxCollider : DBehavior
     {
-        private AABB _boundingBox;
-        public AABB AABB => _boundingBox;
+        private DAABB _boundingBox;
+        public DAABB AABB => _boundingBox;
         public DVector2 Center { get; set; }
         public DVector2 Size { get; set; } = new DVector2(1, 1);
         public bool IsColliding { get; set; }

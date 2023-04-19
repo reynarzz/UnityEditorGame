@@ -25,6 +25,9 @@ namespace DungeonInspector
 
         private DGameEntity _weaponTest;
         private DRendererComponent _weaponRendererTest;
+        private DBoxCollider _enemy;
+        private DRendererComponent _rayHitGuideTest;
+        private DRendererComponent _rayDraw;
 
         protected override void OnAwake()
         {
@@ -54,13 +57,10 @@ namespace DungeonInspector
             _weaponRendererTest.ZSorting = 3;
             Entity.Tag = "Player";
             _health.EnemyTag = "Enemy";
-        }
 
-        protected override void OnTriggerEnter(DBoxCollider collider)
-        {
-            Debug.Log("Enter: " + collider.Name);
-
-            //collider.Entity.Destroy();
+            _rayDraw = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
+            _rayDraw.ZSorting = 3;
+            _rayHitGuideTest = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
         }
 
         protected override void OnStart()
@@ -68,9 +68,24 @@ namespace DungeonInspector
             Transform.Offset = new DVector2(0, 0.7f);
 
             Transform.Position = _gridPos = new DVector2(-2, -1);
+            _enemy = DGameEntity.FindGameEntity("Orc").GetComp<DBoxCollider>();
+
+            _rayHitGuideTest.Transform.Scale = new DVector2(0.2f, 0.2f);
+            _rayHitGuideTest.ZSorting = 3;
+            _rayDraw.ZSorting = 3;
+            _rayDraw.Entity.IsActive = false;
+        }
+
+
+        protected override void OnTriggerEnter(DBoxCollider collider)
+        {
+            Debug.Log("Enter: " + collider.Name);
+
+            //collider.Entity.Destroy();
 
         }
 
+        
         private DSpriteAnimation GetAnimation(string atlasName)
         {
             return new DSpriteAnimation(UnityEngine.Resources.Load<E_SpriteAtlas>(atlasName));
@@ -137,13 +152,36 @@ namespace DungeonInspector
             _weaponTest.Transform.Scale = new DVector2(0.28f, 0.52f) * 0.8f;
             var dist = Transform.Position - DCamera._Position;
 
-            _weaponTest.Transform.Position = (Transform.Position + Transform.Offset - dist);/*+ new DVector2(Mathf.Cos(angle), Mathf.Sin(angle))*/;
-            _weaponRendererTest.ZRotate = angle + Mathf.Deg2Rad * -90;
+            var dir = new DVector2(Mathf.Cos(angle), Mathf.Sin(angle));
+
+            _weaponTest.Transform.Position = (Transform.Position + Transform.Offset - dist);/*+ */;
+            _weaponTest.Transform.Rotation = angle + Mathf.Deg2Rad * -90;
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
-            //_renderer.ZRotate += DTime.DeltaTime;
+            
 
             // if (DVector2.Dot(DVector2.Right, DInput.GetMouseWorldPos() - Transform.Position) < 0)
             _renderer.FlipX = DInput.GetMouseWorldPos().x - Transform.Position.x < 0;
+
+            if(_enemy != null)
+            {
+                if (Utils.Raycast(Transform.Position, dir, _enemy.AABB, 0, out var info))
+                {
+                    _rayHitGuideTest.Entity.IsActive = true;
+                    _rayHitGuideTest.Entity.Transform.Position = info.Point;
+
+                    var magnitude = (_rayHitGuideTest.Entity.Transform.Position + Transform.Position).Magnitude;
+
+                    //_rayDraw.Entity.Transform.Position = Transform.Position;// + new DVector2(magnitude / 2, 0);
+                    //_rayDraw.Entity.Transform.Rotation = angle;
+                    //_rayDraw.Transform.Scale = new DVector2(magnitude, 0.06f);
+                }
+                else
+                {
+                    _rayHitGuideTest.Entity.IsActive = false;
+                }
+            }
+
+           
 
             if (Transform.Position.RoundToInt() == _gridPos.RoundToInt() && !_canMove && !_tileEnter)
             {
@@ -174,6 +212,19 @@ namespace DungeonInspector
 
                 //}
             }
+
+            GL.PushMatrix();
+            // Set transformation matrix for drawing to
+            // match our transform
+            GL.MultMatrix(Matrix4x4.identity);
+
+            GL.Begin(GL.TRIANGLES);
+
+            GL.Vertex3(Transform.Position.x, Transform.Position.y, 0);
+            GL.Vertex3(Transform.Position.x + dir.x * 5, Transform.Position.y + dir.y * 5, 0);
+
+            GL.End();
+            GL.PopMatrix();
         }
 
         private DVector2 GetMoveDir(DVector2 currentPos, int x, int y)

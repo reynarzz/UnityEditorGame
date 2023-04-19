@@ -33,6 +33,11 @@ namespace DungeonInspector
                             gameScale.y);
         }
 
+        //public static Rect World2Rect(Vector2 pos, Vector2 scale)
+        //{
+        //    Matrix3x2
+        //}
+
         public static DVector2 Mouse2WorldPos(DVector2 mousePosition, Rect ViewportRect, DVector2 cameraPos, float pixelsPerUnit)
         {
             var xPos = mousePosition.x - ViewportRect.x - ViewportRect.width / 2;
@@ -90,5 +95,84 @@ namespace DungeonInspector
         {
             return Resources.Load<T>(pathFromRes);
         }
+
+        public static bool Raycast(DVector2 origin, DVector2 direction, DAABB aabb, float length, out DRayHitInfo hitInfo)
+        {
+            return Raycast(new DRay(origin, direction), aabb, length, out hitInfo);
+        }
+
+        public static bool Raycast(DRay ray, DAABB aabb, float length, out DRayHitInfo hitInfo)
+        {
+            float t1 = (aabb.Min.x - ray.Origin.x) / ray.Direction.x;
+            float t2 = (aabb.Max.x - ray.Origin.x) / ray.Direction.x;
+            float t3 = (aabb.Min.y - ray.Origin.y) / ray.Direction.y;
+            float t4 = (aabb.Max.y - ray.Origin.y) / ray.Direction.y;
+
+            float tmin = Mathf.Max(Mathf.Min(t1, t2), Mathf.Min(t3, t4));
+            float tmax = Mathf.Min(Mathf.Max(t1, t2), Mathf.Max(t3, t4));
+
+
+            // if tmax < 0, ray (line) is intersecting AABB, but whole AABB is behing us
+            if (tmax < 0)
+            {
+                hitInfo = new DRayHitInfo(default, default, default);
+
+                return false;
+            }
+
+            // if tmin > tmax, ray doesn't intersect AABB
+            if (tmin > tmax)
+            {
+                hitInfo = new DRayHitInfo(default, default, default);
+
+                return false;
+            }
+
+            if (tmin < 0f)
+            {
+                hitInfo = new DRayHitInfo(ray.Origin + ray.Direction * tmax, ray.Origin + ray.Direction * tmin, default);
+
+                return true;
+            }
+            hitInfo = new DRayHitInfo(ray.Origin + ray.Direction * tmin, ray.Origin + ray.Direction * tmax, default);
+
+            return true;
+        }
+
+        public static void DrawRay()
+        {
+            
+        }
+
+        //public static float Raycast(DRay ray, DAABB aabb)
+        //{
+        //    float t1 = (aabb.Min.x - ray.Origin.x) / ray.Direction.x;
+        //    float t2 = (aabb.Max.x - ray.Origin.x) / ray.Direction.x;
+        //    float t3 = (aabb.Min.y - ray.Origin.y) / ray.Direction.y;
+        //    float t4 = (aabb.Max.y - ray.Origin.y) / ray.Direction.y;
+        //    float t5 = 0; //(aabb.Min.Z - ray.Origin.Z) / ray.Direction.Z;
+        //    float t6 = 0;// (aabb.Max.Z - ray.Origin.Z) / ray.Direction.Z;
+
+        //    float tmin = Mathf.Max(Mathf.Max(Mathf.Min(t1, t2), Mathf.Min(t3, t4)), Mathf.Min(t5, t6));
+        //    float tmax = Mathf.Min(Mathf.Min(Mathf.Max(t1, t2), Mathf.Max(t3, t4)), Mathf.Max(t5, t6));
+
+        //    // if tmax < 0, ray (line) is intersecting AABB, but whole AABB is behing us
+        //    if (tmax < 0)
+        //    {
+        //        return -1;
+        //    }
+
+        //    // if tmin > tmax, ray doesn't intersect AABB
+        //    if (tmin > tmax)
+        //    {
+        //        return -1;
+        //    }
+
+        //    if (tmin < 0f)
+        //    {
+        //        return tmax;
+        //    }
+        //    return tmin;
+        //}
     }
 }

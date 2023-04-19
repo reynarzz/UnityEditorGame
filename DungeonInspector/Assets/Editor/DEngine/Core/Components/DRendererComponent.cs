@@ -13,7 +13,6 @@ namespace DungeonInspector
         private DTransformComponent _transform;
         public bool TransformWithCamera { get; set; } = true;
         public Color32 Color { get; set; } = UnityEngine.Color.white;
-        public float ZRotate { get; set; }
         public Material Material { get; set; }
 
         public DRendererComponent()
@@ -35,6 +34,7 @@ namespace DungeonInspector
             {
                 _transform.Position = base.Transform.Position;
                 _transform.Offset = base.Transform.Offset;
+                _transform.Rotation = base.Transform.Rotation;
 
                 if (Sprite != null)
                 {
@@ -50,6 +50,7 @@ namespace DungeonInspector
                 base.Transform.Position = value.Position;
                 base.Transform.Offset = value.Offset;
                 base.Transform.Scale = value.Scale;
+                base.Transform.Rotation = value.Rotation;
             }
         }
     }
