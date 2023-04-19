@@ -10,7 +10,7 @@ namespace DungeonInspector
 {
     public class DCamera : DBehavior
     {
-        public static int PixelsPerUnit { get; set; } = 32;
+        public static int PixelSize { get; set; } = 32;
         public static DCamera MainCamera { get; set; }
         public DVector2 ScreenSize { get; set; }
         public Rect ViewportRect { get; set; }
@@ -27,7 +27,7 @@ namespace DungeonInspector
 
         public Rect World2RectPos(DVector2 pos, DVector2 scale)
         {
-            return Utils.World2RectPos(pos, scale, ViewportRect, Transform.Position, PixelsPerUnit);
+            return Utils.World2RectPos(pos, scale, ViewportRect, Transform.Position, PixelSize);
         }
 
         public DVector2 Mouse2WorldPos(DVector2 mousePosition)
@@ -35,7 +35,7 @@ namespace DungeonInspector
             var xPos = mousePosition.x - ViewportRect.x - ViewportRect.width / 2;
             var yPos = -(mousePosition.y - ViewportRect.y - ViewportRect.height / 2);
 
-            return new DVector2(xPos + Transform.Position.x * PixelsPerUnit, yPos + Transform.Position.y * PixelsPerUnit) / PixelsPerUnit;
+            return new DVector2(xPos + Transform.Position.x * PixelSize, yPos + Transform.Position.y * PixelSize) / PixelSize;
         }
 
         public bool IsInside(DVector2 worldpos, DVector2 scale)

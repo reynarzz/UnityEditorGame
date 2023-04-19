@@ -142,11 +142,11 @@ namespace DungeonInspector
                 else
                 {
                     // rect will not be moved by the camera
-                    rect = Utils.World2RectNCamPos(renderer.Transform.Position, renderer.Transform.Scale, camera.ViewportRect, DCamera.PixelsPerUnit);
+                    rect = Utils.World2RectNCamPos(renderer.Transform.Position, renderer.Transform.Scale, camera.ViewportRect, DCamera.PixelSize);
                 }
 
                 // snaping.
-                rect = new Rect((int)rect.x + renderer.Transform.Offset.x * DCamera.PixelsPerUnit, (int)rect.y - renderer.Transform.Offset.y * DCamera.PixelsPerUnit, (int)rect.width, (int)rect.height);
+                rect = new Rect((int)rect.x + renderer.Transform.Offset.x * DCamera.PixelSize, (int)rect.y - renderer.Transform.Offset.y * DCamera.PixelSize, (int)rect.width, (int)rect.height);
 
                 var mat = default(Material);
 

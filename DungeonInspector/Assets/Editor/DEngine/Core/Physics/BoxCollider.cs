@@ -16,7 +16,7 @@ namespace DungeonInspector
         public DVector2 Size { get; set; } = new DVector2(1, 1);
         public bool IsColliding { get; set; }
         public bool IsTrigger { get; set; } = true;
-        public bool Debug { get; set; }// = true;
+        public bool Debug { get; set; } = true;
         protected override void OnStart()
         {
             DIEngineCoreServices.Get<DRenderingController>().AddDebugGUI(RenderBoundingBox_Test);
@@ -41,16 +41,16 @@ namespace DungeonInspector
                 var color = IsColliding ? Color.green : Color.white;
 
                 var pos1 = Utils.World2RectPos(new UnityEngine.Vector2(_boundingBox.Min.x, _boundingBox.Min.y),
-                                              new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelsPerUnit);
+                                              new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
 
                 var pos2 = Utils.World2RectPos(new UnityEngine.Vector2(_boundingBox.Min.x, _boundingBox.Max.y),
-                                               new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelsPerUnit);
+                                               new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
 
                 var pos3 = Utils.World2RectPos(new UnityEngine.Vector2(_boundingBox.Max.x, _boundingBox.Max.y),
-                                               new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelsPerUnit);
+                                               new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
 
                 var pos4 = Utils.World2RectPos(new UnityEngine.Vector2(_boundingBox.Max.x, _boundingBox.Min.y),
-                                               new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelsPerUnit);
+                                               new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
 
 
                 var lineScale = 1;

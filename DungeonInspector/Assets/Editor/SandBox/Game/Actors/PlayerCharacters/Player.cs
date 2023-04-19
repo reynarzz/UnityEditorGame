@@ -19,7 +19,6 @@ namespace DungeonInspector
         private ActorHealth _health;
         private DRendererComponent _renderer;
         DVector2 _gridPos = default;
-        DVector2 _walkDirNoReset;
 
         private Vector2Int _moveDir = default;
         private bool _tryingToWalk;
@@ -68,8 +67,8 @@ namespace DungeonInspector
         {
             Transform.Offset = new DVector2(0, 0.7f);
 
-            _gridPos = new DVector2(0, -2);
-            _walkDirNoReset = Transform.Position = new DVector2(0, -2);
+            Transform.Position = _gridPos = new DVector2(-2, -1);
+
         }
 
         private DSpriteAnimation GetAnimation(string atlasName)
@@ -91,7 +90,6 @@ namespace DungeonInspector
                 {
                     _moveDir.x = -1;
                     _moveDir.y = 0;
-                    _walkDirNoReset = _moveDir;
 
                     _tryingToWalk = true;
                 }
@@ -100,7 +98,6 @@ namespace DungeonInspector
                     _moveDir.x = 1;
                     _moveDir.y = 0;
 
-                    _walkDirNoReset = _moveDir;
 
                     _tryingToWalk = true;
                 }
@@ -108,7 +105,6 @@ namespace DungeonInspector
                 {
                     _moveDir.x = 0;
                     _moveDir.y = 1;
-                    _walkDirNoReset = _moveDir;
 
                     _tryingToWalk = true;
                 }
@@ -116,7 +112,6 @@ namespace DungeonInspector
                 {
                     _moveDir.x = 0;
                     _moveDir.y = -1;
-                    _walkDirNoReset = _moveDir;
 
                     _tryingToWalk = true;
                 }
@@ -133,7 +128,6 @@ namespace DungeonInspector
                     _canMove = false;
                     _gridPos = GetMoveDir(_gridPos, _moveDir.x, _moveDir.y);
                 }
-
             }
 
             var mouseDiff = DInput.GetMouseWorldPos() - Transform.Position;
@@ -141,20 +135,15 @@ namespace DungeonInspector
             var angle = Mathf.Atan2(mouseDiff.y, mouseDiff.x);
 
             _weaponTest.Transform.Scale = new DVector2(0.28f, 0.52f) * 0.8f;
-            var dist = (Transform.Position - DCamera._Position);
+            var dist = Transform.Position - DCamera._Position;
+
             _weaponTest.Transform.Position = (Transform.Position + Transform.Offset - dist);/*+ new DVector2(Mathf.Cos(angle), Mathf.Sin(angle))*/;
             _weaponRendererTest.ZRotate = angle + Mathf.Deg2Rad * -90;
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
             //_renderer.ZRotate += DTime.DeltaTime;
-            
-            if (DVector2.Dot(DVector2.Right, DInput.GetMouseWorldPos() - Transform.Position) < 0)
-            {
-                _renderer.FlipX = true;
-            }
-            else
-            {
-                _renderer.FlipX = false;
-            }
+
+            // if (DVector2.Dot(DVector2.Right, DInput.GetMouseWorldPos() - Transform.Position) < 0)
+            _renderer.FlipX = DInput.GetMouseWorldPos().x - Transform.Position.x < 0;
 
             if (Transform.Position.RoundToInt() == _gridPos.RoundToInt() && !_canMove && !_tileEnter)
             {
@@ -164,7 +153,7 @@ namespace DungeonInspector
                 _gameMaster.OnActorEnterTile(this, currentTile);
             }
 
-            if ((Transform.Position - _gridPos).SqrMagnitude >= 0.0001f)
+            if ((Transform.Position - _gridPos).SqrMagnitude >= 0.01f)
             {
                 _playerAnimator.Play(1);
             }

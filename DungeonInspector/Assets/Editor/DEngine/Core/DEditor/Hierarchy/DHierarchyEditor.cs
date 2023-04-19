@@ -65,11 +65,22 @@ namespace DungeonInspector
                     GUILayout.BeginVertical(EditorStyles.helpBox);
                     GUILayout.Label(component.GetType().Name);
 
+
+                    if (component.GetType() == typeof(DCamera))
+                    {
+                        var comp = (component as DCamera);
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label("Size", GUILayout.MaxWidth(40));
+                        DCamera.PixelSize = (int)EditorGUILayout.Slider(DCamera.PixelSize, 16, 64);
+                        GUILayout.EndHorizontal();
+                    }
+
                     if (component.GetType() == typeof(DTransformComponent))
                     {
                         entity.Transform.Position = EditorGUILayout.Vector2Field(string.Empty, entity.Transform.Position, GUILayout.MaxWidth(_rect.width - 50));
                         entity.Transform.Scale = EditorGUILayout.Vector2Field(string.Empty, entity.Transform.Scale, GUILayout.MaxWidth(_rect.width - 50));
                     }
+
                     if (component.GetType() == typeof(DRendererComponent))
                     {
                         var comp = (component as DRendererComponent);

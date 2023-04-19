@@ -46,7 +46,7 @@ namespace DungeonInspector
         {
             var mouse = Event.current;
 
-            return Utils.Mouse2WorldPos(mouse.mousePosition, DCamera._viewportRect, DCamera._Position, DCamera.PixelsPerUnit);
+            return Utils.Mouse2WorldPos(mouse.mousePosition, DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
         }
 
         public static bool IsKey(KeyCode key)
