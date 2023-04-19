@@ -10,8 +10,9 @@ namespace DungeonInspector
 {
     public class DRenderingController : EngineSystemBase<DRendererComponent>
     {
-        private Dictionary<int, List<DRendererComponent>> _renderers;
-        private IOrderedEnumerable<KeyValuePair<int, List<DRendererComponent>>> _renderersOrdered;
+        private List<DRendererComponent> _renderers;
+        private List<DRendererComponent> _ordered;
+
         private bool _pendingToReorder;
 
         private Material _mat;
@@ -22,11 +23,12 @@ namespace DungeonInspector
         private List<DCamera> _cameras;
         public DRenderingController()
         {
-            _renderers = new Dictionary<int, List<DRendererComponent>>();
+            _ordered = new List<DRendererComponent>();
+            _renderers = new List<DRendererComponent>();
             _cameras = new List<DCamera>();
             //_mat = Resources.Load<Material>("Materials/DStandard");
             _mat = Resources.Load<Material>("Materials/DStandardShadow");
-            
+
             _maskMat = Resources.Load<Material>("Materials/Mask");
             _viewportRect = new Texture2D(1, 1);
         }
@@ -60,56 +62,55 @@ namespace DungeonInspector
             if (_pendingToReorder)
             {
                 _pendingToReorder = false;
-                _renderersOrdered = _renderers.OrderByDescending(x => x.Key);
+                _ordered.Clear();
+
+                for (int i = 0; i < _renderers.Count; i++)
+                {
+                    var element = _renderers.ElementAt(i);
+
+                    var zValue = element.ZSorting;
+
+                    if (_ordered.Count > zValue)
+                    {
+                        _ordered.Insert(zValue, element);
+
+                    }
+                    else
+                    {
+                        _ordered.Add(element);
+                    }
+                }
+
+                //_ordered = _ordered.OrderBy(x => x.Transform.Position.y).ToList();
+
+                // _renderersOrdered = _renderers.OrderByDescending(x => x.Key);
             }
 
             if (_renderers.Count > 0)
             {
-                foreach (var item in _renderers)
+                foreach (var item in _ordered)
                 {
-                    for (int i = 0; i < item.Value.Count; i++)
-                    {
-                        Draw(item.Value[i], _cameras[_cameras.Count - 1]);
-                    }
+                    Draw(item, _cameras[_cameras.Count - 1]);
                 }
             }
         }
 
         public override void Add(DRendererComponent renderer)
         {
-            if (_renderers.TryGetValue(renderer.ZSorting, out var rendererList))
-            {
-                rendererList.Add(renderer);
-            }
-            else
-            {
-                _renderers.Add(renderer.ZSorting, new List<DRendererComponent>() { renderer });
-            }
+            _renderers.Add(renderer);
 
             _pendingToReorder = true;
         }
 
         public override void Remove(DRendererComponent renderer)
         {
-            // Todo
             _pendingToReorder = true;
 
-            if (_renderers.TryGetValue(renderer.ZSorting, out var rendererList))
-            {
-                rendererList.Remove(renderer);
-
-                if (rendererList.Count == 0)
-                {
-                    _renderers.Remove(renderer.ZSorting);
-                }
-
-                //return true;
-            }
-            else
+            var wasRemove = _renderers.Remove(renderer);
+            if (!wasRemove)
             {
                 Debug.LogError("Could not remove render");
             }
-            //return false;
         }
 
         private void DrawMask()

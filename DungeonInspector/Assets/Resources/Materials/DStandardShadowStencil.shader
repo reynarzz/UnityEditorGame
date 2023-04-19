@@ -205,6 +205,10 @@ Shader "Unlit/DStandardShadow"
 
                   fixed4 col = tex2D(_MainTex, float2(abs(uv.x - _flip.x), abs(uv.y - _flip.y)));
 
+                  if (col.a <= 0) {
+                      clip(-1);
+                  }
+
                   if (uv.x >= _xCutOff)
                   {
                       col = col * _color;
@@ -214,18 +218,23 @@ Shader "Unlit/DStandardShadow"
                       col = _cutOffColor;
                   }
 
-                  if (col.a <= 0) {
-                      clip(-1);
-                  }
-
+                  
                   float lum = luminosity(col);
                   //col = float4(lum, lum, lum, col.a);
 
                   // hit effect
                   //col = float4(1, 1, 1, col.a);
-                  float shadow = 0.1f;
+                  float shadow = 0.07f;
+                  float4 sCol = float4(col.r - shadow, col.g - shadow, col.b - shadow, col.a);
 
-                  return float4(col.r - shadow, col.g - shadow, col.b - shadow, col.a);
+                 /* if (((int)(uv.y * 100)) * ((int)(uv.x * 100)) % 2 == 0)
+                  {
+                      sCol = col;
+                  }*/
+
+                  
+
+                  return sCol;
               }
                 
 

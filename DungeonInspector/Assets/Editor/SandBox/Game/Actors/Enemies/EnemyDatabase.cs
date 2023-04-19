@@ -27,7 +27,7 @@ namespace DungeonInspector
             entity.AddComp<ActorHealth>().EnemyTag = "Player";
 
             var renderer = entity.AddComp<DRendererComponent>();
-
+            renderer.ZSorting = 1;
             renderer.Sprite = Utils.Load<UnityEngine.Texture2D>(texturePath);
 
             return renderer;
