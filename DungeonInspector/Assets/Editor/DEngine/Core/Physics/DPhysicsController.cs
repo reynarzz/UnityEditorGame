@@ -109,5 +109,10 @@ namespace DungeonInspector
                    && a.Collider.IsTrigger && b.Collider.IsTrigger;
 
         }
+
+        public List<DPhysicsComponent> GetAllBodies()
+        {
+            return _components;
+        }
     }
 }

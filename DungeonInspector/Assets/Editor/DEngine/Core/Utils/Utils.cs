@@ -96,9 +96,35 @@ namespace DungeonInspector
             return Resources.Load<T>(pathFromRes);
         }
 
-        public static bool Raycast(DVector2 origin, DVector2 direction, DAABB aabb, float length, out DRayHitInfo hitInfo)
+        public static bool Raycast(DVector2 origin, DVector2 direction, float length, out DRayHitInfo hitInfo)
         {
-            return Raycast(new DRay(origin, direction), aabb, length, out hitInfo);
+            var colliders = DIEngineCoreServices.Get<DPhysicsController>().GetAllBodies();
+            var collision = false;
+
+            hitInfo = default;
+
+            var closest = default(DGameEntity);
+
+            for (int i = 0; i < colliders.Count; i++)
+            {
+                var collider = colliders[i].Collider;
+
+                var aaBB = collider.AABB;
+
+                collision = Raycast(new DRay(origin, direction), aaBB, length, out hitInfo);
+
+                if (collision)
+                {
+                    //TODO: this should compare the bounding boxes.
+                    if(closest == null || collider.Transform.Position.SqrMagnitude < closest.Transform.Position.SqrMagnitude)
+                    {
+                        hitInfo.Target = collider.Entity;
+                        closest = collider.Entity;
+                    }
+                }
+            }
+
+            return collision;
         }
 
         public static bool Raycast(DRay ray, DAABB aabb, float length, out DRayHitInfo hitInfo)

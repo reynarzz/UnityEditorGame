@@ -30,8 +30,11 @@ namespace DungeonInspector
             GUILayout.BeginVertical(EditorStyles.helpBox);
             GUI.backgroundColor = color;
             GUILayout.Label("Hierarchy");
-
+            GUILayout.BeginVertical(EditorStyles.helpBox);
+            GUILayout.Label($"FPS: {DTime.FPs}");
+            GUILayout.EndVertical();
             _scroll = GUILayout.BeginScrollView(_scroll);
+
 
             for (int i = 0; i < entities.Count; i++)
             {

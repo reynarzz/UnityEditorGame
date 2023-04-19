@@ -164,11 +164,11 @@ namespace DungeonInspector
 
             if(_enemy != null)
             {
-                if (Utils.Raycast(Transform.Position, dir, _enemy.AABB, 0, out var info))
+                if (Utils.Raycast(Transform.Position, dir, 0, out var info))
                 {
                     _rayHitGuideTest.Entity.IsActive = true;
                     _rayHitGuideTest.Entity.Transform.Position = info.Point;
-
+                    
                     var magnitude = (_rayHitGuideTest.Entity.Transform.Position + Transform.Position).Magnitude;
 
                     //_rayDraw.Entity.Transform.Position = Transform.Position;// + new DVector2(magnitude / 2, 0);

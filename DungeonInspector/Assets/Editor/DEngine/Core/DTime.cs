@@ -18,11 +18,17 @@ namespace DungeonInspector
         public static float DeltaTime => _dt;
         public static float TimeScale { get; set; } = 1;
 
+        private static int _fpsCount;
+        private static int _fps;
+        private float _timeToFPS;
+        public static int FPs => _fps;
+
         public DTime()
         {
             _stopWatch = new Stopwatch();
             _stopWatch.Start();
             _prev = _stopWatch.ElapsedMilliseconds / 1000f;
+            _fps = 1000;
         }
 
         public override void Update()
@@ -32,6 +38,19 @@ namespace DungeonInspector
             _dt = (secElapsep - _prev) * TimeScale;
             _time += _dt;
             _prev = secElapsep;
+
+            _timeToFPS += _dt;
+
+            if(_timeToFPS >= 1)
+            {
+                _timeToFPS = 0;
+                _fps = _fpsCount;
+                _fpsCount = 0;
+            }
+            else
+            {
+                _fpsCount++;
+            }
         }
 
     }
