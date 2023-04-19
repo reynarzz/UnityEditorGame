@@ -24,7 +24,9 @@ namespace DungeonInspector
         {
             _renderers = new Dictionary<int, List<DRendererComponent>>();
             _cameras = new List<DCamera>();
-            _mat = Resources.Load<Material>("Materials/DStandard");
+            //_mat = Resources.Load<Material>("Materials/DStandard");
+            _mat = Resources.Load<Material>("Materials/DStandardShadow");
+            
             _maskMat = Resources.Load<Material>("Materials/Mask");
             _viewportRect = new Texture2D(1, 1);
         }

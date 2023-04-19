@@ -22,7 +22,7 @@ namespace DungeonInspector
 
             if (_healthBar != null)
             {
-                _healthBar.OnChancePercentage(Health / _maxHealth);
+                _healthBar.Percentage = (Health / _maxHealth);
             }
         }
 

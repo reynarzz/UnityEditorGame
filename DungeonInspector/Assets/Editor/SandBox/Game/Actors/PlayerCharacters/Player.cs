@@ -46,10 +46,10 @@ namespace DungeonInspector
             AddComp<DPhysicsComponent>();
             _health = AddComp<ActorHealth>();
 
-            _weaponTest = new DGameEntity("WeaponTest");
-            _weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
+            //_weaponTest = new DGameEntity("WeaponTest");
+            //_weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
 
-            _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_golden_sword");
+            //_weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_golden_sword");
             Entity.Tag = "Player";
             _health.EnemyTag = "Enemy";
         }

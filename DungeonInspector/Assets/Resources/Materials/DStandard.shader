@@ -12,15 +12,16 @@ Shader "Unlit/DStandard"
         Blend SrcAlpha OneMinusSrcAlpha
         ZWrite Off
         Cull Off
-
-        Stencil
-        {
-            Ref 2
-            comp Equal
-        }
+        //ZTest Always
         
         Pass
         {
+            Stencil
+            {
+                Ref 5
+                comp Equal
+            }
+
             CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
@@ -72,7 +73,7 @@ Shader "Unlit/DStandard"
 
                // vertex = mul(rot, vertex + float4(150, 150, 0, 1) * abs(sign(_flip.z)));
                 vertex = mul(unity_ObjectToWorld, v.vertex);
-        
+                vertex.z = 1;
                 //vertex = mul(rot, vertex);
                 mat4 V =  mul(UNITY_MATRIX_V, rot);
                 mat4 mvp  = mul(V, UNITY_MATRIX_P);
@@ -95,18 +96,18 @@ Shader "Unlit/DStandard"
 
                 fixed4 col = tex2D(_MainTex, float2(abs(uv.x - _flip.x), abs(uv.y - _flip.y)));
                 
-                if (uv.x >= _xCutOff)
-                {
-                    col = col * _color;
-                }
-                else
-                {
-                    col = _cutOffColor;
-                }
+                //if (uv.x >= _xCutOff)
+                //{
+                //    col = col * _color;
+                //}
+                //else
+                //{
+                //    col = _cutOffColor;
+                //}
 
-                float lum = luminosity(col);
-                //col = float4(lum, lum, lum, col.a);
-
+                //float lum = luminosity(col);
+                ////col = float4(lum, lum, lum, col.a);
+                //
                 // hit effect
                 //col = float4(1, 1, 1, col.a);
                 return  col;

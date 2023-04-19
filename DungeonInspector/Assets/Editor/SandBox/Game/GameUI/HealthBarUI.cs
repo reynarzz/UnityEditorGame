@@ -7,17 +7,15 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class HealthBarUI : DBehavior
+    public class HealthBarUI : HealthUIBase 
     {
-        public float Percentage { get; set; } = 1f;
-
         public Color32 CutOffColor { get; set; } = UnityEngine.Color.red;
         public Color32 Color { get; set; } = UnityEngine.Color.white;
         private DRendererComponent _bar;
         private DGameEntity _barEntity;
 
         public override DTransformComponent Transform => _barEntity.Transform;
-        private const float _timeToHide = 1;
+        private const float _timeToHide = 1.5f;
         private float _hideTime = 0;
 
         protected override void OnAwake()
@@ -35,7 +33,7 @@ namespace DungeonInspector
             _bar.CutOffColor = CutOffColor;
             _bar.CutOffValue = Percentage;
 
-            if(_hideTime > 0)
+            if (_hideTime > 0)
             {
                 _hideTime -= DTime.DeltaTime;
 
@@ -51,8 +49,14 @@ namespace DungeonInspector
             _barEntity.IsActive = true;
 
             Percentage = percentage;
+            _bar.CutOffValue = Percentage;
 
             _hideTime = _timeToHide;
+        }
+
+        public override void OnDestroy()
+        {
+            _barEntity.Destroy();
         }
     }
 }

@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace DungeonInspector
 {
     public class DHierarchyEditor
     {
         private DEntitiesController _entitiesController;
-        private Vector2 _scroll;
         private Rect _rect = new Rect(0, 0, 200, 350);
+        private Vector2 _scroll;
+
         public DHierarchyEditor()
         {
             _entitiesController = DIEngineCoreServices.Get<DEntitiesController>();
@@ -41,7 +41,6 @@ namespace DungeonInspector
                 GUILayout.Label(entities[i].Name);
                 GUILayout.EndHorizontal();
 
-                DrawTransformUI(entities[i]);
                 DrawComponent(entities[i]);
                 GUILayout.EndVertical();
             }
@@ -49,22 +48,6 @@ namespace DungeonInspector
 
             GUILayout.EndVertical();
             GUILayout.EndArea();
-        }
-
-        private void DrawTransformUI(DGameEntity entity)
-        {
-            GUILayout.BeginVertical(EditorStyles.helpBox);
-
-            if (EditorGUILayout.Foldout(true, "Transform"))
-            {
-                entity.Transform.Position = EditorGUILayout.Vector2Field(string.Empty, entity.Transform.Position, GUILayout.MaxWidth(_rect.width - 50));
-                entity.Transform.Scale = EditorGUILayout.Vector2Field(string.Empty, entity.Transform.Scale, GUILayout.MaxWidth(_rect.width - 50));
-            }
-
-            //entity.Transform.Position = new DVector2(x, y);
-
-
-            GUILayout.EndVertical();
         }
 
         private void DrawComponent(DGameEntity entity)
@@ -81,6 +64,21 @@ namespace DungeonInspector
                 {
                     GUILayout.BeginVertical(EditorStyles.helpBox);
                     GUILayout.Label(component.GetType().Name);
+
+                    if (component.GetType() == typeof(DTransformComponent))
+                    {
+                        entity.Transform.Position = EditorGUILayout.Vector2Field(string.Empty, entity.Transform.Position, GUILayout.MaxWidth(_rect.width - 50));
+                        entity.Transform.Scale = EditorGUILayout.Vector2Field(string.Empty, entity.Transform.Scale, GUILayout.MaxWidth(_rect.width - 50));
+                    }
+                    if (component.GetType() == typeof(DRendererComponent))
+                    {
+                        var comp = (component as DRendererComponent);
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label("Color");
+                        comp.Color = EditorGUILayout.ColorField(comp.Color);
+                        GUILayout.EndHorizontal();
+
+                    }
 
                     if (component.GetType() == typeof(DBoxCollider))
                     {
@@ -110,7 +108,6 @@ namespace DungeonInspector
                         GUILayout.EndHorizontal();
 
                         GUILayout.BeginHorizontal();
-                       // GUILayout.Label("Percent", GUILayout.MaxWidth(40));
                         health.Color = EditorGUILayout.ColorField(health.Color);
                         health.CutOffColor = EditorGUILayout.ColorField(health.CutOffColor);
                         GUILayout.EndHorizontal();
@@ -125,10 +122,6 @@ namespace DungeonInspector
 
 
                     GUILayout.EndVertical();
-                    //GUILayout.Label("x", GUILayout.MaxWidth(15));
-                    //var x = EditorGUILayout.FloatField(entity.Transform.Position.x);
-                    //GUILayout.Label("y", GUILayout.MaxWidth(15));
-                    //var y = EditorGUILayout.FloatField(entity.Transform.Position.y);
                 }
                 GUILayout.EndVertical();
 

@@ -23,7 +23,8 @@ namespace DungeonInspector
 
         public bool FlipX { get; set; }
         public bool FlipY { get; set; }
-        public float CutOffValue { get; set; } = -1;
+        private float _cutOffValue = -1;
+        public float CutOffValue { get => _cutOffValue; set => _cutOffValue = 1 - value; } 
         public Color CutOffColor { get; set; } = UnityEngine.Color.white;
 
         public Texture2D Sprite { get; set; }

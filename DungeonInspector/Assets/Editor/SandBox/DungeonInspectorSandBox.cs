@@ -24,10 +24,6 @@ namespace DungeonInspector
 
             // World Editor
             new DGameEntity("WorldEditor", typeof(DWorldEditor)).IsActive = false;
-
-
-            
-            
         }
 
         public override void OnQuit() { }

@@ -14,9 +14,10 @@ Shader "Unlit/DStandard"
 
         Stencil
         {
-            Ref 2
+            Ref 5
             Comp NotEqual
             pass replace
+            //fail DecrWrap
         }
 
         Pass
@@ -32,7 +33,7 @@ Shader "Unlit/DStandard"
                 float4 vertex : POSITION;
                 float2 uv : TEXCOORD0;
             };
-
+            
             struct v2f
             {
                 float2 uv : TEXCOORD0;

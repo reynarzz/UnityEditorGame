@@ -26,6 +26,7 @@ namespace DungeonInspector
             _components.Remove(element);
         }
 
+        // TODO: This is a proof of concept to test the AABB collision
         public override void Update()
         {
             for (int i = 0; i < _components.Count; i++)
@@ -60,10 +61,12 @@ namespace DungeonInspector
                 {
                     if (!physicObj.TriggerEnter)
                     {
-                        foreach (var item in allcomponents)
+                        for (int i = 0; i < allcomponents.Count; i++)
                         {
-                            var behavior = item as IDBehavior;
-
+                            var behavior = allcomponents.ElementAt(i) as IDBehavior;
+                       // }
+                        //foreach (var item in allcomponents)
+                        //{
                             if (behavior != null)
                             {
                                 behavior.OnTriggerEnter(target.Collider);
