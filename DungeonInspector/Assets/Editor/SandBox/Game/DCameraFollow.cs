@@ -33,7 +33,6 @@ namespace DungeonInspector
 
 
             _camera.Transform.Position = UnityEngine.Vector2.Lerp(_camera.Transform.Position, playerPos + new DVector2(noiseX, noiseY) * amplitude, 7 * DTime.DeltaTime);
-            Debug.Log(noiseX);
             //_camera.Transform.Position = playerPos;
 
             if(Speed > 0)

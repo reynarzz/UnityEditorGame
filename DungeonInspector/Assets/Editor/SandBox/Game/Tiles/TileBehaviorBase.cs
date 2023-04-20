@@ -8,9 +8,9 @@ namespace DungeonInspector
 {
     public interface ITileBehaviorBase
     {
-        public void OnEnter(Actor actor, BaseTD data);
-        public void OnExit(Actor actor, BaseTD data);
-        public void OnUpdate(Actor actor, BaseTD data);
+         void OnEnter(Actor actor, BaseTD data);
+         void OnExit(Actor actor, BaseTD data);
+         void OnUpdate(Actor actor, BaseTD data);
     }
 
     public abstract class TileBehaviorBase<T> : ITileBehaviorBase where T : BaseTD

@@ -86,7 +86,8 @@ namespace DungeonInspector
 
         private DSpriteAnimation GetAnimation(string atlasName)
         {
-            return new DSpriteAnimation(UnityEngine.Resources.Load<E_SpriteAtlas>(atlasName));
+            var atlas = UnityEngine.Resources.Load<E_SpriteAtlas>(atlasName);
+            return new DSpriteAnimation(atlas);
         }
 
 

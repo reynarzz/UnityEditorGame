@@ -36,7 +36,7 @@ namespace DungeonInspector
             {
                 var data = _tiles.ElementAtOrDefault(i);
 
-                _levelTileData.Add(data.Position, data.TileBehaviorData);
+                _levelTileData.Add(data.Position, (BaseTD)data.TileBehaviorData);
             }
         }
 
@@ -57,7 +57,7 @@ namespace DungeonInspector
 
         public BaseTD GetLevelTileData(int saveIndex)
         {
-            return GetTile(saveIndex).TileBehaviorData;
+            return (BaseTD)GetTile(saveIndex).TileBehaviorData;
         }
     }
 

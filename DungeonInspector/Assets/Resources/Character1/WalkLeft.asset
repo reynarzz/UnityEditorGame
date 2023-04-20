@@ -9,7 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 02d24291e89e10b429eca34c59bd8495, type: 3}
+  m_Script: {fileID: -2057438427, guid: cf087536c1de1384d8e61621d1c80bef, type: 3}
   m_Name: WalkLeft
   m_EditorClassIdentifier: 
   _textures:

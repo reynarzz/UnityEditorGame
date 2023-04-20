@@ -44,9 +44,17 @@ namespace DungeonInspector
 
             var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
 
-            var json = File.ReadAllText(worldLevelPath);
+            if (File.Exists(worldLevelPath))
+            {
+                var json = File.ReadAllText(worldLevelPath);
 
-            _levelData = JsonConvert.DeserializeObject<LevelData>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
+                _levelData = JsonConvert.DeserializeObject<LevelData>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
+
+            }
+            else
+            {
+                _levelData = new LevelData(new TileData[0]);
+            }
         }
 
         protected override void OnStart()
