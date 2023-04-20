@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 namespace DungeonInspector
 {
@@ -12,7 +13,13 @@ namespace DungeonInspector
     {
         private static KeyCode _currentKey;
         private static KeyCode _prevKey;
+
+
         private bool _keyDown;
+        private bool _mouseDown;
+
+        private static int _mouseButton = -1;
+        private static int _prevMouseButton = -1;
 
         public static string CurrentKeyString() => _currentKey.ToString();
 
@@ -39,6 +46,26 @@ namespace DungeonInspector
                 }
 
                 _keyDown = false;
+            }
+
+            if (ev.type == EventType.MouseDown)
+            {
+                if (!_mouseDown)
+                {
+                    _mouseButton = ev.button;
+                }
+
+                _mouseDown = true;
+            }
+            else if (ev.type == EventType.MouseUp)
+            {
+                if (_mouseDown)
+                {
+                    _mouseButton = -1;
+                    _prevMouseButton = -1;
+                }
+
+                _mouseDown = false;
             }
         }
 
@@ -67,7 +94,17 @@ namespace DungeonInspector
             return false;
         }
 
+        public static bool IsMouseDown(int button)
+        {
+            Debug.Log(_mouseButton);
+            if (_prevMouseButton != _mouseButton && _mouseButton == button)
+            {
+                _prevMouseButton = _mouseButton;
 
-        
+                return true;
+            }
+
+            return false;
+        }
     }
 }

@@ -170,13 +170,13 @@ namespace DungeonInspector
 
                 var health = info.Target.GetComp<ActorHealth>();
 
-                if(health != null && !_testHitDamageRay)
+                if(health != null && DInput.IsMouseDown(0) /*!_testHitDamageRay*/)
                 {
                     Debug.Log(info.Target.Name);
                     _testHitDamageRay = true;
                     health.AddAmount(-1.5f);
 
-                    DAudio.PlayAudio("Audio/ForgottenPlains/Fx/06_step_stone_1.wav");
+                    DAudio.PlayAudio("Audio/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
                 }
                 else if(health == null)
                 {
@@ -193,7 +193,7 @@ namespace DungeonInspector
                 _testHitDamageRay = false;
                 _rayHitGuideTest.Entity.IsActive = false;
             }
-
+            Debug.Log(DInput.IsMouseDown(0));
 
             if (Transform.Position.RoundToInt() == _gridPos.RoundToInt() && !_canMove && !_tileEnter)
             {
