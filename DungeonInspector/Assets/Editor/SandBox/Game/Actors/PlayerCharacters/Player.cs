@@ -175,6 +175,8 @@ namespace DungeonInspector
                     Debug.Log(info.Target.Name);
                     _testHitDamageRay = true;
                     health.AddAmount(-1.5f);
+
+                    DAudio.PlayAudio("Audio/ForgottenPlains/Fx/06_step_stone_1.wav");
                 }
                 else if(health == null)
                 {

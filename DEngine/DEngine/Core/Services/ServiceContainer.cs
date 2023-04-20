@@ -10,6 +10,7 @@ namespace DungeonInspector
     {
         public virtual void Init() { }
         public virtual void Update() { }
+        public virtual void Cleanup() { }
     }
 
     public abstract class EngineSystemBase<T> : EngineSystemBase
@@ -27,6 +28,7 @@ namespace DungeonInspector
             _services = new Dictionary<Type, EngineSystemBase>()
             {
                 { typeof(DTime), new DTime() },
+                { typeof(DAudioSystem), new DAudioSystem() },
                 { typeof(DInput), new DInput() },
                 { typeof(DEntitiesController), new DEntitiesController() },
                 { typeof(DRenderingController), new DRenderingController() },

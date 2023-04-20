@@ -59,6 +59,8 @@ namespace DungeonInspector
 
         protected override void OnStart()
         {
+            //DAudio.PlayAudio("Audio/ForgottenPlains/Music/Plain_Sight_(Regular).wav");
+
             Load();
         }
 

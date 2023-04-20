@@ -14,6 +14,7 @@ namespace DungeonInspector
         private readonly EngineSystemBase _renderer;
         private readonly EngineSystemBase _physics;
         private readonly EngineSystemBase _input;
+        private readonly EngineSystemBase _audio;
         private readonly EngineSystemBase _time;
 
         private readonly DSandboxBase _sandbox;
@@ -25,6 +26,7 @@ namespace DungeonInspector
             new DIEngineCoreServices();
 
             _time = DIEngineCoreServices.Get<DTime>();
+            _audio = DIEngineCoreServices.Get<DAudioSystem>();
             _input = DIEngineCoreServices.Get<DInput>();
             _physics = DIEngineCoreServices.Get<DPhysicsController>();
             _renderer = DIEngineCoreServices.Get<DRenderingController>();
@@ -54,6 +56,14 @@ namespace DungeonInspector
         public void Destroy()
         {
             _sandbox.OnQuit();
+
+            _time.Cleanup();
+            _audio.Cleanup();
+            _input.Cleanup();
+            _components.Cleanup();
+            _physics.Cleanup();
+            _renderer.Cleanup();
+            _editorSystem.Cleanup();
         }
     }
 }
