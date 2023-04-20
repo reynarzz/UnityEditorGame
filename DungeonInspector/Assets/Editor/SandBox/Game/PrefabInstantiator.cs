@@ -8,39 +8,52 @@ namespace DungeonInspector
 {
     public class PrefabInstantiator
     {
-        public DGameEntity InstanceDoor()
+        private E_SpriteAtlas _doorAtlas;
+
+        public PrefabInstantiator()
+        {
+
+        }
+
+        public static DGameEntity InstancePlayer(string name)
         {
             return null;
         }
 
-        public DGameEntity InstancePlayer()
+        public static DGameEntity InstanceOrcEnemy(string name)
         {
             return null;
         }
 
-        public DGameEntity InstanceOrcEnemy()
+        public static DGameEntity InstancePotion1(string name)
         {
             return null;
         }
 
-        public DGameEntity InstancePotion1()
+        public static DGameEntity InstancePotion2(string name)
         {
             return null;
         }
 
-        public DGameEntity InstancePotion2()
+        public static DGameEntity InstancePotion3(string name)
         {
             return null;
         }
 
-        public DGameEntity InstancePotion3()
+        public static DGameEntity InstanceChest(string name)
         {
             return null;
         }
 
-        public DGameEntity InstanceChest()
+        public static DGameEntity InstanceDoor(string name)
         {
-            return null;
+            return GetEntity(name, typeof(DRenderingController), typeof(DBoxCollider), typeof(Door));
+
+        }
+
+        private static DGameEntity GetEntity(string name, params Type[] components)
+        {
+            return new DGameEntity(name, components);
         }
     }
 }

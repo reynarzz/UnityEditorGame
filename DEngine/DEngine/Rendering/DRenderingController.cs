@@ -162,7 +162,7 @@ namespace DungeonInspector
                 foreach (var states in renderer.ShaderState)
                 {
                     SetState(states.Key, states.Value, mat);
-                }
+                } 
 
                 mat.SetVector("_dtime", new Vector4(DTime.Time, DTime.DeltaTime, Mathf.Sin(DTime.Time), Mathf.Cos(DTime.Time)));
                 mat.SetVector("_cutOffColor", renderer.CutOffColor);

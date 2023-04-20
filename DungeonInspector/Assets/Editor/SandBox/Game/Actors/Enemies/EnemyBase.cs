@@ -15,7 +15,7 @@ namespace DungeonInspector
         private ActorHealth _health;
         private DRendererComponent _renderer;
 
-        private const float _isHitMaxTime = 0.23f;
+        private const float _isHitMaxTime = 0.25f;
         private float _isHitTime;
         private bool _isHit;
 

@@ -45,7 +45,7 @@ namespace DungeonInspector
             _renderer = GetComp<DRendererComponent>();
             _renderer.Sprite = idle.CurrentTexture;
 
-            AddComp<DBoxCollider>().IsTrigger = false;
+            AddComp<DBoxCollider>().IsTrigger = true;
             AddComp<DPhysicsComponent>();
 
             _weaponTest = new DGameEntity("WeaponTest");
