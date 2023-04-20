@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 
 namespace DungeonInspector
-{
+{ 
     public class DungeonWindows : EditorWindow
     {
         private DEngine _engine;
@@ -16,7 +16,7 @@ namespace DungeonInspector
         {
              GetWindow<DungeonWindows>("Dungeon Window").Show();
         }
-
+         
         private void OnEnable()
         {
             _engine = new DEngine(new DungeonInspectorSandBox());

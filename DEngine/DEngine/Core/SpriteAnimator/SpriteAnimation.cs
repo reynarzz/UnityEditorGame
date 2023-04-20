@@ -33,7 +33,7 @@ namespace DungeonInspector
 
         public void Update(float dt)
         {
-            if (_play)
+            if (_play && _atlas != null)
             {
                 if (_spriteIndex >= _atlas.TextureCount)
                 {

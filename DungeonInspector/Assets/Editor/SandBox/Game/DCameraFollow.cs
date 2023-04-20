@@ -20,7 +20,7 @@ namespace DungeonInspector
             _player = DGameEntity.FindGameEntity("Player").GetComp<Player>();
             _perlin = new Perlin();
         }
-
+         
         protected override void OnUpdate()
         {
             var playerPos = new DVector2(_player.Transform.Position.x, _player.Transform.Position.y);

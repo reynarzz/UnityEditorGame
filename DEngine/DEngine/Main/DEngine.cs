@@ -40,7 +40,7 @@ namespace DungeonInspector
 
             _editorSystem.Init();
         }
-
+         
         public void Update()
         {
             _time.Update();
