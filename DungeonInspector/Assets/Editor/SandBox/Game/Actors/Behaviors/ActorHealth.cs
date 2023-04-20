@@ -15,6 +15,7 @@ namespace DungeonInspector
 
         private HealthBarUI _healthBar;
         public Action OnHealthDepleted { get; set; }
+        public Action<float> OnHealthDecreased { get; set; }
 
         protected override void OnAwake()
         {
@@ -36,6 +37,11 @@ namespace DungeonInspector
 
         public void AddAmount(float amount)
         {
+            if(Health + amount < Health)
+            {
+                OnHealthDecreased?.Invoke(amount);
+            }
+
             Health += amount;
 
             _healthBar.OnChancePercentage(Health / _maxHealth);

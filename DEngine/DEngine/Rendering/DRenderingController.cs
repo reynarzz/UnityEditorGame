@@ -159,6 +159,12 @@ namespace DungeonInspector
                     mat = _mat;
                 }
 
+                foreach (var states in renderer.ShaderState)
+                {
+                    SetState(states.Key, states.Value, mat);
+                }
+
+                mat.SetVector("_dtime", new Vector4(DTime.Time, DTime.DeltaTime, Mathf.Sin(DTime.Time), Mathf.Cos(DTime.Time)));
                 mat.SetVector("_cutOffColor", renderer.CutOffColor);
                 mat.SetFloat("_xCutOff", renderer.CutOffValue);
                 mat.SetVector("_color", (Color)renderer.Color);
@@ -169,7 +175,52 @@ namespace DungeonInspector
                 mat.SetFloat("_xCutOff", 0);
                 mat.SetVector("_color", Color.white);
 
+                foreach (var states in renderer.ShaderState)
+                {
+                    ClearState(states.Key, states.Value.Key, mat);
+                }
+
                 _debugCallback?.Invoke();
+            }
+        }
+
+        private void SetState(string varName, KeyValuePair<ShaderStateDataType, object> data, Material mat)
+        {
+            switch (data.Key)
+            {
+                case ShaderStateDataType.Vector:
+                    mat.SetVector(varName, (Vector4)data.Value);
+                    break;
+                case ShaderStateDataType.Int:
+                    mat.SetInt(varName, (int)data.Value);
+                    break;
+                case ShaderStateDataType.Float:
+                    mat.SetFloat(varName, (float)data.Value);
+                    break;
+                case ShaderStateDataType.Matrix:
+                    mat.SetMatrix(varName, (Matrix4x4)data.Value);
+                    break;
+                
+            }
+        }
+
+        private void ClearState(string varName, ShaderStateDataType dataType, Material mat)
+        {
+            switch (dataType)
+            {
+                case ShaderStateDataType.Vector:
+                    mat.SetVector(varName, default);
+                    break;
+                case ShaderStateDataType.Int:
+                    mat.SetInt(varName,default);
+                    break;
+                case ShaderStateDataType.Float:
+                    mat.SetFloat(varName, default);
+                    break;
+                case ShaderStateDataType.Matrix:
+                    mat.SetMatrix(varName, default);
+                    break;
+
             }
         }
     }

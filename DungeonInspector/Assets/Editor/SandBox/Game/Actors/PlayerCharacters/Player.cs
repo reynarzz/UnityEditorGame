@@ -45,7 +45,7 @@ namespace DungeonInspector
             _renderer = GetComp<DRendererComponent>();
             _renderer.Sprite = idle.CurrentTexture;
 
-            AddComp<DBoxCollider>();
+            AddComp<DBoxCollider>().IsTrigger = false;
             AddComp<DPhysicsComponent>();
 
             _weaponTest = new DGameEntity("WeaponTest");
@@ -164,7 +164,7 @@ namespace DungeonInspector
 
             if (Utils.Raycast(Transform.Position, dir, 0, out var info))
             {
-                _rayHitGuideTest.Entity.IsActive = true;
+                //--_rayHitGuideTest.Entity.IsActive = true;
                 _rayHitGuideTest.Entity.Transform.Position = info.Point;
 
 
@@ -176,7 +176,7 @@ namespace DungeonInspector
                     _testHitDamageRay = true;
                     health.AddAmount(-1.5f);
 
-                    DAudio.PlayAudio("Audio/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
+                    //DAudio.PlayAudio("Audio/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
                 }
                 else if(health == null)
                 {
@@ -193,7 +193,6 @@ namespace DungeonInspector
                 _testHitDamageRay = false;
                 _rayHitGuideTest.Entity.IsActive = false;
             }
-            Debug.Log(DInput.IsMouseDown(0));
 
             if (Transform.Position.RoundToInt() == _gridPos.RoundToInt() && !_canMove && !_tileEnter)
             {

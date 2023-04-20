@@ -16,7 +16,7 @@ namespace DungeonInspector
         public DVector2 Size { get; set; } = new DVector2(1, 1);
         public bool IsColliding { get; set; }
         public bool IsTrigger { get; set; } = true;
-        public bool Debug { get; set; } = true;
+        public bool Debug { get; set; } = false;
         protected override void OnStart()
         {
             DIEngineCoreServices.Get<DRenderingController>().AddDebugGUI(RenderBoundingBox_Test);

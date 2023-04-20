@@ -32,7 +32,7 @@ namespace DungeonInspector
             GUILayout.BeginVertical(EditorStyles.helpBox);
             GUI.backgroundColor = color;
             GUILayout.BeginHorizontal();
-            _show = EditorGUILayout.Toggle(_show, GUILayout.MaxWidth(15));
+            _show = EditorGUILayout.Toggle(_show);
             GUILayout.Label("Hierarchy");
             GUILayout.EndHorizontal();
             GUILayout.BeginVertical(EditorStyles.helpBox);
@@ -48,7 +48,7 @@ namespace DungeonInspector
                     GUILayout.BeginVertical(EditorStyles.helpBox);
                     GUILayout.BeginHorizontal();
                     entities[i].IsActive = EditorGUILayout.Toggle(entities[i].IsActive, GUILayout.MaxWidth(15));
-                    GUILayout.Label(entities[i].Name);
+                    GUILayout.Label(entities[i].Name, GUILayout.MaxWidth(120));
                     GUILayout.EndHorizontal();
 
                     DrawComponent(entities[i]);
@@ -76,7 +76,7 @@ namespace DungeonInspector
                 foreach (var component in components)
                 {
                     GUILayout.BeginVertical(EditorStyles.helpBox);
-                    GUILayout.Label(component.GetType().Name);
+                    GUILayout.Label(component.GetType().Name, GUILayout.MaxWidth(130));
 
 
                     if (component.GetType() == typeof(DCamera))

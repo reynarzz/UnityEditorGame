@@ -96,7 +96,6 @@ namespace DungeonInspector
 
         public static bool IsMouseDown(int button)
         {
-            Debug.Log(_mouseButton);
             if (_prevMouseButton != _mouseButton && _mouseButton == button)
             {
                 _prevMouseButton = _mouseButton;

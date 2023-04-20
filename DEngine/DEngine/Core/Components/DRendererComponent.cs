@@ -7,6 +7,14 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
+    public enum ShaderStateDataType
+    {
+        Vector,
+        Int,
+        Float,
+        Matrix
+    }
+
     public class DRendererComponent : DTransformableComponent
     {
         public int ZSorting { get; set; } = 0;
@@ -18,6 +26,7 @@ namespace DungeonInspector
         public DRendererComponent()
         {
             _transform = new DTransformComponent();
+            _shaderState = new Dictionary<string, KeyValuePair<ShaderStateDataType, object>>();
         }
 
         public bool FlipX { get; set; }
@@ -27,6 +36,9 @@ namespace DungeonInspector
         public Color CutOffColor { get; set; } = UnityEngine.Color.white;
 
         public Texture2D Sprite { get; set; }
+
+        public Dictionary<string, KeyValuePair<ShaderStateDataType, object>> _shaderState;
+        public Dictionary<string, KeyValuePair<ShaderStateDataType, object>> ShaderState => _shaderState;
 
         new public DTransformComponent Transform
         {
@@ -53,5 +65,60 @@ namespace DungeonInspector
                 base.Transform.Rotation = value.Rotation;
             }
         }
+
+        public void SetMatVector(string varName, Vector4 value)
+        {
+            if (!_shaderState.ContainsKey(varName))
+            {
+                _shaderState.Add(varName, new KeyValuePair<ShaderStateDataType, object>(ShaderStateDataType.Vector, value));
+            }
+            else
+            {
+                _shaderState[varName] = new KeyValuePair<ShaderStateDataType, object>(ShaderStateDataType.Vector, value);
+            }
+        }
+
+        public void RemoveMatValue(string varName)
+        {
+            _shaderState.Remove(varName);
+        }
+
+        public void SetMatFloat(string varName, float value)
+        {
+            if (!_shaderState.ContainsKey(varName))
+            {
+                _shaderState.Add(varName, new KeyValuePair<ShaderStateDataType, object>(ShaderStateDataType.Float, value));
+            }
+            else
+            {
+                _shaderState[varName] = new KeyValuePair<ShaderStateDataType, object>(ShaderStateDataType.Float, value);
+            }
+        }
+
+
+        public void SetMatInt(string varName, int value)
+        {
+            if (!_shaderState.ContainsKey(varName))
+            {
+                _shaderState.Add(varName, new KeyValuePair<ShaderStateDataType, object>(ShaderStateDataType.Int, value));
+            }
+            else
+            {
+                _shaderState[varName] = new KeyValuePair<ShaderStateDataType, object>(ShaderStateDataType.Int, value);
+            }
+        }
+
+        public void SetMatMatrix(string varName, Matrix4x4 value)
+        {
+            if (!_shaderState.ContainsKey(varName))
+            {
+                _shaderState.Add(varName, new KeyValuePair<ShaderStateDataType, object>(ShaderStateDataType.Matrix, value));
+            }
+            else
+            {
+                _shaderState[varName] = new KeyValuePair<ShaderStateDataType, object>(ShaderStateDataType.Matrix, value);
+            }
+        }
+
     }
 }

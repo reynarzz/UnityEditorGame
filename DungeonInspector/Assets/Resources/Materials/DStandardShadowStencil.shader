@@ -49,6 +49,8 @@ Shader "Unlit/DStandardShadow"
             uniform half4 _color;
             uniform float _xCutOff;
             uniform half4 _cutOffColor;
+            uniform half4 _dtime;
+            uniform int _isHit;
 
             float luminosity(half4 color)
             {
@@ -110,12 +112,15 @@ Shader "Unlit/DStandardShadow"
                 if (col.a <= 0) {
                     clip(-1);
                 }
+
                 float lum = luminosity(col);
                 //col = float4(lum, lum, lum, col.a);
-                
+               
                 // hit effect
-                //col = float4(1, 1, 1, col.a);
-                return  col;
+                if(_isHit)
+                col = lerp(col, lum + 0.35f, (cos(_dtime.x * 50) +1) * 0.5 * _isHit);
+                return col;
+
             }
             
            
