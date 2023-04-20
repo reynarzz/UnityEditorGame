@@ -173,7 +173,7 @@ namespace DungeonInspector
                 {
                     Debug.Log(info.Target.Name);
                     _testHitDamageRay = true;
-                    health.AddAmount(-2);
+                    health.AddAmount(-1.5f);
                 }
                 else if(health == null)
                 {
@@ -197,7 +197,10 @@ namespace DungeonInspector
                 _tileEnter = true;
                 var currentTile = _gameMaster.Tilemap.GetTile(Transform.Position.Round(), 0);
 
-                _gameMaster.OnActorEnterTile(this, currentTile);
+                if(currentTile != null)
+                {
+                    _gameMaster.OnActorEnterTile(this, currentTile);
+                }
             }
 
             if ((Transform.Position - _gridPos).SqrMagnitude >= 0.01f)

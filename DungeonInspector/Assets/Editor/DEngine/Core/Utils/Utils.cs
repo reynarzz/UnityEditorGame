@@ -5,6 +5,7 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using TreeEditor;
 using UnityEditor;
 using UnityEngine;
 
@@ -100,11 +101,10 @@ namespace DungeonInspector
         public static bool Raycast(DVector2 origin, DVector2 direction, float length, out DRayHitInfo hitInfo)
         {
             var colliders = DIEngineCoreServices.Get<DPhysicsController>().GetAllBodies();
-            var collision = false;
 
             hitInfo = default;
-
-            var closestPoint = new DVector2(100000, 100000);
+            
+            var closestPoint = new DVector2(float.MaxValue, float.MaxValue);
 
             for (int i = 0; i < colliders.Count; i++)
             {
@@ -125,14 +125,12 @@ namespace DungeonInspector
                             hit.Target = collider.Entity;
                             closestPoint = hit.Point;
                             hitInfo = hit;
-                            collision = true;
                         }
                     }
                 }
-                
             }
 
-            return collision;
+            return hitInfo.Target != null;
         }
 
         public static bool Raycast(DRay ray, DAABB aabb, float length, out DRayHitInfo hitInfo)

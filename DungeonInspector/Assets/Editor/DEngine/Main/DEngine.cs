@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.Windows;
 
 namespace DungeonInspector
 {
@@ -27,9 +26,9 @@ namespace DungeonInspector
 
             _time = DIEngineCoreServices.Get<DTime>();
             _input = DIEngineCoreServices.Get<DInput>();
-            _components = DIEngineCoreServices.Get<DEntitiesController>();
             _physics = DIEngineCoreServices.Get<DPhysicsController>();
             _renderer = DIEngineCoreServices.Get<DRenderingController>();
+            _components = DIEngineCoreServices.Get<DEntitiesController>();
             _editorSystem = DIEngineCoreServices.Get<DEditorSystem>();
 
             _sandbox.OnInitialize();
