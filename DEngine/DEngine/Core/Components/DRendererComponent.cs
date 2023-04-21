@@ -56,8 +56,8 @@ namespace DungeonInspector
 
                     //0.05 
 
-                    var factor =  0.063f;// base.Transform.Scale.x / Sprite.height;// (EditorGUIUtility.pixelsPerPoint );
-                    Debug.Log(factor);
+                    var factor =  0.064f;// base.Transform.Scale.x / Sprite.height;// (EditorGUIUtility.pixelsPerPoint );
+                    //Debug.Log(factor);
                     _transform.Scale = new DVector2((base.Transform.Scale.x * Sprite.width) * factor, (base.Transform.Scale.y * (float)Sprite.height) * factor);
                     //Debug.Log(Texture.width + ", " + Texture.height);
                     

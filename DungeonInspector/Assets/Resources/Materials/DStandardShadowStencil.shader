@@ -229,7 +229,7 @@ Shader "Unlit/DStandardShadow"
 
                   // hit effect
                   //col = float4(1, 1, 1, col.a);
-                  float shadow = 0.07f;
+                  float shadow = 0.09f;
                   float4 sCol = float4(col.r - shadow, col.g - shadow, col.b - shadow, col.a);
 
                  /* if (((int)(uv.y * 100)) * ((int)(uv.x * 100)) % 2 == 0)

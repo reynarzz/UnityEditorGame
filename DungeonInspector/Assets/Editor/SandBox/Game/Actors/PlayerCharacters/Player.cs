@@ -51,8 +51,8 @@ namespace DungeonInspector
             _weaponTest = new DGameEntity("WeaponTest");
             _weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
 
-            _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_golden_sword");
-            _weaponRendererTest.ZSorting = 4;
+            _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_anime_sword");
+            _weaponRendererTest.ZSorting = 1;
             Entity.Tag = "Player";
             //_health = AddComp<ActorHealth>();
             //_health.EnemyTag = "Enemy";
@@ -66,7 +66,7 @@ namespace DungeonInspector
         {
             Transform.Offset = new DVector2(0, 0.7f);
 
-            Transform.Position = _gridPos = new DVector2(3, -1);
+            Transform.Position = _gridPos = new DVector2(3, 4);
 
             _rayHitGuideTest.Transform.Scale = new DVector2(0.2f, 0.2f);
             _rayHitGuideTest.ZSorting = 3;
@@ -161,6 +161,7 @@ namespace DungeonInspector
             // if (DVector2.Dot(DVector2.Right, DInput.GetMouseWorldPos() - Transform.Position) < 0)
             _renderer.FlipX = DInput.GetMouseWorldPos().x - Transform.Position.x < 0;
 
+            _weaponTest.Transform.Scale = new DVector2(1 * Mathf.Sign(DInput.GetMouseWorldPos().x - Transform.Position.x), 1);
             if (Utils.Raycast(Transform.Position, dir, 0, out var info))
             {
                 //--_rayHitGuideTest.Entity.IsActive = true;

@@ -11,7 +11,7 @@ namespace DungeonInspector
     public class DRenderingController : EngineSystemBase<DRendererComponent>
     {
         private List<DRendererComponent> _renderers;
-        private List<DRendererComponent> _ordered;
+        private IOrderedEnumerable<DRendererComponent> _ordered;
 
         private bool _pendingToReorder;
 
@@ -23,7 +23,6 @@ namespace DungeonInspector
         private List<DCamera> _cameras;
         public DRenderingController()
         {
-            _ordered = new List<DRendererComponent>();
             _renderers = new List<DRendererComponent>();
             _cameras = new List<DCamera>();
             //_mat = Resources.Load<Material>("Materials/DStandard");
@@ -59,29 +58,30 @@ namespace DungeonInspector
         {
             DrawMask();
 
-            if (_pendingToReorder)
+            //if (_pendingToReorder)
             {
                 _pendingToReorder = false;
-                _ordered.Clear();
+                //_ordered.Clear();
 
-                for (int i = 0; i < _renderers.Count; i++)
-                {
-                    var element = _renderers.ElementAt(i);
+                //for (int i = 0; i < _renderers.Count; i++)
+                //{
+                //    var element = _renderers.ElementAt(i);
 
-                    var zValue = element.ZSorting;
+                //    var zValue = element.ZSorting;
 
-                    if (_ordered.Count > zValue)
-                    {
-                        _ordered.Insert(zValue, element);
+                //    if (_ordered.Count > zValue)
+                //    {
+                //        _ordered.Insert(zValue, element);
 
-                    }
-                    else
-                    {
-                        _ordered.Add(element);
-                    }
-                }
+                //    }
+                //    else
+                //    {
+                //        _ordered.Add(element);
+                //    }
+                //}
 
-                //_ordered = _ordered.OrderBy(x => x.Transform.Position.y).ToList();
+                // TODO: please, make this not be every frame, (bad perfomance)
+                _ordered = _renderers.OrderByDescending(x => x.Transform.Position.y + x.Transform.Offset.y - x.ZSorting);
 
                 // _renderersOrdered = _renderers.OrderByDescending(x => x.Key);
             }
