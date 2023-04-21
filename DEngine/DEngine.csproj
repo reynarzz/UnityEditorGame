@@ -106,7 +106,7 @@
     <Compile Include="DEngine\Core\Physics\DPhysicsComponent.cs" />
     <Compile Include="DEngine\Core\Physics\DPhysicsController.cs" />
     <Compile Include="DEngine\Core\Services\ServiceContainer.cs" />
-    <Compile Include="DEngine\Core\SpriteAnimator\E_SpriteAtlas.cs" />
+    <Compile Include="DEngine\Core\SpriteAnimator\DSpriteAtlas.cs" />
     <Compile Include="DEngine\Core\SpriteAnimator\SpriteAnimation.cs" />
     <Compile Include="DEngine\Core\Utils\DVector2.cs" />
     <Compile Include="DEngine\Core\Utils\Utils.cs" />

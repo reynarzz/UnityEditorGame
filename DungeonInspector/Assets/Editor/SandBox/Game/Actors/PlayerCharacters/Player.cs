@@ -52,7 +52,7 @@ namespace DungeonInspector
             _weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
 
             _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_golden_sword");
-            _weaponRendererTest.ZSorting = 3;
+            _weaponRendererTest.ZSorting = 4;
             Entity.Tag = "Player";
             //_health = AddComp<ActorHealth>();
             //_health.EnemyTag = "Enemy";
@@ -86,7 +86,7 @@ namespace DungeonInspector
 
         private DSpriteAnimation GetAnimation(string atlasName)
         {
-            var atlas = UnityEngine.Resources.Load<E_SpriteAtlas>(atlasName);
+            var atlas = UnityEngine.Resources.Load<DSpriteAtlas>(atlasName);
             return new DSpriteAnimation(atlas);
         }
 
@@ -149,7 +149,6 @@ namespace DungeonInspector
 
             var angle = Mathf.Atan2(mouseDiff.y, mouseDiff.x);
 
-            _weaponTest.Transform.Scale = new DVector2(0.28f, 0.52f) * 0.8f;
             var dist = Transform.Position - DCamera._Position;
 
             var dir = new DVector2(Mathf.Cos(angle), Mathf.Sin(angle));
@@ -226,6 +225,7 @@ namespace DungeonInspector
 
                 //}
             }
+            //_playerAnimator.Stop();
 
             GL.PushMatrix();
             // Set transformation matrix for drawing to

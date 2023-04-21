@@ -10,10 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 681081541, guid: 888d2e9aea4db614b9ddcafa6fb0c090, type: 3}
-  m_Name: Idle
+  m_Name: DoorAtlas
   m_EditorClassIdentifier: 
   _textures:
-  - {fileID: 2800000, guid: afb8d338179a78645a94c685498e6480, type: 3}
-  - {fileID: 2800000, guid: 9396b3de7b0b09c4fb91967085f70b77, type: 3}
-  - {fileID: 2800000, guid: e69b4468eb0deed46a38f0e8fc57bf3e, type: 3}
-  - {fileID: 2800000, guid: 86c4c2e8690bbec4f8a34a127539bd5d, type: 3}
+  - {fileID: 2800000, guid: 7ed5f51ae1c14d341ac5a387c4eae63a, type: 3}
+  - {fileID: 2800000, guid: a7f66f855fb62b44794a9424b4daa6ae, type: 3}

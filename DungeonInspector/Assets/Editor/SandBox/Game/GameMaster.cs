@@ -25,6 +25,8 @@ namespace DungeonInspector
         public TilesDatabase AnimatedTiles => _animatedTiles;
         public EnemyDatabase EnemyDatabase => _enemyDatabase;
 
+        private PrefabInstantiator _prefabInstantiator;
+
 
         private TileBehaviorsContainer _tbContainer;
 
@@ -41,6 +43,8 @@ namespace DungeonInspector
             _enemyDatabase = new EnemyDatabase();
             _tbContainer = new TileBehaviorsContainer();
             _tilesBehaviors = new Dictionary<TileBehavior, List<Actor>>();
+            _prefabInstantiator = new PrefabInstantiator();
+
 
             var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
 
@@ -55,6 +59,8 @@ namespace DungeonInspector
             {
                 _levelData = new LevelData(new TileData[0]);
             }
+
+            _prefabInstantiator.InstanceDoor("ExitDoor").Transform.Position = new DVector2(2.27f, 3.56f);
         }
 
         protected override void OnStart()

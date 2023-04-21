@@ -3,55 +3,61 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace DungeonInspector
 {
     public class PrefabInstantiator
     {
-        private E_SpriteAtlas _doorAtlas;
+        private DSpriteAtlas _doorAtlas;
 
         public PrefabInstantiator()
         {
-
+            _doorAtlas = Resources.Load<DSpriteAtlas>("Interactables/DoorAtlas");
         }
 
-        public static DGameEntity InstancePlayer(string name)
+        public DGameEntity InstancePlayer(string name)
         {
             return null;
         }
 
-        public static DGameEntity InstanceOrcEnemy(string name)
+        public DGameEntity InstanceOrcEnemy(string name)
         {
             return null;
         }
 
-        public static DGameEntity InstancePotion1(string name)
+        public DGameEntity InstancePotion1(string name)
         {
             return null;
         }
 
-        public static DGameEntity InstancePotion2(string name)
+        public DGameEntity InstancePotion2(string name)
         {
             return null;
         }
 
-        public static DGameEntity InstancePotion3(string name)
+        public DGameEntity InstancePotion3(string name)
         {
             return null;
         }
 
-        public static DGameEntity InstanceChest(string name)
+        public DGameEntity InstanceChest(string name)
         {
             return null;
         }
 
-        public static DGameEntity InstanceDoor(string name)
+        public DGameEntity InstanceDoor(string name)
         {
-            return GetEntity(name, typeof(DRenderingController), typeof(DBoxCollider), typeof(Door));
+            var entity = GetEntity(name, typeof(DRendererComponent), typeof(DBoxCollider));
+
+            entity.AddComp<Door>().SetAtlas(_doorAtlas);
+
+            return entity;
+
 
         }
 
-        private static DGameEntity GetEntity(string name, params Type[] components)
+        private DGameEntity GetEntity(string name, params Type[] components)
         {
             return new DGameEntity(name, components);
         }

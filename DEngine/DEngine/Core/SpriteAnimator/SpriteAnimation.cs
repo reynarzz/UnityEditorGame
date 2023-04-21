@@ -10,7 +10,7 @@ namespace DungeonInspector
     [Serializable]
     public class DSpriteAnimation
     {
-        [SerializeField] private E_SpriteAtlas _atlas;
+        [SerializeField] private DSpriteAtlas _atlas;
         private int _spriteIndex = 0;
         private float _time;
         private bool _play = false;
@@ -21,7 +21,7 @@ namespace DungeonInspector
         public Texture2D CurrentTexture => _currentTex;
 
         public DSpriteAnimation() { }
-        public DSpriteAnimation(E_SpriteAtlas spriteAtlas)
+        public DSpriteAnimation(DSpriteAtlas spriteAtlas)
         {
             _atlas = spriteAtlas;
 

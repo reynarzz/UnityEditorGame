@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 namespace DungeonInspector
@@ -50,7 +51,14 @@ namespace DungeonInspector
 
                 if (Sprite != null)
                 {
-                    _transform.Scale = new DVector2(base.Transform.Scale.x + Sprite.width / Sprite.height, base.Transform.Scale.y + Sprite.height / Sprite.width) / 1.2f;
+                    //    var rect = EditorGUIUtility.(DCamera._viewportRect);
+
+
+                    //0.05 
+
+                    var factor =  0.063f;// base.Transform.Scale.x / Sprite.height;// (EditorGUIUtility.pixelsPerPoint );
+                    Debug.Log(factor);
+                    _transform.Scale = new DVector2((base.Transform.Scale.x * Sprite.width) * factor, (base.Transform.Scale.y * (float)Sprite.height) * factor);
                     //Debug.Log(Texture.width + ", " + Texture.height);
                     
 

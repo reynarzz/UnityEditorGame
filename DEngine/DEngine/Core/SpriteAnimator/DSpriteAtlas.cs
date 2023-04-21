@@ -24,7 +24,7 @@ namespace DungeonInspector
     }
 
     [CreateAssetMenu]
-    public class E_SpriteAtlas : ScriptableObject
+    public class DSpriteAtlas : ScriptableObject
     {
         [SerializeField] private Texture2D[] _textures;
 
