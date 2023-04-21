@@ -8,48 +8,31 @@ namespace DungeonInspector
 {
     public class ActorHealth : DBehavior
     {
-        private const float _maxHealth = 10;
+        private float _maxHealth = 0;
+        public float Health { get; set; }
 
-        public float Health { get; set; } = _maxHealth;
-        public string EnemyTag { get; set; }
-
-        private HealthBarUI _healthBar;
+        public Action<float, float, bool> OnHealthChanged { get; set; }
         public Action OnHealthDepleted { get; set; }
-        public Action<float> OnHealthDecreased { get; set; }
 
-        protected override void OnAwake()
+        public void SetInitialHealth(int initial)
         {
-            _healthBar = GetComp<HealthBarUI>();
-
-            if (_healthBar != null)
-            {
-                _healthBar.Percentage = (Health / _maxHealth);
-            }
-        }
-
-        protected override void OnTriggerEnter(DBoxCollider collider)
-        {
-            if (_healthBar != null && collider.Entity.Tag == EnemyTag)
-            {
-                AddAmount(-1);
-            }
+            _maxHealth = initial;
+            Health = _maxHealth;
         }
 
         public void AddAmount(float amount)
         {
-            if(Health + amount < Health)
-            {
-                OnHealthDecreased?.Invoke(amount);
-            }
-
+            var increased = amount > 0;
             Health += amount;
 
-            _healthBar.OnChancePercentage(Health / _maxHealth);
+            OnHealthChanged?.Invoke(Health, _maxHealth, increased);
 
             if (Health <= 0)
             {
                 OnHealthDepleted?.Invoke();
             }
         }
+
+
     }
 }

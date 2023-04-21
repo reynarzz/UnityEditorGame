@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace DungeonInspector
 {
@@ -15,8 +16,12 @@ namespace DungeonInspector
         private Vector2 _scroll;
         private bool _show = false;
 
+        private bool[] _foldOut;
+
         public DHierarchyEditor()
         {
+            // test
+            _foldOut = new bool[50];
             _entitiesController = DIEngineCoreServices.Get<DEntitiesController>();
         }
 
@@ -48,30 +53,36 @@ namespace DungeonInspector
                     GUILayout.BeginVertical(EditorStyles.helpBox);
                     GUILayout.BeginHorizontal();
                     entities[i].IsActive = EditorGUILayout.Toggle(entities[i].IsActive, GUILayout.MaxWidth(15));
-                    GUILayout.Label(entities[i].Name, GUILayout.MaxWidth(120));
+                    //GUILayout.Label(entities[i].Name, GUILayout.MaxWidth(120));
+                    GUILayout.Space(10);
+                    _foldOut[i] = EditorGUILayout.Foldout(_foldOut[i], entities[i].Name, true);
                     GUILayout.EndHorizontal();
 
-                    DrawComponent(entities[i]);
+                    if (_foldOut[i])
+                    {
+                        DrawComponent(entities[i]);
+                    }
                     GUILayout.EndVertical();
                 }
                 GUILayout.EndScrollView();
 
             }
+
             GUILayout.EndVertical();
 
             GUILayout.EndArea();
-
         }
 
         private void DrawComponent(DGameEntity entity)
         {
             var components = entity.GetAllComponents();
 
+
             GUILayout.BeginVertical();
 
             if (EditorGUILayout.Foldout(true, "Components"))
             {
-                GUILayout.BeginVertical(EditorStyles.helpBox);
+                GUILayout.BeginVertical(/*EditorStyles.helpBox*/);
 
                 foreach (var component in components)
                 {

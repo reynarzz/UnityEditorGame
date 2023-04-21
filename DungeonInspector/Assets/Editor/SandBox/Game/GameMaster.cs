@@ -63,6 +63,7 @@ namespace DungeonInspector
             }
 
             _prefabInstantiator.InstanceDoor("ExitDoor").Transform.Position = new DVector2(2.27f, 3.56f);
+            _prefabInstantiator.InstanceCollectible<HealthPotion>("Health1").Transform.Position = new DVector2(2, 1);
         }
 
         protected override void OnStart()

@@ -12,6 +12,13 @@ namespace DungeonInspector
         private Player _player;
         private DRendererComponent _renderer;
 
+        protected override void OnAwake()
+        {
+            base.OnAwake();
+
+            _health.SetInitialHealth(20);
+        }
+
         protected override void OnStart()
         {
             base.OnStart();

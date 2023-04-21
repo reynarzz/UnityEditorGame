@@ -122,6 +122,16 @@ namespace DungeonInspector
             {
                 return component as T;
             }
+            else
+            {
+                foreach (var comp in _components.Values)
+                {
+                    if (comp.GetType().IsSubclassOf(typeof(T)))
+                    {
+                        return comp as T;
+                    }
+                }
+            }
 
             return default;
         }

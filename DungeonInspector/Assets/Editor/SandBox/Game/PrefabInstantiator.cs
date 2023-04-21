@@ -10,10 +10,12 @@ namespace DungeonInspector
     public class PrefabInstantiator
     {
         private DSpriteAtlas _doorAtlas;
+        private Texture2D _greenFlask;
 
         public PrefabInstantiator()
         {
             _doorAtlas = Resources.Load<DSpriteAtlas>("Interactables/DoorAtlas");
+            _greenFlask = Resources.Load<Texture2D>("GameAssets/Dungeon/flask_big_green");
         }
 
         public DGameEntity InstancePlayer(string name)
@@ -26,21 +28,22 @@ namespace DungeonInspector
             return null;
         }
 
-        public DGameEntity InstancePotion1(string name)
+        public DGameEntity InstanceCollectible<T>(string name) where T : CollectibleBase, new()
         {
-            return null;
-        }
+            var entity = GetEntity(name, typeof(T), typeof(DPhysicsComponent));
 
-        public DGameEntity InstancePotion2(string name)
-        {
-            return null;
-        }
+            var collider = entity.AddComp<DBoxCollider>();
+            collider.Size = new DVector2(0.7f, 0.71f);
+            collider.Center = new DVector2(0, -0.36f);
 
-        public DGameEntity InstancePotion3(string name)
-        {
-            return null;
-        }
+            var render = entity.AddComp<DRendererComponent>();
+            render.ZSorting = -1;
+            render.Sprite = _greenFlask;
+            entity.Transform.Offset = new DVector2(0, 0.3f);
 
+            return entity;
+        }
+       
         public DGameEntity InstanceChest(string name)
         {
             return null;

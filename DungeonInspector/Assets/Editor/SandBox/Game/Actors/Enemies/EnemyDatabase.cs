@@ -26,13 +26,13 @@ namespace DungeonInspector
             test.Entity.Transform.Position = new DVector2(6, -1); // remove
         }
 
-        private DRendererComponent GetEnemy<T>(string name, string texturePath) where T : DBehavior
+        private DRendererComponent GetEnemy<T>(string name, string texturePath) where T : EnemyBase, new()
         {
-            var entity = new DGameEntity(name, typeof(T), typeof(HealthBarUI), typeof(DPhysicsComponent), typeof(DBoxCollider));
+            var entity = new DGameEntity(name, typeof(ActorHealth), typeof(HealthBarUI), typeof(DPhysicsComponent), typeof(DBoxCollider));
             entity.Tag = "Enemy";
+            entity.AddComp<T>().Tag = "Player";
 
-            entity.AddComp<ActorHealth>().EnemyTag = "Player";
-             
+
             var renderer = entity.AddComp<DRendererComponent>();
             renderer.ZSorting = 2;
             renderer.Sprite = Utils.Load<UnityEngine.Texture2D>(texturePath);

@@ -6,9 +6,11 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class HealthUIBase : DBehavior
+    public class Coin : CollectibleBase
     {
-        public float Percentage { get; protected set; } = 1f;
+        public override void OnCollected(Actor actor)
+        {
 
+        }
     }
 }

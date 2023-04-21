@@ -9,15 +9,19 @@ namespace DungeonInspector
 {
     public class EnemyBase : Actor
     {
+        private DRendererComponent _renderer;
         private HealthBarUI _healthBar;
         private DBoxCollider _collider;
-        private const float _healthBarYOffset = 0.3f;
-        private ActorHealth _health;
-        private DRendererComponent _renderer;
+        protected ActorHealth _health;
 
+        private const float _healthBarYOffset = 0.3f;
         private const float _isHitMaxTime = 0.25f;
+
         private float _isHitTime;
         private bool _isHit;
+
+        public string Tag { get; set; } = "Player";
+        public Actor Target { get; set; }
 
         protected override void OnAwake()
         {
@@ -27,16 +31,28 @@ namespace DungeonInspector
             _health = GetComp<ActorHealth>();
             _renderer = GetComp<DRendererComponent>();
 
-
+            _health.OnHealthChanged += OnHealthChanged;
             _health.OnHealthDepleted += OnHealthDepleted;
-            _health.OnHealthDecreased += OnHealthDecreased;
         }
 
-        private void OnHealthDecreased(float amount)
+        private void OnHealthChanged(float amount, float max, bool increased)
         {
-            _renderer.SetMatInt("_isHit", 1);
-            _isHitTime = 0;
-            _isHit = true;
+            if (!increased)
+            {
+                _renderer.SetMatInt("_isHit", 1);
+                _isHitTime = 0;
+                _isHit = true;
+            }
+
+            _healthBar.OnChancePercentage(amount / max);
+        }
+
+        protected override void OnTriggerEnter(DBoxCollider collider)
+        {
+            if (collider.Entity.Tag == Tag)
+            {
+                _health.AddAmount(-1);
+            }
         }
 
         protected override void OnUpdate()
@@ -62,10 +78,9 @@ namespace DungeonInspector
         }
 
 
-
         public override void OnDestroy()
         {
-            _health.OnHealthDepleted -= OnHealthDepleted;
+            _health.OnHealthChanged -= OnHealthChanged;
         }
     }
 }

@@ -12,6 +12,8 @@ namespace DungeonInspector
         public DVector2 Max { get; set; }
         public DVector2 Min { get; set; }
 
+
+
         public override string ToString()
         {
             return $"({Min.x}, {Min.y}) < ({Max.x}, {Max.y})";

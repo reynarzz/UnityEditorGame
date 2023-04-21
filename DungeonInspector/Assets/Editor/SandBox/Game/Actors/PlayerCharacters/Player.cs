@@ -21,7 +21,6 @@ namespace DungeonInspector
         DVector2 _gridPos = default;
 
         private Vector2Int _moveDir = default;
-        private bool _tryingToWalk;
 
         private DGameEntity _weaponTest;
         private DRendererComponent _weaponRendererTest;
@@ -47,6 +46,7 @@ namespace DungeonInspector
 
             AddComp<DBoxCollider>().IsTrigger = true;
             AddComp<DPhysicsComponent>();
+            _health = AddComp<ActorHealth>();
 
             _weaponTest = new DGameEntity("WeaponTest");
             _weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
@@ -105,35 +105,24 @@ namespace DungeonInspector
                 {
                     _moveDir.x = -1;
                     _moveDir.y = 0;
-
-                    _tryingToWalk = true;
                 }
                 else if (DInput.IsKey(UnityEngine.KeyCode.D))
                 {
                     _moveDir.x = 1;
                     _moveDir.y = 0;
-
-
-                    _tryingToWalk = true;
                 }
                 else if (DInput.IsKey(UnityEngine.KeyCode.W))
                 {
                     _moveDir.x = 0;
                     _moveDir.y = 1;
-
-                    _tryingToWalk = true;
                 }
                 else if (DInput.IsKey(UnityEngine.KeyCode.S))
                 {
                     _moveDir.x = 0;
                     _moveDir.y = -1;
-
-                    _tryingToWalk = true;
                 }
                 else
                 {
-                    _tryingToWalk = false;
-
                     _moveDir.x = 0;
                     _moveDir.y = 0;
                 }
