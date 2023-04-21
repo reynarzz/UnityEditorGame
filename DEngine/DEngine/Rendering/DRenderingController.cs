@@ -21,6 +21,9 @@ namespace DungeonInspector
         public DCamera CurrentCamera => _cameras.LastOrDefault();
 
         private List<DCamera> _cameras;
+
+        private Texture2D _whiteTex;
+
         public DRenderingController()
         {
             _renderers = new List<DRendererComponent>();
@@ -30,6 +33,7 @@ namespace DungeonInspector
 
             _maskMat = Resources.Load<Material>("Materials/Mask");
             _viewportRect = new Texture2D(1, 1);
+            _whiteTex = Texture2D.whiteTexture;
         }
 
         private Action _debugCallback;
@@ -130,7 +134,7 @@ namespace DungeonInspector
 
                 if (renderingTex == null)
                 {
-                    renderingTex = Texture2D.whiteTexture;
+                    renderingTex = _whiteTex;
                 }
 
                 var rect = default(Rect);
@@ -162,7 +166,7 @@ namespace DungeonInspector
                 foreach (var states in renderer.ShaderState)
                 {
                     SetState(states.Key, states.Value, mat);
-                } 
+                }
 
                 mat.SetVector("_dtime", new Vector4(DTime.Time, DTime.DeltaTime, Mathf.Sin(DTime.Time), Mathf.Cos(DTime.Time)));
                 mat.SetVector("_cutOffColor", renderer.CutOffColor);

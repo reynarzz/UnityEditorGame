@@ -51,7 +51,7 @@ namespace DungeonInspector
             _weaponTest = new DGameEntity("WeaponTest");
             _weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
 
-            _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_anime_sword");
+            _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_red_gem_sword");
             _weaponRendererTest.ZSorting = 1;
             Entity.Tag = "Player";
             //_health = AddComp<ActorHealth>();

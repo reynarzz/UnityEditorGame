@@ -12,6 +12,8 @@ namespace DungeonInspector
         private Dictionary<DVector2, Dictionary<int, DTile>> _tiles;
         public Dictionary<DVector2, Dictionary<int, DTile>> Tiles => _tiles;
 
+        private DAABB _tilemapBounds;
+
         protected override void OnAwake()
         {
             _tiles = new Dictionary<DVector2, Dictionary<int, DTile>>();
@@ -131,6 +133,12 @@ namespace DungeonInspector
             }
 
             return false;
+        }
+
+        public DAABB GetTilemapBoundaries()
+        {
+
+            return default;
         }
 
     }

@@ -14,7 +14,7 @@ namespace DungeonInspector
         private DSpriteAtlas _atlas;
         private GameMaster _gameMaster;
 
-        private DTile[] _blockedTiles = new DTile[2];
+        private DTile[] _tiles = new DTile[4];
         protected override void OnAwake()
         {
             _renderer = GetComp<DRendererComponent>();
@@ -26,8 +26,11 @@ namespace DungeonInspector
         {
             var basePos = Transform.Position + (DVector2)Vector2.down;
 
-            _blockedTiles[0] = _gameMaster.Tilemap.GetTile(basePos.RoundToInt(), 0);
-            _blockedTiles[1] = _gameMaster.Tilemap.GetTile((basePos + DVector2.Right).RoundToInt(), 0);
+            _tiles[0] = _gameMaster.Tilemap.GetTile(basePos.RoundToInt(), 0);
+            _tiles[1] = _gameMaster.Tilemap.GetTile((basePos + DVector2.Right).RoundToInt(), 0);
+
+
+
             Transform.Offset = new DVector2(0.28f, 0);
         }
         public void SetAtlas(DSpriteAtlas atlas)
@@ -41,9 +44,11 @@ namespace DungeonInspector
             var value = (int)Math.Round(((float)Math.Sin(DTime.Time) + 1) * 0.5f);
             _renderer.Sprite = _atlas.GetTexture(value);
 
-            for (int i = 0; i < _blockedTiles.Length; i++)
+            // Check if the actor is above or below to lock/unlock the proper tiles
+            for (int i = 0; i < 2; i++)
             {
-                _blockedTiles[i].IsWalkable = value == 1;
+                
+                _tiles[i].IsWalkable = value == 1;
             }
         }
 
