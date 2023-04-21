@@ -92,20 +92,20 @@ namespace DungeonInspector
             return Resources.Load<T>(pathFromRes);
         }
 
-        public static void DrawBounds(DAABB bounds, Color color)
+        public static void DrawBounds(DAABB bounds, Color color, float offset = 0)
         {
             var scale = 0.1f;
 
-            var pos1 = World2RectPos(new Vector2(bounds.Min.x - 0.5f, bounds.Min.y - 0.5f),
+            var pos1 = World2RectPos(new Vector2(bounds.Min.x - offset, bounds.Min.y - offset),
                                      new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
 
-            var pos2 = World2RectPos(new Vector2(bounds.Min.x - 0.5f, bounds.Max.y + 0.5f),
+            var pos2 = World2RectPos(new Vector2(bounds.Min.x - offset, bounds.Max.y + offset),
                                      new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
 
-            var pos3 = World2RectPos(new Vector2(bounds.Max.x + 0.5f, bounds.Max.y + 0.5f),
+            var pos3 = World2RectPos(new Vector2(bounds.Max.x + offset, bounds.Max.y + offset),
                                      new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
 
-            var pos4 = World2RectPos(new Vector2(bounds.Max.x + 0.5f, bounds.Min.y - 0.5f),
+            var pos4 = World2RectPos(new Vector2(bounds.Max.x + offset, bounds.Min.y - offset),
                                      new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
 
             var lineScale = 1;
