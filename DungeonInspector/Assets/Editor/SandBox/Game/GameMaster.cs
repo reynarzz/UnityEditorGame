@@ -5,7 +5,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace DungeonInspector
 {
@@ -83,6 +85,8 @@ namespace DungeonInspector
 
         protected override void OnUpdate()
         {
+            Utils.DrawBounds(_tilemap.GetTilemapBoundaries(), Color.white);
+
             UpdateTilesBehavior();
         }
 

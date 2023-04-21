@@ -38,6 +38,8 @@ namespace DungeonInspector
                 IdleTexAnim = tile.IdleTexAnim,
             };
 
+            
+
             SetTile(copy, x, y);
         }
 
@@ -63,6 +65,26 @@ namespace DungeonInspector
                 dict.Add(tile.ZSorting, tile);
 
                 _tiles.Add(pos, dict);
+            }
+
+            if (x < _tilemapBounds.Min.x)
+            {
+                _tilemapBounds.Min = new DVector2(x, _tilemapBounds.Min.y);
+            }
+
+            if (y < _tilemapBounds.Min.y)
+            {
+                _tilemapBounds.Min = new DVector2(_tilemapBounds.Min.x, y);
+            }
+
+            if (x > _tilemapBounds.Max.x)
+            {
+                _tilemapBounds.Max = new DVector2(x, _tilemapBounds.Max.y);
+            }
+
+            if (y > _tilemapBounds.Max.y)
+            {
+                _tilemapBounds.Max = new DVector2(_tilemapBounds.Max.x, y);
             }
         }
 
@@ -137,8 +159,7 @@ namespace DungeonInspector
 
         public DAABB GetTilemapBoundaries()
         {
-
-            return default;
+            return _tilemapBounds;
         }
 
     }

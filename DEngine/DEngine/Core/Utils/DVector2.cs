@@ -60,6 +60,16 @@ namespace DungeonInspector
             return new DVector2(vector.x, vector.y);
         }
 
+        public static bool operator >(DVector2 a, DVector2 b)
+        {
+            return a.x > b.x && a.y > b.y;
+        }
+
+        public static bool operator <(DVector2 a, DVector2 b)
+        {
+            return a.x < b.x && a.y < b.y;
+        }
+
         public static implicit operator UnityEngine.Vector2Int(DVector2 vector)
         {
             return new UnityEngine.Vector2Int((int)vector.x, (int)vector.y);

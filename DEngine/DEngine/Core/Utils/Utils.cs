@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using TreeEditor;
 using UnityEditor;
 using UnityEngine;
 
@@ -98,12 +92,36 @@ namespace DungeonInspector
             return Resources.Load<T>(pathFromRes);
         }
 
+        public static void DrawBounds(DAABB bounds, Color color)
+        {
+            var scale = 0.1f;
+
+            var pos1 = World2RectPos(new Vector2(bounds.Min.x - 0.5f, bounds.Min.y - 0.5f),
+                                     new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
+
+            var pos2 = World2RectPos(new Vector2(bounds.Min.x - 0.5f, bounds.Max.y + 0.5f),
+                                     new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
+
+            var pos3 = World2RectPos(new Vector2(bounds.Max.x + 0.5f, bounds.Max.y + 0.5f),
+                                     new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
+
+            var pos4 = World2RectPos(new Vector2(bounds.Max.x + 0.5f, bounds.Min.y - 0.5f),
+                                     new Vector2(scale, scale), DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
+
+            var lineScale = 1;
+
+            EditorGUI.DrawRect(new Rect(pos1.x, pos1.y, lineScale, lineScale + pos2.y - pos1.y), color);
+            EditorGUI.DrawRect(new Rect(pos2.x, pos2.y, lineScale + pos3.x - pos2.x, lineScale), color);
+            EditorGUI.DrawRect(new Rect(pos3.x, pos3.y, lineScale, lineScale + pos4.y - pos3.y), color);
+            EditorGUI.DrawRect(new Rect(pos4.x, pos4.y, lineScale + pos1.x - pos4.x, lineScale), color);
+        }
+
         public static bool Raycast(DVector2 origin, DVector2 direction, float length, out DRayHitInfo hitInfo)
         {
             var colliders = DIEngineCoreServices.Get<DPhysicsController>().GetAllBodies();
 
             hitInfo = default;
-            
+
             var closestPoint = new DVector2(float.MaxValue, float.MaxValue);
 
             for (int i = 0; i < colliders.Count; i++)
@@ -173,7 +191,7 @@ namespace DungeonInspector
 
         public static void DrawRay()
         {
-            
+
         }
 
         //public static float Raycast(DRay ray, DAABB aabb)
