@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 using UnityEngine.UIElements;
 
 namespace DungeonInspector
@@ -23,6 +24,14 @@ namespace DungeonInspector
 
         public override void Remove(DPhysicsComponent element)
         {
+            foreach (DPhysicsComponent component in _components)
+            {
+                if (component != element)
+                {
+                    component.Collisions.Remove(element);
+                }
+            }
+
             _components.Remove(element);
         }
 
@@ -34,25 +43,13 @@ namespace DungeonInspector
                 _components[i].OnPhysicsUpdate();
             }
 
-            //if(_components.Count > 1)
-            //{
-            //    var colliding = DetectCollision(_components[0], _components[1]);
-            //    _components[0].Collider.IsColliding = colliding;
-            //    _components[1].Collider.IsColliding = colliding;
-
-
-            //    RaiseOnTriggerEvent(_components[0], _components[1]);
-            //    if (_components.Count > 1)
-            //    {
-            //        RaiseOnTriggerEvent(_components[1], _components[0]);
-            //    }
-            //}
-
             CollisionChecks();
         }
 
         private void CollisionChecks()
         {
+            //int _closeCount = 0;
+
             for (int i = 0; i < _components.Count; i++)
             {
                 var body1 = _components[i];
@@ -61,14 +58,33 @@ namespace DungeonInspector
                 {
                     var body2 = _components[j];
 
-                    if(body1 != body2)
+                    if (body1 != body2)
                     {
-                        var colliding = DetectCollision(body1, body2);
+                        var areClose = (body1.Transform.Position - body2.Transform.Position).SqrMagnitude <= 2f;
+                        bool isColliding = false;
 
-                        if (colliding)
+                        if (areClose)
                         {
-                            body1.Collisions.Add(body2);
-                            body2.Collisions.Add(body1);
+                            //_closeCount++;
+                            isColliding = DetectCollision(body1, body2);
+
+                            if (isColliding)
+                            {
+                                if (!body1.Collisions.Contains(body2))
+                                {
+                                    body1.Collisions.Add(body2);
+                                }
+
+                                if (!body2.Collisions.Contains(body1))
+                                {
+                                    body2.Collisions.Add(body1);
+                                }
+                            }
+                            else
+                            {
+                                body1.Collisions.Remove(body2);
+                                body2.Collisions.Remove(body1);
+                            }
                         }
                         else
                         {
@@ -76,24 +92,26 @@ namespace DungeonInspector
                             body2.Collisions.Remove(body1);
                         }
 
-                        body1.Collider.IsColliding = colliding;
-                        body2.Collider.IsColliding = colliding;
+                        body2.Collider.IsColliding = body2.Collisions.Count > 0;
 
-                        RaiseOnTriggerEvent(body1, body2);
-                        RaiseOnTriggerEvent(body2, body1);
+                        RaiseOnTriggerEvent(body1, body2, isColliding);
+                        RaiseOnTriggerEvent(body2, body1, isColliding);
                     }
                 }
+
+                body1.Collider.IsColliding = body1.Collisions.Count > 0;
+
             }
         }
 
 
-        private void RaiseOnTriggerEvent(DPhysicsComponent physicObj, DPhysicsComponent target)
+        private void RaiseOnTriggerEvent(DPhysicsComponent physicObj, DPhysicsComponent target, bool isColliding)
         {
             if (physicObj.Collider != null && physicObj.Collider.IsTrigger)
             {
                 var allcomponents = physicObj.Entity.GetAllComponents();
 
-                if (physicObj.Collider.IsColliding)
+                if (isColliding)
                 {
                     if (!physicObj.TriggerEnter)
                     {
