@@ -10,6 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 681081541, guid: 888d2e9aea4db614b9ddcafa6fb0c090, type: 3}
-  m_Name: Coin
+  m_Name: CoinAtlas
   m_EditorClassIdentifier: 
-  _textures: []
+  _textures:
+  - {fileID: 2800000, guid: 98253eb7da05470449a537fda7c7612f, type: 3}
+  - {fileID: 2800000, guid: f5b57743ef6ffa44c993950a14531765, type: 3}
+  - {fileID: 2800000, guid: 7657cdab1ce059145a2907d896538793, type: 3}
+  - {fileID: 2800000, guid: c9f22dec26d4eee458f143413c784f5f, type: 3}

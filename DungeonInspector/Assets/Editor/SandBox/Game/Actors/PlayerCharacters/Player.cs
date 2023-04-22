@@ -44,7 +44,12 @@ namespace DungeonInspector
             _renderer = GetComp<DRendererComponent>();
             _renderer.Sprite = idle.CurrentTexture;
 
-            AddComp<DBoxCollider>().IsTrigger = true;
+            var collider = AddComp<DBoxCollider>();
+            collider.IsTrigger = false;
+
+            collider.Center = new DVector2(0, -0.75f);
+            collider.Size = new DVector2(0.78f, 0.79f);
+
             AddComp<DPhysicsComponent>();
             _health = AddComp<ActorHealth>();
 
@@ -66,7 +71,7 @@ namespace DungeonInspector
         {
             Transform.Offset = new DVector2(0, 0.7f);
 
-            Transform.Position = _gridPos = new DVector2(3, 4);
+            Transform.Position = _gridPos = new DVector2(3, 0);
 
             _rayHitGuideTest.Transform.Scale = new DVector2(0.2f, 0.2f);
             _rayHitGuideTest.ZSorting = 3;
@@ -153,7 +158,7 @@ namespace DungeonInspector
             _weaponTest.Transform.Scale = new DVector2(1 * Mathf.Sign(DInput.GetMouseWorldPos().x - Transform.Position.x), 1);
             if (Utils.Raycast(Transform.Position, dir, 0, out var info))
             {
-                //--_rayHitGuideTest.Entity.IsActive = true;
+                _rayHitGuideTest.Entity.IsActive = true;
                 _rayHitGuideTest.Entity.Transform.Position = info.Point;
 
 
@@ -216,19 +221,6 @@ namespace DungeonInspector
                 //}
             }
             //_playerAnimator.Stop();
-
-            GL.PushMatrix();
-            // Set transformation matrix for drawing to
-            // match our transform
-            GL.MultMatrix(Matrix4x4.identity);
-
-            GL.Begin(GL.TRIANGLES);
-
-            GL.Vertex3(Transform.Position.x, Transform.Position.y, 0);
-            GL.Vertex3(Transform.Position.x + dir.x * 5, Transform.Position.y + dir.y * 5, 0);
-
-            GL.End();
-            GL.PopMatrix();
         }
 
         private DVector2 GetMoveDir(DVector2 currentPos, int x, int y)

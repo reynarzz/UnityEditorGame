@@ -1,19 +1,24 @@
 ﻿using System;
 using System.Reflection;
+using System.Windows.Documents;
 using UnityEditor;
 using UnityEngine;
 
 namespace DungeonInspector
 {
-    public static class Utils
+    public class Utils
     {
         private static Material _mat;
         private static Texture2D _whiteTex;
 
-        static Utils()
+        public Utils()
         {
             _mat = Resources.Load<Material>("Materials/DStandard");
             _whiteTex = Texture2D.whiteTexture;
+        }
+
+        private static void OnDebugGUI()
+        {
         }
 
         public static T GetValue<T>(object target, string fieldName)
@@ -119,15 +124,15 @@ namespace DungeonInspector
 
             var lineScale = 1;
 
-            EditorGUI.DrawRect(new Rect(pos1.x, pos1.y, lineScale, lineScale + pos2.y - pos1.y), color);
-            EditorGUI.DrawRect(new Rect(pos2.x, pos2.y, lineScale + pos3.x - pos2.x, lineScale), color);
-            EditorGUI.DrawRect(new Rect(pos3.x, pos3.y, lineScale, lineScale + pos4.y - pos3.y), color);
-            EditorGUI.DrawRect(new Rect(pos4.x, pos4.y, lineScale + pos1.x - pos4.x, lineScale), color);
+            //EditorGUI.DrawRect(new Rect(pos1.x, pos1.y, lineScale, lineScale + pos2.y - pos1.y), color);
+            //EditorGUI.DrawRect(new Rect(pos2.x, pos2.y, lineScale + pos3.x - pos2.x, lineScale), color);
+            //EditorGUI.DrawRect(new Rect(pos3.x, pos3.y, lineScale, lineScale + pos4.y - pos3.y), color);
+            //EditorGUI.DrawRect(new Rect(pos4.x, pos4.y, lineScale + pos1.x - pos4.x, lineScale), color);
 
-            //Graphics.DrawTexture(new Rect(pos1.x, pos1.y, lineScale, lineScale + pos2.y - pos1.y), _whiteTex, _mat);
-            //Graphics.DrawTexture(new Rect(pos2.x, pos2.y, lineScale + pos3.x - pos2.x, lineScale), _whiteTex, _mat);
-            //Graphics.DrawTexture(new Rect(pos3.x, pos3.y, lineScale, lineScale + pos4.y - pos3.y), _whiteTex, _mat);
-            //Graphics.DrawTexture(new Rect(pos4.x, pos4.y, lineScale + pos1.x - pos4.x, lineScale), _whiteTex, _mat);
+            Graphics.DrawTexture(new Rect(pos1.x, pos1.y, lineScale, lineScale + pos2.y - pos1.y), _whiteTex, _mat);
+            Graphics.DrawTexture(new Rect(pos2.x, pos2.y, lineScale + pos3.x - pos2.x, lineScale), _whiteTex, _mat);
+            Graphics.DrawTexture(new Rect(pos3.x, pos3.y, lineScale, lineScale + pos4.y - pos3.y), _whiteTex, _mat);
+            Graphics.DrawTexture(new Rect(pos4.x, pos4.y, lineScale + pos1.x - pos4.x, lineScale), _whiteTex, _mat);
 
         }
 
@@ -153,7 +158,7 @@ namespace DungeonInspector
 
                     if (success)
                     {
-                        if (hit.Point.SqrMagnitude < closestPoint.SqrMagnitude)
+                        if ((hit.Point - origin).SqrMagnitude < (closestPoint - origin).SqrMagnitude)
                         {
                             hit.Target = collider.Entity;
                             closestPoint = hit.Point;

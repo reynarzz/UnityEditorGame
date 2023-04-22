@@ -17,18 +17,31 @@ namespace DungeonInspector
 
         private DRendererComponent _renderer;
 
-        protected override void OnAwake()
+        public DAnimatorComponent()
         {
             _animations = new List<DSpriteAnimation>();
-            _renderer = GetComp<DRendererComponent>();
+
         }
 
+        protected override void OnAwake()
+        {
+            if(_renderer == null)
+            {
+                _renderer = GetComp<DRendererComponent>();
+            }
+        }
 
+        public void SetRenderer(DRendererComponent renderer)
+        {
+            _renderer = renderer;
+        }
         protected override void OnUpdate()
         {
             if(_currentAnimIndex >= 0 && _animations.Count > 0)
             {
                 _animations[_currentAnimIndex].Update(DTime.DeltaTime);
+
+                _renderer.Sprite = _animations[_currentAnimIndex].CurrentTexture;
             }
         }
 
@@ -51,7 +64,7 @@ namespace DungeonInspector
                 _animations[_currentAnimIndex].Play();
             }
 
-            _renderer.Sprite = _animations[_currentAnimIndex].CurrentTexture;
+           //-- _renderer.Sprite = _animations[_currentAnimIndex].CurrentTexture;
         }
 
         public void AddAnimation(params DSpriteAnimation[] animation)
@@ -60,8 +73,6 @@ namespace DungeonInspector
             {
                 _animations.Add(animation[i]);
             }
-
-            Play(0);
         }
 
 

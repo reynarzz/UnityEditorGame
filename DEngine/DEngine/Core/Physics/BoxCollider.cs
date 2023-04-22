@@ -13,10 +13,10 @@ namespace DungeonInspector
         private DAABB _boundingBox;
         public DAABB AABB => _boundingBox;
         public DVector2 Center { get; set; }
-        public DVector2 Size { get; set; } = new DVector2(1, 1);
-        public bool IsColliding { get; set; }
+        public DVector2 Size { get; set; } = new DVector2(1, 1);  
         public bool IsTrigger { get; set; } = true;
         public bool Debug { get; set; } = false;
+        internal bool IsColliding { get; set; }
         protected override void OnStart()
         {
             DIEngineCoreServices.Get<DRenderingController>().AddDebugGUI(RenderBoundingBox_Test);

@@ -17,6 +17,7 @@ namespace DungeonInspector
         private bool _show = false;
 
         private bool[] _foldOut;
+        private bool _debugAll;
 
         public DHierarchyEditor()
         {
@@ -36,12 +37,21 @@ namespace DungeonInspector
 
             GUILayout.BeginVertical(EditorStyles.helpBox);
             GUI.backgroundColor = color;
+
             GUILayout.BeginHorizontal();
             _show = EditorGUILayout.Toggle(_show);
             GUILayout.Label("Hierarchy");
             GUILayout.EndHorizontal();
+
             GUILayout.BeginVertical(EditorStyles.helpBox);
             GUILayout.Label($"FPS: {DTime.FPs}");
+            GUILayout.EndVertical();
+
+            GUILayout.BeginVertical(EditorStyles.helpBox);
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("Debug All", GUILayout.MaxWidth(60));
+            _debugAll = EditorGUILayout.Toggle(_debugAll);
+            GUILayout.EndHorizontal();
             GUILayout.EndVertical();
 
             if (_show)
@@ -57,6 +67,11 @@ namespace DungeonInspector
                     GUILayout.Space(10);
                     _foldOut[i] = EditorGUILayout.Foldout(_foldOut[i], entities[i].Name, true);
                     GUILayout.EndHorizontal();
+
+                    if (_debugAll)
+                    {
+                        _foldOut[i] = _debugAll;
+                    }
 
                     if (_foldOut[i])
                     {
@@ -80,7 +95,14 @@ namespace DungeonInspector
 
             GUILayout.BeginVertical();
 
-            if (EditorGUILayout.Foldout(true, "Components"))
+            var show = EditorGUILayout.Foldout(true, "Components");
+
+            if (_debugAll)
+            {
+                show = _debugAll;
+            }
+
+            if (show)
             {
                 GUILayout.BeginVertical(/*EditorStyles.helpBox*/);
 
@@ -112,7 +134,6 @@ namespace DungeonInspector
                         GUILayout.Label("Color");
                         comp.Color = EditorGUILayout.ColorField(comp.Color);
                         GUILayout.EndHorizontal();
-
                     }
 
                     if (component.GetType() == typeof(DBoxCollider))
@@ -126,7 +147,7 @@ namespace DungeonInspector
 
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("Debug");
-                        box.Debug = EditorGUILayout.Toggle(box.Debug);
+                        box.Debug = _debugAll;// EditorGUILayout.Toggle(box.Debug);
                         GUILayout.EndHorizontal();
 
                         box.Center = EditorGUILayout.Vector2Field(string.Empty, box.Center, GUILayout.MaxWidth(_rect.width - 50));

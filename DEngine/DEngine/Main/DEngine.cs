@@ -24,6 +24,7 @@ namespace DungeonInspector
             _sandbox = sandbox;
 
             new DIEngineCoreServices();
+            new Utils();
 
             _time = DIEngineCoreServices.Get<DTime>();
             _audio = DIEngineCoreServices.Get<DAudioSystem>();

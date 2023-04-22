@@ -63,7 +63,13 @@ namespace DungeonInspector
             }
 
             _prefabInstantiator.InstanceDoor("ExitDoor").Transform.Position = new DVector2(2.27f, 3.56f);
-            _prefabInstantiator.InstanceCollectible<HealthPotion>("Health1").Transform.Position = new DVector2(2, 1);
+            _prefabInstantiator.GetHealthPotion("Health1").Transform.Position = new DVector2(2, 1);
+            _prefabInstantiator.InstanceCoin("Coin1").Transform.Position = new DVector2(1, 2); 
+            _prefabInstantiator.InstanceCoin("Coin2").Transform.Position = new DVector2(2, 2);
+            _prefabInstantiator.InstanceCoin("Coin3").Transform.Position = new DVector2(3, 2);
+            _prefabInstantiator.InstanceCoin("Coin4").Transform.Position = new DVector2(4, 2);
+            _prefabInstantiator.InstanceCoin("Coin5").Transform.Position = new DVector2(5, 2);
+            _prefabInstantiator.InstanceCoin("Coin6").Transform.Position = new DVector2(6, 2);
         }
 
         protected override void OnStart()

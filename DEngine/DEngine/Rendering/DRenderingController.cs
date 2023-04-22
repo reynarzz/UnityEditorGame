@@ -97,6 +97,8 @@ namespace DungeonInspector
                     Draw(item, _cameras[_cameras.Count - 1]);
                 }
             }
+
+            _debugCallback?.Invoke();
         }
 
         public override void Add(DRendererComponent renderer)
@@ -183,8 +185,6 @@ namespace DungeonInspector
                 {
                     ClearState(states.Key, states.Value.Key, mat);
                 }
-
-                _debugCallback?.Invoke();
             }
         }
 

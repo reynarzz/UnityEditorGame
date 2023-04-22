@@ -49,13 +49,16 @@ namespace DungeonInspector
 
     public class DPhysicsComponent : DBehavior
     {
-
         private DBoxCollider _collider;
         public DBoxCollider Collider => _collider;
+        public bool IsColliding => Collisions.Count > 0;
+        internal List<DPhysicsComponent> Collisions { get; set; }
 
         public bool TriggerEnter { get; set; }
+
         protected override void OnAwake()
         {
+            Collisions = new List<DPhysicsComponent>();
             _collider = GetComp<DBoxCollider>();
         }
 

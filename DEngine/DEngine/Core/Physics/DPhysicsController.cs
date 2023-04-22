@@ -34,20 +34,56 @@ namespace DungeonInspector
                 _components[i].OnPhysicsUpdate();
             }
 
-            if(_components.Count > 1)
+            //if(_components.Count > 1)
+            //{
+            //    var colliding = DetectCollision(_components[0], _components[1]);
+            //    _components[0].Collider.IsColliding = colliding;
+            //    _components[1].Collider.IsColliding = colliding;
+
+
+            //    RaiseOnTriggerEvent(_components[0], _components[1]);
+            //    if (_components.Count > 1)
+            //    {
+            //        RaiseOnTriggerEvent(_components[1], _components[0]);
+            //    }
+            //}
+
+            CollisionChecks();
+        }
+
+        private void CollisionChecks()
+        {
+            for (int i = 0; i < _components.Count; i++)
             {
-                var colliding = DetectCollision(_components[0], _components[1]);
-                _components[0].Collider.IsColliding = colliding;
-                _components[1].Collider.IsColliding = colliding;
+                var body1 = _components[i];
 
-
-                RaiseOnTriggerEvent(_components[0], _components[1]);
-                if (_components.Count > 1)
+                for (int j = 0; j < _components.Count; j++)
                 {
-                    RaiseOnTriggerEvent(_components[1], _components[0]);
+                    var body2 = _components[j];
+
+                    if(body1 != body2)
+                    {
+                        var colliding = DetectCollision(body1, body2);
+
+                        if (colliding)
+                        {
+                            body1.Collisions.Add(body2);
+                            body2.Collisions.Add(body1);
+                        }
+                        else
+                        {
+                            body1.Collisions.Remove(body2);
+                            body2.Collisions.Remove(body1);
+                        }
+
+                        body1.Collider.IsColliding = colliding;
+                        body2.Collider.IsColliding = colliding;
+
+                        RaiseOnTriggerEvent(body1, body2);
+                        RaiseOnTriggerEvent(body2, body1);
+                    }
                 }
             }
-         
         }
 
 
@@ -64,9 +100,9 @@ namespace DungeonInspector
                         for (int i = 0; i < allcomponents.Count; i++)
                         {
                             var behavior = allcomponents.ElementAt(i) as IDBehavior;
-                       // }
-                        //foreach (var item in allcomponents)
-                        //{
+                            // }
+                            //foreach (var item in allcomponents)
+                            //{
                             if (behavior != null)
                             {
                                 behavior.OnTriggerEnter(target.Collider);
