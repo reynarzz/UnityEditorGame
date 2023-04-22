@@ -42,6 +42,12 @@ namespace DungeonInspector
             return renderer;
         }
 
+        public List<DVector2> GetFreePath()
+        {
+            // returns a non taken path, ordering by enemy distance to the target.
+            return null;
+        }
+
         public DRendererComponent GetEnemy(int index)
         {
             return _enemyRenderers[index];

@@ -47,7 +47,7 @@ namespace DungeonInspector
 
                     if (tile != null)
                     {
-                        world[new DVector2(i, j)] = new DungeonPathNode() { PosTest = new DVector2(x, y), Tile = tile };
+                        world[new DVector2(i, j)] = new DungeonPathNode() { /*PosTest = new DVector2(x, y),*/ Tile = tile };
                     }
                     //else
                     //{

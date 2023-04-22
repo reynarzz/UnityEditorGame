@@ -66,7 +66,7 @@ namespace AStar
                         continue;
                     }
 
-                    var newG = q.G + DistanceBetweenNodes;
+                    var newG = q.G + DistanceBetweenNodes + (((DungeonPathNode)_world[successor.Position]).Tile.IsOccupied? 1:0);
 
                     if (_options.PunishChangeDirection)
                     {

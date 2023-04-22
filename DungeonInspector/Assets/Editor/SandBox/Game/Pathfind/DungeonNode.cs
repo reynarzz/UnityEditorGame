@@ -10,8 +10,8 @@ namespace DungeonInspector
     public class DungeonPathNode : IBaseNode
     {
         public DTile Tile { get; set; }
-        public DVector2 PosTest { get; set; }
-        public bool IsOccupied { get; set; }
-        public bool IsOpen => !IsOccupied && Tile.IsWalkable;
+       // public DVector2 PosTest { get; set; }
+        public bool IsOpen => Tile.IsWalkable;
+        public bool InUseForPath { get; set; }
     }
 }

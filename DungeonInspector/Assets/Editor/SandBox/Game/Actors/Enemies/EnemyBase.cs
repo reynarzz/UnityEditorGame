@@ -32,7 +32,6 @@ namespace DungeonInspector
         private bool _canMove = true;
         private DTilemap _tilemap;
         private DTile _prevTile;
-        private static bool _recalcPath;
 
         protected override void OnAwake()
         {
@@ -67,7 +66,7 @@ namespace DungeonInspector
                 _isHitTime = 0;
                 _isHit = true;
             }
-            
+
             _healthBar.OnChancePercentage(amount / max);
         }
 
@@ -100,29 +99,29 @@ namespace DungeonInspector
 
         private void Walk()
         {
-            if(DInput.IsKeyDown(KeyCode.F))
+            if (DInput.IsKey(KeyCode.F))
             {
-                _recalcPath = true;
-                
-            }
-
-            if (_recalcPath)
-            {
-                _recalcPath = false;
                 _pathIndex = 0;
 
                 _pathToTarget = _navWorld.GetPathToTarget(this, _playerTest);
-                _pathToTarget.RemoveAt(_pathToTarget.Count - 1);
-                _prevPos = _movePos = Transform.Position.RoundToInt();
-                _prevTile.IsOccupied = false;
+                if (_pathToTarget != null && _pathToTarget.Count > 0)
+                {
+                    _pathToTarget.RemoveAt(_pathToTarget.Count - 1);
+
+                    _prevPos = _movePos = Transform.Position.RoundToInt();
+                    _prevTile.IsOccupied = false;
+                }
+               
             }
+
+              
 
             if (_pathToTarget != null && _pathToTarget.Count > 0 && _pathToTarget.Count > _pathIndex)
             {
                 var nextPos = GetNextPos();
 
                 var tile = _tilemap.GetTile(nextPos, 0);
-                
+
                 if ((_movePos - Transform.Position).SqrMagnitude <= 0.001f && !tile.IsOccupied && _playerTest.Transform.RoundPosition != nextPos)
                 {
                     _pathIndex++;
@@ -142,7 +141,7 @@ namespace DungeonInspector
 
         private DVector2 GetNextPos()
         {
-            if(_pathToTarget.Count > _pathIndex + 1)
+            if (_pathToTarget.Count > _pathIndex + 1)
             {
                 return _pathToTarget[_pathIndex + 1];
             }
