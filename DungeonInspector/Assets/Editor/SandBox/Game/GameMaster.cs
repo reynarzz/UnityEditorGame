@@ -36,6 +36,7 @@ namespace DungeonInspector
 
         private Dictionary<TileBehavior, List<Actor>> _tilesBehaviors;
         private NavWorld _navWorld;
+        public NavWorld NavWorld => _navWorld;
 
         protected override void OnAwake()
         {
@@ -67,20 +68,22 @@ namespace DungeonInspector
 
             _prefabInstantiator.InstanceDoor("ExitDoor").Transform.Position = new DVector2(2.27f, 3.56f);
             _prefabInstantiator.GetHealthPotion("Health1").Transform.Position = new DVector2(2, 1);
-            _prefabInstantiator.InstanceCoin("Coin1").Transform.Position = new DVector2(1, 2); 
+            _prefabInstantiator.InstanceCoin("Coin1").Transform.Position = new DVector2(1, 2);
             _prefabInstantiator.InstanceCoin("Coin2").Transform.Position = new DVector2(2, 2);
             _prefabInstantiator.InstanceCoin("Coin3").Transform.Position = new DVector2(3, 2);
             _prefabInstantiator.InstanceCoin("Coin4").Transform.Position = new DVector2(4, 2);
             _prefabInstantiator.InstanceCoin("Coin5").Transform.Position = new DVector2(5, 2);
             _prefabInstantiator.InstanceCoin("Coin6").Transform.Position = new DVector2(6, 2);
+
+            Load();
+            _navWorld.Init();
         }
 
         protected override void OnStart()
         {
             //DAudio.PlayAudio("Audio/ForgottenPlains/Music/Plain_Sight_(Regular).wav");
 
-            Load();
-            _navWorld.Init();
+
         }
 
         private void Load()

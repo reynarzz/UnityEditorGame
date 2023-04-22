@@ -195,7 +195,6 @@ namespace DungeonInspector
             }
 
             GUILayout.EndVertical();
-
         }
 
         private void OnSave()

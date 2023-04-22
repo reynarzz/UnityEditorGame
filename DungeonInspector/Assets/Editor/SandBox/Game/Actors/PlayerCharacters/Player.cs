@@ -149,6 +149,7 @@ namespace DungeonInspector
 
             _weaponTest.Transform.Position = (Transform.Position + Transform.Offset - dist);/*+ */;
             _weaponTest.Transform.Rotation = angle + Mathf.Deg2Rad * -90;
+
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
 
 

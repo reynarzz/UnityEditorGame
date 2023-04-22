@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using UnityEngine;
 
 namespace DungeonInspector
@@ -56,6 +57,7 @@ namespace DungeonInspector
             return new UnityEngine.Vector2(vector.x, vector.y);
         }
 
+
         public static implicit operator DVector2(UnityEngine.Vector2 vector)
         {
             return new DVector2(vector.x, vector.y);
@@ -64,6 +66,22 @@ namespace DungeonInspector
         public static bool operator >(DVector2 a, DVector2 b)
         {
             return a.x > b.x && a.y > b.y;
+        }
+
+        public static bool operator !=(DVector2 a, DVector2 b)
+        {
+            var aInt = a.RoundToInt();
+            var bInt = b.RoundToInt();
+
+            return aInt.x != bInt.x || aInt.y != bInt.y;
+        }
+
+        public static bool operator ==(DVector2 a, DVector2 b)
+        {
+            var aInt = a.RoundToInt();
+            var bInt = b.RoundToInt();
+
+            return aInt.x == bInt.x && aInt.y == bInt.y;
         }
 
         public static bool operator <(DVector2 a, DVector2 b)

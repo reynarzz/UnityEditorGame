@@ -18,14 +18,14 @@ namespace AStar.Collections.PathFinder
                 return _open.Count > 0;
             }
         }
+
         public PathFinderGraph(int height, int width, bool allowDiagonalTraversal)
         {
             _allowDiagonalTraversal = allowDiagonalTraversal;
             _internalGrid = new Grid<PathFinderNode>(height, width);
-            Initialise();
         }
 
-        private void Initialise()
+        public void Initialise()
         {
             for (var row = 0; row < _internalGrid.Height; row++)
             {

@@ -1,8 +1,9 @@
-﻿using System.Drawing;
+﻿using System.Collections;
+using System.Collections.Generic;
 
 namespace AStar
 {
-    public interface IFindAPath
+    public interface IFindAPath<T> 
     {
         /// <summary>
         /// Determines a path between 2 positions
@@ -10,7 +11,7 @@ namespace AStar
         /// <param name="start">start/current position</param>
         /// <param name="end">target position</param>
         /// <returns>An array of positions from the start to end position or empty[] if unreachable</returns>
-        Position[] FindPath(Position start, Position end);
+        List<T> FindPath(Position start, Position end);
         
         /// <summary>
         /// Determines a path between 2 positions where the point's X
@@ -19,6 +20,5 @@ namespace AStar
         /// <param name="start">start position</param>
         /// <param name="end">target position</param>
         /// <returns>An array of points from the start to end points or empty[] if unreachable</returns>
-        Point[] FindPath(Point start, Point end);
     }
 }

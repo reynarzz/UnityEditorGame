@@ -12,14 +12,16 @@ namespace DungeonInspector
     {
         private readonly DTilemap _tileMap;
 
-        private List<Position> _path;
+        private Dictionary<Actor, (List<DVector2>, Color)> _path;
         private DAABB _bounds;
         private int _width;
         private int _heigth;
+        private PathFinder<DungeonGrid> _pathfind;
+
         public NavWorld(DTilemap tilemap)
         {
             _tileMap = tilemap;
-
+            _path = new Dictionary<Actor, (List<DVector2>, Color)>();
         }
 
         public void Init()
@@ -31,7 +33,7 @@ namespace DungeonInspector
 
             var world = new DungeonGrid(_heigth, _width);
 
-            var pathfind = new PathFinder<DungeonGrid>(world, new AStar.Options.PathFinderOptions() { UseDiagonals = false, HeuristicFormula = AStar.Heuristics.HeuristicFormula.Euclidean });
+            _pathfind = new PathFinder<DungeonGrid>(world, new AStar.Options.PathFinderOptions() { UseDiagonals = false, HeuristicFormula = AStar.Heuristics.HeuristicFormula.Euclidean }, GridPosToWorld);
 
 
             for (int j = 0; j < _heigth; j++)
@@ -53,8 +55,26 @@ namespace DungeonInspector
                     //}
                 }
             }
+        }
 
-            _path = pathfind.FindPath(WorldPosToGrid(new DVector2(0, 0)), WorldPosToGrid(new DVector2(7, -1))).ToList();
+        public List<DVector2> GetPathToTarget(Actor requester, Actor target)
+        {
+            var path = _pathfind.FindPath(WorldPosToGrid(requester.Transform.RoundPosition), WorldPosToGrid(target.Transform.RoundPosition));
+
+            if (path != null)
+            {
+                var value = (path, new Color(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f), 1f));
+                if (!_path.ContainsKey(requester))
+                {
+                    _path.Add(requester, value);
+
+                }
+                else
+                {
+                    _path[requester] = value;
+                }
+            }
+            return path;
         }
 
         private DVector2 WorldPosToGrid(DVector2 pos)
@@ -62,12 +82,31 @@ namespace DungeonInspector
             return new DVector2(pos.x, pos.y) - new DVector2(_bounds.Min.x, _bounds.Min.y);
         }
 
+        private DVector2 GridPosToWorld(DVector2 pos)
+        {
+            return new DVector2(pos.x, pos.y) + new DVector2(_bounds.Min.x, _bounds.Min.y);
+        }
+
         public void Update()
         {
-            for (int i = 0; i < _path.Count; i++)
+            if (_path != null)
             {
-                Utils.DrawSquare(_path[i] + new DVector2(_bounds.Min.x, _bounds.Min.y), DVector2.One * 0.2f);
+                foreach (var paths in _path.Values)
+                {
+                    var c = GUI.color;
+                    GUI.color = paths.Item2;
+
+                    foreach (var item in paths.Item1)
+                    {
+                        Utils.DrawSquare(item, DVector2.One * 0.2f);
+
+                    }
+
+                    GUI.color = c;
+                }
+
             }
+
         }
     }
 }

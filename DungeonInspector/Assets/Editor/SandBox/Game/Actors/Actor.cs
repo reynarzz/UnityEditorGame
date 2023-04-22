@@ -8,6 +8,6 @@ namespace DungeonInspector
 {
     public class Actor : DBehavior
     {
-
+        // current tile?
     }
 }

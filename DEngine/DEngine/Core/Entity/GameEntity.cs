@@ -30,7 +30,7 @@ namespace DungeonInspector
             Name = name;
 
             _transform = new DTransformComponent();
-
+            _transform.Entity = this;
             _behaviorComponents_Test = new List<IDBehavior>();
 
             _components = new Dictionary<Type, DComponent>()

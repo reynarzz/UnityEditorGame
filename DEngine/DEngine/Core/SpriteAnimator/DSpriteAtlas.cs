@@ -69,7 +69,7 @@ namespace DungeonInspector
         public object RuntimeData { get; set; }
         public DSpriteAnimation Animation { get; set; }
 
-
+        public bool IsOccupied { get; set; }
         public bool IsWalkable;
         public int ZSorting;
         public TileType Type;

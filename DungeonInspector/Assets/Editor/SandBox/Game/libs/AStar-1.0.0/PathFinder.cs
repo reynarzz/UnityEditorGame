@@ -1,15 +1,19 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using AStar.Collections.MultiDimensional;
 using AStar.Collections.PathFinder;
 using AStar.Heuristics;
 using AStar.Options;
+using DungeonInspector;
+using UnityEditor.Graphs;
 
 namespace AStar
 {
-    public class PathFinder<T> : IFindAPath where T : Grid<IBaseNode>
+    public class PathFinder<T> : IFindAPath<DVector2> where T : Grid<IBaseNode> 
     {
         //private const int ClosedValue = 0;
         private const int DistanceBetweenNodes = 1;
@@ -17,45 +21,45 @@ namespace AStar
         private readonly T _world;
         private readonly ICalculateHeuristic _heuristic;
 
-        public PathFinder(T worldGrid, PathFinderOptions pathFinderOptions = null)
+        private Func<DVector2, DVector2> _coordConvert;
+        private PathFinderGraph _graph;
+
+        public PathFinder(T worldGrid, PathFinderOptions pathFinderOptions = null, Func<DVector2, DVector2> gridCoordConverted = null)
         {
             _world = worldGrid ?? throw new ArgumentNullException(nameof(worldGrid));
             _options = pathFinderOptions ?? new PathFinderOptions();
             _heuristic = HeuristicFactory.Create(_options.HeuristicFormula);
+
+            _coordConvert = gridCoordConverted;
+
+            _graph = new PathFinderGraph(_world.Height, _world.Width, _options.UseDiagonals);
         }
-        
+
         ///<inheritdoc/>
-        public Point[] FindPath(Point start, Point end)
-        {
-            return FindPath(new Position(start.Y, start.X), new Position(end.Y, end.X))
-                .Select(position => new Point(position.Column, position.Row))
-                .ToArray();
-        }
-        
-        ///<inheritdoc/>
-        public Position[] FindPath(Position start, Position end)
+        public List<DVector2> FindPath(Position start, Position end)
         {
             var nodesVisited = 0;
-            IModelAGraph<PathFinderNode> graph = new PathFinderGraph(_world.Height, _world.Width, _options.UseDiagonals);
+            //--_graph = new PathFinderGraph(_world.Height, _world.Width, _options.UseDiagonals);
+            _graph.Initialise();
 
             var startNode = new PathFinderNode(position: start, g: 0, h: 2, parentNodePosition: start);
-            graph.OpenNode(startNode);
+            _graph.OpenNode(startNode);
 
-            while (graph.HasOpenNodes)
+            while (_graph.HasOpenNodes)
             {
-                var q = graph.GetOpenNodeWithSmallestF();
+                var q = _graph.GetOpenNodeWithSmallestF();
                 
                 if (q.Position == end)
                 {
-                    return OrderClosedNodesAsArray(graph, q);
+                    return OrderClosedNodesAsArray(_graph, q);
                 }
 
                 if (nodesVisited > _options.SearchLimit)
                 {
-                    return new Position[0];
+                    return null;
                 }
 
-                foreach (var successor in graph.GetSuccessors(q))
+                foreach (var successor in _graph.GetSuccessors(q))
                 {
                     if (!_world[successor.Position]?.IsOpen ?? true)
                     {
@@ -95,14 +99,20 @@ namespace AStar
                     
                     if (BetterPathToSuccessorFound(updatedSuccessor, successor))
                     {
-                        graph.OpenNode(updatedSuccessor);
+                        _graph.OpenNode(updatedSuccessor);
                     }
                 }
 
                 nodesVisited++;
             }
 
-            return new Position[0];
+            return null;
+        }
+
+
+        public void ReleasePath()
+        {
+
         }
 
         private bool BetterPathToSuccessorFound(PathFinderNode updateSuccessor, PathFinderNode currentSuccessor)
@@ -111,21 +121,42 @@ namespace AStar
                 (currentSuccessor.HasBeenVisited && updateSuccessor.F < currentSuccessor.F);
         }
 
-        private static Position[] OrderClosedNodesAsArray(IModelAGraph<PathFinderNode> graph, PathFinderNode endNode)
+        //private List<DVector2> path;
+
+        private List<DVector2> OrderClosedNodesAsArray(IModelAGraph<PathFinderNode> graph, PathFinderNode endNode)
         {
-            var path = new Stack<Position>();
+            //  path.Clear();
+            List<DVector2> path = new List<DVector2>();
 
             var currentNode = endNode;
 
             while (currentNode.Position != currentNode.ParentNodePosition)
             {
-                path.Push(currentNode.Position);
+                Position pos = currentNode.Position;
+
+                if (_coordConvert != null)
+                {
+                    pos = _coordConvert(pos);
+                }
+
+                path.Insert(0, pos);
+
                 currentNode = graph.GetParent(currentNode);
             }
+            
+            {
+                Position pos = currentNode.Position;
 
-            path.Push(currentNode.Position);
+                if (_coordConvert != null)
+                {
+                    pos = _coordConvert(pos);
+                }
 
-            return path.ToArray();
+                path.Insert(0, pos);
+            }
+            
+            
+            return path;
         }
     }
 }
