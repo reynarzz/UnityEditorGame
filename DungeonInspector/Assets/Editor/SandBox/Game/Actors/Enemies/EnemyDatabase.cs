@@ -14,16 +14,16 @@ namespace DungeonInspector
 
         public EnemyDatabase()
         {
-            _enemyRenderers = new List<DRendererComponent>()
-            {
-                GetEnemy<OrcEnemy>("Orc", "GameAssets/Dungeon/ogre_idle_anim_f0"),
-                GetEnemy<OrcEnemy>("Monk", "GameAssets/Dungeon/necromancer_idle_anim_f0"),
-            };
+            //_enemyRenderers = new List<DRendererComponent>()
+            //{
+            //    GetEnemy<OrcEnemy>("Orc", "GameAssets/Dungeon/ogre_idle_anim_f0"),
+            //    GetEnemy<OrcEnemy>("Monk", "GameAssets/Dungeon/necromancer_idle_anim_f0"),
+            //};
 
-            var test = GetEnemy<OrcEnemy>("ShortMaskedORc", "GameAssets/Dungeon/masked_orc_idle_anim_f0");
+            //var test = GetEnemy<OrcEnemy>("ShortMaskedORc", "GameAssets/Dungeon/masked_orc_idle_anim_f0");
 
-            _enemyRenderers[1].Entity.Transform.Position = new DVector2(1, -3); // remove
-            test.Entity.Transform.Position = new DVector2(6, -1); // remove
+            //_enemyRenderers[1].Entity.Transform.Position = new DVector2(1, -3); // remove
+            //test.Entity.Transform.Position = new DVector2(6, -1); // remove
         }
 
         private DRendererComponent GetEnemy<T>(string name, string texturePath) where T : EnemyBase, new()

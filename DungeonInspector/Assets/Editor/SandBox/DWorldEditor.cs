@@ -209,6 +209,7 @@ namespace DungeonInspector
                     foreach (var item in tile.Value)
                     {
                         var position = tile.Key;
+                       //Debug.Log(position);
 
                         tiles.Add(new TileData()
                         {
@@ -220,7 +221,9 @@ namespace DungeonInspector
                     }
                 }
 
-                var worldData = new LevelData(tiles.ToArray());
+                var orderedTiles = tiles.OrderBy(x => x.Position.y).ThenBy(x => x.Position.x).ToArray();
+
+                var worldData = new LevelData(orderedTiles);
                 var json = JsonConvert.SerializeObject(worldData, typeof(BaseTD), Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
 
                 var worldLevelPath = Application.dataPath + "/Resources/World1.txt";

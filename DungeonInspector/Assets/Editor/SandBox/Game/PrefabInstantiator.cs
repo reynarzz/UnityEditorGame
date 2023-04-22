@@ -56,7 +56,7 @@ namespace DungeonInspector
             var entity = GetEntity(name, typeof(T), typeof(DPhysicsComponent));
 
             var collider = entity.AddComp<DBoxCollider>();
-            collider.Size = new DVector2(0.7f, 0.71f);
+            collider.Size = new DVector2(0.5f, 0.71f);
             collider.Center = new DVector2(0, -0.36f);
 
             var render = entity.AddComp<DRendererComponent>();

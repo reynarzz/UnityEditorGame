@@ -35,6 +35,8 @@ namespace DungeonInspector
         private LevelData _levelData;
 
         private Dictionary<TileBehavior, List<Actor>> _tilesBehaviors;
+        private NavWorld _navWorld;
+
         protected override void OnAwake()
         {
             _tilemap = DGameEntity.FindGameEntity("TileMaster").GetComp<DTilemap>();
@@ -47,6 +49,7 @@ namespace DungeonInspector
             _tilesBehaviors = new Dictionary<TileBehavior, List<Actor>>();
             _prefabInstantiator = new PrefabInstantiator();
 
+            _navWorld = new NavWorld(_tilemap);
 
             var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
 
@@ -77,6 +80,7 @@ namespace DungeonInspector
             //DAudio.PlayAudio("Audio/ForgottenPlains/Music/Plain_Sight_(Regular).wav");
 
             Load();
+            _navWorld.Init();
         }
 
         private void Load()
@@ -92,9 +96,10 @@ namespace DungeonInspector
 
         protected override void OnUpdate()
         {
-            Utils.DrawBounds(_tilemap.GetTilemapBoundaries(), Color.white);
+            Utils.DrawBounds(_tilemap.GetTilemapBoundaries(), Color.white, 0.5f);
 
             UpdateTilesBehavior();
+            _navWorld.Update();
         }
 
         private void UpdateTilesBehavior()

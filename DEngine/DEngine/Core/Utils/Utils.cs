@@ -204,9 +204,15 @@ namespace DungeonInspector
 
                 return true;
             }
+
             hitInfo = new DRayHitInfo(ray.Origin + ray.Direction * tmin, ray.Origin + ray.Direction * tmax, default);
 
             return true;
+        }
+
+        public static void DrawSquare(DVector2 pos, DVector2 scale = default)
+        {
+            EditorGUI.DrawRect(World2RectPos(pos, scale, DCamera._viewportRect, DCamera._Position, DCamera.PixelSize), Color.white);
         }
 
         public static void DrawRay()

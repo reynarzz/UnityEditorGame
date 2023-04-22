@@ -2,21 +2,22 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using AStar.Collections.MultiDimensional;
 using AStar.Collections.PathFinder;
 using AStar.Heuristics;
 using AStar.Options;
 
 namespace AStar
 {
-    public class PathFinder : IFindAPath
+    public class PathFinder<T> : IFindAPath where T : Grid<IBaseNode>
     {
-        private const int ClosedValue = 0;
+        //private const int ClosedValue = 0;
         private const int DistanceBetweenNodes = 1;
         private readonly PathFinderOptions _options;
-        private readonly WorldGrid _world;
+        private readonly T _world;
         private readonly ICalculateHeuristic _heuristic;
 
-        public PathFinder(WorldGrid worldGrid, PathFinderOptions pathFinderOptions = null)
+        public PathFinder(T worldGrid, PathFinderOptions pathFinderOptions = null)
         {
             _world = worldGrid ?? throw new ArgumentNullException(nameof(worldGrid));
             _options = pathFinderOptions ?? new PathFinderOptions();
@@ -56,7 +57,7 @@ namespace AStar
 
                 foreach (var successor in graph.GetSuccessors(q))
                 {
-                    if (_world[successor.Position] == ClosedValue)
+                    if (!_world[successor.Position]?.IsOpen ?? true)
                     {
                         continue;
                     }

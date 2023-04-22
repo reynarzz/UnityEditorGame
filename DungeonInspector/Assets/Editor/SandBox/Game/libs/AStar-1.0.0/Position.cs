@@ -1,3 +1,4 @@
+using DungeonInspector;
 using System;
 
 namespace AStar
@@ -27,11 +28,11 @@ namespace AStar
         {
             // return Row - other.Row != 0 ||
             //     Column - other.Column != 0;
-            
+
             return Row != other.Row &&
                 Column != other.Column;
         }
-        
+
         public static bool operator ==(Position a, Position b)
         {
             return a.Equals(b);
@@ -40,6 +41,28 @@ namespace AStar
         public static bool operator !=(Position a, Position b)
         {
             return !a.Equals(b);
+        }
+
+        public static implicit operator Position(DVector2 vector)
+        {
+            var vInt = vector.RoundToInt();
+
+            return new Position(vInt.y, vInt.x);
+        }
+
+        public static implicit operator Position(UnityEngine.Vector2 vector)
+        {
+            return new Position((int)vector.y, (int)vector.x);
+        }
+
+        public static implicit operator Position(UnityEngine.Vector2Int vector)
+        {
+            return new Position(vector.y, vector.x);
+        }
+
+        public static implicit operator DVector2(Position vector)
+        {
+            return new DVector2(vector.Column, vector.Row);
         }
 
         public override bool Equals(Object other)
@@ -65,7 +88,7 @@ namespace AStar
 
         public override string ToString()
         {
-            return $"[{Row}.{Column}]";
+            return $"[({Column}, {Row})]";
         }
     }
 }

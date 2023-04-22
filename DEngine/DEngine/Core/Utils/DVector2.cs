@@ -15,6 +15,7 @@ namespace DungeonInspector
         [JsonIgnore] public float Magnitude => (float)Math.Sqrt(x * x + y * y);
         [JsonIgnore] public float SqrMagnitude => x * x + y * y;
         [JsonIgnore] public DVector2 Normalize => this / Magnitude;
+        [JsonIgnore] public static DVector2 One => new DVector2(1, 1);
 
         public static DVector2 Right => new DVector2(1, 0);
 
@@ -87,8 +88,8 @@ namespace DungeonInspector
             var comma = vector.IndexOf(',');
             var end = vector.IndexOf(')');
 
-            var xStr = vector.Substring(start+1, comma-1);
-            var yStr = vector.Substring(comma+1, end - comma -1);
+            var xStr = vector.Substring(start + 1, comma - 1);
+            var yStr = vector.Substring(comma + 1, end - comma - 1);
 
             return new DVector2(float.Parse(xStr), float.Parse(yStr));
         }

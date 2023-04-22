@@ -13,6 +13,7 @@ namespace DungeonInspector
         public Dictionary<DVector2, Dictionary<int, DTile>> Tiles => _tiles;
 
         private DAABB _tilemapBounds;
+        public int Count => _tiles.Count;
 
         protected override void OnAwake()
         {
@@ -69,22 +70,22 @@ namespace DungeonInspector
 
             if (x < _tilemapBounds.Min.x)
             {
-                _tilemapBounds.Min = new DVector2(x-0.5f, _tilemapBounds.Min.y);
+                _tilemapBounds.Min = new DVector2(x, _tilemapBounds.Min.y);
             }
 
             if (y < _tilemapBounds.Min.y)
             {
-                _tilemapBounds.Min = new DVector2(_tilemapBounds.Min.x, y - 0.5f);
+                _tilemapBounds.Min = new DVector2(_tilemapBounds.Min.x, y);
             }
 
             if (x > _tilemapBounds.Max.x)
             {
-                _tilemapBounds.Max = new DVector2(x + 0.5f, _tilemapBounds.Max.y);
+                _tilemapBounds.Max = new DVector2(x , _tilemapBounds.Max.y);
             }
 
             if (y > _tilemapBounds.Max.y)
             {
-                _tilemapBounds.Max = new DVector2(_tilemapBounds.Max.x, y + 0.5f);
+                _tilemapBounds.Max = new DVector2(_tilemapBounds.Max.x, y);
             }
         }
 
@@ -160,6 +161,21 @@ namespace DungeonInspector
         public DAABB GetTilemapBoundaries()
         {
             return _tilemapBounds;
+        }
+
+        public List<DTile> GetAllTiles()
+        {
+            var tiles = new List<DTile>();
+
+            foreach (var tilesInLayer in _tiles.Values)
+            {
+                foreach (var tile in tilesInLayer.Values)
+                {
+                    tiles.Add(tile);
+                }
+            }
+
+            return tiles;
         }
 
     }

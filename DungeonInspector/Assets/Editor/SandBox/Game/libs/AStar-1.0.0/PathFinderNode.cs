@@ -1,9 +1,10 @@
-﻿using System.Runtime.InteropServices;
+﻿using AStar.Collections.MultiDimensional;
+using System.Runtime.InteropServices;
 
 namespace AStar.Collections.PathFinder
 {
     [StructLayout(LayoutKind.Sequential, Pack = 1)]
-    internal readonly struct PathFinderNode
+    internal readonly struct PathFinderNode : IBaseNode
     {
         /// <summary>
         /// The position of the node
@@ -34,6 +35,8 @@ namespace AStar.Collections.PathFinder
         /// If the node has been considered yet
         /// </summary>
         public bool HasBeenVisited => F > 0;
+
+        public bool IsOpen => true;
 
         public PathFinderNode(Position position, int g, int h, Position parentNodePosition)
         {
