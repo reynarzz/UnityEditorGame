@@ -75,7 +75,7 @@ namespace DungeonInspector
         {
             if (_renderTarget == null)
             {
-                var pix = CurrentCamera.ViewportRect;// EditorGUIUtility.PointsToPixels(CurrentCamera.ViewportRect);
+                var pix =  EditorGUIUtility.PointsToPixels(CurrentCamera.ViewportRect);
 
                 _renderTarget = new RenderTexture((int)pix.width, (int)pix.height, 1);
                 _renderTarget.filterMode = FilterMode.Point;
@@ -101,7 +101,7 @@ namespace DungeonInspector
             rec.x = 0;
             rec.y = -rec.height / 2f;
             rec.height *= 2;
-            rec.height += 10;
+            rec.height += 1;
 
             rec.y -= 12;
             DrawMask();
@@ -141,13 +141,13 @@ namespace DungeonInspector
                 {
                     Draw(item, _cameras[_cameras.Count - 1]);
                 }
-
-                if (V2Rendering)
-                {
-                    PostRender();
-                }
-
             }
+
+            if (V2Rendering)
+            {
+                PostRender();
+            }
+
             _debugCallback?.Invoke();
         }
 

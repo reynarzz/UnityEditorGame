@@ -12,13 +12,16 @@ namespace DungeonInspector
         private DSpriteAtlas _doorAtlas;
         private DSpriteAtlas _coinCollectibleAtlas;
         private Texture2D _greenFlask;
+        private Texture2D _bulletCircle;
 
         public PrefabInstantiator()
         {
             _doorAtlas = Resources.Load<DSpriteAtlas>("Interactables/DoorAtlas");
             _greenFlask = Resources.Load<Texture2D>("GameAssets/Dungeon/flask_big_green");
-
+            _bulletCircle = Resources.Load<Texture2D>("GameAssets/bullet");
+            
             _coinCollectibleAtlas = Resources.Load<DSpriteAtlas>("Interactables/CoinAtlas");
+            
         }
 
         public DGameEntity InstancePlayer(string name)
@@ -42,6 +45,20 @@ namespace DungeonInspector
             animator.Play(0);
 
             return coin;
+        }
+
+        public DGameEntity InstanceBullet1()
+        {
+            var entity = new DGameEntity("Bullet", typeof(Projectile), typeof(DPhysicsComponent));
+
+            var box = entity.AddComp<DBoxCollider>();
+
+            box.Center = new DVector2();
+            box.Size = new DVector2(0.46f, 0.46f);
+
+            entity.AddComp<DRendererComponent>().Sprite = _bulletCircle;
+            
+            return entity;
         }
 
         public DGameEntity GetHealthPotion(string name)

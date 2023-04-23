@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace DungeonInspector
 {
@@ -42,7 +41,7 @@ namespace DungeonInspector
             GUI.backgroundColor = color;
 
             GUILayout.BeginHorizontal();
-            _show = EditorGUILayout.Toggle(_show);
+            _show = EditorGUILayout.Toggle(_show, GUILayout.MaxWidth(15));
             GUILayout.Label("Hierarchy");
             GUILayout.EndHorizontal();
 

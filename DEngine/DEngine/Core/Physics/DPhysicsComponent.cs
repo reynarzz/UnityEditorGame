@@ -56,9 +56,13 @@ namespace DungeonInspector
 
         public bool TriggerEnter { get; set; }
 
-        protected override void OnAwake()
+        public DPhysicsComponent()
         {
             Collisions = new List<DPhysicsComponent>();
+        }
+
+        protected override void OnAwake()
+        {
             _collider = GetComp<DBoxCollider>();
         }
 

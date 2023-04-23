@@ -29,6 +29,7 @@ namespace DungeonInspector
 
         private PrefabInstantiator _prefabInstantiator;
 
+        public PrefabInstantiator PrefabInstantiator => _prefabInstantiator;
 
         private TileBehaviorsContainer _tbContainer;
 

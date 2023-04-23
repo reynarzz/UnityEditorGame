@@ -65,19 +65,14 @@ Shader "Unlit/DStandard"
                 float c = cos(_flip.z);
                 float s = sin(_flip.z);
 
-                mat4 rot = mat4(vec4(c,-s, 0,0),
-                                vec4(s, c, 0, 0),
-                                vec4(0, 0, 1, 0),
-                                vec4(0, 0, 0, 1));
-
+              
                 vec4 vertex = v.vertex;
                 
                // vertex = mul(rot, vertex + float4(150, 150, 0, 1) * abs(sign(_flip.z)));
                 vertex = mul(unity_ObjectToWorld, v.vertex);
                 vertex.z = 1;
                 //vertex = mul(rot, vertex);
-                mat4 V =  mul(UNITY_MATRIX_V, rot);
-                mat4 mvp  = mul(V, UNITY_MATRIX_P);
+                mat4 mvp  = mul(UNITY_MATRIX_V, UNITY_MATRIX_P);
 
                 o.vertex = mul(mvp, vertex);
                 o.uv = float3(TRANSFORM_TEX(v.uv, _MainTex), length(float2(v.vertex.x, v.vertex.y) - float2(_playerPos.x, _playerPos.y)));

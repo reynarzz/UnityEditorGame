@@ -27,6 +27,10 @@ namespace DungeonInspector
         private DRendererComponent _rayHitGuideTest;
         private DRendererComponent _rayDraw;
 
+        private float _lookDirAngle;
+        private float _shootTime;
+        private const float _shootCooldown = 0.1f;
+
         protected override void OnAwake()
         {
             var name = "Character2/WalkLeft";
@@ -143,14 +147,14 @@ namespace DungeonInspector
 
             var mouseDiff = DInput.GetMouseWorldPos() - Transform.Position;
 
-            var angle = Mathf.Atan2(mouseDiff.y, mouseDiff.x);
+            _lookDirAngle = Mathf.Atan2(mouseDiff.y, mouseDiff.x);
 
             var dist = Transform.Position - DCamera._Position;
 
-            var dir = new DVector2(Mathf.Cos(angle), Mathf.Sin(angle));
+            var dir = new DVector2(Mathf.Cos(_lookDirAngle), Mathf.Sin(_lookDirAngle));
 
             _weaponTest.Transform.Position = (Transform.Position + Transform.Offset - dist);/*+ */;
-            _weaponTest.Transform.Rotation = angle + Mathf.Deg2Rad * -90;
+            _weaponTest.Transform.Rotation = _lookDirAngle + Mathf.Deg2Rad * -90;
 
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
 
@@ -161,24 +165,14 @@ namespace DungeonInspector
             _weaponTest.Transform.Scale = new DVector2(1 * Mathf.Sign(DInput.GetMouseWorldPos().x - Transform.Position.x), 1);
             if (Utils.Raycast(Transform.Position, dir, 0, out var info))
             {
-                _rayHitGuideTest.Entity.IsActive = true;
-                _rayHitGuideTest.Entity.Transform.Position = info.Point;
+                //_rayHitGuideTest.Entity.IsActive = true;
+                //_rayHitGuideTest.Entity.Transform.Position = info.Point;
 
 
                 var health = info.Target.GetComp<ActorHealth>();
 
-                if(health != null && DInput.IsMouseDown(0) /*!_testHitDamageRay*/)
-                {
-                    //Debug.Log(info.Target.Name);
-                    _testHitDamageRay = true;
-                    health.AddAmount(-1.5f);
 
-                    //DAudio.PlayAudio("Audio/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
-                }
-                else if(health == null)
-                {
-                    _testHitDamageRay = false;
-                }
+
                 //var magnitude = (_rayHitGuideTest.Entity.Transform.Position + Transform.Position).Magnitude;
 
                 //_rayDraw.Entity.Transform.Position = Transform.Position;// + new DVector2(magnitude / 2, 0);
@@ -196,7 +190,7 @@ namespace DungeonInspector
                 _tileEnter = true;
                 var currentTile = _gameMaster.Tilemap.GetTile(Transform.Position.Round(), 0);
 
-                if(currentTile != null)
+                if (currentTile != null)
                 {
                     _gameMaster.OnActorEnterTile(this, currentTile);
                 }
@@ -223,7 +217,34 @@ namespace DungeonInspector
 
                 //}
             }
+
+            if (_shootTime <= 0)
+            {
+                Shoot();
+            }
+            else
+            {
+                _shootTime -= DTime.DeltaTime;
+            }
             //_playerAnimator.Stop();
+        }
+
+
+        private void Shoot()
+        {
+            if (DInput.IsMouseDown(0) /*!_testHitDamageRay*/)
+            {
+                _shootTime = _shootCooldown;
+
+                var dir = new DVector2(Mathf.Cos(_lookDirAngle), Mathf.Sin(_lookDirAngle));
+
+                var projectile = _gameMaster.PrefabInstantiator.InstanceBullet1().GetComp<Projectile>();
+
+                projectile.Transform.Position = _weaponTest.Transform.Position - Transform.Offset;// Transform.Position;
+                projectile.Shoot(dir);
+
+                //DAudio.PlayAudio("Audio/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
+            }
         }
 
         private DVector2 GetMoveDir(DVector2 currentPos, int x, int y)
