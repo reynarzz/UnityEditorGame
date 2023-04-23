@@ -30,6 +30,7 @@ namespace DungeonInspector
         private float _lookDirAngle;
         private float _shootTime;
         private const float _shootCooldown = 0.1f;
+        public bool IsPlayerDead { get; private set; }
 
         protected override void OnAwake()
         {
@@ -56,7 +57,8 @@ namespace DungeonInspector
 
             AddComp<DPhysicsComponent>();
             _health = AddComp<ActorHealth>();
-
+            _health.SetInitialHealth(9);
+            _health.OnHealthDepleted += OnHealthDepleted;
             _weaponTest = new DGameEntity("WeaponTest");
             _weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
 
@@ -73,6 +75,12 @@ namespace DungeonInspector
             _rayHitGuideTest = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
         }
 
+        private void OnHealthDepleted()
+        {
+            IsPlayerDead = true;
+            Entity.Destroy();
+        }
+
         protected override void OnStart()
         {
             Transform.Offset = new DVec2(0, 0.7f);
@@ -85,6 +93,8 @@ namespace DungeonInspector
             _rayDraw.Entity.IsActive = false;
         }
 
+        private float _timeToGetHit;
+        private const float _timeToGetHitCooldown = 1;
 
         protected override void OnTriggerEnter(DBoxCollider collider)
         {
@@ -92,6 +102,13 @@ namespace DungeonInspector
 
             //collider.Entity.Destroy();
 
+            _timeToGetHit -= DTime.DeltaTime;
+
+            if (_timeToGetHit <= 0)
+            {
+                _timeToGetHit = _timeToGetHitCooldown;
+                _health.AddAmount(-1);
+            }
         }
 
 

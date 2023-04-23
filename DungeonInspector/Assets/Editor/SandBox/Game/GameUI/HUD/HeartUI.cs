@@ -18,12 +18,15 @@ namespace DungeonInspector
             _renderer = AddComp<DRendererComponent>();
             _renderer.TransformWithCamera = false;
 
-            _renderer.Sprite = atlas.GetTexture(0);
+            _renderer.Sprite = atlas.GetTexture(2);
         }
 
         public void SetSpriteIndex(int index)
         {
-            _renderer.Sprite = _spriteAtlas.GetTexture(index);
+            if(index < _spriteAtlas.TextureCount)
+            {
+                _renderer.Sprite = _spriteAtlas.GetTexture(index);
+            }
         }
     }
 }

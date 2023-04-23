@@ -9,7 +9,7 @@ namespace DungeonInspector
     public class ActorHealth : DBehavior
     {
         private float _maxHealth = 0;
-        public float Health { get; set; }
+        public float currentHealth { get; set; }
 
         public Action<float, float, bool> OnHealthChanged { get; set; }
         public Action OnHealthDepleted { get; set; }
@@ -17,20 +17,24 @@ namespace DungeonInspector
         public void SetInitialHealth(int initial)
         {
             _maxHealth = initial;
-            Health = _maxHealth;
+            currentHealth = _maxHealth;
         }
 
         public void AddAmount(float amount)
         {
             var increased = amount > 0;
-            Health += amount;
+            currentHealth += amount;
 
-            OnHealthChanged?.Invoke(Health, _maxHealth, increased);
-
-            if (Health <= 0)
+            if (currentHealth <= 0)
             {
+                currentHealth = 0;
+
                 OnHealthDepleted?.Invoke();
             }
+
+            OnHealthChanged?.Invoke(currentHealth, _maxHealth, increased);
+
+           
         }
 
 
