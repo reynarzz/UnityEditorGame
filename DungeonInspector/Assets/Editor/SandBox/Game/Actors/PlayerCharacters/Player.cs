@@ -18,7 +18,7 @@ namespace DungeonInspector
 
         private ActorHealth _health;
         private DRendererComponent _renderer;
-        DVector2 _gridPos = default;
+        DVec2 _gridPos = default;
 
         private Vector2Int _moveDir = default;
 
@@ -51,8 +51,8 @@ namespace DungeonInspector
             var collider = AddComp<DBoxCollider>();
             collider.IsTrigger = true;
 
-            collider.Center = new DVector2(0, -0.75f);
-            collider.Size = new DVector2(0.78f, 0.79f);
+            collider.Center = new DVec2(0, -0.75f);
+            collider.Size = new DVec2(0.78f, 0.79f);
 
             AddComp<DPhysicsComponent>();
             _health = AddComp<ActorHealth>();
@@ -60,7 +60,7 @@ namespace DungeonInspector
             _weaponTest = new DGameEntity("WeaponTest");
             _weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
 
-            _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_red_gem_sword");
+            _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_knife");
             _weaponRendererTest.ZSorting = 1;
             Entity.Tag = "Player";
             Entity.Layer = 2;
@@ -75,11 +75,11 @@ namespace DungeonInspector
 
         protected override void OnStart()
         {
-            Transform.Offset = new DVector2(0, 0.7f);
+            Transform.Offset = new DVec2(0, 0.7f);
 
-            Transform.Position = _gridPos = new DVector2(3, 0);
+            Transform.Position = _gridPos = new DVec2(3, 0);
 
-            _rayHitGuideTest.Transform.Scale = new DVector2(0.2f, 0.2f);
+            _rayHitGuideTest.Transform.Scale = new DVec2(0.2f, 0.2f);
             _rayHitGuideTest.ZSorting = 3;
             _rayDraw.ZSorting = 3;
             _rayDraw.Entity.IsActive = false;
@@ -151,7 +151,7 @@ namespace DungeonInspector
 
             var dist = Transform.Position - DCamera._Position;
 
-            var dir = new DVector2(Mathf.Cos(_lookDirAngle), Mathf.Sin(_lookDirAngle));
+            var dir = new DVec2(Mathf.Cos(_lookDirAngle), Mathf.Sin(_lookDirAngle));
 
             _weaponTest.Transform.Position = (Transform.Position + Transform.Offset - dist);/*+ */;
             _weaponTest.Transform.Rotation = _lookDirAngle + Mathf.Deg2Rad * -90;
@@ -159,31 +159,27 @@ namespace DungeonInspector
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
 
 
-            // if (DVector2.Dot(DVector2.Right, DInput.GetMouseWorldPos() - Transform.Position) < 0)
+            // if (DVec2.Dot(DVec2.Right, DInput.GetMouseWorldPos() - Transform.Position) < 0)
             _renderer.FlipX = DInput.GetMouseWorldPos().x - Transform.Position.x < 0;
 
-            _weaponTest.Transform.Scale = new DVector2(1 * Mathf.Sign(DInput.GetMouseWorldPos().x - Transform.Position.x), 1);
-            if (Utils.Raycast(Transform.Position, dir, 0, out var info))
-            {
-                //_rayHitGuideTest.Entity.IsActive = true;
-                //_rayHitGuideTest.Entity.Transform.Position = info.Point;
+            _weaponTest.Transform.Scale = new DVec2(1 * Mathf.Sign(DInput.GetMouseWorldPos().x - Transform.Position.x), 1);
+            //if (Utils.Raycast(Transform.Position, dir, 0, out var info))
+            //{
+            //    //_rayHitGuideTest.Entity.IsActive = true;
+            //    //_rayHitGuideTest.Entity.Transform.Position = info.Point;
 
 
-                var health = info.Target.GetComp<ActorHealth>();
+            //    //var magnitude = (_rayHitGuideTest.Entity.Transform.Position + Transform.Position).Magnitude;
 
-
-
-                //var magnitude = (_rayHitGuideTest.Entity.Transform.Position + Transform.Position).Magnitude;
-
-                //_rayDraw.Entity.Transform.Position = Transform.Position;// + new DVector2(magnitude / 2, 0);
-                //_rayDraw.Entity.Transform.Rotation = angle;
-                //_rayDraw.Transform.Scale = new DVector2(magnitude, 0.06f);
-            }
-            else
-            {
-                _testHitDamageRay = false;
-                _rayHitGuideTest.Entity.IsActive = false;
-            }
+            //    //_rayDraw.Entity.Transform.Position = Transform.Position;// + new DVec2(magnitude / 2, 0);
+            //    //_rayDraw.Entity.Transform.Rotation = angle;
+            //    //_rayDraw.Transform.Scale = new DVec2(magnitude, 0.06f);
+            //}
+            //else
+            //{
+            //    _testHitDamageRay = false;
+            //    _rayHitGuideTest.Entity.IsActive = false;
+            //}
 
             if (Transform.Position.RoundToInt() == _gridPos.RoundToInt() && !_canMove && !_tileEnter)
             {
@@ -232,22 +228,22 @@ namespace DungeonInspector
 
         private void Shoot()
         {
-            if (DInput.IsMouseDown(0) /*!_testHitDamageRay*/)
+            if (DInput.IsMouseDown(0))
             {
                 _shootTime = _shootCooldown;
 
-                var dir = new DVector2(Mathf.Cos(_lookDirAngle), Mathf.Sin(_lookDirAngle));
+                var dir = new DVec2(Mathf.Cos(_lookDirAngle), Mathf.Sin(_lookDirAngle));
 
                 var projectile = _gameMaster.PrefabInstantiator.InstanceBullet1().GetComp<Projectile>();
 
-                projectile.Transform.Position = _weaponTest.Transform.Position - Transform.Offset;// Transform.Position;
+                projectile.Transform.Position = (dir / 2) + _weaponTest.Transform.Position - Transform.Offset / 2;// Transform.Position;
                 projectile.Shoot(dir);
 
                 //DAudio.PlayAudio("Audio/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
             }
         }
 
-        private DVector2 GetMoveDir(DVector2 currentPos, int x, int y)
+        private DVec2 GetMoveDir(DVec2 currentPos, int x, int y)
         {
             var destine = new Vector2Int((int)currentPos.x + x, (int)currentPos.y + y);
 

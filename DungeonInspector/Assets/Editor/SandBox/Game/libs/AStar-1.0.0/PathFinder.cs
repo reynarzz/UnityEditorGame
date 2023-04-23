@@ -13,7 +13,7 @@ using UnityEditor.Graphs;
 
 namespace AStar
 {
-    public class PathFinder<T> : IFindAPath<DVector2> where T : Grid<IBaseNode>
+    public class PathFinder<T> : IFindAPath<DVec2> where T : Grid<IBaseNode>
     {
         //private const int ClosedValue = 0;
         private const int DistanceBetweenNodes = 1;
@@ -21,10 +21,10 @@ namespace AStar
         private readonly T _world;
         private readonly ICalculateHeuristic _heuristic;
 
-        private Func<DVector2, DVector2> _coordConvert;
+        private Func<DVec2, DVec2> _coordConvert;
         private PathFinderGraph _graph;
 
-        public PathFinder(T worldGrid, PathFinderOptions pathFinderOptions = null, Func<DVector2, DVector2> gridCoordConverted = null)
+        public PathFinder(T worldGrid, PathFinderOptions pathFinderOptions = null, Func<DVec2, DVec2> gridCoordConverted = null)
         {
             _world = worldGrid ?? throw new ArgumentNullException(nameof(worldGrid));
             _options = pathFinderOptions ?? new PathFinderOptions();
@@ -36,7 +36,7 @@ namespace AStar
         }
 
         ///<inheritdoc/>
-        public List<DVector2> FindPath(Position start, Position end)
+        public List<DVec2> FindPath(Position start, Position end)
         {
             var nodesVisited = 0;
             //--_graph = new PathFinderGraph(_world.Height, _world.Width, _options.UseDiagonals);
@@ -142,12 +142,12 @@ namespace AStar
                 (currentSuccessor.HasBeenVisited && updateSuccessor.F < currentSuccessor.F);
         }
 
-        //private List<DVector2> path;
+        //private List<DVec2> path;
 
-        private List<DVector2> OrderClosedNodesAsArray(IModelAGraph<PathFinderNode> graph, PathFinderNode endNode)
+        private List<DVec2> OrderClosedNodesAsArray(IModelAGraph<PathFinderNode> graph, PathFinderNode endNode)
         {
             //  path.Clear();
-            List<DVector2> path = new List<DVector2>();
+            List<DVec2> path = new List<DVec2>();
 
             var currentNode = endNode;
 

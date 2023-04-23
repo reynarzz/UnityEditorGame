@@ -9,15 +9,15 @@ namespace DungeonInspector
 {
     public class DTilemap : DBehavior
     {
-        private Dictionary<DVector2, Dictionary<int, DTile>> _tiles;
-        public Dictionary<DVector2, Dictionary<int, DTile>> Tiles => _tiles;
+        private Dictionary<DVec2, Dictionary<int, DTile>> _tiles;
+        public Dictionary<DVec2, Dictionary<int, DTile>> Tiles => _tiles;
 
         private DAABB _tilemapBounds;
         public int Count => _tiles.Count;
 
         protected override void OnAwake()
         {
-            _tiles = new Dictionary<DVector2, Dictionary<int, DTile>>();
+            _tiles = new Dictionary<DVec2, Dictionary<int, DTile>>();
         }
 
         private int _index_REMOVE;
@@ -46,7 +46,7 @@ namespace DungeonInspector
 
         public void SetTile(DTile tile, float x, float y)
         {
-            var pos = new DVector2((int)x, (int)y);
+            var pos = new DVec2((int)x, (int)y);
 
             if (_tiles.TryGetValue(pos, out var layers))
             {
@@ -70,29 +70,29 @@ namespace DungeonInspector
 
             if (x < _tilemapBounds.Min.x)
             {
-                _tilemapBounds.Min = new DVector2(x, _tilemapBounds.Min.y);
+                _tilemapBounds.Min = new DVec2(x, _tilemapBounds.Min.y);
             }
 
             if (y < _tilemapBounds.Min.y)
             {
-                _tilemapBounds.Min = new DVector2(_tilemapBounds.Min.x, y);
+                _tilemapBounds.Min = new DVec2(_tilemapBounds.Min.x, y);
             }
 
             if (x > _tilemapBounds.Max.x)
             {
-                _tilemapBounds.Max = new DVector2(x , _tilemapBounds.Max.y);
+                _tilemapBounds.Max = new DVec2(x , _tilemapBounds.Max.y);
             }
 
             if (y > _tilemapBounds.Max.y)
             {
-                _tilemapBounds.Max = new DVector2(_tilemapBounds.Max.x, y);
+                _tilemapBounds.Max = new DVec2(_tilemapBounds.Max.x, y);
             }
         }
 
 
         public void RemoveTile(float x, float y)
         {
-            var pos = new DVector2((int)x, (int)y);
+            var pos = new DVec2((int)x, (int)y);
 
             if (_tiles.TryGetValue(pos, out var layers))
             {
@@ -100,7 +100,7 @@ namespace DungeonInspector
             }
         }
 
-        public DTile GetTile(DVector2 position, int zSorting)
+        public DTile GetTile(DVec2 position, int zSorting)
         {
             return GetTile(position.x, position.y, zSorting);
         }
@@ -127,7 +127,7 @@ namespace DungeonInspector
 
         public Dictionary<int, DTile> GetTileLayers(int x, int y)
         {
-            if (_tiles.TryGetValue(new DVector2(x, y), out var tilesLayers))
+            if (_tiles.TryGetValue(new DVec2(x, y), out var tilesLayers))
             {
                 return tilesLayers;
             }

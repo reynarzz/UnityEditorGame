@@ -12,7 +12,7 @@ namespace DungeonInspector
     {
         private readonly DTilemap _tileMap;
 
-        private Dictionary<Actor, (List<DVector2>, Color)> _path;
+        private Dictionary<Actor, (List<DVec2>, Color)> _path;
         private DAABB _bounds;
         private int _width;
         private int _heigth;
@@ -24,7 +24,7 @@ namespace DungeonInspector
         public NavWorld(DTilemap tilemap)
         {
             _tileMap = tilemap;
-            _path = new Dictionary<Actor, (List<DVector2>, Color)>();
+            _path = new Dictionary<Actor, (List<DVec2>, Color)>();
             DIEngineCoreServices.Get<DRenderingController>().AddDebugGUI(DrawNodes);
         }
 
@@ -56,17 +56,17 @@ namespace DungeonInspector
 
                     if (tile != null)
                     {
-                        world[new DVector2(i, j)] = new DungeonPathNode() { /*PosTest = new DVector2(x, y),*/ Tile = tile };
+                        world[new DVec2(i, j)] = new DungeonPathNode() { /*PosTest = new DVec2(x, y),*/ Tile = tile };
                     }
                     //else
                     //{
-                    //    world[new DVector2(i, j)] = null;
+                    //    world[new DVec2(i, j)] = null;
                     //}
                 }
             }
         }
 
-        private List<DVector2> GetPathToTarget(Actor requester, Actor target)
+        private List<DVec2> GetPathToTarget(Actor requester, Actor target)
         {
             var path = _pathfind.FindPath(WorldPosToGrid(requester.Transform.RoundPosition), WorldPosToGrid(target.Transform.RoundPosition));
 
@@ -90,14 +90,14 @@ namespace DungeonInspector
             return path;
         }
 
-        private DVector2 WorldPosToGrid(DVector2 pos)
+        private DVec2 WorldPosToGrid(DVec2 pos)
         {
-            return new DVector2(pos.x, pos.y) - new DVector2(_bounds.Min.x, _bounds.Min.y);
+            return new DVec2(pos.x, pos.y) - new DVec2(_bounds.Min.x, _bounds.Min.y);
         }
 
-        private DVector2 GridPosToWorld(DVector2 pos)
+        private DVec2 GridPosToWorld(DVec2 pos)
         {
-            return new DVector2(pos.x, pos.y) + new DVector2(_bounds.Min.x, _bounds.Min.y);
+            return new DVec2(pos.x, pos.y) + new DVec2(_bounds.Min.x, _bounds.Min.y);
         }
 
         public void DrawNodes()
@@ -111,7 +111,7 @@ namespace DungeonInspector
 
                     foreach (var item in paths.Item1)
                     {
-                        Utils.DrawSquare(item, DVector2.One * 0.2f);
+                        Utils.DrawSquare(item, DVec2.One * 0.2f);
 
                     }
 

@@ -9,30 +9,30 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public struct DVector2
+    public struct DVec2
     {
         public float x { get; set; }
         public float y { get; set; }
         [JsonIgnore] public float Magnitude => (float)Math.Sqrt(x * x + y * y);
         [JsonIgnore] public float SqrMagnitude => x * x + y * y;
-        [JsonIgnore] public DVector2 Normalize => this / Magnitude;
-        [JsonIgnore] public static DVector2 One => new DVector2(1, 1);
+        [JsonIgnore] public DVec2 Normalize => this / Magnitude;
+        [JsonIgnore] public static DVec2 One => new DVec2(1, 1);
 
-        public static DVector2 Right => new DVector2(1, 0);
+        public static DVec2 Right => new DVec2(1, 0);
 
-        public DVector2 Floor()
+        public DVec2 Floor()
         {
-            return new DVector2((float)Math.Floor(x), (float)Math.Floor(y));
+            return new DVec2((float)Math.Floor(x), (float)Math.Floor(y));
         }
 
-        public DVector2 Ceil()
+        public DVec2 Ceil()
         {
-            return new DVector2((float)Math.Ceiling(x), (float)Math.Ceiling(y));
+            return new DVec2((float)Math.Ceiling(x), (float)Math.Ceiling(y));
         }
 
-        public DVector2 Round()
+        public DVec2 Round()
         {
-            return new DVector2((float)Math.Round(x), (float)Math.Round(y));
+            return new DVec2((float)Math.Round(x), (float)Math.Round(y));
         }
 
         public Vector2Int RoundToInt()
@@ -40,35 +40,35 @@ namespace DungeonInspector
             return new Vector2Int((int)(float)Math.Round(x), (int)(float)Math.Round(y));
         }
 
-        public DVector2 Abs()
+        public DVec2 Abs()
         {
-            return new DVector2((float)Math.Abs(x), (float)Math.Abs(y));
+            return new DVec2((float)Math.Abs(x), (float)Math.Abs(y));
         }
 
 
-        public DVector2(float x, float y)
+        public DVec2(float x, float y)
         {
             this.x = x;
             this.y = y;
         }
 
-        public static implicit operator UnityEngine.Vector2(DVector2 vector)
+        public static implicit operator UnityEngine.Vector2(DVec2 vector)
         {
             return new UnityEngine.Vector2(vector.x, vector.y);
         }
 
 
-        public static implicit operator DVector2(UnityEngine.Vector2 vector)
+        public static implicit operator DVec2(UnityEngine.Vector2 vector)
         {
-            return new DVector2(vector.x, vector.y);
+            return new DVec2(vector.x, vector.y);
         }
 
-        public static bool operator >(DVector2 a, DVector2 b)
+        public static bool operator >(DVec2 a, DVec2 b)
         {
             return a.x > b.x && a.y > b.y;
         }
 
-        public static bool operator !=(DVector2 a, DVector2 b)
+        public static bool operator !=(DVec2 a, DVec2 b)
         {
             var aInt = a.RoundToInt();
             var bInt = b.RoundToInt();
@@ -76,7 +76,7 @@ namespace DungeonInspector
             return aInt.x != bInt.x || aInt.y != bInt.y;
         }
 
-        public static bool operator ==(DVector2 a, DVector2 b)
+        public static bool operator ==(DVec2 a, DVec2 b)
         {
             var aInt = a.RoundToInt();
             var bInt = b.RoundToInt();
@@ -84,23 +84,23 @@ namespace DungeonInspector
             return aInt.x == bInt.x && aInt.y == bInt.y;
         }
 
-        public static bool operator <(DVector2 a, DVector2 b)
+        public static bool operator <(DVec2 a, DVec2 b)
         {
             return a.x < b.x && a.y < b.y;
         }
 
-        public static implicit operator UnityEngine.Vector2Int(DVector2 vector)
+        public static implicit operator UnityEngine.Vector2Int(DVec2 vector)
         {
             return new UnityEngine.Vector2Int((int)vector.x, (int)vector.y);
         }
 
-        public static implicit operator DVector2(UnityEngine.Vector2Int vector)
+        public static implicit operator DVec2(UnityEngine.Vector2Int vector)
         {
-            return new DVector2(vector.x, vector.y);
+            return new DVec2(vector.x, vector.y);
         }
 
         // Json deserializer needs this
-        public static implicit operator DVector2(string vector)
+        public static implicit operator DVec2(string vector)
         {
             var start = vector.IndexOf('(');
             var comma = vector.IndexOf(',');
@@ -109,40 +109,40 @@ namespace DungeonInspector
             var xStr = vector.Substring(start + 1, comma - 1);
             var yStr = vector.Substring(comma + 1, end - comma - 1);
 
-            return new DVector2(float.Parse(xStr), float.Parse(yStr));
+            return new DVec2(float.Parse(xStr), float.Parse(yStr));
         }
 
-        public static DVector2 operator /(DVector2 a, float n)
+        public static DVec2 operator /(DVec2 a, float n)
         {
-            return new DVector2(a.x / n, a.y / n);
+            return new DVec2(a.x / n, a.y / n);
         }
 
-        public static DVector2 operator *(DVector2 a, float n)
+        public static DVec2 operator *(DVec2 a, float n)
         {
-            return new DVector2(a.x * n, a.y * n);
+            return new DVec2(a.x * n, a.y * n);
         }
 
-        public static DVector2 operator -(DVector2 a, DVector2 b)
+        public static DVec2 operator -(DVec2 a, DVec2 b)
         {
-            return new DVector2(a.x - b.x, a.y - b.y);
+            return new DVec2(a.x - b.x, a.y - b.y);
         }
 
 
-        public static DVector2 operator -(DVector2 a)
+        public static DVec2 operator -(DVec2 a)
         {
-            return new DVector2(-a.x, -a.y);
+            return new DVec2(-a.x, -a.y);
         }
-        public static DVector2 operator +(DVector2 a, DVector2 b)
+        public static DVec2 operator +(DVec2 a, DVec2 b)
         {
-            return new DVector2(a.x + b.x, a.y + b.y);
+            return new DVec2(a.x + b.x, a.y + b.y);
         }
 
-        public static float Dot(DVector2 a, DVector2 b)
+        public static float Dot(DVec2 a, DVec2 b)
         {
             return a.x * b.x + a.y * b.y;
         }
 
-        public static float Distance(DVector2 a, DVector2 b)
+        public static float Distance(DVec2 a, DVec2 b)
         {
             var x = a.x - b.x;
             var y = a.y - b.y;

@@ -9,7 +9,7 @@ namespace DungeonInspector
     public class RenderingData
     {
         public UnityEngine.Texture2D MyProperty { get; set; }
-        public DVector2 WorldPosition { get; set; }
+        public DVec2 WorldPosition { get; set; }
     }
 
     // to render things that are not necessaryly related to an entity (maybe?)

@@ -24,14 +24,14 @@ namespace DungeonInspector
 
         protected override void OnStart()
         {
-            var basePos = Transform.Position + (DVector2)Vector2.down;
+            var basePos = Transform.Position + (DVec2)Vector2.down;
 
             _tiles[0] = _gameMaster.Tilemap.GetTile(basePos.RoundToInt(), 0);
-            _tiles[1] = _gameMaster.Tilemap.GetTile((basePos + DVector2.Right).RoundToInt(), 0);
+            _tiles[1] = _gameMaster.Tilemap.GetTile((basePos + DVec2.Right).RoundToInt(), 0);
 
 
 
-            Transform.Offset = new DVector2(0.28f, 0);
+            Transform.Offset = new DVec2(0.28f, 0);
         }
         public void SetAtlas(DSpriteAtlas atlas)
         {

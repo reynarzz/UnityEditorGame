@@ -43,7 +43,7 @@ namespace AStar
             return !a.Equals(b);
         }
 
-        public static implicit operator Position(DVector2 vector)
+        public static implicit operator Position(DVec2 vector)
         {
             var vInt = vector.RoundToInt();
 
@@ -60,9 +60,9 @@ namespace AStar
             return new Position(vector.y, vector.x);
         }
 
-        public static implicit operator DVector2(Position vector)
+        public static implicit operator DVec2(Position vector)
         {
-            return new DVector2(vector.Column, vector.Row);
+            return new DVec2(vector.Column, vector.Row);
         }
 
         public override bool Equals(Object other)

@@ -14,7 +14,7 @@ namespace AStar.Collections.MultiDimensional
     public class Grid<T> : IModelAGrid<T>, IEnumerable<T> where T : IBaseNode
     {
         //private readonly T[] _grid;
-        private readonly Dictionary<DVector2, T> _grid;
+        private readonly Dictionary<DVec2, T> _grid;
         public Grid(int height, int width)
         {
             if (height <= 0)
@@ -30,7 +30,7 @@ namespace AStar.Collections.MultiDimensional
             Height = height;
             Width = width;
 
-            _grid = new Dictionary<DVector2, T>();
+            _grid = new Dictionary<DVec2, T>();
 
             //_grid = new T[height * width];
         }
@@ -110,7 +110,7 @@ namespace AStar.Collections.MultiDimensional
             }
             set
             {
-                //var key = new DVector2(position.Column, position.Row);
+                //var key = new DVec2(position.Column, position.Row);
 
                 if (!_grid.ContainsKey(position))
                 {

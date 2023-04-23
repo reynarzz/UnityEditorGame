@@ -98,6 +98,8 @@
     <Compile Include="DEngine\Core\Components\DTransformComponent.cs" />
     <Compile Include="DEngine\Core\DEditor\DEditorSystem.cs" />
     <Compile Include="DEngine\Core\DEditor\Hierarchy\DHierarchyEditor.cs" />
+    <Compile Include="DEngine\Core\DEditor\Hierarchy\ExposeAttribute.cs" />
+    <Compile Include="DEngine\Core\DEditor\Hierarchy\ExposeSlider.cs" />
     <Compile Include="DEngine\Core\DTime.cs" />
     <Compile Include="DEngine\Core\Entity\EntitiesController.cs" />
     <Compile Include="DEngine\Core\Entity\GameEntity.cs" />

@@ -69,7 +69,7 @@ namespace DungeonInspector
             }
         }
 
-        public static DVector2 GetMouseWorldPos()
+        public static DVec2 GetMouseWorldPos()
         {
             var mouse = Event.current;
 

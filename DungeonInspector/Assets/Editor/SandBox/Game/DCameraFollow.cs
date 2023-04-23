@@ -23,7 +23,7 @@ namespace DungeonInspector
          
         protected override void OnUpdate()
         {
-            var playerPos = new DVector2(_player.Transform.Position.x, _player.Transform.Position.y);
+            var playerPos = new DVec2(_player.Transform.Position.x, _player.Transform.Position.y);
 
             var speed = Speed;
             var amplitude = 1.5f;
@@ -32,7 +32,7 @@ namespace DungeonInspector
             var noiseY = (Mathf.PerlinNoise(Mathf.Sin(DTime.Time * speed) * 2 - 1, Mathf.Sin(DTime.Time * speed) * 2 - 1) - 0.5f) * 2;
 
 
-            _camera.Transform.Position = UnityEngine.Vector2.Lerp(_camera.Transform.Position, playerPos + new DVector2(noiseX, noiseY) * amplitude, 7 * DTime.DeltaTime);
+            _camera.Transform.Position = UnityEngine.Vector2.Lerp(_camera.Transform.Position, playerPos + new DVec2(noiseX, noiseY) * amplitude, 7 * DTime.DeltaTime);
             //_camera.Transform.Position = playerPos;
 
             if(Speed > 0)

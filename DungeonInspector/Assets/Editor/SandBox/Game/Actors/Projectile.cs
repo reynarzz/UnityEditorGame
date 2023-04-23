@@ -8,12 +8,12 @@ namespace DungeonInspector
 {
     public class Projectile : DBehavior
     {
-        private DVector2 _dir;
+        private DVec2 _dir;
 
         private const float _autoDestoyTime = 2;
         private float _timeToDestoy;
 
-        public void Shoot(DVector2 dir)
+        public void Shoot(DVec2 dir)
         {
             _dir = dir;
         }

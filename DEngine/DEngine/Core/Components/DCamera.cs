@@ -12,33 +12,33 @@ namespace DungeonInspector
     {
         public static int PixelSize { get; set; } = 32;
         public static DCamera MainCamera { get; set; }
-        public DVector2 ScreenSize { get; set; }
+        public DVec2 ScreenSize { get; set; }
         public Rect ViewportRect { get; set; }
 
         public static Rect _viewportRect { get; set; }
-        public static DVector2 _Position { get; set; }
+        public static DVec2 _Position { get; set; }
 
 
         public DCamera()
         {
-            ScreenSize = new DVector2(640, 360);
+            ScreenSize = new DVec2(640, 360);
             DIEngineCoreServices.Get<DRenderingController>().AddCamera(this);
         }
 
-        public Rect World2RectPos(DVector2 pos, DVector2 scale)
+        public Rect World2RectPos(DVec2 pos, DVec2 scale)
         {
             return Utils.World2RectPos(pos, scale, ViewportRect, Transform.Position, PixelSize);
         }
 
-        public DVector2 Mouse2WorldPos(DVector2 mousePosition)
+        public DVec2 Mouse2WorldPos(DVec2 mousePosition)
         {
             var xPos = mousePosition.x - ViewportRect.x - ViewportRect.width / 2;
             var yPos = -(mousePosition.y - ViewportRect.y - ViewportRect.height / 2);
 
-            return new DVector2(xPos + Transform.Position.x * PixelSize, yPos + Transform.Position.y * PixelSize) / PixelSize;
+            return new DVec2(xPos + Transform.Position.x * PixelSize, yPos + Transform.Position.y * PixelSize) / PixelSize;
         }
 
-        public bool IsInside(DVector2 worldpos, DVector2 scale)
+        public bool IsInside(DVec2 worldpos, DVec2 scale)
         {
             var rect = World2RectPos(worldpos, scale);
 
@@ -48,7 +48,7 @@ namespace DungeonInspector
 
         protected override void OnUpdate()
         {
-            ScreenSize = new DVector2(EditorGUIUtility.currentViewWidth, ScreenSize.y);
+            ScreenSize = new DVec2(EditorGUIUtility.currentViewWidth, ScreenSize.y);
             _viewportRect = ViewportRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 0, ScreenSize.x, ScreenSize.y);
 
             _Position = Transform.Position;

@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 namespace DungeonInspector
 {
@@ -12,7 +14,7 @@ namespace DungeonInspector
     {
         private DEntitiesController _entitiesController;
         private DRenderingController _renderingController;
-        private Rect _rect = new Rect(0, 0, 200, 350);
+        private Rect _rect = new Rect(0, 0, 230, 350);
         private Vector2 _scroll;
         private bool _show = false;
 
@@ -169,6 +171,21 @@ namespace DungeonInspector
 
                     }
 
+                    var fields = component.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+
+                    foreach (var field in fields)
+                    {
+                        var attrib = field.GetCustomAttribute<ExposeSlider>();
+
+                        if(attrib != null)
+                        {
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Label(field.Name);
+                            field.SetValue(component, EditorGUILayout.Slider((float)field.GetValue(component), (float)attrib.Min, (float)attrib.Max));
+                            GUILayout.EndHorizontal();
+                            
+                        }
+                    }
                     //if (component.GetType() == typeof(HealthBarUI))
                     //{
                     //    var health = (component as HealthBarUI);

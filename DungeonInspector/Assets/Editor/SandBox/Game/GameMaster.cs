@@ -28,6 +28,7 @@ namespace DungeonInspector
         public EnemyDatabase EnemyDatabase => _enemyDatabase;
 
         private PrefabInstantiator _prefabInstantiator;
+        private PlayerHealthUI _playerHealthUI;
 
         public PrefabInstantiator PrefabInstantiator => _prefabInstantiator;
 
@@ -60,21 +61,22 @@ namespace DungeonInspector
                 var json = File.ReadAllText(worldLevelPath);
 
                 _levelData = JsonConvert.DeserializeObject<LevelData>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
-
             }
             else
             {
                 _levelData = new LevelData(new TileData[0]);
             }
 
-            _prefabInstantiator.InstanceDoor("ExitDoor").Transform.Position = new DVector2(2.27f, 3.56f);
-            _prefabInstantiator.GetHealthPotion("Health1").Transform.Position = new DVector2(2, 1);
-            _prefabInstantiator.InstanceCoin("Coin1").Transform.Position = new DVector2(1, 2);
-            _prefabInstantiator.InstanceCoin("Coin2").Transform.Position = new DVector2(2, 2);
-            _prefabInstantiator.InstanceCoin("Coin3").Transform.Position = new DVector2(3, 2);
-            _prefabInstantiator.InstanceCoin("Coin4").Transform.Position = new DVector2(4, 2);
-            _prefabInstantiator.InstanceCoin("Coin5").Transform.Position = new DVector2(5, 2);
-            _prefabInstantiator.InstanceCoin("Coin6").Transform.Position = new DVector2(6, 2);
+            _playerHealthUI = new DGameEntity("PlayerHealthHUD").AddComp<PlayerHealthUI>();
+
+            _prefabInstantiator.InstanceDoor("ExitDoor").Transform.Position = new DVec2(2.27f, 3.56f);
+            _prefabInstantiator.GetHealthPotion("Health1").Transform.Position = new DVec2(2, 1);
+            _prefabInstantiator.InstanceCoin("Coin1").Transform.Position = new DVec2(1, 2);
+            _prefabInstantiator.InstanceCoin("Coin2").Transform.Position = new DVec2(2, 2);
+            _prefabInstantiator.InstanceCoin("Coin3").Transform.Position = new DVec2(3, 2);
+            _prefabInstantiator.InstanceCoin("Coin4").Transform.Position = new DVec2(4, 2);
+            _prefabInstantiator.InstanceCoin("Coin5").Transform.Position = new DVec2(5, 2);
+            _prefabInstantiator.InstanceCoin("Coin6").Transform.Position = new DVec2(6, 2);
 
             Load();
             _navWorld.Init();
@@ -160,7 +162,7 @@ namespace DungeonInspector
             }
         }
 
-        public BaseTD GetLevelData(DVector2 vector)
+        public BaseTD GetLevelData(DVec2 vector)
         {
             return _levelData.GetLevelTileData(vector.Round());
         }

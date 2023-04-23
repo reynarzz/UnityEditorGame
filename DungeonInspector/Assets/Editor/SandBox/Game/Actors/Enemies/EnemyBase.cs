@@ -25,9 +25,9 @@ namespace DungeonInspector
         public Actor Target { get; set; }
         private Player _playerTest;
         private int _pathIndex;
-        private List<DVector2> _pathToTarget;
-        private DVector2 _movePos;
-        private DVector2 _prevPos;
+        private List<DVec2> _pathToTarget;
+        private DVec2 _movePos;
+        private DVec2 _prevPos;
 
         private bool _canMove = true;
         private DTilemap _tilemap;
@@ -35,7 +35,7 @@ namespace DungeonInspector
 
         protected override void OnAwake()
         {
-            Transform.Offset = new DVector2(0, 0.7f);
+            Transform.Offset = new DVec2(0, 0.7f);
             _healthBar = GetComp<HealthBarUI>();
             _collider = GetComp<DBoxCollider>();
             _health = GetComp<ActorHealth>();
@@ -78,7 +78,7 @@ namespace DungeonInspector
         //    }
         //}
 
-        public void OnNewPath(List<DVector2> pathToTarget)
+        public void OnNewPath(List<DVec2> pathToTarget)
         {
             _pathToTarget = pathToTarget;
 
@@ -102,7 +102,7 @@ namespace DungeonInspector
 
         protected override void OnUpdate()
         {
-            _healthBar.Transform.Position = new DVector2(Transform.Position.x, _collider.AABB.Max.y + _healthBarYOffset);
+            _healthBar.Transform.Position = new DVec2(Transform.Position.x, _collider.AABB.Max.y + _healthBarYOffset);
 
             if (_isHit)
             {
@@ -150,7 +150,7 @@ namespace DungeonInspector
         }
 
 
-        private DVector2 GetNextPos()
+        private DVec2 GetNextPos()
         {
             if (_pathToTarget.Count > _pathIndex + 1)
             {

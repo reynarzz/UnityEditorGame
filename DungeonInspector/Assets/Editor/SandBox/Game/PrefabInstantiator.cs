@@ -9,19 +9,22 @@ namespace DungeonInspector
 {
     public class PrefabInstantiator
     {
-        private DSpriteAtlas _doorAtlas;
         private DSpriteAtlas _coinCollectibleAtlas;
-        private Texture2D _greenFlask;
+        private DSpriteAtlas _heartAtlas;
+        private DSpriteAtlas _doorAtlas;
+
         private Texture2D _bulletCircle;
+        private Texture2D _greenFlask;
 
         public PrefabInstantiator()
         {
             _doorAtlas = Resources.Load<DSpriteAtlas>("Interactables/DoorAtlas");
+            _heartAtlas = Resources.Load<DSpriteAtlas>("UI/HeartAtlas");
+            _coinCollectibleAtlas = Resources.Load<DSpriteAtlas>("Interactables/CoinAtlas");
+
+
             _greenFlask = Resources.Load<Texture2D>("GameAssets/Dungeon/flask_big_green");
             _bulletCircle = Resources.Load<Texture2D>("GameAssets/bullet");
-            
-            _coinCollectibleAtlas = Resources.Load<DSpriteAtlas>("Interactables/CoinAtlas");
-            
         }
 
         public DGameEntity InstancePlayer(string name)
@@ -53,11 +56,11 @@ namespace DungeonInspector
 
             var box = entity.AddComp<DBoxCollider>();
 
-            box.Center = new DVector2();
-            box.Size = new DVector2(0.46f, 0.46f);
+            box.Center = new DVec2();
+            box.Size = new DVec2(0.46f, 0.46f);
 
             entity.AddComp<DRendererComponent>().Sprite = _bulletCircle;
-            
+
             return entity;
         }
 
@@ -68,20 +71,31 @@ namespace DungeonInspector
             return potion;
         }
 
+        public HeartUI InstanceHeartUI(string name)
+        {
+            var heartUI = new DGameEntity(name);
+
+
+            var heart = heartUI.AddComp<HeartUI>();
+            heart.Init(_heartAtlas);
+
+            return heart;
+        }
+
         private DGameEntity InstanceCollectible<T>(string name, Texture2D sprite) where T : CollectibleBase, new()
         {
             var entity = GetEntity(name, typeof(T), typeof(DPhysicsComponent));
 
             var collider = entity.AddComp<DBoxCollider>();
-            collider.Size = new DVector2(0.5f, 0.71f);
-            collider.Center = new DVector2(0, -0.36f);
+            collider.Size = new DVec2(0.5f, 0.71f);
+            collider.Center = new DVec2(0, -0.36f);
 
             var render = entity.AddComp<DRendererComponent>();
             render.ZSorting = -1;
             render.Sprite = sprite;
             entity.Layer = 2;
 
-            entity.Transform.Offset = new DVector2(0, 0.3f);
+            entity.Transform.Offset = new DVec2(0, 0.3f);
 
             return entity;
         }

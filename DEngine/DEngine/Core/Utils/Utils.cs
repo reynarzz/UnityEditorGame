@@ -48,12 +48,12 @@ namespace DungeonInspector
         //    Matrix3x2
         //}
 
-        public static DVector2 Mouse2WorldPos(DVector2 mousePosition, Rect ViewportRect, DVector2 cameraPos, float pixelsPerUnit)
+        public static DVec2 Mouse2WorldPos(DVec2 mousePosition, Rect ViewportRect, DVec2 cameraPos, float pixelsPerUnit)
         {
             var xPos = mousePosition.x - ViewportRect.x - ViewportRect.width / 2;
             var yPos = -(mousePosition.y - ViewportRect.y - ViewportRect.height / 2);
 
-            return new DVector2(xPos + cameraPos.x * pixelsPerUnit, yPos + cameraPos.y * pixelsPerUnit) / pixelsPerUnit;
+            return new DVec2(xPos + cameraPos.x * pixelsPerUnit, yPos + cameraPos.y * pixelsPerUnit) / pixelsPerUnit;
         }
 
 
@@ -72,6 +72,11 @@ namespace DungeonInspector
         /// <summary>World2Rect without take the camera movement into account</summary>
         public static Rect World2RectNCamPos(Vector2 pos, Vector2 scale, Rect viewportRect, int pixelsPerUnit)
         {
+            viewportRect.x = EditorGUIUtility.currentViewWidth - viewportRect.width;
+
+            viewportRect.width = 640 /*- EditorGUIUtility.currentViewWidth*/;
+            viewportRect.height = 360;
+
             return World2RectPos(pos, scale, viewportRect, default, pixelsPerUnit);
         }
 
@@ -136,13 +141,13 @@ namespace DungeonInspector
             //_mat.SetVector("_color", Color.white);
         }
 
-        public static bool Raycast(DVector2 origin, DVector2 direction, float length, out DRayHitInfo hitInfo, int layer = 0)
+        public static bool Raycast(DVec2 origin, DVec2 direction, float length, out DRayHitInfo hitInfo, int layer = 0)
         {
             var colliders = DIEngineCoreServices.Get<DPhysicsController>().GetAllBodies();
 
             hitInfo = default;
 
-            var closestPoint = new DVector2(float.MaxValue, float.MaxValue);
+            var closestPoint = new DVec2(float.MaxValue, float.MaxValue);
 
             for (int i = 0; i < colliders.Count; i++)
             {
@@ -210,7 +215,7 @@ namespace DungeonInspector
             return true;
         }
 
-        public static void DrawSquare(DVector2 pos, DVector2 scale = default)
+        public static void DrawSquare(DVec2 pos, DVec2 scale = default)
         {
             EditorGUI.DrawRect(World2RectPos(pos, scale, DCamera._viewportRect, DCamera._Position, DCamera.PixelSize), Color.white);
         }

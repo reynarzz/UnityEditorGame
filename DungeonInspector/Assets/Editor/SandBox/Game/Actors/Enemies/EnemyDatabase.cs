@@ -23,9 +23,9 @@ namespace DungeonInspector
             var test = GetEnemy<OrcEnemy>("ShortMaskedORc", "GameAssets/Dungeon/masked_orc_idle_anim_f0");
 
           
-            _enemyRenderers[1].Entity.Transform.Position = new DVector2(1, -3); // remove
-            _enemyRenderers[1].Entity.Transform.Offset = new DVector2(0, -1); // remove
-            test.Entity.Transform.Position = new DVector2(6, -1); // remove
+            _enemyRenderers[1].Entity.Transform.Position = new DVec2(1, -3); // remove
+            _enemyRenderers[1].Entity.Transform.Offset = new DVec2(0, -1); // remove
+            test.Entity.Transform.Position = new DVec2(6, -1); // remove
         }
 
         private DRendererComponent GetEnemy<T>(string name, string texturePath) where T : EnemyBase, new()

@@ -9,8 +9,8 @@ namespace DungeonInspector
 {
     public struct DAABB
     {
-        public DVector2 Max { get; set; }
-        public DVector2 Min { get; set; }
+        public DVec2 Max { get; set; }
+        public DVec2 Min { get; set; }
 
 
 
@@ -22,10 +22,10 @@ namespace DungeonInspector
 
     public struct DRay
     {
-        public DVector2 Origin { get; set; }
-        public DVector2 Direction { get; set; }
+        public DVec2 Origin { get; set; }
+        public DVec2 Direction { get; set; }
 
-        public DRay(DVector2 origin, DVector2 direction)
+        public DRay(DVec2 origin, DVec2 direction)
         {
             Origin = origin;
             Direction = direction;
@@ -34,11 +34,11 @@ namespace DungeonInspector
 
     public struct DRayHitInfo
     {
-        public DVector2 Point { get; set; }
-        public DVector2 BehindPoint { get; set; }
-        public DVector2 Normal { get; set; }
+        public DVec2 Point { get; set; }
+        public DVec2 BehindPoint { get; set; }
+        public DVec2 Normal { get; set; }
         public DGameEntity Target { get; set; }
-        public DRayHitInfo(DVector2 point, DVector2 behindPoint, DVector2 normal)
+        public DRayHitInfo(DVec2 point, DVec2 behindPoint, DVec2 normal)
         {
             Point = point;
             BehindPoint = behindPoint;

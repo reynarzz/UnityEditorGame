@@ -23,7 +23,7 @@ namespace DungeonInspector
             _barEntity = new DGameEntity(Name + ": HealthBar");
             _bar = _barEntity.AddComp<DRendererComponent>();
 
-            _bar.Transform.Scale = new DVector2(1.3f, 0.07f);
+            _bar.Transform.Scale = new DVec2(1.3f, 0.07f);
             _barEntity.IsActive = false;
         }
 

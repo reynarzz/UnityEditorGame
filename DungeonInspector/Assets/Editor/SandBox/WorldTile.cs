@@ -32,6 +32,6 @@ namespace DungeonInspector
         public int TileAssetIndex { get; set; }
         public int WorldIndex { get; set; }
         /// <summary>In wolrd position</summary>
-        public DVector2 Position { get; set; }
+        public DVec2 Position { get; set; }
     }
 }
