@@ -41,7 +41,6 @@ namespace DungeonInspector
             animator.Speed = 5;
             animator.Play(0);
 
-            coin.Layer = 1;
             return coin;
         }
 
@@ -63,6 +62,7 @@ namespace DungeonInspector
             var render = entity.AddComp<DRendererComponent>();
             render.ZSorting = -1;
             render.Sprite = sprite;
+            entity.Layer = 2;
 
             entity.Transform.Offset = new DVector2(0, 0.3f);
 

@@ -16,7 +16,7 @@ namespace DungeonInspector
         {
             base.OnAwake();
 
-            _health.SetInitialHealth(20);
+            _health.SetInitialHealth(5);
         }
 
         protected override void OnStart()

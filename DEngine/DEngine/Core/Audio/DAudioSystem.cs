@@ -79,8 +79,6 @@ namespace DungeonInspector
 
         public override void Cleanup()
         {
-            UnityEngine.Debug.Log("called");
-
             foreach (var audio in _audiosByName.Values)
             {
                 UnityEngine.Debug.Log("audio cleanup");

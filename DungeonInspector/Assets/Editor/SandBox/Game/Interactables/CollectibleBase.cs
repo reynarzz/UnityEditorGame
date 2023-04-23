@@ -14,7 +14,7 @@ namespace DungeonInspector
         {
             var actor = collider.GetComp<Actor>();
 
-            if (actor != null)
+            if (actor != null && actor.Entity.Layer == Entity.Layer)
             {
                 OnCollected(actor);
 

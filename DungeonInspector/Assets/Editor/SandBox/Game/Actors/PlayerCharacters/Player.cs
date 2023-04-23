@@ -59,7 +59,7 @@ namespace DungeonInspector
             _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_red_gem_sword");
             _weaponRendererTest.ZSorting = 1;
             Entity.Tag = "Player";
-            Entity.Layer = 1;
+            Entity.Layer = 2;
 
             //_health = AddComp<ActorHealth>();
             //_health.EnemyTag = "Enemy";
