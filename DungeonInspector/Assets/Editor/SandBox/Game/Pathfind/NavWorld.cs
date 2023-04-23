@@ -148,7 +148,7 @@ namespace DungeonInspector
 
                     foreach (var requester in requesters)
                     {
-                        Debug.Log(requester.Name);
+                        //Debug.Log(requester.Name);
                         requester.OnNewPath(GetPathToTarget(requester, target));
                     }
                 }

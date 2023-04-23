@@ -136,7 +136,7 @@ namespace DungeonInspector
             //_mat.SetVector("_color", Color.white);
         }
 
-        public static bool Raycast(DVector2 origin, DVector2 direction, float length, out DRayHitInfo hitInfo)
+        public static bool Raycast(DVector2 origin, DVector2 direction, float length, out DRayHitInfo hitInfo, int layer = 0)
         {
             var colliders = DIEngineCoreServices.Get<DPhysicsController>().GetAllBodies();
 
@@ -148,7 +148,7 @@ namespace DungeonInspector
             {
                 var collider = colliders[i].Collider;
 
-                if (collider.IsTrigger)
+                if (collider.IsTrigger && (collider.Entity.Layer == layer))
                 {
                     var aaBB = collider.AABB;
 
@@ -171,7 +171,7 @@ namespace DungeonInspector
             return hitInfo.Target != null;
         }
 
-        public static bool Raycast(DRay ray, DAABB aabb, float length, out DRayHitInfo hitInfo)
+        private static bool Raycast(DRay ray, DAABB aabb, float length, out DRayHitInfo hitInfo)
         {
             float t1 = (aabb.Min.x - ray.Origin.x) / ray.Direction.x;
             float t2 = (aabb.Max.x - ray.Origin.x) / ray.Direction.x;

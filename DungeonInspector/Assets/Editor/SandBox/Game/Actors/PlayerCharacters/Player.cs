@@ -45,7 +45,7 @@ namespace DungeonInspector
             _renderer.Sprite = idle.CurrentTexture;
 
             var collider = AddComp<DBoxCollider>();
-            collider.IsTrigger = false;
+            collider.IsTrigger = true;
 
             collider.Center = new DVector2(0, -0.75f);
             collider.Size = new DVector2(0.78f, 0.79f);
@@ -59,6 +59,8 @@ namespace DungeonInspector
             _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_red_gem_sword");
             _weaponRendererTest.ZSorting = 1;
             Entity.Tag = "Player";
+            Entity.Layer = 1;
+
             //_health = AddComp<ActorHealth>();
             //_health.EnemyTag = "Enemy";
 
@@ -82,7 +84,7 @@ namespace DungeonInspector
 
         protected override void OnTriggerEnter(DBoxCollider collider)
         {
-            Debug.Log("Enter: " + collider.Name);
+            //Debug.Log("Enter: " + collider.Name);
 
             //collider.Entity.Destroy();
 
@@ -167,7 +169,7 @@ namespace DungeonInspector
 
                 if(health != null && DInput.IsMouseDown(0) /*!_testHitDamageRay*/)
                 {
-                    Debug.Log(info.Target.Name);
+                    //Debug.Log(info.Target.Name);
                     _testHitDamageRay = true;
                     health.AddAmount(-1.5f);
 

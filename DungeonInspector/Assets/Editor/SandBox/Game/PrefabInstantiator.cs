@@ -41,6 +41,7 @@ namespace DungeonInspector
             animator.Speed = 5;
             animator.Play(0);
 
+            coin.Layer = 1;
             return coin;
         }
 

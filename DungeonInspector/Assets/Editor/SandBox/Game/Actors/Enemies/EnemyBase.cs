@@ -94,7 +94,7 @@ namespace DungeonInspector
 
                 if (_prevTile != null)
                 {
-                    _prevTile.IsOccupied = false;
+                    _prevTile.Ocupe = null;
                 }
             }
 
@@ -136,12 +136,12 @@ namespace DungeonInspector
                 if ((_movePos - Transform.Position).SqrMagnitude <= 0.001f && !tile.IsOccupied && _playerTest.Transform.RoundPosition != nextPos)
                 {
                     _pathIndex++;
-                    tile.IsOccupied = true;
+                    tile.Ocupe = Entity;
                     _prevTile = tile;
 
                     _prevPos = _movePos.RoundToInt();
 
-                    _tilemap.GetTile(_prevPos, 0).IsOccupied = false;
+                    _tilemap.GetTile(_prevPos, 0).Ocupe = null;
                     _movePos = nextPos;
                 }
             }

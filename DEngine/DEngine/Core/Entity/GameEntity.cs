@@ -18,7 +18,7 @@ namespace DungeonInspector
         private const string _defaultName = "GameEntity";
         public string Name { get; set; }
         public string Tag { get; set; }
-
+        public int Layer { get; set; }
         public DGameEntity() : this(_defaultName) { }
         public DGameEntity(string name) : this(name, null) { }
         public DGameEntity(params Type[] components) : this(_defaultName, components) { }
