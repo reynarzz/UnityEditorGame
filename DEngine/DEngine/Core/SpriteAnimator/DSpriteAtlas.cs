@@ -70,6 +70,7 @@ namespace DungeonInspector
         public DSpriteAnimation Animation { get; set; }
 
         public bool IsOccupied { get; set; }
+        public bool IsEndPath { get; set; }
         public bool IsWalkable;
         public int ZSorting;
         public TileType Type;

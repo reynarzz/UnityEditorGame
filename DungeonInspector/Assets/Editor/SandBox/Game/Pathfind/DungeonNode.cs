@@ -12,6 +12,6 @@ namespace DungeonInspector
         public DTile Tile { get; set; }
        // public DVector2 PosTest { get; set; }
         public bool IsOpen => Tile.IsWalkable;
-        public bool InUseForPath { get; set; }
+        public int IsAlreadyPartOfPath { get; set; }
     }
 }

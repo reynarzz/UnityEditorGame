@@ -17,6 +17,9 @@ namespace DungeonInspector
         private int _width;
         private int _heigth;
         private PathFinder<DungeonGrid> _pathfind;
+        private bool _needsFindAPath;
+
+        private Dictionary<Actor, List<EnemyBase>> _actorsToFindPath; // target by requesters
 
         public NavWorld(DTilemap tilemap)
         {
@@ -33,8 +36,13 @@ namespace DungeonInspector
 
             var world = new DungeonGrid(_heigth, _width);
 
-            _pathfind = new PathFinder<DungeonGrid>(world, new AStar.Options.PathFinderOptions() { UseDiagonals = false, HeuristicFormula = AStar.Heuristics.HeuristicFormula.Euclidean }, GridPosToWorld);
+            _pathfind = new PathFinder<DungeonGrid>(world, new AStar.Options.PathFinderOptions()
+            {
+                UseDiagonals = false, 
+                HeuristicFormula = AStar.Heuristics.HeuristicFormula.Euclidean
+            }, GridPosToWorld);
 
+            _actorsToFindPath = new Dictionary<Actor, List<EnemyBase>>();
 
             for (int j = 0; j < _heigth; j++)
             {
@@ -57,10 +65,11 @@ namespace DungeonInspector
             }
         }
 
-        public List<DVector2> GetPathToTarget(Actor requester, Actor target)
+        private List<DVector2> GetPathToTarget(Actor requester, Actor target)
         {
             var path = _pathfind.FindPath(WorldPosToGrid(requester.Transform.RoundPosition), WorldPosToGrid(target.Transform.RoundPosition));
 
+            // -- Debug
             if (path != null)
             {
                 var value = (path, new Color(UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f), UnityEngine.Random.Range(0.0f, 1.0f), 1f));
@@ -74,6 +83,9 @@ namespace DungeonInspector
                     _path[requester] = value;
                 }
             }
+            //----
+
+
             return path;
         }
 
@@ -106,7 +118,44 @@ namespace DungeonInspector
                 }
 
             }
+        }
 
+        public void RequestPath(EnemyBase enemy, Actor target)
+        {
+            // returns a non taken path, ordering by enemy distance to the target.
+            if (!_actorsToFindPath.ContainsKey(target))
+            {
+                _actorsToFindPath.Add(target, new List<EnemyBase>() { enemy });
+            }
+            else
+            {
+                _actorsToFindPath[target].Add(enemy);
+            }
+
+            _needsFindAPath = true;
+        }
+
+        public void OnLateUpdate()
+        {
+            if (_needsFindAPath)
+            {
+                _needsFindAPath = false;
+
+                foreach (var path in _actorsToFindPath)
+                {
+                    var target = path.Key;
+                    var requesters = _actorsToFindPath[target].OrderBy(x => (x.Transform.Position - target.Transform.Position).SqrMagnitude);
+
+                    foreach (var requester in requesters)
+                    {
+                        Debug.Log(requester.Name);
+                        requester.OnNewPath(GetPathToTarget(requester, target));
+                    }
+                }
+
+                _pathfind.ReleasePath();
+                _actorsToFindPath.Clear();
+            }
         }
     }
 }

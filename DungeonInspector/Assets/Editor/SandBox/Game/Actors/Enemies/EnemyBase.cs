@@ -52,7 +52,7 @@ namespace DungeonInspector
             _tilemap = gameMaster.Tilemap;
 
             _playerTest = DGameEntity.FindGameEntity("Player").GetComp<Player>();
-            _pathToTarget = _navWorld.GetPathToTarget(this, _playerTest);
+         
             _pathIndex = 0;
 
             _movePos = Transform.Position;
@@ -78,6 +78,28 @@ namespace DungeonInspector
         //    }
         //}
 
+        public void OnNewPath(List<DVector2> pathToTarget)
+        {
+            _pathToTarget = pathToTarget;
+
+            _pathIndex = 0;
+
+            if (_pathToTarget != null && _pathToTarget.Count > 0)
+            {
+                _pathToTarget.RemoveAt(_pathToTarget.Count - 1);
+
+                _movePos = Transform.Position.RoundToInt();
+
+                _prevPos = _movePos.RoundToInt();
+
+                if (_prevTile != null)
+                {
+                    _prevTile.IsOccupied = false;
+                }
+            }
+
+        }
+
         protected override void OnUpdate()
         {
             _healthBar.Transform.Position = new DVector2(Transform.Position.x, _collider.AABB.Max.y + _healthBarYOffset);
@@ -94,28 +116,17 @@ namespace DungeonInspector
                 }
             }
 
+            if (_pathToTarget == null || (_pathToTarget != null && _pathToTarget.Count > 0 &&
+               (_playerTest.Transform.Position - _pathToTarget[_pathToTarget.Count - 1]).SqrMagnitude > 2))
+            {
+                _navWorld.RequestPath(this, _playerTest);
+            }
+
             Walk();
         }
 
         private void Walk()
         {
-            if (DInput.IsKey(KeyCode.F))
-            {
-                _pathIndex = 0;
-
-                _pathToTarget = _navWorld.GetPathToTarget(this, _playerTest);
-                if (_pathToTarget != null && _pathToTarget.Count > 0)
-                {
-                    _pathToTarget.RemoveAt(_pathToTarget.Count - 1);
-
-                    _prevPos = _movePos = Transform.Position.RoundToInt();
-                    _prevTile.IsOccupied = false;
-                }
-               
-            }
-
-              
-
             if (_pathToTarget != null && _pathToTarget.Count > 0 && _pathToTarget.Count > _pathIndex)
             {
                 var nextPos = GetNextPos();
@@ -128,7 +139,7 @@ namespace DungeonInspector
                     tile.IsOccupied = true;
                     _prevTile = tile;
 
-                    _prevPos = _movePos;
+                    _prevPos = _movePos.RoundToInt();
 
                     _tilemap.GetTile(_prevPos, 0).IsOccupied = false;
                     _movePos = nextPos;

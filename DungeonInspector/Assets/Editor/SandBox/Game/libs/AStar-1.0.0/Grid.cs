@@ -1,5 +1,6 @@
 using DungeonInspector;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Drawing;
 
@@ -10,7 +11,7 @@ namespace AStar.Collections.MultiDimensional
         bool IsOpen { get; }
     }
 
-    public class Grid<T> : IModelAGrid<T> where T : IBaseNode
+    public class Grid<T> : IModelAGrid<T>, IEnumerable<T> where T : IBaseNode
     {
         //private readonly T[] _grid;
         private readonly Dictionary<DVector2, T> _grid;
@@ -100,7 +101,7 @@ namespace AStar.Collections.MultiDimensional
         {
             get
             {
-                if(_grid.TryGetValue(new DVector2(position.Column, position.Row), out var value))
+                if(_grid.TryGetValue(position, out var value))
                 {
                     return value;
                 }
@@ -109,15 +110,15 @@ namespace AStar.Collections.MultiDimensional
             }
             set
             {
-                var key = new DVector2(position.Column, position.Row);
+                //var key = new DVector2(position.Column, position.Row);
 
-                if (!_grid.ContainsKey(key))
+                if (!_grid.ContainsKey(position))
                 {
-                    _grid.Add(key, value);
+                    _grid.Add(position, value);
                 }
                 else
                 {
-                    _grid[key] = value;
+                    _grid[position] = value;
                 }
             }
         }
@@ -126,7 +127,7 @@ namespace AStar.Collections.MultiDimensional
         {
             get
             {
-                if (_grid.TryGetValue(new DVector2(column, row), out var value))
+                if (_grid.TryGetValue(new Position(row, column), out var value))
                 {
                     return value;
                 }
@@ -134,7 +135,7 @@ namespace AStar.Collections.MultiDimensional
             }
             set
             {
-                var key = new DVector2(column, row);
+                var key = new Position(row, column);
 
                 if (!_grid.ContainsKey(key))
                 {
@@ -150,6 +151,16 @@ namespace AStar.Collections.MultiDimensional
         private int ConvertRowColumnToIndex(int row, int column)
         {
             return Width * row + column;
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }

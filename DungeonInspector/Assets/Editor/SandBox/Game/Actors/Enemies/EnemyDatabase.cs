@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using UnityEngine.Experimental.Rendering;
 
 namespace DungeonInspector
 {
     public class EnemyDatabase
     {
         public List<DRendererComponent> _enemyRenderers;
+    
         public int Count => _enemyRenderers.Count;
 
         public EnemyDatabase()
@@ -22,7 +22,9 @@ namespace DungeonInspector
 
             var test = GetEnemy<OrcEnemy>("ShortMaskedORc", "GameAssets/Dungeon/masked_orc_idle_anim_f0");
 
+          
             _enemyRenderers[1].Entity.Transform.Position = new DVector2(1, -3); // remove
+            _enemyRenderers[1].Entity.Transform.Offset = new DVector2(0, -1); // remove
             test.Entity.Transform.Position = new DVector2(6, -1); // remove
         }
 
@@ -40,12 +42,6 @@ namespace DungeonInspector
             renderer.Sprite = Utils.Load<UnityEngine.Texture2D>(texturePath);
 
             return renderer;
-        }
-
-        public List<DVector2> GetFreePath()
-        {
-            // returns a non taken path, ordering by enemy distance to the target.
-            return null;
         }
 
         public DRendererComponent GetEnemy(int index)

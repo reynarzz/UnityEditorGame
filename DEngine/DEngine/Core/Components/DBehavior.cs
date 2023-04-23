@@ -17,6 +17,7 @@ namespace DungeonInspector
 
         void OnTriggerEnter(DBoxCollider collider);
         void OnTriggerExit(DBoxCollider collider);
+        void LateUpdate();
     }
 
     public abstract class DBehavior : DTransformableComponent, IDBehavior
@@ -32,6 +33,7 @@ namespace DungeonInspector
         protected virtual void OnAwake() { }
         protected virtual void OnStart() { }
         protected virtual void OnUpdate() { }
+        protected virtual void OnLateUpdate() { }
         protected virtual void OnTriggerEnter(DBoxCollider collider) { }
         protected virtual void OnTriggerExit(DBoxCollider collider) { }
 
@@ -70,6 +72,11 @@ namespace DungeonInspector
             OnUpdate();
         }
 
+        void IDBehavior.LateUpdate()
+        {
+            OnLateUpdate();
+        }
+
         void IDBehavior.OnTriggerEnter(DBoxCollider collider)
         {
             OnTriggerEnter(collider);
@@ -80,5 +87,6 @@ namespace DungeonInspector
             OnTriggerExit(collider);
         }
 
+       
     }
 }

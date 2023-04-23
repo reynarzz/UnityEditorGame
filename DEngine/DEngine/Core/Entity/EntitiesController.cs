@@ -102,6 +102,23 @@ namespace DungeonInspector
                     }
                 }
             }
+
+            // Late Update
+
+            for (int i = 0; i < _entities.Count; i++)
+            {
+                var entity = _entities[i];
+
+                if (entity.IsActive)
+                {
+                    var updatables = entity.GetAllUpdatableComponents();
+
+                    for (int j = 0; j < updatables.Count; j++)
+                    {
+                        updatables[j].LateUpdate();
+                    }
+                }
+            }
         }
 
 

@@ -13,7 +13,7 @@ using UnityEditor.Graphs;
 
 namespace AStar
 {
-    public class PathFinder<T> : IFindAPath<DVector2> where T : Grid<IBaseNode> 
+    public class PathFinder<T> : IFindAPath<DVector2> where T : Grid<IBaseNode>
     {
         //private const int ClosedValue = 0;
         private const int DistanceBetweenNodes = 1;
@@ -48,7 +48,7 @@ namespace AStar
             while (_graph.HasOpenNodes)
             {
                 var q = _graph.GetOpenNodeWithSmallestF();
-                
+
                 if (q.Position == end)
                 {
                     return OrderClosedNodesAsArray(_graph, q);
@@ -66,18 +66,25 @@ namespace AStar
                         continue;
                     }
 
-                    var newG = q.G + DistanceBetweenNodes + (((DungeonPathNode)_world[successor.Position]).Tile.IsOccupied? 1:0);
+                    var node = (DungeonPathNode)_world[successor.Position];
+
+                    var isOccupiedCost = (node.Tile.IsOccupied ? 1 : 0);
+                    var isAlreadyPartOfPathCost = node.IsAlreadyPartOfPath;
+                    var isEndPath = node.Tile.IsEndPath ? 10 : 0;
+                    var addedCost = isOccupiedCost + isAlreadyPartOfPathCost + isEndPath;
+
+                    var newG = q.G + DistanceBetweenNodes + addedCost;
 
                     if (_options.PunishChangeDirection)
                     {
                         var qIsHorizontallyAdjacent = q.Position.Row - q.ParentNodePosition.Row == 0;
                         var successorIsHorizontallyAdjacentToQ = successor.Position.Row - q.Position.Row != 0;
-                        
+
                         if (successorIsHorizontallyAdjacentToQ)
                         {
                             if (qIsHorizontallyAdjacent)
                             {
-                                newG += Math.Abs(successor.Position.Row - end.Row) + Math.Abs(successor.Position.Column - end.Column);
+                                newG += Math.Abs(successor.Position.Row - end.Row) + Math.Abs(successor.Position.Column - end.Column) + addedCost;
                             }
                         }
 
@@ -86,7 +93,7 @@ namespace AStar
                         {
                             if (!qIsHorizontallyAdjacent)
                             {
-                                newG += Math.Abs(successor.Position.Row - end.Row) + Math.Abs(successor.Position.Column - end.Column);
+                                newG += Math.Abs(successor.Position.Row - end.Row) + Math.Abs(successor.Position.Column - end.Column) + addedCost;
                             }
                         }
                     }
@@ -94,9 +101,9 @@ namespace AStar
                     var updatedSuccessor = new PathFinderNode(
                         position: successor.Position,
                         g: newG,
-                        h:_heuristic.Calculate(successor.Position, end),
+                        h: _heuristic.Calculate(successor.Position, end),
                         parentNodePosition: q.Position);
-                    
+
                     if (BetterPathToSuccessorFound(updatedSuccessor, successor))
                     {
                         _graph.OpenNode(updatedSuccessor);
@@ -112,7 +119,21 @@ namespace AStar
 
         public void ReleasePath()
         {
+            for (var row = 0; row < _world.Height; row++)
+            {
+                for (var column = 0; column < _world.Width; column++)
+                {
+                    var node = _world[row, column];
 
+                    if (node != null)
+                    {
+                        var dNode = (node as DungeonPathNode);
+
+                        dNode.IsAlreadyPartOfPath = 0;
+                        dNode.Tile.IsEndPath = false;
+                    }
+                }
+            }
         }
 
         private bool BetterPathToSuccessorFound(PathFinderNode updateSuccessor, PathFinderNode currentSuccessor)
@@ -134,6 +155,15 @@ namespace AStar
             {
                 Position pos = currentNode.Position;
 
+
+
+                var raw = _world[pos];
+                if (raw != null)
+                {
+                    var node = (DungeonPathNode)raw;
+                    node.IsAlreadyPartOfPath++;
+                }
+
                 if (_coordConvert != null)
                 {
                     pos = _coordConvert(pos);
@@ -143,19 +173,38 @@ namespace AStar
 
                 currentNode = graph.GetParent(currentNode);
             }
-            
+
+            if (path.Count == 1)
+            {
+                if (((DungeonPathNode)_world[currentNode.Position]).Tile.IsOccupied)
+                {
+                    path.Clear();
+                    return path;
+                }
+            }
             {
                 Position pos = currentNode.Position;
+                var node = (DungeonPathNode)_world[pos];
 
-                if (_coordConvert != null)
+                if (!node.Tile.IsOccupied)
                 {
-                    pos = _coordConvert(pos);
+                    node.IsAlreadyPartOfPath++;
+
+                    if (_coordConvert != null)
+                    {
+                        pos = _coordConvert(pos);
+                    }
+                    node.Tile.IsEndPath = true;
+                    path.Insert(0, pos);
+                }
+                else
+                {
+
                 }
 
-                path.Insert(0, pos);
             }
-            
-            
+
+
             return path;
         }
     }

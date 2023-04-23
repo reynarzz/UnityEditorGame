@@ -31,9 +31,9 @@ namespace DungeonInspector
         {
             base.OnUpdate();
 
-            var sign = Math.Sign(_player.Transform.Position.x - Transform.Position.x);
-            if (sign != 0)
-                _renderer.FlipX = -1 == sign;
+            //var sign = Math.Sign(_player.Transform.Position.x - Transform.Position.x);
+            //if (sign != 0)
+            //    _renderer.FlipX = -1 == sign;
         }
     }
 }
