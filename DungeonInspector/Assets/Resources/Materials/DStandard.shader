@@ -28,6 +28,9 @@ Shader "Unlit/DStandard"
 
             #include "UnityCG.cginc"
 
+#define mat4 float4x4
+#define vec4 float4
+
             struct appdata
             {
                 float4 vertex : POSITION;
@@ -36,8 +39,7 @@ Shader "Unlit/DStandard"
 
             struct v2f
             {
-                float2 uv : TEXCOORD0;
-                UNITY_FOG_COORDS(1)
+                float3 uv : TEXCOORD0;
                 float4 vertex : SV_POSITION;
             };
 
@@ -47,6 +49,7 @@ Shader "Unlit/DStandard"
             uniform half4 _color;
             uniform float _xCutOff;
             uniform half4 _cutOffColor;
+            uniform vec4 _playerPos;
 
             float luminosity(half4 color)
             {
@@ -54,8 +57,6 @@ Shader "Unlit/DStandard"
 
             }
 
-#define mat4 float4x4
-#define vec4 float4
 
             v2f vert (appdata v)
             {
@@ -70,7 +71,7 @@ Shader "Unlit/DStandard"
                                 vec4(0, 0, 0, 1));
 
                 vec4 vertex = v.vertex;
-
+                
                // vertex = mul(rot, vertex + float4(150, 150, 0, 1) * abs(sign(_flip.z)));
                 vertex = mul(unity_ObjectToWorld, v.vertex);
                 vertex.z = 1;
@@ -79,7 +80,7 @@ Shader "Unlit/DStandard"
                 mat4 mvp  = mul(V, UNITY_MATRIX_P);
 
                 o.vertex = mul(mvp, vertex);
-                o.uv = TRANSFORM_TEX(v.uv, _MainTex);
+                o.uv = float3(TRANSFORM_TEX(v.uv, _MainTex), length(float2(v.vertex.x, v.vertex.y) - float2(_playerPos.x, _playerPos.y)));
                 return o;
             }
 
@@ -104,9 +105,17 @@ Shader "Unlit/DStandard"
                 //{
                 //    col = _cutOffColor;
                 //}
+                
+               /* if (i.uv.z < 80.0f) 
+                {
+                    float lum = luminosity(col);
+                    col = float4(lum, lum, lum, col.a);
 
-                //float lum = luminosity(col);
-                ////col = float4(lum, lum, lum, col.a);
+                }
+                else {
+                    clip(-1);
+                }*/
+               
                 //
                 // hit effect
                 //col = float4(1, 1, 1, col.a);

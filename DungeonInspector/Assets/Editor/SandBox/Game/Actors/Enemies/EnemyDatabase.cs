@@ -12,13 +12,13 @@ namespace DungeonInspector
     
         public int Count => _enemyRenderers.Count;
 
-        public EnemyDatabase()
+        public EnemyDatabase() 
         {
             _enemyRenderers = new List<DRendererComponent>()
             {
                 GetEnemy<OrcEnemy>("Orc", "GameAssets/Dungeon/ogre_idle_anim_f0"),
                 GetEnemy<OrcEnemy>("Monk", "GameAssets/Dungeon/necromancer_idle_anim_f0"),
-            };
+            }; 
 
             var test = GetEnemy<OrcEnemy>("ShortMaskedORc", "GameAssets/Dungeon/masked_orc_idle_anim_f0");
 

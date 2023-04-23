@@ -10,9 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 681081541, guid: 888d2e9aea4db614b9ddcafa6fb0c090, type: 3}
-  m_Name: Chest1Atlast 1
+  m_Name: OrcWalk
   m_EditorClassIdentifier: 
   _textures:
-  - {fileID: 2800000, guid: 772aa7cae4e717c4aac2804bf280771c, type: 3}
-  - {fileID: 2800000, guid: f14fee72f5d2e0244a74e6269d38ad57, type: 3}
-  - {fileID: 2800000, guid: 3d7ef93c004ede648acdd67257c3f6c7, type: 3}
+  - {fileID: 2800000, guid: b5727805ff8e2bd48ae222f7492b8b7d, type: 3}
+  - {fileID: 2800000, guid: 3252097472dd1a243884114f3e569614, type: 3}
+  - {fileID: 2800000, guid: eac32e48d7eb2b344bd8b69ca9983cdb, type: 3}
+  - {fileID: 2800000, guid: de69643561d219f4eb0f94f58b2216fb, type: 3}

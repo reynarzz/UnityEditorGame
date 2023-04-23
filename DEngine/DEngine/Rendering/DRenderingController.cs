@@ -17,12 +17,15 @@ namespace DungeonInspector
 
         private Material _mat;
         private Material _maskMat;
-        private Texture2D _viewportRect;
+        private Material _screenSpaceEffects;
+        private Texture2D _viewportRectTex;
         public DCamera CurrentCamera => _cameras.LastOrDefault();
-
         private List<DCamera> _cameras;
 
         private Texture2D _whiteTex;
+        private List<RenderTexture> _swapChain;
+        private int _swapChainTextureIndex = 0;
+        private RenderTexture _renderTarget;
 
         public DRenderingController()
         {
@@ -32,11 +35,16 @@ namespace DungeonInspector
             _mat = Resources.Load<Material>("Materials/DStandardShadow");
 
             _maskMat = Resources.Load<Material>("Materials/Mask");
-            _viewportRect = new Texture2D(1, 1);
+            _screenSpaceEffects = Resources.Load<Material>("Materials/ScreenSpace");
+
+
+
+            _viewportRectTex = new Texture2D(1, 1);
             _whiteTex = Texture2D.whiteTexture;
         }
 
         private Action _debugCallback;
+        private Action _renderControl;
 
         public void AddDebugGUI(Action debugCallback)
         {
@@ -57,10 +65,32 @@ namespace DungeonInspector
         {
             _cameras.Remove(camera);
         }
+        
+        public void AddCustomRenderControl(Action renderer)
+        {
+            _renderControl = renderer;
+        }
 
         public override void Update()
         {
+            if (_renderTarget == null)
+            {
+                var pix = EditorGUIUtility.PointsToPixels(CurrentCamera.ViewportRect);
+
+                _renderTarget = new RenderTexture((int)pix.width, (int)pix.height, 1);
+                _renderTarget.filterMode = FilterMode.Point;
+                _renderTarget.dimension = UnityEngine.Rendering.TextureDimension.Tex2D;
+                _renderTarget.enableRandomWrite = true;
+                _renderTarget.wrapMode = TextureWrapMode.Clamp;
+
+                _renderTarget.Create();
+            }
+
+            RenderTexture.active = _renderTarget;
+
             DrawMask();
+            _renderControl?.Invoke();
+            _debugCallback?.Invoke();
 
             //if (_pendingToReorder)
             {
@@ -92,13 +122,30 @@ namespace DungeonInspector
 
             if (_renderers.Count > 0)
             {
+                // var tex = GetNextTexture();
+
                 foreach (var item in _ordered)
                 {
                     Draw(item, _cameras[_cameras.Count - 1]);
                 }
+
+                //Graphics.Blit(null, tex, _screenSpaceEffects);
+                RenderTexture.active = null;
+                //EditorGUI.DrawRect(CurrentCamera.ViewportRect, Color.red);
+
+
+
+                //pix.width = pix.height;
+                var rec = CurrentCamera.ViewportRect;
+                rec.y = -rec.height / 2f;
+                rec.height *= 2;
+
+                DrawMask();
+
+                Graphics.DrawTexture(rec, _renderTarget, _screenSpaceEffects);
             }
 
-            _debugCallback?.Invoke();
+
         }
 
         public override void Add(DRendererComponent renderer)
@@ -124,12 +171,13 @@ namespace DungeonInspector
             var rect = CurrentCamera.ViewportRect;
 
             //rect.height += 12;
-            Graphics.DrawTexture(rect, _viewportRect, _maskMat);
+            Graphics.DrawTexture(rect, _viewportRectTex, _maskMat);
             //GUILayout.Space(CameraTest.ScreenSize.y);
         }
 
         private void Draw(DRendererComponent renderer, DCamera camera)
         {
+
             if (camera != null && renderer.Entity.IsActive && renderer.Enabled)
             {
                 var renderingTex = renderer.Sprite;
@@ -175,7 +223,10 @@ namespace DungeonInspector
                 mat.SetFloat("_xCutOff", renderer.CutOffValue);
                 mat.SetVector("_color", (Color)renderer.Color);
                 mat.SetVector("_flip", new Vector4(renderer.FlipX ? 1 : 0, renderer.FlipY ? 1 : 0, renderer.Transform.Rotation));
+
+
                 Graphics.DrawTexture(rect, renderingTex, mat);
+
                 mat.SetVector("_flip", default);
                 mat.SetVector("_cutOffColor", Color.white);
                 mat.SetFloat("_xCutOff", 0);
@@ -186,6 +237,8 @@ namespace DungeonInspector
                     ClearState(states.Key, states.Value.Key, mat);
                 }
             }
+
+
         }
 
         private void SetState(string varName, KeyValuePair<ShaderStateDataType, object> data, Material mat)
@@ -204,7 +257,7 @@ namespace DungeonInspector
                 case ShaderStateDataType.Matrix:
                     mat.SetMatrix(varName, (Matrix4x4)data.Value);
                     break;
-                
+
             }
         }
 
@@ -216,7 +269,7 @@ namespace DungeonInspector
                     mat.SetVector(varName, default);
                     break;
                 case ShaderStateDataType.Int:
-                    mat.SetInt(varName,default);
+                    mat.SetInt(varName, default);
                     break;
                 case ShaderStateDataType.Float:
                     mat.SetFloat(varName, default);

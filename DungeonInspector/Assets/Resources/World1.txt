@@ -6,8 +6,19 @@
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 0,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 5.0,
+          "y": -7.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 50,
+        "WorldIndex": 1,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 5.0,
@@ -17,8 +28,74 @@
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 2,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": -1.0,
+          "y": -5.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 3,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 0.0,
+          "y": -5.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 4,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 1.0,
+          "y": -5.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 5,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 2.0,
+          "y": -5.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 6,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 3.0,
+          "y": -5.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 7,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 4.0,
+          "y": -5.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 51,
+        "WorldIndex": 8,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 5.0,
@@ -28,8 +105,41 @@
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 9,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 6.0,
+          "y": -5.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 8,
+        "WorldIndex": 10,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": -1.0,
+          "y": -4.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 3,
+        "WorldIndex": 11,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 0.0,
+          "y": -4.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 15,
+        "WorldIndex": 12,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 1.0,
@@ -40,7 +150,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 22,
+        "WorldIndex": 13,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 2.0,
@@ -51,7 +161,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 33,
+        "WorldIndex": 14,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 3.0,
@@ -62,7 +172,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 44,
+        "WorldIndex": 15,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 4.0,
@@ -73,7 +183,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 52,
+        "WorldIndex": 16,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 5.0,
@@ -84,7 +194,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 57,
+        "WorldIndex": 17,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 6.0,
@@ -94,8 +204,63 @@
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 18,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 7.0,
+          "y": -4.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 19,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 8.0,
+          "y": -4.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 20,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 9.0,
+          "y": -4.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 21,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 10.0,
+          "y": -4.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 22,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 11.0,
+          "y": -4.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
         "TileAssetIndex": 21,
-        "WorldIndex": 6,
+        "WorldIndex": 23,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 0.0,
@@ -106,7 +271,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 16,
+        "WorldIndex": 24,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 1.0,
@@ -117,7 +282,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 45,
+        "WorldIndex": 25,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 4.0,
@@ -128,7 +293,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 53,
+        "WorldIndex": 26,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 5.0,
@@ -139,7 +304,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 58,
+        "WorldIndex": 27,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 6.0,
@@ -150,7 +315,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 64,
+        "WorldIndex": 28,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 7.0,
@@ -161,7 +326,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 72,
+        "WorldIndex": 29,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 8.0,
@@ -172,7 +337,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 80,
+        "WorldIndex": 30,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 9.0,
@@ -183,7 +348,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 81,
+        "WorldIndex": 31,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 10.0,
@@ -194,7 +359,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 82,
+        "WorldIndex": 32,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 11.0,
@@ -205,7 +370,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 21,
-        "WorldIndex": 7,
+        "WorldIndex": 33,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 0.0,
@@ -216,7 +381,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 17,
+        "WorldIndex": 34,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 1.0,
@@ -226,8 +391,30 @@
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 35,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 2.0,
+          "y": -2.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 36,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 3.0,
+          "y": -2.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 46,
+        "WorldIndex": 37,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 4.0,
@@ -237,8 +424,19 @@
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
+        "TileAssetIndex": 53,
+        "WorldIndex": 38,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 5.0,
+          "y": -2.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 59,
+        "WorldIndex": 39,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 6.0,
@@ -249,7 +447,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 65,
+        "WorldIndex": 40,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 7.0,
@@ -260,7 +458,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 22,
-        "WorldIndex": 73,
+        "WorldIndex": 41,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 8.0,
@@ -271,7 +469,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 21,
-        "WorldIndex": 8,
+        "WorldIndex": 42,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 0.0,
@@ -282,7 +480,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 3,
-        "WorldIndex": 18,
+        "WorldIndex": 43,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 1.0,
@@ -293,7 +491,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 23,
+        "WorldIndex": 44,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 2.0,
@@ -304,10 +502,21 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 34,
+        "WorldIndex": 45,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 3.0,
+          "y": -1.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 0,
+        "WorldIndex": 46,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 4.0,
           "y": -1.0
         }
       },
@@ -318,17 +527,6 @@
         "WorldIndex": 47,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 4.0,
-          "y": -1.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 0,
-        "WorldIndex": 60,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
           "x": 6.0,
           "y": -1.0
         }
@@ -337,245 +535,66 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 8,
-        "WorldIndex": 66,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 7.0,
-          "y": -1.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 22,
-        "WorldIndex": 74,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 8.0,
-          "y": -1.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 21,
-        "WorldIndex": 0,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": -1.0,
-          "y": 0.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 0,
-        "WorldIndex": 9,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 0.0,
-          "y": 0.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 0,
-        "WorldIndex": 19,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 1.0,
-          "y": 0.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 0,
-        "WorldIndex": 24,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 2.0,
-          "y": 0.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 0,
-        "WorldIndex": 35,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 3.0,
-          "y": 0.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 8,
-        "WorldIndex": 67,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 7.0,
-          "y": 0.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 22,
-        "WorldIndex": 75,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 8.0,
-          "y": 0.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 21,
-        "WorldIndex": 1,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": -1.0,
-          "y": 1.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 0,
-        "WorldIndex": 10,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 0.0,
-          "y": 1.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 0,
-        "WorldIndex": 25,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 2.0,
-          "y": 1.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 0,
-        "WorldIndex": 36,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 3.0,
-          "y": 1.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 0,
         "WorldIndex": 48,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 4.0,
-          "y": 1.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 0,
-        "WorldIndex": 68,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
           "x": 7.0,
-          "y": 1.0
+          "y": -1.0
         }
       },
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 22,
-        "WorldIndex": 76,
+        "WorldIndex": 49,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 8.0,
-          "y": 1.0
+          "y": -1.0
         }
       },
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 21,
-        "WorldIndex": 2,
+        "WorldIndex": 50,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": -1.0,
-          "y": 2.0
+          "y": 0.0
         }
       },
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": {
-          "$type": "DungeonInspector.ChangeLevelTD, Assembly-CSharp-Editor",
-          "Value": 1
-        },
-        "TileAssetIndex": 13,
-        "WorldIndex": 11,
+        "TileBehaviorData": null,
+        "TileAssetIndex": 0,
+        "WorldIndex": 51,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 0.0,
-          "y": 2.0
+          "y": 0.0
         }
       },
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 20,
+        "WorldIndex": 52,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 1.0,
-          "y": 2.0
+          "y": 0.0
         }
       },
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 26,
+        "WorldIndex": 53,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 2.0,
-          "y": 2.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 0,
-        "WorldIndex": 37,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 3.0,
-          "y": 2.0
-        }
-      },
-      {
-        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-        "TileBehaviorData": null,
-        "TileAssetIndex": 0,
-        "WorldIndex": 49,
-        "Position": {
-          "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 4.0,
-          "y": 2.0
+          "y": 0.0
         }
       },
       {
@@ -585,8 +604,74 @@
         "WorldIndex": 54,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
-          "x": 5.0,
-          "y": 2.0
+          "x": 3.0,
+          "y": 0.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 55,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 4.0,
+          "y": 0.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 8,
+        "WorldIndex": 56,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 7.0,
+          "y": 0.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 22,
+        "WorldIndex": 57,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 8.0,
+          "y": 0.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 21,
+        "WorldIndex": 58,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": -1.0,
+          "y": 1.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 0,
+        "WorldIndex": 59,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 0.0,
+          "y": 1.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 60,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 1.0,
+          "y": 1.0
         }
       },
       {
@@ -596,7 +681,95 @@
         "WorldIndex": 61,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 2.0,
+          "y": 1.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 0,
+        "WorldIndex": 62,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 3.0,
+          "y": 1.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 0,
+        "WorldIndex": 63,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 4.0,
+          "y": 1.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 64,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 5.0,
+          "y": 1.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 65,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
           "x": 6.0,
+          "y": 1.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 0,
+        "WorldIndex": 66,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 7.0,
+          "y": 1.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 22,
+        "WorldIndex": 67,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 8.0,
+          "y": 1.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 21,
+        "WorldIndex": 68,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": -1.0,
+          "y": 2.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 14,
+        "WorldIndex": 107,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 0.0,
           "y": 2.0
         }
       },
@@ -607,6 +780,72 @@
         "WorldIndex": 69,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 1.0,
+          "y": 2.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 0,
+        "WorldIndex": 70,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 2.0,
+          "y": 2.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 0,
+        "WorldIndex": 71,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 3.0,
+          "y": 2.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 0,
+        "WorldIndex": 72,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 4.0,
+          "y": 2.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 0,
+        "WorldIndex": 73,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 5.0,
+          "y": 2.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 0,
+        "WorldIndex": 74,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 6.0,
+          "y": 2.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 0,
+        "WorldIndex": 75,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
           "x": 7.0,
           "y": 2.0
         }
@@ -615,7 +854,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 22,
-        "WorldIndex": 77,
+        "WorldIndex": 76,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 8.0,
@@ -626,7 +865,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 21,
-        "WorldIndex": 3,
+        "WorldIndex": 77,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": -1.0,
@@ -637,7 +876,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 34,
-        "WorldIndex": 12,
+        "WorldIndex": 78,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 0.0,
@@ -648,7 +887,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 27,
+        "WorldIndex": 79,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 2.0,
@@ -659,7 +898,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 38,
+        "WorldIndex": 80,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 3.0,
@@ -670,7 +909,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 34,
-        "WorldIndex": 55,
+        "WorldIndex": 81,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 5.0,
@@ -681,7 +920,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 34,
-        "WorldIndex": 62,
+        "WorldIndex": 82,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 6.0,
@@ -692,7 +931,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 34,
-        "WorldIndex": 70,
+        "WorldIndex": 83,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 7.0,
@@ -703,7 +942,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 22,
-        "WorldIndex": 78,
+        "WorldIndex": 84,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 8.0,
@@ -714,7 +953,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 23,
-        "WorldIndex": 4,
+        "WorldIndex": 85,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": -1.0,
@@ -725,7 +964,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 23,
-        "WorldIndex": 13,
+        "WorldIndex": 86,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 0.0,
@@ -736,7 +975,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 28,
+        "WorldIndex": 87,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 2.0,
@@ -747,7 +986,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 39,
+        "WorldIndex": 88,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 3.0,
@@ -758,7 +997,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 23,
-        "WorldIndex": 56,
+        "WorldIndex": 89,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 5.0,
@@ -769,7 +1008,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 23,
-        "WorldIndex": 63,
+        "WorldIndex": 90,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 6.0,
@@ -780,7 +1019,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 23,
-        "WorldIndex": 71,
+        "WorldIndex": 91,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 7.0,
@@ -790,8 +1029,8 @@
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
-        "TileAssetIndex": 23,
-        "WorldIndex": 79,
+        "TileAssetIndex": 33,
+        "WorldIndex": 92,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 8.0,
@@ -802,7 +1041,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 29,
+        "WorldIndex": 93,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 2.0,
@@ -813,7 +1052,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 40,
+        "WorldIndex": 94,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 3.0,
@@ -824,7 +1063,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 30,
+        "WorldIndex": 95,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 2.0,
@@ -835,7 +1074,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 41,
+        "WorldIndex": 96,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 3.0,
@@ -845,8 +1084,41 @@
       {
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 97,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": -1.0,
+          "y": 7.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 98,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 0.0,
+          "y": 7.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
+        "TileAssetIndex": 47,
+        "WorldIndex": 99,
+        "Position": {
+          "$type": "DungeonInspector.DVector2, DEngine",
+          "x": 1.0,
+          "y": 7.0
+        }
+      },
+      {
+        "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+        "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 31,
+        "WorldIndex": 100,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 2.0,
@@ -857,7 +1129,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 42,
+        "WorldIndex": 101,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 3.0,
@@ -871,7 +1143,7 @@
           "Value": 0
         },
         "TileAssetIndex": 13,
-        "WorldIndex": 5,
+        "WorldIndex": 102,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": -1.0,
@@ -882,7 +1154,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 14,
+        "WorldIndex": 103,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 0.0,
@@ -893,7 +1165,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 21,
+        "WorldIndex": 104,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 1.0,
@@ -904,7 +1176,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 32,
+        "WorldIndex": 105,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 2.0,
@@ -915,7 +1187,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": null,
         "TileAssetIndex": 0,
-        "WorldIndex": 43,
+        "WorldIndex": 106,
         "Position": {
           "$type": "DungeonInspector.DVector2, DEngine",
           "x": 3.0,
@@ -924,5 +1196,5 @@
       }
     ]
   },
-  "Count": 83
+  "Count": 108
 }

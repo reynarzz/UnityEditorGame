@@ -25,6 +25,7 @@ namespace DungeonInspector
         {
             _tileMap = tilemap;
             _path = new Dictionary<Actor, (List<DVector2>, Color)>();
+            DIEngineCoreServices.Get<DRenderingController>().AddDebugGUI(DrawNodes);
         }
 
         public void Init()
@@ -99,7 +100,7 @@ namespace DungeonInspector
             return new DVector2(pos.x, pos.y) + new DVector2(_bounds.Min.x, _bounds.Min.y);
         }
 
-        public void Update()
+        public void DrawNodes()
         {
             if (_path != null)
             {

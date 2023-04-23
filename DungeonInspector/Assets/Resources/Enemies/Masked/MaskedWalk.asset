@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 681081541, guid: 888d2e9aea4db614b9ddcafa6fb0c090, type: 3}
+  m_Name: MaskedWalk
+  m_EditorClassIdentifier: 
+  _textures:
+  - {fileID: 2800000, guid: 243c4cbd64cce8d4892468490eb3814b, type: 3}
+  - {fileID: 2800000, guid: 5589edf675ce25940b001a0c73f65e56, type: 3}
+  - {fileID: 2800000, guid: 8b0390f13c2182741a9460506a8571b9, type: 3}
+  - {fileID: 2800000, guid: 78518d4e55efe21498fa5ebaee77885e, type: 3}

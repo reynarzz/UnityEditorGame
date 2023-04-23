@@ -102,7 +102,6 @@ namespace DungeonInspector
             //--Utils.DrawBounds(_tilemap.GetTilemapBoundaries(), Color.white, 0.5f);
 
             UpdateTilesBehavior();
-            _navWorld.Update();
         }
 
         protected override void OnLateUpdate()

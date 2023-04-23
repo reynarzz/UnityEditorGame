@@ -342,3 +342,52 @@ MonoBehaviour:
     ZSorting: 0
     Type: 0
     Behavior: 0
+  - _texture: {fileID: 2800000, guid: d1b72c6ed5b2fcd4b84648ddc5e50a42, type: 3}
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
+  - _texture: {fileID: 2800000, guid: 15fc878ea73e45b4ca0093da801ab27f, type: 3}
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
+  - _texture: {fileID: 2800000, guid: 529b9c3238a3fdb47a437695d68d66f1, type: 3}
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
+  - _texture: {fileID: 2800000, guid: e229db491e15653498e2abb7e8e82c01, type: 3}
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
+  - _texture: {fileID: 2800000, guid: 5ca27bf94c61d564cb2e2c779ad8354a, type: 3}
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
+  - _texture: {fileID: 2800000, guid: 354ca75816bf4cc4aae5dd416adaf5f7, type: 3}
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 0
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
+  - _texture: {fileID: 2800000, guid: f814a2ba306d4bf4bb7df2860d9632a9, type: 3}
+    _animation:
+      _atlas: {fileID: 0}
+    IsWalkable: 1
+    ZSorting: 0
+    Type: 0
+    Behavior: 0
