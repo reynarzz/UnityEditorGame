@@ -23,9 +23,9 @@ namespace DungeonInspector
         private List<DCamera> _cameras;
 
         private Texture2D _whiteTex;
-        private List<RenderTexture> _swapChain;
-        private int _swapChainTextureIndex = 0;
         private RenderTexture _renderTarget;
+
+        public bool V2Rendering { get; set; }
 
         public DRenderingController()
         {
@@ -65,54 +65,67 @@ namespace DungeonInspector
         {
             _cameras.Remove(camera);
         }
-        
+
         public void AddCustomRenderControl(Action renderer)
         {
             _renderControl = renderer;
         }
 
-        public override void Update()
+        private void PreRender()
         {
             if (_renderTarget == null)
             {
-                var pix = EditorGUIUtility.PointsToPixels(CurrentCamera.ViewportRect);
+                var pix = CurrentCamera.ViewportRect;// EditorGUIUtility.PointsToPixels(CurrentCamera.ViewportRect);
 
                 _renderTarget = new RenderTexture((int)pix.width, (int)pix.height, 1);
                 _renderTarget.filterMode = FilterMode.Point;
                 _renderTarget.dimension = UnityEngine.Rendering.TextureDimension.Tex2D;
-                _renderTarget.enableRandomWrite = true;
                 _renderTarget.wrapMode = TextureWrapMode.Clamp;
 
                 _renderTarget.Create();
             }
 
             RenderTexture.active = _renderTarget;
+        }
+
+        private void PostRender()
+        {
+            //Graphics.Blit(null, tex, _screenSpaceEffects);
+            RenderTexture.active = null;
+            //EditorGUI.DrawRect(CurrentCamera.ViewportRect, Color.red);
+
+
+
+            //pix.width = pix.height;
+            var rec = CurrentCamera.ViewportRect;
+            rec.x = 0;
+            rec.y = -rec.height / 2f;
+            rec.height *= 2;
+            rec.height += 10;
+
+            rec.y -= 12;
+            DrawMask();
+
+            _screenSpaceEffects.SetVector("_dtime", new Vector4(DTime.Time, DTime.DeltaTime, Mathf.Sin(DTime.Time), Mathf.Cos(DTime.Time)));
+            Graphics.DrawTexture(rec, _renderTarget, _screenSpaceEffects);
+        }
+
+
+        public override void Update()
+        {
+            if (V2Rendering)
+            {
+                PreRender();
+            }
 
             DrawMask();
             _renderControl?.Invoke();
-            _debugCallback?.Invoke();
 
             //if (_pendingToReorder)
             {
                 _pendingToReorder = false;
                 //_ordered.Clear();
 
-                //for (int i = 0; i < _renderers.Count; i++)
-                //{
-                //    var element = _renderers.ElementAt(i);
-
-                //    var zValue = element.ZSorting;
-
-                //    if (_ordered.Count > zValue)
-                //    {
-                //        _ordered.Insert(zValue, element);
-
-                //    }
-                //    else
-                //    {
-                //        _ordered.Add(element);
-                //    }
-                //}
 
                 // TODO: please, make this not be every frame, (bad perfomance)
                 _ordered = _renderers.OrderByDescending(x => x.Transform.Position.y + x.Transform.Offset.y - x.ZSorting);
@@ -129,24 +142,16 @@ namespace DungeonInspector
                     Draw(item, _cameras[_cameras.Count - 1]);
                 }
 
-                //Graphics.Blit(null, tex, _screenSpaceEffects);
-                RenderTexture.active = null;
-                //EditorGUI.DrawRect(CurrentCamera.ViewportRect, Color.red);
+                if (V2Rendering)
+                {
+                    PostRender();
+                }
 
-
-
-                //pix.width = pix.height;
-                var rec = CurrentCamera.ViewportRect;
-                rec.y = -rec.height / 2f;
-                rec.height *= 2;
-
-                DrawMask();
-
-                Graphics.DrawTexture(rec, _renderTarget, _screenSpaceEffects);
             }
-
-
+            _debugCallback?.Invoke();
         }
+
+
 
         public override void Add(DRendererComponent renderer)
         {

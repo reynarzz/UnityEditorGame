@@ -12,26 +12,29 @@ namespace DungeonInspector
     public class DHierarchyEditor
     {
         private DEntitiesController _entitiesController;
+        private DRenderingController _renderingController;
         private Rect _rect = new Rect(0, 0, 200, 350);
         private Vector2 _scroll;
         private bool _show = false;
 
         private bool[] _foldOut;
         private bool _debugAll;
+        private Rect _backgroundRect;
 
         public DHierarchyEditor()
         {
             // test
             _foldOut = new bool[50];
             _entitiesController = DIEngineCoreServices.Get<DEntitiesController>();
+            _renderingController = DIEngineCoreServices.Get<DRenderingController>();
         }
 
         public void Update()
         {
             var entities = _entitiesController.GetAllGameEntities();
+            EditorGUI.DrawRect(_backgroundRect, new Color(0.2f, 0.2f, 0.2f, 0.8f));
 
             GUILayout.BeginArea(_rect);
-
             var color = GUI.backgroundColor;
             GUI.backgroundColor = Color.black * 0.4f;
 
@@ -43,14 +46,23 @@ namespace DungeonInspector
             GUILayout.Label("Hierarchy");
             GUILayout.EndHorizontal();
 
+          
+
             GUILayout.BeginVertical(EditorStyles.helpBox);
             GUILayout.Label($"FPS: {DTime.FPs}");
+            GUILayout.EndVertical();
+            GUILayout.BeginVertical(EditorStyles.helpBox);
+
+            GUILayout.BeginHorizontal();
+            _renderingController.V2Rendering = EditorGUILayout.Toggle(_renderingController.V2Rendering, GUILayout.MaxWidth(15));
+            GUILayout.Label("V2 Rendering", GUILayout.MaxWidth(160));
+            GUILayout.EndHorizontal();
             GUILayout.EndVertical();
 
             GUILayout.BeginVertical(EditorStyles.helpBox);
             GUILayout.BeginHorizontal();
+            _debugAll = EditorGUILayout.Toggle(_debugAll, GUILayout.MaxWidth(15));
             GUILayout.Label("Debug All", GUILayout.MaxWidth(60));
-            _debugAll = EditorGUILayout.Toggle(_debugAll);
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
 
@@ -77,6 +89,9 @@ namespace DungeonInspector
                     {
                         DrawComponent(entities[i]);
                     }
+                    
+                    _backgroundRect = GUILayoutUtility.GetLastRect();
+
                     GUILayout.EndVertical();
                 }
                 GUILayout.EndScrollView();

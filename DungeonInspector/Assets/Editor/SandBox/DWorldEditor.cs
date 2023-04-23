@@ -63,7 +63,7 @@ namespace DungeonInspector
             _modes = new string[] { "Select", "Brush", "Eraser" };
 
 
-
+            DIEngineCoreServices.Get<DRenderingController>().AddDebugGUI(DrawUI);
             _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
             _selectionFrame = Resources.Load<Texture2D>("GameAssets/LevelEditor/SelectionFrame");
         }
@@ -98,7 +98,7 @@ namespace DungeonInspector
                     _mouseTileGuidePosition = new Vector2Int(Mathf.RoundToInt(newMousePos.x), Mathf.RoundToInt(newMousePos.y));
                 }
             }
-            
+
             tex = Mode == DTilePainterMode.Brush ? _selectedTile.Texture : _selectionFrame;
 
 
@@ -110,32 +110,59 @@ namespace DungeonInspector
             //Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, Vector2.one), _selectionFrame, _mat_DELETE);
 
         }
+        private bool _enabled = false;
+
+        private void DrawUI()
+        {
+            if (_enabled)
+            {
+
+                if (_style == null)
+                {
+                    _style = new GUIStyle(GUI.skin.label);
+                    _style.fontSize = 20;
+                }
+
+                MousePointer();
 
 
+                Mode = (DTilePainterMode)GUILayout.Toolbar((int)Mode, _modes);
+
+                TilesPicker();
+
+                if (Mode == DTilePainterMode.Select)
+                    ShowWorldTileData();
+
+                if (GUILayout.Button("Save"))
+                {
+                    OnSave();
+                }
+            }
+        }
 
         protected override void OnUpdate()
         {
+            _enabled = true;
+            //if (_style == null)
+            //{
+            //    _style = new GUIStyle(GUI.skin.label);
+            //    _style.fontSize = 20;
+            //}
 
-            if (_style == null)
-            {
-                _style = new GUIStyle(GUI.skin.label);
-                _style.fontSize = 20;
-            }
-
-            MousePointer();
+            //MousePointer();
 
 
-            Mode = (DTilePainterMode)GUILayout.Toolbar((int)Mode, _modes);
+            //Mode = (DTilePainterMode)GUILayout.Toolbar((int)Mode, _modes);
 
-            TilesPicker();
+            //TilesPicker();
 
-            if (Mode == DTilePainterMode.Select)
-                ShowWorldTileData();
+            //if (Mode == DTilePainterMode.Select)
+            //    ShowWorldTileData();
 
-            if (GUILayout.Button("Save"))
-            {
-                OnSave();
-            }
+            //if (GUILayout.Button("Save"))
+            //{
+            //    OnSave();
+            //}
         }
 
 
@@ -208,7 +235,7 @@ namespace DungeonInspector
                     foreach (var item in tile.Value)
                     {
                         var position = tile.Key;
-                       //Debug.Log(position);
+                        //Debug.Log(position);
 
                         tiles.Add(new TileData()
                         {
