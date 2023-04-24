@@ -109,7 +109,7 @@ namespace DungeonInspector
 
         protected override void OnUpdate()
         {
-            //--Utils.DrawBounds(_tilemap.GetTilemapBoundaries(), Color.white, 0.5f);
+            Utils.DrawBounds(_tilemap.GetTilemapBoundaries(), Color.white, 0.5f);
 
             UpdateTilesBehavior();
         }

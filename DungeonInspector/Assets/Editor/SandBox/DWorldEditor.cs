@@ -19,7 +19,6 @@ namespace DungeonInspector
 
     public class DWorldEditor : DBehavior
     {
-        private Vector2 _tilesScroll;
         private Vector2 _scroll;
         private DTile _selectedTile;
 
@@ -39,6 +38,8 @@ namespace DungeonInspector
         private GUIStyle _style;
 
         private TileDatabaseType _type;
+
+        private string[] _menu = { "Painter", "Manager" };
 
         private enum TileDatabaseType
         {
@@ -98,7 +99,7 @@ namespace DungeonInspector
                     _mouseTileGuidePosition = new Vector2Int(Mathf.RoundToInt(newMousePos.x), Mathf.RoundToInt(newMousePos.y));
                 }
             }
-            
+
             tex = Mode == DTilePainterMode.Brush ? _selectedTile.Texture : _selectionFrame;
 
 
@@ -112,32 +113,82 @@ namespace DungeonInspector
         }
 
 
+        private int _menuSelected;
 
         protected override void OnUpdate()
         {
-
             if (_style == null)
             {
                 _style = new GUIStyle(GUI.skin.label);
                 _style.fontSize = 20;
             }
 
-            MousePointer();
+            _menuSelected = GUILayout.Toolbar(_menuSelected, _menu);
 
-
-            Mode = (DTilePainterMode)GUILayout.Toolbar((int)Mode, _modes);
-
-            TilesPicker();
-
-            if (Mode == DTilePainterMode.Select)
-                ShowWorldTileData();
-
-            if (GUILayout.Button("Save"))
+            if (_menuSelected == 0)
             {
-                OnSave();
+                MousePointer();
+
+                Mode = (DTilePainterMode)GUILayout.Toolbar((int)Mode, _modes);
+
+                TilesPicker();
+
+                if (Mode == DTilePainterMode.Select)
+                {
+                    ShowWorldTileData();
+                }
+
+                GUILayout.BeginHorizontal();
+
+                if (GUILayout.Button("Create New"))
+                {
+
+                }
+
+                if (GUILayout.Button("Save"))
+                {
+                    OnSave();
+                }
+
+                GUILayout.EndHorizontal();
+            }
+            else
+            {
+                LevelManager();
             }
         }
 
+        private Vector2 _levelManagerScroll;
+
+        private void LevelManager()
+        {
+            GUILayout.BeginHorizontal();
+            GUILayout.Label("New", GUILayout.MaxWidth(30));
+            GUILayout.TextField(String.Empty);
+
+            if (GUILayout.Button("+", GUILayout.MaxWidth(25)))
+            {
+            }
+
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginVertical();
+            _levelManagerScroll = GUILayout.BeginScrollView(_levelManagerScroll, EditorStyles.helpBox);
+
+            for (int i = 0; i < 10; i++)
+            {
+                GUILayout.BeginHorizontal();
+                if (GUILayout.Button("Level " + (i + 1)))
+                {
+
+                }
+                GUILayout.Button("X", GUILayout.MaxWidth(25));
+                GUILayout.EndHorizontal();
+            }
+
+            GUILayout.EndScrollView();
+            GUILayout.EndVertical();
+        }
 
         private void TilesPicker()
         {
@@ -208,7 +259,7 @@ namespace DungeonInspector
                     foreach (var item in tile.Value)
                     {
                         var position = tile.Key;
-                       //Debug.Log(position);
+                        //Debug.Log(position);
 
                         tiles.Add(new TileData()
                         {

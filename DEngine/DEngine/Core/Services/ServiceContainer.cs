@@ -40,10 +40,14 @@ namespace DungeonInspector
 
         public static T Get<T>() where T : EngineSystemBase
         {
-            var type = typeof(T);
+            return Get(typeof(T)) as T;
+        }
+
+        public static EngineSystemBase Get(Type type) 
+        {
             if (_services.TryGetValue(type, out var service))
             {
-                return (T)service;
+                return service;
             }
             else
             {

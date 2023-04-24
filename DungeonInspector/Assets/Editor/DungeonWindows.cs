@@ -19,7 +19,7 @@ namespace DungeonInspector
          
         private void OnEnable()
         {
-            _engine = new DEngine(new DungeonInspectorSandBox());
+            _engine = new DEngine(new DungeonInspectorSandBox(), null);
         }
         
         private void OnGUI()

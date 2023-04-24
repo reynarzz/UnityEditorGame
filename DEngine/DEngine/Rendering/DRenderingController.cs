@@ -174,7 +174,7 @@ namespace DungeonInspector
 
         private void DrawMask()
         {
-            var rect = CurrentCamera.ViewportRect;
+            var rect = CurrentCamera?.ViewportRect ?? new Rect(0, 0, EditorGUIUtility.currentViewWidth, 360);
 
             //rect.height += 12;
             Graphics.DrawTexture(rect, _viewportRectTex, _maskMat);

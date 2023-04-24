@@ -49,7 +49,7 @@ namespace DungeonInspector
         protected override void OnUpdate()
         {
             ScreenSize = new DVec2(EditorGUIUtility.currentViewWidth, ScreenSize.y);
-            _viewportRect = ViewportRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 0, ScreenSize.x, ScreenSize.y);
+            _viewportRect = ViewportRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 30, ScreenSize.x, ScreenSize.y);
 
             _Position = Transform.Position;
             // should not be here

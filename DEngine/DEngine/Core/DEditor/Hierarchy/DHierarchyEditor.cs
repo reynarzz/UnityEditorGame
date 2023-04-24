@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -13,14 +12,16 @@ namespace DungeonInspector
     {
         private DEntitiesController _entitiesController;
         private DRenderingController _renderingController;
-        private Rect _rect = new Rect(0, 0, 200, 350);
+        private Rect _rect = new Rect(0, 30, 200, 350);
         private Vector2 _scroll;
         private bool _show = false;
 
         private bool[] _foldOut;
         private bool _debugAll;
-        private Rect _backgroundRect;
 
+        private GUIContent[] _playModes;
+        private int _playModeSelected = -1;
+     
         public DHierarchyEditor()
         {
             // test
@@ -32,10 +33,13 @@ namespace DungeonInspector
         public void Update()
         {
             var entities = _entitiesController.GetAllGameEntities();
-            EditorGUI.DrawRect(_backgroundRect, new Color(0.2f, 0.2f, 0.2f, 0.8f));
 
-            _rect.width = _show ? 200 : 130;
+            _rect.width = Mathf.Lerp(_rect.width, (_show ? 200 : 130), DTime.DeltaTime * 10);
+            _rect.height = Mathf.Lerp(_rect.height, (_show ? 350 : 101), DTime.DeltaTime * 17);
+
             GUILayout.BeginArea(_rect);
+            EditorGUI.DrawRect(_rect, new Color(0.15f, 0.15f, 0.15f, 0.9f));
+
             var color = GUI.backgroundColor;
             GUI.backgroundColor = Color.black * 0.4f;
 
@@ -47,7 +51,7 @@ namespace DungeonInspector
             GUILayout.Label("Hierarchy");
             GUILayout.EndHorizontal();
 
-
+       
 
             GUILayout.BeginVertical(EditorStyles.helpBox);
             GUILayout.Label($"FPS: {DTime.FPs}");
@@ -67,7 +71,7 @@ namespace DungeonInspector
             GUILayout.EndHorizontal();
             GUILayout.EndVertical();
 
-            if (_show)
+            //if (_show)
             {
                 _scroll = GUILayout.BeginScrollView(_scroll);
 
@@ -90,8 +94,6 @@ namespace DungeonInspector
                     {
                         DrawComponent(entities[i]);
                     }
-
-                    _backgroundRect = GUILayoutUtility.GetLastRect();
 
                     GUILayout.EndVertical();
                 }
@@ -125,6 +127,7 @@ namespace DungeonInspector
                 foreach (var component in components)
                 {
                     GUILayout.BeginVertical(EditorStyles.helpBox);
+
                     GUILayout.Label(component.GetType().Name, GUILayout.MaxWidth(130));
 
 
@@ -163,8 +166,8 @@ namespace DungeonInspector
 
                         GUILayout.BeginHorizontal();
                         //  GUILayout.Label("Debug");
-                        if (_debugAll)
-                            box.Debug = _debugAll;// EditorGUILayout.Toggle(box.Debug);
+                        //--   if (_debugAll)
+                        box.Debug = _debugAll;// EditorGUILayout.Toggle(box.Debug);
                         GUILayout.EndHorizontal();
 
                         box.Center = EditorGUILayout.Vector2Field(string.Empty, box.Center, GUILayout.MaxWidth(_rect.width - 50));

@@ -1,5 +1,6 @@
 ﻿using UnityEditor;
 using UnityEngine;
+using UnityEngine.Windows;
 
 namespace DungeonInspector
 {
@@ -12,9 +13,24 @@ namespace DungeonInspector
         {
             if (_engine == null)
             {
-                _engine = new DEngine(new DungeonInspectorSandBox());
+                var gameSandBox = new DungeonInspectorSandBox(
+                                  typeof(DTime),
+                                  typeof(DInput),
+                                  typeof(DAudioSystem),
+                                  typeof(DPhysicsController),
+                                  typeof(DRenderingController),
+                                  typeof(DEntitiesController));
+
+                var editorSandbox = new DungeonEditModeSandbox(
+                                    //typeof(DEditorSystem),
+                                    typeof(DTime),
+                                    typeof(DInput),
+                                    typeof(DRenderingController),
+                                    typeof(DEntitiesController));
+
+                _engine = new DEngine(gameSandBox, editorSandbox);
             }
-        } 
+        }
 
         public override void OnInspectorGUI()
         {

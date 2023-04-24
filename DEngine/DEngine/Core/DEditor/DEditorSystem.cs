@@ -9,13 +9,21 @@ namespace DungeonInspector
     public class DEditorSystem : EngineSystemBase
     {
         private DHierarchyEditor _hierarchy;
+        private DEditorToolBar _toolbar;
+
+        public DEditorToolBar Toolbar => _toolbar;
+
+    
+
         public override void Init()
         {
+            _toolbar = new DEditorToolBar(this);
             _hierarchy = new DHierarchyEditor();
         }
 
         public override void Update()
         {
+            _toolbar.Update();
             _hierarchy.Update();
         }
     }

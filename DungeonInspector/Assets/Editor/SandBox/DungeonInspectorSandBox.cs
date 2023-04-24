@@ -8,6 +8,8 @@ namespace DungeonInspector
 {
     public class DungeonInspectorSandBox : DSandboxBase
     {
+        public DungeonInspectorSandBox(params Type[] engineServices) : base(engineServices) {  }
+
         public override void OnInitialize()
         {
             //Camera 
@@ -23,7 +25,7 @@ namespace DungeonInspector
             new DGameEntity("GameMaster", typeof(GameMaster));
 
             // World Editor
-            new DGameEntity("WorldEditor", typeof(DWorldEditor)).IsActive = false;
+            new DGameEntity("WorldEditor", typeof(DWorldEditor))/*.IsActive = false*/;
         }
 
         public override void OnQuit() { }

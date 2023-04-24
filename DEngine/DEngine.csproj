@@ -97,6 +97,7 @@
     <Compile Include="DEngine\Core\Components\DTilemap.cs" />
     <Compile Include="DEngine\Core\Components\DTransformComponent.cs" />
     <Compile Include="DEngine\Core\DEditor\DEditorSystem.cs" />
+    <Compile Include="DEngine\Core\DEditor\DEditorToolBar.cs" />
     <Compile Include="DEngine\Core\DEditor\Hierarchy\DHierarchyEditor.cs" />
     <Compile Include="DEngine\Core\DEditor\Hierarchy\ExposeAttribute.cs" />
     <Compile Include="DEngine\Core\DEditor\Hierarchy\ExposeSlider.cs" />

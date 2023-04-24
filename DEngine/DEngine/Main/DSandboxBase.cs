@@ -8,6 +8,13 @@ namespace DungeonInspector
 {
     public abstract class DSandboxBase
     {
+        public Type[] Services { get; }
+
+        public DSandboxBase(params Type[] engineServices)
+        {
+            Services = engineServices;
+        }
+
         public virtual void OnInitialize() { }
         public virtual void OnQuit() { }
     }
