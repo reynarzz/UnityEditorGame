@@ -86,7 +86,7 @@ namespace DungeonInspector
 
             if (_pathToTarget != null && _pathToTarget.Count > 0)
             {
-                _pathToTarget.RemoveAt(_pathToTarget.Count - 1);
+                //--_pathToTarget.RemoveAt(_pathToTarget.Count - 1);
 
                 _movePos = Transform.Position.RoundToInt();
 
@@ -133,7 +133,7 @@ namespace DungeonInspector
 
                 var tile = _tilemap.GetTile(nextPos, 0);
 
-                if ((_movePos - Transform.Position).SqrMagnitude <= 0.001f && !tile.IsOccupied && _playerTest.Transform.RoundPosition != nextPos)
+                if ((_movePos - Transform.Position).SqrMagnitude <= 0.001f && !tile.IsOccupied /*&& _playerTest.Transform.RoundPosition != nextPos*/)
                 {
                     _pathIndex++;
                     tile.Ocupe = Entity;

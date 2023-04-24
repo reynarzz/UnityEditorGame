@@ -15,7 +15,8 @@ namespace DungeonInspector
         public DVec2 Center { get; set; }
         public DVec2 Size { get; set; } = new DVec2(1, 1);
         public bool IsTrigger { get; set; } = true;
-        public bool Debug { get; set; } = false;
+        [DExpose]private bool _debug = false;
+        public bool Debug { get => _debug; set => _debug = value; }
         internal bool IsColliding { get; set; }
 
         private bool _activatedDebug = false;

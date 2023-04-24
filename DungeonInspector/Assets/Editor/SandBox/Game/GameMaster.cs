@@ -39,9 +39,13 @@ namespace DungeonInspector
         private Dictionary<TileBehavior, List<Actor>> _tilesBehaviors;
         private NavWorld _navWorld;
         public NavWorld NavWorld => _navWorld;
+        private Player _player;
 
         protected override void OnAwake()
         {
+            // Main Player
+            _player =  new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player)).GetComp<Player>();
+
             _tilemap = DGameEntity.FindGameEntity("TileMaster").GetComp<DTilemap>();
             _camera = DGameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();
 

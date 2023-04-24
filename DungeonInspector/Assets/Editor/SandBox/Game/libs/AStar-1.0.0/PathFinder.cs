@@ -155,8 +155,6 @@ namespace AStar
             {
                 Position pos = currentNode.Position;
 
-
-
                 var raw = _world[pos];
                 if (raw != null)
                 {
@@ -174,14 +172,14 @@ namespace AStar
                 currentNode = graph.GetParent(currentNode);
             }
 
-            if (path.Count == 1)
-            {
-                if (((DungeonPathNode)_world[currentNode.Position]).Tile.IsOccupied)
-                {
-                    path.Clear();
-                    return path;
-                }
-            }
+            //if (path.Count == 1)
+            //{
+            //    if (((DungeonPathNode)_world[currentNode.Position]).Tile.IsOccupied)
+            //    {
+            //        path.Clear();
+            //        return path;
+            //    }
+            //}
             {
                 Position pos = currentNode.Position;
                 var node = (DungeonPathNode)_world[pos];

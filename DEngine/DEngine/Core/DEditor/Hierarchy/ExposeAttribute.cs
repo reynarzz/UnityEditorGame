@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field)]
-    public class ExposeAttribute : Attribute
+    [AttributeUsage(AttributeTargets.Field)]
+    public class DExposeAttribute : Attribute
     {
 
     }

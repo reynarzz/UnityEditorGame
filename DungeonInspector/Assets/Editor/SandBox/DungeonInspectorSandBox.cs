@@ -13,8 +13,8 @@ namespace DungeonInspector
             //Camera 
             new DGameEntity("MainCamera", typeof(DCamera), typeof(DCameraFollow));
 
-            // Main Player
-            new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player));
+            //// Main Player
+            //new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player));
 
             // Tile Painter
             new DGameEntity("TileMaster", typeof(DRenderingGroup), typeof(DTilemap), typeof(DTilemapRenderer));

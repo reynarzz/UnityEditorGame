@@ -24,7 +24,7 @@ namespace DungeonInspector
 
         private DGameEntity _weaponTest;
         private DRendererComponent _weaponRendererTest;
-        private DRendererComponent _rayHitGuideTest;
+      //  private DRendererComponent _rayHitGuideTest;
         private DRendererComponent _rayDraw;
 
         private float _lookDirAngle;
@@ -72,7 +72,7 @@ namespace DungeonInspector
 
             _rayDraw = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
             _rayDraw.ZSorting = 3;
-            _rayHitGuideTest = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
+           // _rayHitGuideTest = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
         }
 
         private void OnHealthDepleted()
@@ -87,8 +87,8 @@ namespace DungeonInspector
 
             Transform.Position = _gridPos = new DVec2(3, 0);
 
-            _rayHitGuideTest.Transform.Scale = new DVec2(0.2f, 0.2f);
-            _rayHitGuideTest.ZSorting = 3;
+            //_rayHitGuideTest.Transform.Scale = new DVec2(0.2f, 0.2f);
+            //_rayHitGuideTest.ZSorting = 3;
             _rayDraw.ZSorting = 3;
             _rayDraw.Entity.IsActive = false;
         }

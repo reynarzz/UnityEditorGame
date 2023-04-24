@@ -121,6 +121,8 @@ namespace DungeonInspector
             DrawMask();
             _renderControl?.Invoke();
 
+            _debugCallback?.Invoke();
+
             //if (_pendingToReorder)
             {
                 _pendingToReorder = false;
@@ -148,7 +150,6 @@ namespace DungeonInspector
                 PostRender();
             }
 
-            _debugCallback?.Invoke();
         }
 
 

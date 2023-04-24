@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
+using UnityEditor.MemoryProfiler;
 using UnityEngine;
 using UnityEngine.UIElements;
 
@@ -14,7 +15,7 @@ namespace DungeonInspector
     {
         private DEntitiesController _entitiesController;
         private DRenderingController _renderingController;
-        private Rect _rect = new Rect(0, 0, 230, 350);
+        private Rect _rect = new Rect(0, 0, 200, 350);
         private Vector2 _scroll;
         private bool _show = false;
 
@@ -47,7 +48,7 @@ namespace DungeonInspector
             GUILayout.Label("Hierarchy");
             GUILayout.EndHorizontal();
 
-          
+
 
             GUILayout.BeginVertical(EditorStyles.helpBox);
             GUILayout.Label($"FPS: {DTime.FPs}");
@@ -90,7 +91,7 @@ namespace DungeonInspector
                     {
                         DrawComponent(entities[i]);
                     }
-                    
+
                     _backgroundRect = GUILayoutUtility.GetLastRect();
 
                     GUILayout.EndVertical();
@@ -162,7 +163,8 @@ namespace DungeonInspector
                         GUILayout.EndHorizontal();
 
                         GUILayout.BeginHorizontal();
-                        GUILayout.Label("Debug");
+                      //  GUILayout.Label("Debug");
+                      if(_debugAll)
                         box.Debug = _debugAll;// EditorGUILayout.Toggle(box.Debug);
                         GUILayout.EndHorizontal();
 
@@ -175,15 +177,21 @@ namespace DungeonInspector
 
                     foreach (var field in fields)
                     {
-                        var attrib = field.GetCustomAttribute<ExposeSlider>();
+                        var attrib = field.GetCustomAttribute<DExposeSlider>();
 
-                        if(attrib != null)
+                        var expose = field.GetCustomAttribute<DExposeAttribute>();
+
+                        if (expose != null)
+                        {
+                            RenderField(component, field);
+                        }
+
+                        if (attrib != null)
                         {
                             GUILayout.BeginHorizontal();
                             GUILayout.Label(field.Name);
                             field.SetValue(component, EditorGUILayout.Slider((float)field.GetValue(component), (float)attrib.Min, (float)attrib.Max));
                             GUILayout.EndHorizontal();
-                            
                         }
                     }
                     //if (component.GetType() == typeof(HealthBarUI))
@@ -216,6 +224,53 @@ namespace DungeonInspector
 
             GUILayout.EndVertical();
 
+        }
+
+        private void RenderField(object target, FieldInfo field)
+        {
+            if (field != null)
+            {
+                var name = field.Name;
+                var value = field.GetValue(target);
+                var fieldType = field.FieldType;
+
+                if (fieldType.IsValueType)
+                {
+                    if (fieldType == typeof(float))
+                    {
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label(name);
+                        value = EditorGUILayout.FloatField((float)value);
+                        GUILayout.EndHorizontal();
+                    }
+                    else if (fieldType == typeof(int))
+                    {
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label(name);
+                        value = EditorGUILayout.IntField((int)value);
+                        GUILayout.EndHorizontal();
+                    }
+                    else if (fieldType == typeof(bool))
+                    {
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label(name);
+                        value = EditorGUILayout.Toggle((bool)value);
+                        GUILayout.EndHorizontal();
+                    }
+                }
+                else
+                {
+                    if (fieldType == typeof(string))
+                    {
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label(name);
+                        value = EditorGUILayout.TextField((string)value);
+                        GUILayout.EndHorizontal();
+                    }
+                }
+
+                field.SetValue(target, value);
+            }
         }
     }
 }
