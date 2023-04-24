@@ -24,7 +24,7 @@ namespace DungeonInspector
 
         private DTilemap _tilemap;
 
-        private TilesDatabase _staticTiles;
+        private TilesDatabase _tilesDatabase;
         private TilesDatabase _animatedTiles;
         private DCamera _camera;
 
@@ -40,6 +40,11 @@ namespace DungeonInspector
         private TileDatabaseType _type;
 
         private string[] _menu = { "Painter", "Manager" };
+        private const float _mouseDeltaSens = 0.01557f;
+        private List<WorldData> _worlds;
+
+        private string _worldNameCreate;
+        private int _selectedWorldIndex;
 
         private enum TileDatabaseType
         {
@@ -52,18 +57,29 @@ namespace DungeonInspector
         {
             var tilemap = DGameEntity.FindGameEntity("TileMaster").GetComp<DTilemap>();
 
-            _staticTiles = new TilesDatabase("World/World1Tiles");
+            _tilesDatabase = new TilesDatabase("World/World1Tiles");
             _animatedTiles = new TilesDatabase("World/TilesAnimated");
 
             _tilemap = tilemap;
 
             _camera = DGameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();
 
-            _selectedTile = _staticTiles.GetTile(0);
+            _selectedTile = _tilesDatabase.GetTile(0);
 
             _modes = new string[] { "Select", "Brush", "Eraser" };
 
+            var data = Resources.Load<TextAsset>("Data/WorldData");
 
+            AssetDatabase.Refresh();
+            if (data != null)
+            {
+                
+                _worlds = JsonConvert.DeserializeObject<List<WorldData>>(data.text);
+            }
+            else
+            {
+                _worlds = new List<WorldData>();
+            }
 
             _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
             _selectionFrame = Resources.Load<Texture2D>("GameAssets/LevelEditor/SelectionFrame");
@@ -84,7 +100,7 @@ namespace DungeonInspector
 
             var isInside = _camera.IsInside(newMousePos, Vector2.one * 0.01f);
 
-            if (/*Event.current.type == EventType.MouseDown &&*/Event.current.isMouse && isInside)
+            if (DInput.IsMouse(0) && isInside)
             {
                 if (Mode == DTilePainterMode.Brush)
                 {
@@ -93,15 +109,22 @@ namespace DungeonInspector
                 else if (Mode == DTilePainterMode.Eraser)
                 {
                     _tilemap.RemoveTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
+                    _tilemap.RecalculateBounds();
                 }
-                else if (Event.current.type == EventType.MouseDown)
+                else
                 {
                     _mouseTileGuidePosition = new Vector2Int(Mathf.RoundToInt(newMousePos.x), Mathf.RoundToInt(newMousePos.y));
                 }
             }
 
-            tex = Mode == DTilePainterMode.Brush ? _selectedTile.Texture : _selectionFrame;
+            if (DInput.IsMouse(2))
+            {
+                var dt = DInput.MouseDelta;
+                dt.x = -dt.x;
+                _camera.Transform.Position += dt * _mouseDeltaSens;
+            }
 
+            tex = Mode == DTilePainterMode.Brush ? _selectedTile.Texture : _selectionFrame;
 
             //// Mouse sprite pointer
             //DrawSprite(newMousePos, Vector2.one, _camera_Test, WorldEditorEditor.SelectedTex);
@@ -140,10 +163,6 @@ namespace DungeonInspector
 
                 GUILayout.BeginHorizontal();
 
-                if (GUILayout.Button("Create New"))
-                {
-
-                }
 
                 if (GUILayout.Button("Save"))
                 {
@@ -156,6 +175,8 @@ namespace DungeonInspector
             {
                 LevelManager();
             }
+
+            Utils.DrawBounds(_tilemap.GetTilemapBoundaries(), Color.white, 0.5f);
         }
 
         private Vector2 _levelManagerScroll;
@@ -164,10 +185,24 @@ namespace DungeonInspector
         {
             GUILayout.BeginHorizontal();
             GUILayout.Label("New", GUILayout.MaxWidth(30));
-            GUILayout.TextField(String.Empty);
+            _worldNameCreate = GUILayout.TextField(_worldNameCreate);
 
             if (GUILayout.Button("+", GUILayout.MaxWidth(25)))
             {
+                if (!string.IsNullOrEmpty(_worldNameCreate))
+                {
+                    _worlds.Add(new WorldData() { Name = _worldNameCreate });
+
+                    _worldNameCreate = null;
+
+                    _selectedWorldIndex = _worlds.Count - 1;
+                    _tilemap.Clear();
+                    OnSave();
+                }
+                else
+                {
+                    Debug.Log("Set a name first!");
+                }
             }
 
             GUILayout.EndHorizontal();
@@ -175,19 +210,47 @@ namespace DungeonInspector
             GUILayout.BeginVertical();
             _levelManagerScroll = GUILayout.BeginScrollView(_levelManagerScroll, EditorStyles.helpBox);
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < _worlds.Count; i++)
             {
                 GUILayout.BeginHorizontal();
-                if (GUILayout.Button("Level " + (i + 1)))
+                if (GUILayout.Button(_worlds[i].Name))
                 {
+                    _selectedWorldIndex = i;
 
+                    Load(_worlds[i].LevelData);
                 }
-                GUILayout.Button("X", GUILayout.MaxWidth(25));
+
+                if(GUILayout.Button("X", GUILayout.MaxWidth(25)))
+                {
+                    _worlds.RemoveAt(i);
+                    _selectedWorldIndex = 0;
+                    _tilemap.Clear();
+                    SaveChange();
+                    GUILayout.EndHorizontal();
+                    break;
+                }
                 GUILayout.EndHorizontal();
             }
 
             GUILayout.EndScrollView();
             GUILayout.EndVertical();
+        }
+
+        private void Load(LevelTilesData levelData)
+        {
+            if(levelData != null)
+            {
+                for (int i = 0; i < levelData.Count; i++)
+                {
+                    var info = levelData.GetTile(i);
+
+                    _tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
+                }
+            }
+            else
+            {
+                _tilemap.Clear();
+            }
         }
 
         private void TilesPicker()
@@ -204,7 +267,7 @@ namespace DungeonInspector
             switch (_type)
             {
                 case TileDatabaseType.Static:
-                    tileDatabase = _staticTiles;
+                    tileDatabase = _tilesDatabase;
                     break;
                 case TileDatabaseType.Interactable:
                     tileDatabase = _animatedTiles;
@@ -250,7 +313,7 @@ namespace DungeonInspector
 
         private void OnSave()
         {
-            if (_tilemap.Tiles.Count > 0)
+            //if (_tilemap.Tiles.Count > 0)
             {
                 var tiles = new List<TileData>();
 
@@ -273,14 +336,24 @@ namespace DungeonInspector
 
                 var orderedTiles = tiles.OrderBy(x => x.Position.y).ThenBy(x => x.Position.x).ToArray();
 
-                var worldData = new LevelData(orderedTiles);
-                var json = JsonConvert.SerializeObject(worldData, typeof(BaseTD), Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
+                var levelData = new LevelTilesData(orderedTiles);
 
-                var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
+                _worlds[_selectedWorldIndex].LevelData = levelData;
 
-                File.WriteAllText(worldLevelPath, json);
-                Debug.Log(json);
+                SaveChange();
+
             }
+        }
+
+        private void SaveChange()
+        {
+            var json = JsonConvert.SerializeObject(_worlds, typeof(BaseTD), Formatting.Indented, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
+
+            var worldLevelPath = Application.dataPath + "/Resources/Data/WorldData.txt";
+
+            File.WriteAllText(worldLevelPath, json);
+
+            Debug.Log(json);
         }
 
         private void ShowWorldTileData()
@@ -290,7 +363,7 @@ namespace DungeonInspector
             {
                 GUILayout.BeginVertical();
 
-                var texture = _staticTiles.GetTileTexture(tile.AssetIndex);
+                var texture = _tilesDatabase.GetTileTexture(tile.AssetIndex);
 
                 GUILayout.BeginHorizontal();
                 GUILayout.Label(texture, _style);

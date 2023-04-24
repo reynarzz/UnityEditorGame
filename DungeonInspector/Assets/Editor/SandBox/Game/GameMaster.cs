@@ -34,7 +34,7 @@ namespace DungeonInspector
 
         private TileBehaviorsContainer _tbContainer;
 
-        private LevelData _levelData;
+        private LevelTilesData _levelData;
 
         private Dictionary<TileBehavior, List<Actor>> _tilesBehaviors;
         private NavWorld _navWorld;
@@ -64,11 +64,11 @@ namespace DungeonInspector
             {
                 var json = File.ReadAllText(worldLevelPath);
 
-                _levelData = JsonConvert.DeserializeObject<LevelData>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
+                _levelData = JsonConvert.DeserializeObject<LevelTilesData>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
             }
             else
             {
-                _levelData = new LevelData(new TileData[0]);
+                _levelData = new LevelTilesData(new TileData[0]);
             }
 
             _playerHealthUI = new DGameEntity("PlayerHealthHUD").AddComp<PlayerHealthUI>();

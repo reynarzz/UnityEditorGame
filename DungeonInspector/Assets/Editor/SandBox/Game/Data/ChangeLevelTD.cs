@@ -10,6 +10,6 @@ namespace DungeonInspector
     [Serializable]
     public class ChangeLevelTD : IntDataTD
     {
-        public override int Value { get; set; } = 0;
+        public override int Value { get; set; }
     }
 }

@@ -89,6 +89,37 @@ namespace DungeonInspector
             }
         }
 
+        public void RecalculateBounds()
+        {
+            _tilemapBounds = default;
+
+            foreach (var pos in _tiles.Keys)
+            {
+                var x = pos.x;
+                var y = pos.y;
+
+                if (x < _tilemapBounds.Min.x)
+                {
+                    _tilemapBounds.Min = new DVec2(x, _tilemapBounds.Min.y);
+                }
+
+                if (y < _tilemapBounds.Min.y)
+                {
+                    _tilemapBounds.Min = new DVec2(_tilemapBounds.Min.x, y);
+                }
+
+                if (x > _tilemapBounds.Max.x)
+                {
+                    _tilemapBounds.Max = new DVec2(x, _tilemapBounds.Max.y);
+                }
+
+                if (y > _tilemapBounds.Max.y)
+                {
+                    _tilemapBounds.Max = new DVec2(_tilemapBounds.Max.x, y);
+                }
+            }
+        
+        }
 
         public void RemoveTile(float x, float y)
         {
@@ -178,5 +209,9 @@ namespace DungeonInspector
             return tiles;
         }
 
+        public void Clear()
+        {
+            _tiles.Clear();
+        }
     }
 }

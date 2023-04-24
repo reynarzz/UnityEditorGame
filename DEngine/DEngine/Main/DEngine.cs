@@ -78,7 +78,7 @@ namespace DungeonInspector
                 _currentServices[i].Init();
             }
 
-            //_editorSystem.Init();
+            _editorSystem.Init();
         }
 
         public void Update()

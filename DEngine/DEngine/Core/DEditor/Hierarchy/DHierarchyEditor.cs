@@ -12,7 +12,7 @@ namespace DungeonInspector
     {
         private DEntitiesController _entitiesController;
         private DRenderingController _renderingController;
-        private Rect _rect = new Rect(0, 30, 200, 350);
+        private Rect _rect = new Rect(0, 30, 130, 101);
         private Vector2 _scroll;
         private bool _show = false;
 

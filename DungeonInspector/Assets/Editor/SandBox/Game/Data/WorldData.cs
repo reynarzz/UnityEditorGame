@@ -9,20 +9,25 @@ using System.Runtime.Serialization;
 
 namespace DungeonInspector
 {
+    [Serializable]
+    public class WorldData
+    {
+        [JsonProperty] public string Name { get; set; }
+        [JsonProperty] public LevelTilesData LevelData { get; set; }
 
+    }
 
     [Serializable]
-    public class LevelData 
+    public class LevelTilesData 
     {
         [JsonProperty] private TileData[] _tiles;
         [JsonIgnore] private Dictionary<DVec2, BaseTD> _levelTileData;
-
         public int Count => _tiles.Length;
 
         // Newtonsoft json needs the default constructor to deserialize.
-        private LevelData() { }
+        private LevelTilesData() { }
 
-        public LevelData(TileData[] tiles)
+        public LevelTilesData(TileData[] tiles)
         {
             _tiles = tiles;
         }
@@ -35,6 +40,9 @@ namespace DungeonInspector
             for (int i = 0; i < _tiles.Length; i++)
             {
                 var data = _tiles.ElementAtOrDefault(i);
+
+                if(data.TileBehaviorData != null)
+                Debug.Log(data.TileBehaviorData.GetType().Name);
 
                 _levelTileData.Add(data.Position, (BaseTD)data.TileBehaviorData);
             }

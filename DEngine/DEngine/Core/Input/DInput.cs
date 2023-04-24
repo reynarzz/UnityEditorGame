@@ -22,6 +22,10 @@ namespace DungeonInspector
         private static int _prevMouseButton = -1;
 
         public static string CurrentKeyString() => _currentKey.ToString();
+        private static DVec2 _mouseDelta;
+        private DVec2 _mousePrev;
+
+        public static DVec2 MouseDelta => _mouseDelta;
 
         //TODO:Listen for multiple keys held down
         public override void Update()
@@ -53,8 +57,9 @@ namespace DungeonInspector
                 if (!_mouseDown)
                 {
                     _mouseButton = ev.button;
-                }
+                    _mousePrev = ev.mousePosition;
 
+                }
                 _mouseDown = true;
             }
             else if (ev.type == EventType.MouseUp)
@@ -63,9 +68,15 @@ namespace DungeonInspector
                 {
                     _mouseButton = -1;
                     _prevMouseButton = -1;
+                    _mouseDelta = default;
                 }
 
                 _mouseDown = false;
+            }
+            
+            if (_mouseDown)
+            {
+                _mouseDelta = ev.delta;
             }
         }
 
@@ -105,5 +116,11 @@ namespace DungeonInspector
 
             return false;
         }
+
+        public static bool IsMouse(int button)
+        {
+            return _mouseButton == button;
+        }
+
     }
 }
