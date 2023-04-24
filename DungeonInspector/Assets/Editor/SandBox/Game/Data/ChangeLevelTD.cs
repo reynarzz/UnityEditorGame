@@ -1,5 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,8 +7,8 @@ using System.Threading.Tasks;
 namespace DungeonInspector
 {
     [Serializable]
-    public class ChangeLevelTD : IntDataTD
+    public class ChangeLevelTD : StringDataTD
     {
-        public override int Value { get; set; }
+        public override string Value { get; set; }
     }
 }

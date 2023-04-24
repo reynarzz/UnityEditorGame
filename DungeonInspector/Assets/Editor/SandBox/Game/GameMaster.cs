@@ -58,13 +58,15 @@ namespace DungeonInspector
 
             _navWorld = new NavWorld(_tilemap);
 
-            var worldLevelPath = Application.dataPath + "/Resources/World1.txt";
+            var worldLevelPath = Application.dataPath + "/Resources/Data/WorldData.txt";
 
             if (File.Exists(worldLevelPath))
             {
                 var json = File.ReadAllText(worldLevelPath);
 
-                _levelData = JsonConvert.DeserializeObject<LevelTilesData>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
+                var worldData = JsonConvert.DeserializeObject<List<WorldData>>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
+
+                _levelData = worldData[0].LevelData;
             }
             else
             {
@@ -73,14 +75,14 @@ namespace DungeonInspector
 
             _playerHealthUI = new DGameEntity("PlayerHealthHUD").AddComp<PlayerHealthUI>();
 
-            _prefabInstantiator.InstanceDoor("ExitDoor").Transform.Position = new DVec2(2.27f, 3.56f);
-            _prefabInstantiator.GetHealthPotion("Health1").Transform.Position = new DVec2(2, 1);
-            _prefabInstantiator.InstanceCoin("Coin1").Transform.Position = new DVec2(1, 2);
-            _prefabInstantiator.InstanceCoin("Coin2").Transform.Position = new DVec2(2, 2);
-            _prefabInstantiator.InstanceCoin("Coin3").Transform.Position = new DVec2(3, 2);
-            _prefabInstantiator.InstanceCoin("Coin4").Transform.Position = new DVec2(4, 2);
-            _prefabInstantiator.InstanceCoin("Coin5").Transform.Position = new DVec2(5, 2);
-            _prefabInstantiator.InstanceCoin("Coin6").Transform.Position = new DVec2(6, 2);
+            //_prefabInstantiator.InstanceDoor("ExitDoor").Transform.Position = new DVec2(2.27f, 3.56f);
+            //_prefabInstantiator.GetHealthPotion("Health1").Transform.Position = new DVec2(2, 1);
+            _prefabInstantiator.InstanceCoin("Coin1").Transform.Position = new DVec2(-1, -4);
+            //_prefabInstantiator.InstanceCoin("Coin2").Transform.Position = new DVec2(2, 2);
+            //_prefabInstantiator.InstanceCoin("Coin3").Transform.Position = new DVec2(3, 2);
+            //_prefabInstantiator.InstanceCoin("Coin4").Transform.Position = new DVec2(4, 2);
+            //_prefabInstantiator.InstanceCoin("Coin5").Transform.Position = new DVec2(5, 2);
+            //_prefabInstantiator.InstanceCoin("Coin6").Transform.Position = new DVec2(6, 2);
 
             Load();
             _navWorld.Init();
@@ -91,9 +93,9 @@ namespace DungeonInspector
             //DAudio.PlayAudio("Audio/ForgottenPlains/Music/Plain_Sight_(Regular).wav");
 
             var chest = _prefabInstantiator.InstanceChest("Chest");
-            chest.Transform.Position = new DVec2(7, 2);
+            chest.Transform.Position = new DVec2(-5, 2);
 
-            _tilemap.GetTile(new DVec2(7, 2), 0).IsWalkable = false;
+           _tilemap.GetTile(new DVec2(-5, 2), 0).IsWalkable = false;
         }
 
         private void Load()

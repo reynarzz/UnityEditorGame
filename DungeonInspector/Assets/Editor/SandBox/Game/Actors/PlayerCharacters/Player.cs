@@ -84,8 +84,8 @@ namespace DungeonInspector
         {
             Transform.Offset = new DVec2(0, 0.7f);
 
-            Transform.Position = _gridPos = new DVec2(3, 0);
-
+             Transform.Position = _gridPos = new DVec2(-1, 5);
+            _gameMaster.Camera.Transform.Position = Transform.Position;
             //_rayHitGuideTest.Transform.Scale = new DVec2(0.2f, 0.2f);
             //_rayHitGuideTest.ZSorting = 3;
             _rayDraw.ZSorting = 3;

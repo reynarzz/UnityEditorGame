@@ -1,5 +1,5 @@
 {
-  "$type": "DungeonInspector.LevelData, Assembly-CSharp-Editor",
+  "$type": "DungeonInspector.LevelTilesData, Assembly-CSharp-Editor",
   "_tiles": {
     "$type": "DungeonInspector.TileData[], Assembly-CSharp-Editor",
     "$values": [
@@ -1140,7 +1140,7 @@
         "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
         "TileBehaviorData": {
           "$type": "DungeonInspector.ChangeLevelTD, Assembly-CSharp-Editor",
-          "Value": 0
+          "Value": "none"
         },
         "TileAssetIndex": 13,
         "WorldIndex": 103,

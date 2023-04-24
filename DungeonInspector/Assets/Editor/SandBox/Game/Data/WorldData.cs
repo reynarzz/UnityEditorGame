@@ -41,8 +41,8 @@ namespace DungeonInspector
             {
                 var data = _tiles.ElementAtOrDefault(i);
 
-                if(data.TileBehaviorData != null)
-                Debug.Log(data.TileBehaviorData.GetType().Name);
+                //if (data.TileBehaviorData != null)
+                //    Debug.Log(data.TileBehaviorData.GetType().Name);
 
                 _levelTileData.Add(data.Position, (BaseTD)data.TileBehaviorData);
             }

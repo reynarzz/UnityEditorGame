@@ -22,7 +22,10 @@
             },
             {
               "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-              "TileBehaviorData": null,
+              "TileBehaviorData": {
+                "$type": "DungeonInspector.StringDataTD, Assembly-CSharp-Editor",
+                "Value": "Final"
+              },
               "TileAssetIndex": 13,
               "WorldIndex": 1,
               "Position": {
@@ -99,7 +102,10 @@
             },
             {
               "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-              "TileBehaviorData": null,
+              "TileBehaviorData": {
+                "$type": "DungeonInspector.ChangeLevelTD, Assembly-CSharp-Editor",
+                "Value": "Sewers"
+              },
               "TileAssetIndex": 13,
               "WorldIndex": 8,
               "Position": {
@@ -332,6 +338,17 @@
               "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
               "TileBehaviorData": null,
               "TileAssetIndex": 0,
+              "WorldIndex": 59,
+              "Position": {
+                "$type": "DungeonInspector.DVec2, DEngine",
+                "x": -3.0,
+                "y": 2.0
+              }
+            },
+            {
+              "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+              "TileBehaviorData": null,
+              "TileAssetIndex": 0,
               "WorldIndex": 29,
               "Position": {
                 "$type": "DungeonInspector.DVec2, DEngine",
@@ -380,6 +397,17 @@
               "Position": {
                 "$type": "DungeonInspector.DVec2, DEngine",
                 "x": -2.0,
+                "y": 3.0
+              }
+            },
+            {
+              "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
+              "TileBehaviorData": null,
+              "TileAssetIndex": 0,
+              "WorldIndex": 58,
+              "Position": {
+                "$type": "DungeonInspector.DVec2, DEngine",
+                "x": -1.0,
                 "y": 3.0
               }
             },
@@ -649,7 +677,7 @@
             }
           ]
         },
-        "Count": 58
+        "Count": 60
       }
     }
   ]

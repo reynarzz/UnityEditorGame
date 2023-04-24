@@ -27,9 +27,9 @@ namespace DungeonInspector
 
             var speed = Speed;
             var amplitude = 1.5f;
-            var noiseX = (Mathf.PerlinNoise(Mathf.Cos(DTime.Time * speed) * 2 - 1, Mathf.Cos(DTime.Time * speed) * 2 - 1) - 0.5f) * 2;
+            var noiseX = 0;//(Mathf.PerlinNoise(Mathf.Cos(DTime.Time * speed) * 2 - 1, Mathf.Cos(DTime.Time * speed) * 2 - 1) - 0.5f) * 2;
 
-            var noiseY = (Mathf.PerlinNoise(Mathf.Sin(DTime.Time * speed) * 2 - 1, Mathf.Sin(DTime.Time * speed) * 2 - 1) - 0.5f) * 2;
+            var noiseY = 0;//(Mathf.PerlinNoise(Mathf.Sin(DTime.Time * speed) * 2 - 1, Mathf.Sin(DTime.Time * speed) * 2 - 1) - 0.5f) * 2;
 
 
             _camera.Transform.Position = UnityEngine.Vector2.Lerp(_camera.Transform.Position, playerPos + new DVec2(noiseX, noiseY) * amplitude, 7 * DTime.DeltaTime);

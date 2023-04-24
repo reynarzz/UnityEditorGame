@@ -15,12 +15,12 @@ namespace DungeonInspector
 
         public EnemyDatabase()
         {
-            _enemies = new Dictionary<Type, EnemyBase>()
-            {
-                { typeof(OrcEnemy), GetEnemy<OrcEnemy>(LoadAnims("Enemies/Orc/OrcIdle", "Enemies/Orc/OrcWalk")) },
-                { typeof(MaskedOrcEnemy), GetEnemy<MaskedOrcEnemy>(LoadAnims("Enemies/Masked/MaskedIdle", "Enemies/Masked/MaskedWalk")) },
-                //GetEnemy<OrcEnemy>("Monk", LoadAnims("GameAssets/Dungeon/necromancer_idle_anim_f0")),
-            };
+            //_enemies = new Dictionary<Type, EnemyBase>()
+            //{
+            //    { typeof(OrcEnemy), GetEnemy<OrcEnemy>(LoadAnims("Enemies/Orc/OrcIdle", "Enemies/Orc/OrcWalk")) },
+            //    { typeof(MaskedOrcEnemy), GetEnemy<MaskedOrcEnemy>(LoadAnims("Enemies/Masked/MaskedIdle", "Enemies/Masked/MaskedWalk")) },
+            //    //GetEnemy<OrcEnemy>("Monk", LoadAnims("GameAssets/Dungeon/necromancer_idle_anim_f0")),
+            //};
 
             //  var test = GetEnemy<OrcEnemy>("ShortMaskedORc", "GameAssets/Dungeon/masked_orc_idle_anim_f0");
 
