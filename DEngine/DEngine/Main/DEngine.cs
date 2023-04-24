@@ -53,25 +53,6 @@ namespace DungeonInspector
             OnPlayEnd();
         }
 
-        private void ConstructServices(List<EngineSystemBase> services, DSandboxBase sandbox)
-        {
-            services.Clear();
-            new DIEngineCoreServices();
-
-            for (int i = 0; i < sandbox.Services.Length; i++)
-            {
-                services.Add(DIEngineCoreServices.Get(sandbox.Services[i]));
-            }
-        }
-
-        private DSandboxBase GetSandboxCopy(DSandboxBase original)
-        {
-            var copy = (DSandboxBase)Activator.CreateInstance(original.GetType(), (object)original.Services);
-
-            ConstructServices(_currentServices, original);
-
-            return copy;
-        }
 
         private void OnPlayEnd()
         {
@@ -109,6 +90,26 @@ namespace DungeonInspector
             //_physics.Update();
             //_renderer.Update();
             //_editorSystem.Update();
+        }
+
+        private DSandboxBase GetSandboxCopy(DSandboxBase original)
+        {
+            var copy = (DSandboxBase)Activator.CreateInstance(original.GetType(), (object)original.Services);
+
+            ConstructServices(_currentServices, original);
+
+            return copy;
+        }
+
+        private void ConstructServices(List<EngineSystemBase> services, DSandboxBase sandbox)
+        {
+            services.Clear();
+            new DIEngineCoreServices();
+
+            for (int i = 0; i < sandbox.Services.Length; i++)
+            {
+                services.Add(DIEngineCoreServices.Get(sandbox.Services[i]));
+            }
         }
 
         public void Destroy()

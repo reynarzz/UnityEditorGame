@@ -13,7 +13,7 @@ namespace DungeonInspector
         {
             if (_engine == null)
             {
-                var gameSandBox = new DungeonInspectorSandBox(
+                var gameSandBox = new DungeonPlaymodeSandBox(
                                   typeof(DTime),
                                   typeof(DInput),
                                   typeof(DAudioSystem),

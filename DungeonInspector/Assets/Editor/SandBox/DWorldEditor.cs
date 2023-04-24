@@ -50,14 +50,14 @@ namespace DungeonInspector
 
         protected override void OnStart()
         {
-            var gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
+            var tilemap = DGameEntity.FindGameEntity("TileMaster").GetComp<DTilemap>();
 
-            _tilemap = gameMaster.Tilemap;
+            _staticTiles = new TilesDatabase("World/World1Tiles");
+            _animatedTiles = new TilesDatabase("World/TilesAnimated");
 
-            _staticTiles = gameMaster.TilesDatabase;
-            _animatedTiles = gameMaster.AnimatedTiles;
+            _tilemap = tilemap;
 
-            _camera = gameMaster.Camera;
+            _camera = DGameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();
 
             _selectedTile = _staticTiles.GetTile(0);
 

@@ -19,12 +19,18 @@ namespace DungeonInspector
         protected override void OnStart()
         {
             _tilemap = GetComp<DTilemap>();
-            var gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
+            //--var gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
 
-            _tilesDatabase = gameMaster.TilesDatabase;
-            _camera = gameMaster.Camera;
+            _tilesDatabase = new TilesDatabase("World/World1Tiles");// gameMaster.TilesDatabase;
+            _camera = DGameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();// gameMaster.Camera;
 
-            _player = DGameEntity.FindGameEntity("Player").GetComp<Player>();
+            var playerObj = DGameEntity.FindGameEntity("Player");
+            
+            if(playerObj != null)
+            {
+                _player = playerObj.GetComp<Player>();
+            }
+            
 
             _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
 
@@ -41,9 +47,13 @@ namespace DungeonInspector
                 {
                     var tex = _tilesDatabase.GetTileTexture(s.Value.AssetIndex);
 
-                    var playerRect = _camera.World2RectPos(_player.Transform.Position, _player.Transform.Scale);
+                    if(_player != null)
+                    {
+                        var playerRect = _camera.World2RectPos(_player.Transform.Position, _player.Transform.Scale);
+                        _mat_DELETE.SetVector("_playerPos", new Vector4(playerRect.x, playerRect.y, playerRect.width, playerRect.height));
 
-                    _mat_DELETE.SetVector("_playerPos", new Vector4(playerRect.x, playerRect.y, playerRect.width, playerRect.height));
+                    }
+
                     Graphics.DrawTexture(_camera.World2RectPos(item.Key, Vector2.one), tex, _mat_DELETE);
 
                     _mat_DELETE.SetVector("_playerPos", default);

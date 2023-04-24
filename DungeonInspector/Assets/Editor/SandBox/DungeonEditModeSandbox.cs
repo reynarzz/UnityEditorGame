@@ -15,7 +15,12 @@ namespace DungeonInspector
 
         public override void OnInitialize()
         {
+            new DGameEntity("MainCamera", typeof(DCamera)/*, typeof(DCameraFollow)*/);
 
+            new DGameEntity("TileMaster", typeof(DRenderingGroup), typeof(DTilemap), typeof(DTilemapRenderer));
+
+            // World Editor
+            new DGameEntity("WorldEditor", typeof(DWorldEditor))/*.IsActive = false*/;
         }
 
         public override void OnQuit()
