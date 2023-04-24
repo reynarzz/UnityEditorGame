@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace DungeonInspector
 {
@@ -123,7 +122,7 @@ namespace DungeonInspector
                             //{
                             if (behavior != null)
                             {
-                                behavior.OnTriggerEnter(target.Collider);
+                                behavior.OnTriggerStay(target.Collider);
                             }
                         }
 

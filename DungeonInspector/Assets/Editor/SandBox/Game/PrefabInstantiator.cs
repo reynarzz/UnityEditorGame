@@ -12,6 +12,8 @@ namespace DungeonInspector
         private DSpriteAtlas _coinCollectibleAtlas;
         private DSpriteAtlas _heartAtlas;
         private DSpriteAtlas _doorAtlas;
+        private DSpriteAtlas _emptyChestAtlas;
+        private DSpriteAtlas _priceChestAtlas;
 
         private Texture2D _bulletCircle;
         private Texture2D _greenFlask;
@@ -21,6 +23,8 @@ namespace DungeonInspector
             _doorAtlas = Resources.Load<DSpriteAtlas>("Interactables/DoorAtlas");
             _heartAtlas = Resources.Load<DSpriteAtlas>("UI/HeartAtlas");
             _coinCollectibleAtlas = Resources.Load<DSpriteAtlas>("Interactables/CoinAtlas");
+            _emptyChestAtlas = Resources.Load<DSpriteAtlas>("Interactables/Chest1Atlas");
+            _priceChestAtlas = Resources.Load<DSpriteAtlas>("Interactables/Chest2Atlas");
 
 
             _greenFlask = Resources.Load<Texture2D>("GameAssets/Dungeon/flask_big_green");
@@ -100,9 +104,32 @@ namespace DungeonInspector
             return entity;
         }
 
-        public DGameEntity InstanceChest(string name)
+        public Chest InstanceChest(string name, int priceIndex = -1)
         {
-            return null;
+            var entity = new DGameEntity(name, typeof(DPhysicsComponent));
+
+            var collider = entity.AddComp<DBoxCollider>();
+            
+            collider.Center = new DVec2(0, -0.33f);
+            collider.Size = new DVec2(0.5f, 1.17f);
+
+            var chest = entity.AddComp<Chest>();
+
+            var renderer = entity.AddComp<DRendererComponent>();
+            
+            renderer.Sprite = _emptyChestAtlas.GetTexture(0);
+
+            var spriteAtlas = priceIndex != -1 ? _priceChestAtlas : _emptyChestAtlas;
+
+            var animation = new DSpriteAnimation(spriteAtlas);
+            animation.Loop = false;
+
+            var animator = entity.AddComp<DAnimatorComponent>();
+            animator.SetRenderer(renderer);
+            animator.AddAnimation(animation);
+            animator.Speed = 5;
+
+            return chest;
         }
 
         public DGameEntity InstanceDoor(string name)

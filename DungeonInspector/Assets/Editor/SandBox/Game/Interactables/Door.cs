@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class Door : InteractableBase
+    public class Door : ButtonInteractableBase
     {
         private DRendererComponent _renderer;
         private DSpriteAtlas _atlas;
@@ -50,10 +50,6 @@ namespace DungeonInspector
                 
                 _tiles[i].IsWalkable = value == 1;
             }
-        }
-
-        public override void OnInteracted(InteractionType interaction, Actor actor)
-        {
         }
     }
 }

@@ -82,6 +82,8 @@ namespace DungeonInspector
             _prefabInstantiator.InstanceCoin("Coin5").Transform.Position = new DVec2(5, 2);
             _prefabInstantiator.InstanceCoin("Coin6").Transform.Position = new DVec2(6, 2);
 
+            
+
             Load();
             _navWorld.Init();
         }
@@ -90,7 +92,10 @@ namespace DungeonInspector
         {
             //DAudio.PlayAudio("Audio/ForgottenPlains/Music/Plain_Sight_(Regular).wav");
 
+            var chest = _prefabInstantiator.InstanceChest("Chest");
+            chest.Transform.Position = new DVec2(7, 2);
 
+            _tilemap.GetTile(new DVec2(7, 2), 0).IsWalkable = false;
         }
 
         private void Load()

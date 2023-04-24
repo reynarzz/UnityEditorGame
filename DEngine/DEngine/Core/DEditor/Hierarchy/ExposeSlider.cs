@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 namespace DungeonInspector
 {
     [AttributeUsage(AttributeTargets.Field | AttributeTargets.Struct)]
-    public class DExposeSlider : DExposeAttribute
+    public class DExposeSlider : Attribute
     {
         public float Min { get; private set; }
         public float Max { get; private set; }

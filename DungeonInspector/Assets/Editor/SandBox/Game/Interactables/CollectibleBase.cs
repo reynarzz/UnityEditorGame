@@ -10,7 +10,7 @@ namespace DungeonInspector
     {
         protected virtual string SoundToPlay { get; set; }
 
-        protected override void OnTriggerEnter(DBoxCollider collider)
+        protected override void OnTriggerStay(DBoxCollider collider)
         {
             var actor = collider.GetComp<Actor>();
 

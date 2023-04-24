@@ -6,14 +6,8 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public enum InteractionType
+    public class PressButtonToInteractUI : DBehavior
     {
-        Button,
-        Collision
-    }
 
-    public abstract class InteractableBase : DBehavior
-    {
-       
     }
 }

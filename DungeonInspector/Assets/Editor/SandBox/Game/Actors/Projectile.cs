@@ -30,7 +30,7 @@ namespace DungeonInspector
             Transform.Position += _dir * DTime.DeltaTime * 15;
         }
 
-        protected override void OnTriggerEnter(DBoxCollider collider)
+        protected override void OnTriggerStay(DBoxCollider collider)
         {
             if(collider.Entity.Tag == "Enemy")
             {

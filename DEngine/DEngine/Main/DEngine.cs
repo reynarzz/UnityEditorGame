@@ -27,12 +27,12 @@ namespace DungeonInspector
             new Utils();
 
             _time = DIEngineCoreServices.Get<DTime>();
-            _audio = DIEngineCoreServices.Get<DAudioSystem>();
             _input = DIEngineCoreServices.Get<DInput>();
+            _audio = DIEngineCoreServices.Get<DAudioSystem>();
+            _editorSystem = DIEngineCoreServices.Get<DEditorSystem>();
             _physics = DIEngineCoreServices.Get<DPhysicsController>();
             _renderer = DIEngineCoreServices.Get<DRenderingController>();
             _components = DIEngineCoreServices.Get<DEntitiesController>();
-            _editorSystem = DIEngineCoreServices.Get<DEditorSystem>();
 
             _sandbox.OnInitialize();
             _time.Init();
@@ -43,7 +43,7 @@ namespace DungeonInspector
 
             _editorSystem.Init();
         }
-         
+        
         public void Update()
         {
             _time.Update();

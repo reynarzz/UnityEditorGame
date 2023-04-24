@@ -35,6 +35,7 @@ namespace DungeonInspector
         {
             _renderer = renderer;
         }
+
         protected override void OnUpdate()
         {
             if(_currentAnimIndex >= 0 && _animations.Count > 0)

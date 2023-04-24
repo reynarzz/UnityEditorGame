@@ -19,13 +19,14 @@ namespace DungeonInspector
 
         private Texture2D _currentTex;
         public Texture2D CurrentTexture => _currentTex;
+        public bool Loop { get; set; } = true;
 
         public DSpriteAnimation() { }
         public DSpriteAnimation(DSpriteAtlas spriteAtlas)
         {
             _atlas = spriteAtlas;
 
-            if(_atlas != null)
+            if (_atlas != null)
             {
                 _currentTex = _atlas.GetTexture(0);
             }
@@ -35,20 +36,23 @@ namespace DungeonInspector
         {
             if (_play && _atlas != null)
             {
-                if (_spriteIndex >= _atlas.TextureCount)
+                if (_spriteIndex >= _atlas.TextureCount && Loop)
                 {
                     _spriteIndex = 0;
                 }
 
-                _currentTex = _atlas.GetTexture(_spriteIndex);
-
-                _time += dt * Speed;
-
-                if (_time >= 1f)
+                if (_spriteIndex < _atlas.TextureCount)
                 {
-                    _time = 0;
+                    _currentTex = _atlas.GetTexture(_spriteIndex);
 
-                    _spriteIndex++;
+                    _time += dt * Speed;
+
+                    if (_time >= 1f)
+                    {
+                        _time = 0;
+
+                        _spriteIndex++;
+                    }
                 }
             }
         }

@@ -8,89 +8,88 @@ namespace DungeonInspector
 {
     public class DEntitiesController : EngineSystemBase<DGameEntity>
     {
-        private List<DGameEntity> _entities;
-        private bool _started = false;
+        private List<DGameEntity> _toUpdate;
+        private List<DGameEntity> _notAwaken;
+        private List<IDBehavior> _notStarted;
 
-        public int Count => _entities.Count;
+        public int Count => _toUpdate.Count;
         public DEntitiesController()
         {
-            _entities = new List<DGameEntity>();
+            _toUpdate = new List<DGameEntity>();
+            _notAwaken = new List<DGameEntity>();
+            _notStarted = new List<IDBehavior>();
         }
 
         public override void Add(DGameEntity entity)
         {
-            _entities.Add(entity);
+            _toUpdate.Add(entity);
+            _notAwaken.Add(entity);
         }
 
         public override void Remove(DGameEntity entity)
         {
-            _entities.Remove(entity);
+            _toUpdate.Remove(entity);
         }
 
         public List<DGameEntity> GetAllGameEntities()
         {
-            return _entities;
+            return _toUpdate;
         }
 
         public DGameEntity FindGameEntity(string name)
         {
-            for (int i = 0; i < _entities.Count; i++)
+            for (int i = 0; i < _toUpdate.Count; i++)
             {
-                if (_entities[i].Name.Equals(name))
+                if (_toUpdate[i].Name.Equals(name))
                 {
-                    return _entities[i];
+                    return _toUpdate[i];
                 }
             }
 
             return null;
         }
 
-        // TODO: call awake right after object creation
-        public override void Init()
+        private void OnAwakeBehaviors()
         {
-            for (int i = 0; i < _entities.Count; i++)
+            if (_notAwaken.Count > 0)
             {
-                var entity = _entities[i];
 
-                if (entity.IsActive)
+                for (int i = 0; i < _notAwaken.Count; i++)
                 {
-                    var updatables = entity.GetAllUpdatableComponents();
+                    var behaviors = _notAwaken[i].GetAllUpdatableComponents();
 
-                    for (int j = 0; j < updatables.Count; j++)
+                    for (int j = 0; j < behaviors.Count; j++)
                     {
-                        updatables[j].Awake();
+                        behaviors[j].Awake();
+                        _notStarted.Add(behaviors[j]);
                     }
                 }
+
+                _notAwaken.Clear();
             }
         }
 
-        private void OnStartBehaviors(DGameEntity entity)
+        private void OnStartBehaviors()
         {
-            var updatables = entity.GetAllUpdatableComponents();
-
-            for (int i = 0; i < updatables.Count; i++)
+            if (_notStarted.Count > 0)
             {
-                updatables[i].Start();
+                for (int i = 0; i < _notStarted.Count; i++)
+                {
+                    _notStarted[i].Start();
+                }
+
+                _notStarted.Clear();
             }
         }
 
         public override void Update()
         {
-            // Start
-            if (!_started)
-            {
-                _started = true;
-                for (int i = 0; i < _entities.Count; i++)
-                {
-                    OnStartBehaviors(_entities[i]);
-                }
-            }
+            OnAwakeBehaviors();
+            OnStartBehaviors();
 
-            // Update
-
-            for (int i = 0; i < _entities.Count; i++)
+            for (int i = 0; i < _toUpdate.Count; i++)
             {
-                var entity = _entities[i];
+                var entity = _toUpdate[i];
 
                 if (entity.IsActive)
                 {
@@ -104,10 +103,9 @@ namespace DungeonInspector
             }
 
             // Late Update
-
-            for (int i = 0; i < _entities.Count; i++)
+            for (int i = 0; i < _toUpdate.Count; i++)
             {
-                var entity = _entities[i];
+                var entity = _toUpdate[i];
 
                 if (entity.IsActive)
                 {
@@ -120,7 +118,5 @@ namespace DungeonInspector
                 }
             }
         }
-
-
     }
 }
