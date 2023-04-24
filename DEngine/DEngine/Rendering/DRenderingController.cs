@@ -113,6 +113,7 @@ namespace DungeonInspector
 
         public override void Update()
         {
+
             if (V2Rendering)
             {
                 PreRender();
@@ -175,6 +176,12 @@ namespace DungeonInspector
         private void DrawMask()
         {
             var rect = CurrentCamera?.ViewportRect ?? new Rect(0, 0, EditorGUIUtility.currentViewWidth, 360);
+
+            rect.height += 18;
+
+            GUILayoutUtility.GetRect(rect.width, rect.height);
+
+            // if a component is set bellow it will take space
 
             //rect.height += 12;
             Graphics.DrawTexture(rect, _viewportRectTex, _maskMat);

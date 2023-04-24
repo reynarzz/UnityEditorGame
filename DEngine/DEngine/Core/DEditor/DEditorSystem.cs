@@ -13,11 +13,13 @@ namespace DungeonInspector
 
         public DEditorToolBar Toolbar => _toolbar;
 
-    
+        public DEditorSystem()
+        {
+            _toolbar = new DEditorToolBar(this);
+        }
 
         public override void Init()
         {
-            _toolbar = new DEditorToolBar(this);
             _hierarchy = new DHierarchyEditor();
         }
 

@@ -52,9 +52,6 @@ namespace DungeonInspector
             _viewportRect = ViewportRect = new Rect(EditorGUIUtility.currentViewWidth / 2 - ScreenSize.x / 2, 30, ScreenSize.x, ScreenSize.y);
 
             _Position = Transform.Position;
-            // should not be here
-            GUILayoutUtility.GetRect(ViewportRect.width, ViewportRect.height);
-
         }
 
         public override void OnDestroy()

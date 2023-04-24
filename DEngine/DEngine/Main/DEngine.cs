@@ -18,6 +18,9 @@ namespace DungeonInspector
         private DSandboxBase _currentSandBox;
         private EngineSystemBase[] _currentServices;
 
+        private bool _isPaused = false;
+        private DRenderingController _renderingSystem;
+
         public DEngine(DSandboxBase playModeSandBox, DSandboxBase editModeSandBox)
         {
             _playModeSandBox = playModeSandBox;
@@ -33,13 +36,25 @@ namespace DungeonInspector
 
             _editorSystem.Toolbar.OnPlayBegin += OnPlayBegin; 
             _editorSystem.Toolbar.OnPlayEnd += OnPlayEnd;
+            _editorSystem.Toolbar.OnPauseBegin += OnPauseBegin;
+            _editorSystem.Toolbar.OnPauseEnd += OnPauseEnd;
 
             RunSandbox(_editModeSandBox);
         }
 
+        private void OnPauseBegin()
+        {
+            _isPaused = true;
+        }
+
+        private void OnPauseEnd()
+        {
+            _isPaused = false;
+        }
 
         private void OnPlayEnd()
         {
+            _isPaused = false;
             RunSandbox(_editModeSandBox);
         }
 
@@ -54,21 +69,32 @@ namespace DungeonInspector
             _currentSandBox = GetSandboxCopy(target);
             _currentServices = ConstructServices(target);
 
+            _renderingSystem = (DRenderingController)_currentServices.First(x => x as DRenderingController != null);
+
             _currentSandBox.OnInitialize();
 
             for (int i = 0; i < _currentServices.Length; i++)
             {
                 _currentServices[i].Init();
             }
+
+            //_editorSystem.Init();
         }
 
         public void Update()
         {
-            for (int i = 0; i < _currentServices.Length; i++)
+            if (!_isPaused)
             {
-                _currentServices[i].Update();
+                for (int i = 0; i < _currentServices.Length; i++)
+                {
+                    _currentServices[i].Update();
+                }
             }
-
+            else
+            {
+                _renderingSystem.Update();
+            }
+           
             _editorSystem.Update();
         }
 
