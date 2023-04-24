@@ -5,9 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
-using UnityEditor.MemoryProfiler;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace DungeonInspector
 {
@@ -36,6 +34,7 @@ namespace DungeonInspector
             var entities = _entitiesController.GetAllGameEntities();
             EditorGUI.DrawRect(_backgroundRect, new Color(0.2f, 0.2f, 0.2f, 0.8f));
 
+            _rect.width = _show ? 200 : 130;
             GUILayout.BeginArea(_rect);
             var color = GUI.backgroundColor;
             GUI.backgroundColor = Color.black * 0.4f;
@@ -163,9 +162,9 @@ namespace DungeonInspector
                         GUILayout.EndHorizontal();
 
                         GUILayout.BeginHorizontal();
-                      //  GUILayout.Label("Debug");
-                      if(_debugAll)
-                        box.Debug = _debugAll;// EditorGUILayout.Toggle(box.Debug);
+                        //  GUILayout.Label("Debug");
+                        if (_debugAll)
+                            box.Debug = _debugAll;// EditorGUILayout.Toggle(box.Debug);
                         GUILayout.EndHorizontal();
 
                         box.Center = EditorGUILayout.Vector2Field(string.Empty, box.Center, GUILayout.MaxWidth(_rect.width - 50));

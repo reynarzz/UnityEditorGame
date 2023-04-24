@@ -22,6 +22,8 @@ namespace DungeonInspector
         private static int _fps;
         private float _timeToFPS;
         public static int FPs => _fps;
+        public float DeltaTimeUnscaled { get; private set; }
+
 
         public DTime()
         {
@@ -35,11 +37,17 @@ namespace DungeonInspector
         {
             var secElapsep = _stopWatch.ElapsedMilliseconds / 1000f;
 
-            _dt = (secElapsep - _prev) * TimeScale;
+            _dt = (secElapsep - _prev);
+
+            DeltaTimeUnscaled = _dt;
+            _dt *= TimeScale;
+            
+
+
             _time += _dt;
             _prev = secElapsep;
 
-            _timeToFPS += _dt;
+            _timeToFPS += DeltaTimeUnscaled;
 
             if(_timeToFPS >= 1)
             {

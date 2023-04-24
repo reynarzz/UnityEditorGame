@@ -82,8 +82,6 @@ namespace DungeonInspector
             _prefabInstantiator.InstanceCoin("Coin5").Transform.Position = new DVec2(5, 2);
             _prefabInstantiator.InstanceCoin("Coin6").Transform.Position = new DVec2(6, 2);
 
-            
-
             Load();
             _navWorld.Init();
         }

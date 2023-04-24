@@ -33,6 +33,8 @@ namespace DungeonInspector
         private DTilemap _tilemap;
         private DTile _prevTile;
 
+        private DAnimatorComponent _animator;
+
         protected override void OnAwake()
         {
             Transform.Offset = new DVec2(0, 0.7f);
@@ -40,8 +42,11 @@ namespace DungeonInspector
             _collider = GetComp<DBoxCollider>();
             _health = GetComp<ActorHealth>();
             _renderer = GetComp<DRendererComponent>();
+            _animator = GetComp<DAnimatorComponent>();
+
             _health.OnHealthChanged += OnHealthChanged;
             _health.OnHealthDepleted += OnHealthDepleted;
+
         }
 
         protected override void OnStart()
@@ -143,6 +148,9 @@ namespace DungeonInspector
 
                     _tilemap.GetTile(_prevPos, 0).Ocupe = null;
                     _movePos = nextPos;
+
+
+                    _animator.Play(1);
                 }
             }
 

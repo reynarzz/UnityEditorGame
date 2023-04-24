@@ -12,6 +12,7 @@ namespace DungeonInspector
         private List<DSpriteAnimation> _animations;
 
         private int _currentAnimIndex = -1;
+        public bool PlayOnStart { get; set; } = true;
 
         public float Speed { get; set; } = -1;
 
@@ -28,6 +29,11 @@ namespace DungeonInspector
             if(_renderer == null)
             {
                 _renderer = GetComp<DRendererComponent>();
+            }
+
+            if (PlayOnStart && _animations.Count > 0)
+            {
+                Play(0);
             }
         }
 

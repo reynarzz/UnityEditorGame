@@ -3,7 +3,6 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    // dungeon with pokemon-like battles.
     public class Player : Actor
     {
         private DAnimatorComponent _playerAnimator;

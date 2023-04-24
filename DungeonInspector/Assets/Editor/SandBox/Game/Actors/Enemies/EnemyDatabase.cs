@@ -3,50 +3,69 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace DungeonInspector
 {
     public class EnemyDatabase
     {
-        public List<DRendererComponent> _enemyRenderers;
-    
-        public int Count => _enemyRenderers.Count;
+        public Dictionary<Type, EnemyBase> _enemies;
 
-        public EnemyDatabase() 
+        public int Count => _enemies.Count;
+
+        public EnemyDatabase()
         {
-            _enemyRenderers = new List<DRendererComponent>()
+            _enemies = new Dictionary<Type, EnemyBase>()
             {
-                GetEnemy<OrcEnemy>("Orc", "GameAssets/Dungeon/ogre_idle_anim_f0"),
-                GetEnemy<OrcEnemy>("Monk", "GameAssets/Dungeon/necromancer_idle_anim_f0"),
-            }; 
+                { typeof(OrcEnemy), GetEnemy<OrcEnemy>(LoadAnims("Enemies/Orc/OrcIdle", "Enemies/Orc/OrcWalk")) },
+                { typeof(MaskedOrcEnemy), GetEnemy<MaskedOrcEnemy>(LoadAnims("Enemies/Masked/MaskedIdle", "Enemies/Masked/MaskedWalk")) },
+                //GetEnemy<OrcEnemy>("Monk", LoadAnims("GameAssets/Dungeon/necromancer_idle_anim_f0")),
+            };
 
-            var test = GetEnemy<OrcEnemy>("ShortMaskedORc", "GameAssets/Dungeon/masked_orc_idle_anim_f0");
+            //  var test = GetEnemy<OrcEnemy>("ShortMaskedORc", "GameAssets/Dungeon/masked_orc_idle_anim_f0");
 
-          
-            _enemyRenderers[1].Entity.Transform.Position = new DVec2(1, -3); // remove
-            _enemyRenderers[1].Entity.Transform.Offset = new DVec2(0, -1); // remove
-            test.Entity.Transform.Position = new DVec2(6, -1); // remove
+
+            //_enemyRenderers[1].Entity.Transform.Position = new DVec2(1, -3); // remove
+            //_enemyRenderers[1].Entity.Transform.Offset = new DVec2(0, -1); // remove
+            // test.Entity.Transform.Position = new DVec2(6, -1); // remove
         }
 
-        private DRendererComponent GetEnemy<T>(string name, string texturePath) where T : EnemyBase, new()
+        // this should be public
+        private T GetEnemy<T>(params DSpriteAnimation[] animations) where T : EnemyBase, new()
         {
-            var entity = new DGameEntity(name, typeof(ActorHealth), typeof(HealthBarUI), typeof(DPhysicsComponent), typeof(DBoxCollider));
+            var entity = new DGameEntity(typeof(T).Name, typeof(ActorHealth), typeof(HealthBarUI), typeof(DPhysicsComponent), typeof(DBoxCollider));
             entity.Tag = "Enemy";
-            entity.AddComp<T>().Tag = "Player";
+            var enemy = entity.AddComp<T>();
+            enemy.Tag = "Player";
 
-            var anim = entity.AddComp<DAnimatorComponent>();
-            //anim.AddAnimation();
 
             var renderer = entity.AddComp<DRendererComponent>();
             renderer.ZSorting = 2;
-            renderer.Sprite = Utils.Load<UnityEngine.Texture2D>(texturePath);
 
-            return renderer;
+            var anim = entity.AddComp<DAnimatorComponent>();
+
+            for (int i = 0; i < animations.Length; i++)
+            {
+                anim.AddAnimation(animations[i]);
+            }
+
+            anim.Speed = 10;
+
+            anim.SetRenderer(renderer);
+
+            return enemy;
         }
 
-        public DRendererComponent GetEnemy(int index)
+        private DSpriteAnimation[] LoadAnims(params string[] animsPath)
         {
-            return _enemyRenderers[index];
+            var anims = new DSpriteAnimation[animsPath.Length];
+
+            for (int i = 0; i < anims.Length; i++)
+            {
+                anims[i] = new DSpriteAnimation(Resources.Load<DSpriteAtlas>(animsPath[i]));
+            }
+
+            return anims;
         }
     }
 }

@@ -27,7 +27,7 @@ namespace DungeonInspector
                 Entity.Destroy();
             }
 
-            Transform.Position += _dir * DTime.DeltaTime * 15;
+            Transform.Position += _dir * DTime.DeltaTime * 20;
         }
 
         protected override void OnTriggerStay(DBoxCollider collider)

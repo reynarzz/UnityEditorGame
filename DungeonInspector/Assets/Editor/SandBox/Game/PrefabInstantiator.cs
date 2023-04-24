@@ -128,6 +128,7 @@ namespace DungeonInspector
             animator.SetRenderer(renderer);
             animator.AddAnimation(animation);
             animator.Speed = 5;
+            animator.PlayOnStart = false;
 
             return chest;
         }
