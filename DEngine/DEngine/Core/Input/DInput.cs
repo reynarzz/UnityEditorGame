@@ -24,14 +24,21 @@ namespace DungeonInspector
         public static string CurrentKeyString() => _currentKey.ToString();
         private static DVec2 _mouseDelta;
         private DVec2 _mousePrev;
+        private static bool _isMouseValid;
 
         public static DVec2 MouseDelta => _mouseDelta;
+        private static DVec2 _prevWorldMousePos;
 
         //TODO:Listen for multiple keys held down
         public override void Update()
         {
             var ev = Event.current;
 
+            //if (ev.isMouse)
+            //{
+            //    _isMouseValid = DCamera._viewportRect.Contains(ev.mousePosition);
+            //}
+            _isMouseValid = true;
             if (ev.type == EventType.KeyDown)
             {
                 if (!_keyDown)
@@ -52,39 +59,47 @@ namespace DungeonInspector
                 _keyDown = false;
             }
 
-            if (ev.type == EventType.MouseDown)
+            if (_isMouseValid)
             {
-                if (!_mouseDown)
+                if (ev.type == EventType.MouseDown)
                 {
-                    _mouseButton = ev.button;
-                    _mousePrev = ev.mousePosition;
+                    if (!_mouseDown)
+                    {
+                        _mouseButton = ev.button;
+                        _mousePrev = ev.mousePosition;
 
+                    }
+                    _mouseDown = true;
                 }
-                _mouseDown = true;
-            }
-            else if (ev.type == EventType.MouseUp)
-            {
+                else if (ev.type == EventType.MouseUp)
+                {
+                    if (_mouseDown)
+                    {
+                        _mouseButton = -1;
+                        _prevMouseButton = -1;
+                        _mouseDelta = default;
+                    }
+
+                    _mouseDown = false;
+                }
+
                 if (_mouseDown)
                 {
-                    _mouseButton = -1;
-                    _prevMouseButton = -1;
-                    _mouseDelta = default;
+                    _mouseDelta = ev.delta;
                 }
-
-                _mouseDown = false;
-            }
-            
-            if (_mouseDown)
-            {
-                _mouseDelta = ev.delta;
             }
         }
 
         public static DVec2 GetMouseWorldPos()
         {
-            var mouse = Event.current;
+            if (_isMouseValid)
+            {
+                var mouse = Event.current;
 
-            return Utils.Mouse2WorldPos(mouse.mousePosition, DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
+                _prevWorldMousePos = Utils.Mouse2WorldPos(mouse.mousePosition, DCamera._viewportRect, DCamera._Position, DCamera.PixelSize);
+            }
+         
+            return _prevWorldMousePos;
         }
 
         public static bool IsKey(KeyCode key)
@@ -119,7 +134,7 @@ namespace DungeonInspector
 
         public static bool IsMouse(int button)
         {
-            return _mouseButton == button;
+            return _mouseButton == button && _isMouseValid;
         }
 
     }
