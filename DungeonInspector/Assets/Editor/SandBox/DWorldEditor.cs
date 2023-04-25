@@ -45,6 +45,7 @@ namespace DungeonInspector
         private Texture2D _selectionFrame;
         private GUIStyle _style;
 
+        private Color32 _selectedColor = new Color32(70, 96, 124, 255);
 
         private const float _mouseDeltaSens = 0.01557f;
         private List<WorldData> _worlds;
@@ -360,7 +361,7 @@ namespace DungeonInspector
 
                 if (_selectedEntity == i)
                 {
-                    GUI.backgroundColor = new Color(0.4f, 0.8f, 1, 1);
+                    GUI.backgroundColor = new Color(0.5f, 0.8f, 1, 1);
                 }
 
                 if (GUILayout.Button(info, GUILayout.MaxWidth(35), GUILayout.MinHeight(35)))
@@ -465,7 +466,10 @@ namespace DungeonInspector
 
                     _tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
                 }
+
             }
+
+            _tilemap.RecalculateBounds();
         }
 
         private void TilesPicker()
