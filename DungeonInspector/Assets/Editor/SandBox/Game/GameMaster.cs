@@ -41,6 +41,7 @@ namespace DungeonInspector
         public NavWorld NavWorld => _navWorld;
         private Player _player;
         private ScreenUI _screenUI;
+        private Dictionary<string, WorldData> _worldData;
 
         protected override void OnAwake()
         {
@@ -62,11 +63,18 @@ namespace DungeonInspector
 
             var worldLevelPath = Application.dataPath + "/Resources/Data/WorldData.txt";
 
+            _worldData = new Dictionary<string, WorldData>();
+
             if (File.Exists(worldLevelPath))
             {
                 var json = File.ReadAllText(worldLevelPath);
 
                 var worldData = JsonConvert.DeserializeObject<List<WorldData>>(json, new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
+
+                for (int i = 0; i < worldData.Count; i++)
+                {
+                    _worldData.Add(worldData[i].Name, worldData[i]);
+                }
 
                 _levelData = worldData[0].LevelData;
             }
@@ -102,6 +110,8 @@ namespace DungeonInspector
 
         private void Load()
         {
+            _tilemap.Clear();
+
             for (int i = 0; i < _levelData.Count; i++)
             {
                 var info = _levelData.GetTile(i);
@@ -112,7 +122,15 @@ namespace DungeonInspector
 
         public void ChangeToLevel(string name)
         {
-
+            if(_worldData.TryGetValue(name, out var world))
+            {
+                _levelData = world.LevelData;
+                Load();
+            }
+            else
+            {
+                Debug.Log("Can't load level!: No level with name: '" + name + "' exist");
+            }
         }
 
         protected override void OnUpdate()

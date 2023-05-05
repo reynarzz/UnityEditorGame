@@ -168,7 +168,6 @@ namespace DungeonInspector
         {
             if (renderer is DRendererUIComponent)
             {
-                Debug.Log("Add ui: " + renderer.Entity.Name);
                 renderer.TransformWithCamera = false;
                 _uirenderers.Add(renderer as DRendererUIComponent);
             }
