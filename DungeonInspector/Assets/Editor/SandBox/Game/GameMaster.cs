@@ -40,6 +40,7 @@ namespace DungeonInspector
         private NavWorld _navWorld;
         public NavWorld NavWorld => _navWorld;
         private Player _player;
+        private ScreenUI _screenUI;
 
         protected override void OnAwake()
         {
@@ -57,6 +58,7 @@ namespace DungeonInspector
             _prefabInstantiator = new PrefabInstantiator();
 
             _navWorld = new NavWorld(_tilemap);
+            _screenUI = new DGameEntity("ScreenUI", typeof(DRendererUIComponent), typeof(ScreenUI)).GetComp<ScreenUI>();
 
             var worldLevelPath = Application.dataPath + "/Resources/Data/WorldData.txt";
 
@@ -108,12 +110,19 @@ namespace DungeonInspector
             }
         }
 
+        public void ChangeToLevel(string name)
+        {
+
+        }
 
         protected override void OnUpdate()
         {
             //-Utils.DrawBounds(_tilemap.GetTilemapBoundaries(), Color.white, 0.5f);
 
             UpdateTilesBehavior();
+
+            EditorGUILayout.Space(18);
+
         }
 
         protected override void OnLateUpdate()

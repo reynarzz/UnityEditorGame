@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
@@ -11,11 +12,14 @@ namespace DungeonInspector
     public class DRenderingController : EngineSystemBase<DRendererComponent>
     {
         private List<DRendererComponent> _renderers;
-        private IOrderedEnumerable<DRendererComponent> _ordered;
+        private List<DRendererUIComponent> _uirenderers;
+        private IOrderedEnumerable<DRendererComponent> _renderersOrdered;
+        private IOrderedEnumerable<DRendererUIComponent> _uiRenderersOrdered;
 
         private bool _pendingToReorder;
 
         private Material _mat;
+        private readonly Material _uiMat;
         private Material _maskMat;
         private Material _screenSpaceEffects;
         private Texture2D _viewportRectTex;
@@ -30,13 +34,15 @@ namespace DungeonInspector
         public DRenderingController()
         {
             _renderers = new List<DRendererComponent>();
+            _uirenderers = new List<DRendererUIComponent>();
+
             _cameras = new List<DCamera>();
             //_mat = Resources.Load<Material>("Materials/DStandard");
             _mat = Resources.Load<Material>("Materials/DStandardShadow");
 
             _maskMat = Resources.Load<Material>("Materials/Mask");
             _screenSpaceEffects = Resources.Load<Material>("Materials/ScreenSpace");
-
+            _uiMat = UnityEngine.Resources.Load<UnityEngine.Material>("Materials/DUI");
 
 
             _viewportRectTex = new Texture2D(1, 1);
@@ -131,8 +137,8 @@ namespace DungeonInspector
 
 
                 // TODO: please, make this not be every frame, (bad perfomance)
-                _ordered = _renderers.OrderByDescending(x => x.Transform.Position.y + x.Transform.Offset.y - x.ZSorting);
-
+                _renderersOrdered = _renderers.OrderByDescending(x => x.Transform.Position.y + x.Transform.Offset.y - x.ZSorting);
+                _uiRenderersOrdered = _uirenderers.OrderBy(x => x.ZSorting);
                 // _renderersOrdered = _renderers.OrderByDescending(x => x.Key);
             }
 
@@ -140,9 +146,15 @@ namespace DungeonInspector
             {
                 // var tex = GetNextTexture();
 
-                foreach (var item in _ordered)
+                foreach (var item in _renderersOrdered)
                 {
-                    Draw(item, _cameras[_cameras.Count - 1]);
+                    Draw(item, _cameras[_cameras.Count - 1], _mat);
+                }
+
+
+                foreach (var item in _uiRenderersOrdered)
+                {
+                    Draw(item, _cameras[_cameras.Count - 1], _uiMat);
                 }
             }
 
@@ -150,14 +162,20 @@ namespace DungeonInspector
             {
                 PostRender();
             }
-
         }
-
-
 
         public override void Add(DRendererComponent renderer)
         {
-            _renderers.Add(renderer);
+            if (renderer is DRendererUIComponent)
+            {
+                Debug.Log("Add ui: " + renderer.Entity.Name);
+                renderer.TransformWithCamera = false;
+                _uirenderers.Add(renderer as DRendererUIComponent);
+            }
+            else
+            {
+                _renderers.Add(renderer);
+            }
 
             _pendingToReorder = true;
         }
@@ -165,8 +183,18 @@ namespace DungeonInspector
         public override void Remove(DRendererComponent renderer)
         {
             _pendingToReorder = true;
+            var wasRemove = false;
 
-            var wasRemove = _renderers.Remove(renderer);
+            if (renderer is DRendererUIComponent)
+            {
+                wasRemove = _uirenderers.Remove(renderer as DRendererUIComponent);
+            }
+            else
+            {
+                wasRemove = _renderers.Remove(renderer);
+            }
+
+
             if (!wasRemove)
             {
                 Debug.LogError("Could not remove render");
@@ -188,7 +216,7 @@ namespace DungeonInspector
             //GUILayout.Space(CameraTest.ScreenSize.y);
         }
 
-        private void Draw(DRendererComponent renderer, DCamera camera)
+        private void Draw(DRendererComponent renderer, DCamera camera, Material defaultMat)
         {
 
             if (camera != null && renderer.Entity.IsActive && renderer.Enabled)
@@ -223,7 +251,7 @@ namespace DungeonInspector
                 }
                 else
                 {
-                    mat = _mat;
+                    mat = defaultMat;
                 }
 
                 foreach (var states in renderer.ShaderState)

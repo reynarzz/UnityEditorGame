@@ -146,7 +146,7 @@ namespace DungeonInspector
                         entity.Transform.Scale = EditorGUILayout.Vector2Field(string.Empty, entity.Transform.Scale, GUILayout.MaxWidth(_rect.width - 50));
                     }
 
-                    if (component.GetType() == typeof(DRendererComponent))
+                    if (component.GetType() == typeof(DRendererComponent) || component is DRendererUIComponent)
                     {
                         var comp = (component as DRendererComponent);
                         GUILayout.BeginHorizontal();

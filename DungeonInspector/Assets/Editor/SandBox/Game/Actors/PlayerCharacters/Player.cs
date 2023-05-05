@@ -50,7 +50,7 @@ namespace DungeonInspector
 
             var collider = AddComp<DBoxCollider>();
             collider.IsTrigger = true;
-
+             
             collider.Center = new DVec2(0, -0.75f);
             collider.Size = new DVec2(0.78f, 0.79f);
 

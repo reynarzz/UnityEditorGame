@@ -11,7 +11,21 @@ namespace DungeonInspector
     {
         protected override void OnEnter(Actor actor, ChangeLevelTD data)
         {
-            Debug.Log("Change level: " + data.Value);
+            var screenUI = DGameEntity.FindGameEntity("ScreenUI").GetComp<ScreenUI>();
+            var gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
+
+            screenUI.FadeIn(() => 
+            {
+                gameMaster.ChangeToLevel(data.Value);
+                Debug.Log("Change level: " + data.Value);
+
+                screenUI.FadeOut(() =>
+                {
+
+                });
+            });
         }
+
+
     }
 }
