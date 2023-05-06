@@ -13,6 +13,7 @@ namespace DungeonInspector
         {
             var screenUI = DGameEntity.FindGameEntity("ScreenUI").GetComp<ScreenUI>();
             var gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
+            DTime.TimeScale = 0;
 
             screenUI.FadeIn(() =>
             {
@@ -21,7 +22,7 @@ namespace DungeonInspector
 
                 screenUI.FadeOut(() =>
                 {
-
+                    DTime.TimeScale = 1;
                 });
             });
         }

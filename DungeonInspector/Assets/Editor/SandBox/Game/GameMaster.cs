@@ -35,6 +35,9 @@ namespace DungeonInspector
         private Dictionary<string, WorldData> _worldsData;
         private LevelTilesData _currentLevelTilesData;
 
+        private GameInput _input;
+        public GameInput Input => _input;
+
         protected override void OnAwake()
         {
             // Main Player

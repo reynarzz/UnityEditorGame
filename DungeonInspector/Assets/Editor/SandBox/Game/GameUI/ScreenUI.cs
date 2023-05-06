@@ -12,7 +12,7 @@ namespace DungeonInspector
         private DRendererUIComponent _renderer;
 
         [DExpose] private bool _fadeIn;
-        [DExpose] private float _secs = 0.8f;
+        [DExpose] private float _secs = 0.5f;
 
         private float _time;
         private Action _callback;
@@ -32,7 +32,7 @@ namespace DungeonInspector
         {
             if (_fadeIn)
             {
-                _time += DTime.DeltaTime / _secs;
+                _time += DTime.DeltaTimeUnscaled / _secs;
 
                 if(_time > 1 && !_called)
                 {
@@ -42,7 +42,7 @@ namespace DungeonInspector
             }
             else
             {
-                _time -= DTime.DeltaTime / _secs;
+                _time -= DTime.DeltaTimeUnscaled / _secs;
 
                 if (_time < 0 && !_called)
                 {
