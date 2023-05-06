@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.UIElements;
 
 namespace DungeonInspector
 {
@@ -46,7 +45,7 @@ namespace DungeonInspector
         protected override void OnAwake()
         {
             // Main Player
-            _player =  new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player)).GetComp<Player>();
+            _player = new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player)).GetComp<Player>();
 
             _tilemap = DGameEntity.FindGameEntity("TileMaster").GetComp<DTilemap>();
             _camera = DGameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();
@@ -105,7 +104,7 @@ namespace DungeonInspector
             var chest = _prefabInstantiator.InstanceChest("Chest");
             chest.Transform.Position = new DVec2(-5, 2);
 
-           _tilemap.GetTile(new DVec2(-5, 2), 0).IsWalkable = false;
+            _tilemap.GetTile(new DVec2(-5, 2), 0).IsWalkable = false;
         }
 
         private void Load()
@@ -122,7 +121,7 @@ namespace DungeonInspector
 
         public void ChangeToLevel(string name)
         {
-            if(_worldData.TryGetValue(name, out var world))
+            if (_worldData.TryGetValue(name, out var world))
             {
                 _levelData = world.LevelData;
                 Load();
@@ -150,23 +149,25 @@ namespace DungeonInspector
 
         private void UpdateTilesBehavior()
         {
-            foreach (var item in _tilesBehaviors)
-            {
-                // This should be cached
-                var behavior = _tbContainer.GetBehavior(item.Key);
+            //foreach (var actorsList in _tilesBehaviors)
+            //{
+            //    // This should be cached
+            //    var behavior = _tbContainer.GetBehavior(actorsList.Key);
 
-                for (int i = 0; i < item.Value.Count; i++)
-                {
-                    behavior.OnUpdate(item.Value[i], GetLevelData(item.Value[i].Transform.Position));
-                }
-            }
+            //    for (int i = 0; i < actorsList.Value.Count; i++)
+            //    {
+            //        behavior.OnUpdate(actorsList.Value[i], GetLevelData(actorsList.Value[i].Transform.Position));
+            //    }
+            //}
         }
 
         public void OnActorEnterTile(Actor actor, DTile tile)
         {
             var behavior = _tbContainer.GetBehavior(tile.Behavior);
 
-            behavior.OnEnter(actor, GetLevelData(actor.Transform.Position));
+            var tileData = GetLevelData(actor.Transform.Position);
+
+            behavior.OnEnter(actor, tileData);
 
             if (_tilesBehaviors.TryGetValue(tile.Behavior, out var playersList))
             {

@@ -78,6 +78,9 @@ namespace DungeonInspector
 
         private bool _showManager = false;
 
+        private DVec2 _pickerScroll;
+        private int _selectedIndex = 0;
+
         private enum TileDatabaseType
         {
             Static,
@@ -306,15 +309,18 @@ namespace DungeonInspector
                 GUILayout.EndVertical();
 
                 GUILayout.FlexibleSpace();
-                var index = DrawPallete(_currentBrushIcons);
+                _selectedIndex = DrawPallete(_currentBrushIcons, _selectedIndex);
                 GUILayout.EndHorizontal();
 
 
-
-                if (index >= 0 && index < _entityList.Count)
+                if(_paintType == PaintType.Tile)
                 {
-                    _currentPickedEntity = _entityList.GetEntityInfo(index);
+                    _selectedTile = _tilesDatabase.GetTile(_selectedIndex);
                 }
+                //PickEntity(index);
+
+
+
                 GUILayout.Space(3);
 
                 GUILayout.EndArea();
@@ -334,6 +340,14 @@ namespace DungeonInspector
             Utils.DrawBounds(_tilemap.GetTilemapBoundaries(), Color.white, 0.5f);
         }
 
+        private void PickEntity(int index)
+        {
+            if (index >= 0 && index < _entityList.Count)
+            {
+                _currentPickedEntity = _entityList.GetEntityInfo(index);
+            }
+        }
+
         private void DrawBrushModes()
         {
             for (int i = 0; i < _brushModes.Length; i++)
@@ -345,10 +359,7 @@ namespace DungeonInspector
             }
         }
 
-        private DVec2 _pickerScroll;
-        private int _selectedEntity = -1;
-
-        private int DrawPallete(GUIContent[] items)
+        private int DrawPallete(GUIContent[] items, int selected)
         {
             GUILayout.BeginVertical();
             _pickerScroll = GUILayout.BeginScrollView(_pickerScroll, false, false, GUIStyle.none, GUIStyle.none, EditorStyles.helpBox, GUILayout.MinWidth(43));
@@ -359,21 +370,21 @@ namespace DungeonInspector
 
                 var c = GUI.backgroundColor;
 
-                if (_selectedEntity == i)
+                if (selected == i)
                 {
                     GUI.backgroundColor = new Color(0.5f, 0.8f, 1, 1);
                 }
 
                 if (GUILayout.Button(info, GUILayout.MaxWidth(35), GUILayout.MinHeight(35)))
                 {
-                    _selectedEntity = i;
+                    selected = i;
                 }
 
                 GUI.backgroundColor = c;
             }
             GUILayout.EndScrollView();
             GUILayout.EndVertical();
-            return _selectedEntity;
+            return selected;
         }
 
 
@@ -613,7 +624,7 @@ namespace DungeonInspector
                     case TileBehavior.IncreaseHealth:
                         break;
                     case TileBehavior.ChangeLevel:
-                        tile.RuntimeData = new StringDataTD();
+                        tile.RuntimeData = new ChangeLevelTD();
                         break;
                 }
             }
