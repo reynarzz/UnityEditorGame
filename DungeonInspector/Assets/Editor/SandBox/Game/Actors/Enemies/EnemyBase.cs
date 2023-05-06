@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class EnemyBase : Actor
+    public abstract class EnemyBase : Actor
     {
         private DRendererComponent _renderer;
         private HealthBarUI _healthBar;
@@ -17,6 +17,7 @@ namespace DungeonInspector
 
         private const float _healthBarYOffset = 0.3f;
         private const float _isHitMaxTime = 0.25f;
+        protected abstract int StartingHealth { get; }
 
         private float _isHitTime;
         private bool _isHit;
@@ -44,6 +45,7 @@ namespace DungeonInspector
             _renderer = GetComp<DRendererComponent>();
             _animator = GetComp<DAnimatorComponent>();
 
+            _health.SetInitialHealth(StartingHealth);
             _health.OnHealthChanged += OnHealthChanged;
             _health.OnHealthDepleted += OnHealthDepleted;
 

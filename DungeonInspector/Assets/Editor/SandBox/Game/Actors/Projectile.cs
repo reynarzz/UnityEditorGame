@@ -34,7 +34,7 @@ namespace DungeonInspector
         {
             if(collider.Entity.Tag == "Enemy")
             {
-                collider.GetComp<ActorHealth>().AddAmount(-1.5f);
+                collider.GetComp<ActorHealth>().AddAmount(-1f);
                 Entity.Destroy();
             }
         }

@@ -1,10 +1,6 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
@@ -20,11 +16,9 @@ namespace DungeonInspector
 
         private TilesDatabase _tilesDatabase;
         private TilesDatabase _animatedTiles;
-        private EnemyDatabase _enemyDatabase;
 
         public TilesDatabase TilesDatabase => _tilesDatabase;
         public TilesDatabase AnimatedTiles => _animatedTiles;
-        public EnemyDatabase EnemyDatabase => _enemyDatabase;
 
         private PrefabInstantiator _prefabInstantiator;
         private PlayerHealthUI _playerHealthUI;
@@ -33,14 +27,13 @@ namespace DungeonInspector
 
         private TileBehaviorsContainer _tbContainer;
 
-        private LevelTilesData _levelData;
-
         private Dictionary<TileBehavior, List<Actor>> _tilesBehaviors;
         private NavWorld _navWorld;
         public NavWorld NavWorld => _navWorld;
         private Player _player;
         private ScreenUI _screenUI;
-        private Dictionary<string, WorldData> _worldData;
+        private Dictionary<string, WorldData> _worldsData;
+        private LevelTilesData _currentLevelTilesData;
 
         protected override void OnAwake()
         {
@@ -52,7 +45,6 @@ namespace DungeonInspector
 
             _tilesDatabase = new TilesDatabase("World/World1Tiles");
             _animatedTiles = new TilesDatabase("World/TilesAnimated");
-            _enemyDatabase = new EnemyDatabase();
             _tbContainer = new TileBehaviorsContainer();
             _tilesBehaviors = new Dictionary<TileBehavior, List<Actor>>();
             _prefabInstantiator = new PrefabInstantiator();
@@ -62,7 +54,9 @@ namespace DungeonInspector
 
             var worldLevelPath = Application.dataPath + "/Resources/Data/WorldData.txt";
 
-            _worldData = new Dictionary<string, WorldData>();
+            _worldsData = new Dictionary<string, WorldData>();
+
+            var currentWorld = default(WorldData);
 
             if (File.Exists(worldLevelPath))
             {
@@ -72,59 +66,71 @@ namespace DungeonInspector
 
                 for (int i = 0; i < worldData.Count; i++)
                 {
-                    _worldData.Add(worldData[i].Name, worldData[i]);
+                    _worldsData.Add(worldData[i].Name, worldData[i]);
                 }
 
-                _levelData = worldData[0].LevelData;
-            }
-            else
-            {
-                _levelData = new LevelTilesData(new TileData[0]);
+                currentWorld = worldData[0];
             }
 
             _playerHealthUI = new DGameEntity("PlayerHealthHUD").AddComp<PlayerHealthUI>();
 
-            //_prefabInstantiator.InstanceDoor("ExitDoor").Transform.Position = new DVec2(2.27f, 3.56f);
-            //_prefabInstantiator.GetHealthPotion("Health1").Transform.Position = new DVec2(2, 1);
-            _prefabInstantiator.InstanceCoin("Coin1").Transform.Position = new DVec2(-1, -4);
-            //_prefabInstantiator.InstanceCoin("Coin2").Transform.Position = new DVec2(2, 2);
-            //_prefabInstantiator.InstanceCoin("Coin3").Transform.Position = new DVec2(3, 2);
-            //_prefabInstantiator.InstanceCoin("Coin4").Transform.Position = new DVec2(4, 2);
-            //_prefabInstantiator.InstanceCoin("Coin5").Transform.Position = new DVec2(5, 2);
-            //_prefabInstantiator.InstanceCoin("Coin6").Transform.Position = new DVec2(6, 2);
-
-            Load();
-            _navWorld.Init();
+            if (currentWorld != null)
+            {
+                Load(currentWorld);
+                
+            }
         }
 
         protected override void OnStart()
         {
             //DAudio.PlayAudio("Audio/ForgottenPlains/Music/Plain_Sight_(Regular).wav");
-
-            var chest = _prefabInstantiator.InstanceChest("Chest");
-            chest.Transform.Position = new DVec2(-5, 2);
-
-            _tilemap.GetTile(new DVec2(-5, 2), 0).IsWalkable = false;
         }
 
-        private void Load()
+        private void Load(WorldData world)
         {
             _tilemap.Clear();
 
-            for (int i = 0; i < _levelData.Count; i++)
+            _prefabInstantiator.DestroyAllInstances();
+
+            _currentLevelTilesData = world.LevelData;
+
+            for (int i = 0; i < world.LevelData.Count; i++)
             {
-                var info = _levelData.GetTile(i);
+                var info = world.LevelData.GetTile(i);
 
                 _tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
             }
+
+            for (int i = 0; i < world.Entities.Count; i++)
+            {
+                var ent = world.Entities[i];
+
+                var obj = _prefabInstantiator.InstanceEntityByID(ent.Item1);
+                obj.Transform.Position = ent.Item2;
+
+                if (ent.Item1 == EntityID.ChestEmpty)
+                {
+                    var tile = _tilemap.GetTile(ent.Item2, 0);
+
+                    if(tile != null)
+                    {
+                        tile.IsWalkable = false;
+                    }
+                    else
+                    {
+                        Debug.Log("Placed outside a tile.");
+                    }
+                }
+            }
+
+            _navWorld.Init();
         }
 
         public void ChangeToLevel(string name)
         {
-            if (_worldData.TryGetValue(name, out var world))
+            if (_worldsData.TryGetValue(name, out var world))
             {
-                _levelData = world.LevelData;
-                Load();
+                Load(world);
             }
             else
             {
@@ -201,7 +207,7 @@ namespace DungeonInspector
 
         public BaseTD GetLevelData(DVec2 vector)
         {
-            return _levelData.GetLevelTileData(vector.Round());
+            return _currentLevelTilesData.GetLevelTileData(vector.Round());
         }
     }
 }

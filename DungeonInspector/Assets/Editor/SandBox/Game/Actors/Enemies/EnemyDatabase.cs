@@ -9,28 +9,16 @@ namespace DungeonInspector
 {
     public class EnemyDatabase
     {
-        public Dictionary<Type, EnemyBase> _enemies;
-
-        public int Count => _enemies.Count;
-
-        public EnemyDatabase()
+        public OrcEnemy InstanceOrc()
         {
-            //_enemies = new Dictionary<Type, EnemyBase>()
-            //{
-            //    { typeof(OrcEnemy), GetEnemy<OrcEnemy>(LoadAnims("Enemies/Orc/OrcIdle", "Enemies/Orc/OrcWalk")) },
-            //    { typeof(MaskedOrcEnemy), GetEnemy<MaskedOrcEnemy>(LoadAnims("Enemies/Masked/MaskedIdle", "Enemies/Masked/MaskedWalk")) },
-            //    //GetEnemy<OrcEnemy>("Monk", LoadAnims("GameAssets/Dungeon/necromancer_idle_anim_f0")),
-            //};
-
-            //  var test = GetEnemy<OrcEnemy>("ShortMaskedORc", "GameAssets/Dungeon/masked_orc_idle_anim_f0");
-
-
-            //_enemyRenderers[1].Entity.Transform.Position = new DVec2(1, -3); // remove
-            //_enemyRenderers[1].Entity.Transform.Offset = new DVec2(0, -1); // remove
-            // test.Entity.Transform.Position = new DVec2(6, -1); // remove
+            return GetEnemy<OrcEnemy>(LoadAnims("Enemies/Orc/OrcIdle", "Enemies/Orc/OrcWalk"));
         }
 
-        // this should be public
+        public MaskedOrcEnemy InstanceMaskedOrc()
+        {
+            return GetEnemy<MaskedOrcEnemy>(LoadAnims("Enemies/Masked/MaskedIdle", "Enemies/Masked/MaskedWalk"));
+        }
+
         private T GetEnemy<T>(params DSpriteAnimation[] animations) where T : EnemyBase, new()
         {
             var entity = new DGameEntity(typeof(T).Name, typeof(ActorHealth), typeof(HealthBarUI), typeof(DPhysicsComponent), typeof(DBoxCollider));

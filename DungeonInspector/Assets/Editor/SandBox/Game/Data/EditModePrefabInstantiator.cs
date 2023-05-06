@@ -7,35 +7,34 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class EntityInfo 
+    public class EntityInfo
     {
         public Texture2D Tex { get; set; }
-        public int EntityID { get; set; }
+        public EntityID EntityID { get; set; }
+        public int MaxEntitiesOfThisType { get; set; } = 1;
     }
 
     public class EditModePrefabInstantiator
     {
-        private List<EntityInfo> _entityTextures;
+        private Dictionary<EntityID, EntityInfo> _entities;
 
-        public int Count => _entityTextures.Count;
+        public int Count => _entities.Count;
 
         public EditModePrefabInstantiator()
         {
-            _entityTextures = new List<EntityInfo>()
+
+            _entities = new Dictionary<EntityID, EntityInfo>()
             {
-                  new EntityInfo() { EntityID = EntityIDs.Player, Tex = Load("GameAssets/Dungeon/knight_f_idle_anim_f0") },
-                  new EntityInfo() { EntityID = EntityIDs.Ogre, Tex = Load("GameAssets/Dungeon/ogre_idle_anim_f0") },
-                  new EntityInfo() { EntityID = EntityIDs.MaskedOrc, Tex = Load("GameAssets/Dungeon/masked_orc_idle_anim_f0") },
-                  new EntityInfo() { EntityID = EntityIDs.ChestEmpty, Tex = Load("GameAssets/Dungeon/chest_empty_open_anim_f2") },
-                  new EntityInfo() { EntityID = EntityIDs.ChestPrice, Tex = Load("GameAssets/Dungeon/chest_full_open_anim_f1") },
+               { EntityID.Player,       new EntityInfo() { EntityID = EntityID.Player, Tex = Load("GameAssets/Dungeon/knight_f_idle_anim_f0")} },
+               { EntityID.Ogre ,        new EntityInfo() { EntityID = EntityID.Ogre, Tex = Load("GameAssets/Dungeon/ogre_idle_anim_f0") } },
+               { EntityID.MaskedOrc,    new EntityInfo() { EntityID = EntityID.MaskedOrc, Tex = Load("GameAssets/Dungeon/masked_orc_idle_anim_f0") }},
+               { EntityID.ChestEmpty,   new EntityInfo() { EntityID = EntityID.ChestEmpty, Tex = Load("GameAssets/Dungeon/chest_empty_open_anim_f2")  }},
+               { EntityID.ChestPrice ,  new EntityInfo() { EntityID = EntityID.ChestPrice, Tex = Load("GameAssets/Dungeon/chest_full_open_anim_f1") } },
 
-                  new EntityInfo() { EntityID = EntityIDs.Coin, Tex = Load("GameAssets/Dungeon/coin_anim_f0") },
-                  new EntityInfo() { EntityID = EntityIDs.Door, Tex = Load("GameAssets/Dungeon/doors_semi_all 1") },
-                  new EntityInfo() { EntityID = EntityIDs.GreenPotion, Tex = Load("GameAssets/Dungeon/flask_big_green") },
-                  new EntityInfo() { EntityID = EntityIDs.Crate, Tex = Load("GameAssets/Dungeon/crate") },
-
-
-
+               { EntityID.Coin ,        new EntityInfo() { EntityID = EntityID.Coin, Tex = Load("GameAssets/Dungeon/coin_anim_f0") } },
+               { EntityID.Door,         new EntityInfo() { EntityID = EntityID.Door, Tex = Load("GameAssets/Dungeon/doors_semi_all 1") } },
+               { EntityID.GreenPotion,  new EntityInfo() { EntityID = EntityID.GreenPotion, Tex = Load("GameAssets/Dungeon/flask_big_green") } },
+               { EntityID.Crate ,       new EntityInfo() { EntityID = EntityID.Crate, Tex = Load("GameAssets/Dungeon/crate") } },
             };
         }
 
@@ -45,9 +44,9 @@ namespace DungeonInspector
             return Resources.Load<Texture2D>(path);
         }
 
-        public EntityInfo GetEntityInfo(int index)
+        public EntityInfo GetEntityInfo(EntityID id)
         {
-            return _entityTextures[index];
+            return _entities[id];
         }
     }
 }

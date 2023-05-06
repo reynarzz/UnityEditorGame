@@ -11,6 +11,7 @@ namespace DungeonInspector
     {
         private Player _player;
         private DRendererComponent _renderer;
+        protected override int StartingHealth => 30;
 
         protected override void OnAwake()
         {

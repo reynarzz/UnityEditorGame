@@ -15,7 +15,12 @@ namespace DungeonInspector
         [JsonProperty] public string Name { get; set; }
         [JsonProperty] public LevelTilesData LevelData { get; set; }
 
-        public List<int> MyProperty { get; set; }
+        public List<(EntityID, DVec2)> Entities { get; set; }
+
+        public WorldData()
+        {
+            Entities = new List<(EntityID, DVec2)>();
+        }
     }
 
     [Serializable]

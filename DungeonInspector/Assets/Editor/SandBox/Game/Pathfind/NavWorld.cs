@@ -32,6 +32,7 @@ namespace DungeonInspector
         public void Init()
         {
             _bounds = _tileMap.GetTilemapBoundaries();
+            _path.Clear();
 
             _width = (int)MathF.Round(MathF.Abs(_bounds.Max.x - _bounds.Min.x));
             _heigth = (int)MathF.Round(MathF.Abs(_bounds.Max.y - _bounds.Min.y));

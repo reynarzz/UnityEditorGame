@@ -10,5 +10,6 @@ namespace DungeonInspector
     public class ChangeLevelTD : StringDataTD
     {
         public override string Value { get; set; }
+        public DVec2 SpawnPosition { get; set; }
     }
 }

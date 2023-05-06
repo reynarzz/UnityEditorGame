@@ -8,6 +8,7 @@ using System.Linq;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using UnityEngine.UIElements;
 
 namespace DungeonInspector
 {
@@ -54,8 +55,8 @@ namespace DungeonInspector
         private static int _selectedWorldIndex;
         private static DVec2 _cameraPos;
 
-        private EntityInfo _currentPickedEntity;
-        private EditModePrefabInstantiator _entityList;
+        private EntityInfo _selectedEntity;
+        private EditModePrefabInstantiator _entityPrefabList;
         private GUIContent[] _entityBrushIcons;
         private GUIContent[] _tilesBrushIcons;
 
@@ -80,6 +81,7 @@ namespace DungeonInspector
 
         private DVec2 _pickerScroll;
         private int _selectedIndex = 0;
+        private string[] _worldsNames;
 
         private enum TileDatabaseType
         {
@@ -94,7 +96,7 @@ namespace DungeonInspector
 
             _tilesDatabase = new TilesDatabase("World/World1Tiles");
             _animatedTiles = new TilesDatabase("World/TilesAnimated");
-            _entityList = new EditModePrefabInstantiator();
+            _entityPrefabList = new EditModePrefabInstantiator();
 
             _brushIcon = EditorGUIUtility.IconContent("ClothInspector.PaintTool");
             _eraserIcon = EditorGUIUtility.IconContent("d_Grid.EraserTool");
@@ -117,6 +119,8 @@ namespace DungeonInspector
             _selectedTile = _tilesDatabase.GetTile(0);
 
             _tilesBrushIcons = new GUIContent[_tilesDatabase.Count];
+            _placedEntities = new List<(DVec2, EntityInfo)>();
+
             for (int i = 0; i < _tilesBrushIcons.Length; i++)
             {
                 var tile = _tilesDatabase.GetTile(i);
@@ -133,13 +137,17 @@ namespace DungeonInspector
             AssetDatabase.Refresh();
             if (data != null)
             {
-
                 _worlds = JsonConvert.DeserializeObject<List<WorldData>>(data.text,
                     new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
 
+                _worldsNames = _worlds.Select(x => x.Name).ToArray();
+
+
                 if (_worlds.Count > _selectedWorldIndex)
                 {
-                    Load(_worlds[_selectedWorldIndex].LevelData);
+                    var world = _worlds[_selectedWorldIndex];
+
+                    Load(world);
                 }
             }
             else
@@ -150,11 +158,11 @@ namespace DungeonInspector
             _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
             _selectionFrame = Resources.Load<Texture2D>("GameAssets/LevelEditor/SelectionFrame");
 
-            _entityBrushIcons = new GUIContent[_entityList.Count];
+            _entityBrushIcons = new GUIContent[_entityPrefabList.Count];
 
-            for (int i = 0; i < _entityList.Count; i++)
+            for (int i = 0; i < _entityPrefabList.Count; i++)
             {
-                var tex = _entityList.GetEntityInfo(i).Tex;
+                var tex = _entityPrefabList.GetEntityInfo((EntityID)i).Tex;
 
                 _entityBrushIcons[i] = new GUIContent(tex, tex.name);
             }
@@ -179,7 +187,7 @@ namespace DungeonInspector
                     BrushMode = BrushMode.Eraser;
                 }
             }
-            else if (_currentPickedEntity != null)
+            else if (_selectedEntity != null)
             {
                 _mouseTileGuidePosition = new Vector2Int(Mathf.RoundToInt(newMousePos.x), Mathf.RoundToInt(newMousePos.y));
 
@@ -197,7 +205,24 @@ namespace DungeonInspector
             {
                 if (DInput.IsMouse(0) && BrushMode == BrushMode.Paint)
                 {
-                    _tilemap.SetNewTile(_selectedTile, _mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
+                    if (_paintType == PaintType.Tile)
+                    {
+                        _tilemap.SetNewTile(_selectedTile, _mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
+
+                    }
+                    else if (_paintType == PaintType.Entity)
+                    {
+                        if (!_placedEntities.Exists(x => x.Item1.RoundToInt() == _mouseTileGuidePosition && x.Item2.EntityID == _selectedEntity.EntityID))
+                        {
+                            _placedEntities.Add((_mouseTileGuidePosition, _selectedEntity));
+                        }
+                        else
+                        {
+                            var index = _placedEntities.FindIndex(x => x.Item1.RoundToInt() == _mouseTileGuidePosition);
+
+                            _placedEntities[index] = (_mouseTileGuidePosition, _selectedEntity);
+                        }
+                    }
                 }
                 else if ((DInput.IsMouse(0) || DInput.IsMouse(1)) && BrushMode == BrushMode.Eraser)
                 {
@@ -219,19 +244,40 @@ namespace DungeonInspector
             }
 
             _camera.Transform.Position = _cameraPos;
-            tex = BrushMode == BrushMode.Paint ? _selectedTile.Texture : _selectionFrame;
 
+            if (_paintType == PaintType.Tile)
+            {
+
+                tex = BrushMode == BrushMode.Paint ? _selectedTile.Texture : _selectionFrame;
+            }
+            else if (_paintType == PaintType.Entity)
+            {
+                tex = BrushMode == BrushMode.Paint ? _selectedEntity.Tex : _selectionFrame;
+            }
             //// Mouse sprite pointer
             //DrawSprite(newMousePos, Vector2.one, _camera_Test, WorldEditorEditor.SelectedTex);
 
             Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, Vector2.one), tex, _mat_DELETE);
 
-            if (_currentPickedEntity != null)
+            if (_selectedEntity != null)
             {
-                var width = _currentPickedEntity.Tex.width;
-                var height = _currentPickedEntity.Tex.height;
+                var width = _selectedEntity.Tex.width;
+                var height = _selectedEntity.Tex.height;
 
-                Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, new DVec2(width, height) * 0.064f), _currentPickedEntity.Tex, _mat_DELETE);
+                Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, new DVec2(width, height) * 0.064f), _selectedEntity.Tex, _mat_DELETE);
+            }
+
+            if (_placedEntities.Count > 0)
+            {
+                for (int i = 0; i < _placedEntities.Count; i++)
+                {
+                    var entTex = _placedEntities[i].Item2.Tex;
+
+                    var width = entTex.width;
+                    var height = entTex.height;
+                     
+                    Graphics.DrawTexture(_camera.World2RectPos(_placedEntities[i].Item1, new DVec2(width, height) * 0.064f), entTex, _mat_DELETE);
+                }
             }
             //Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, Vector2.one), _selectionFrame, _mat_DELETE);
         }
@@ -248,8 +294,7 @@ namespace DungeonInspector
             GUILayout.Space(30);
 
             MousePointer();
-
-
+            
             GUILayout.Label(_mouseTileGuidePosition.ToString());
 
             //TilesPicker();
@@ -309,13 +354,19 @@ namespace DungeonInspector
                 GUILayout.EndVertical();
 
                 GUILayout.FlexibleSpace();
-                _selectedIndex = DrawPallete(_currentBrushIcons, _selectedIndex);
+                _selectedIndex = DrawPallete(_currentBrushIcons, _selectedIndex, _currentBrushIcons.Length);
                 GUILayout.EndHorizontal();
 
 
-                if(_paintType == PaintType.Tile)
+                if (_paintType == PaintType.Tile)
                 {
+                    _selectedEntity = null;
                     _selectedTile = _tilesDatabase.GetTile(_selectedIndex);
+                }
+                else if (_paintType == PaintType.Entity)
+                {
+                    _selectedTile = null;
+                    _selectedEntity = _entityPrefabList.GetEntityInfo((EntityID)_selectedIndex);
                 }
                 //PickEntity(index);
 
@@ -342,9 +393,9 @@ namespace DungeonInspector
 
         private void PickEntity(int index)
         {
-            if (index >= 0 && index < _entityList.Count)
+            if (index >= 0 && index < _entityPrefabList.Count)
             {
-                _currentPickedEntity = _entityList.GetEntityInfo(index);
+                _selectedEntity = _entityPrefabList.GetEntityInfo((EntityID)index);
             }
         }
 
@@ -359,10 +410,15 @@ namespace DungeonInspector
             }
         }
 
-        private int DrawPallete(GUIContent[] items, int selected)
+        private int DrawPallete(GUIContent[] items, int selected, int max)
         {
             GUILayout.BeginVertical();
             _pickerScroll = GUILayout.BeginScrollView(_pickerScroll, false, false, GUIStyle.none, GUIStyle.none, EditorStyles.helpBox, GUILayout.MinWidth(43));
+
+            if (selected > max)
+            {
+                selected = 0;
+            }
 
             for (int i = 0; i < items.Length; i++)
             {
@@ -440,7 +496,7 @@ namespace DungeonInspector
                 {
                     _selectedWorldIndex = i;
                     _showManager = false;
-                    Load(_worlds[i].LevelData);
+                    Load(_worlds[i]);
                 }
 
                 if (GUILayout.Button(_trashIcon, GUILayout.Width(25), GUILayout.Height(25)))
@@ -465,19 +521,32 @@ namespace DungeonInspector
             GUILayout.EndArea();
         }
 
-        private void Load(LevelTilesData levelData)
+        private void Load(WorldData worldData)
         {
             _tilemap.Clear();
+            _placedEntities.Clear();
 
-            if (levelData != null)
+            if (worldData != null)
             {
-                for (int i = 0; i < levelData.Count; i++)
+                if (worldData.LevelData != null)
                 {
-                    var info = levelData.GetTile(i);
 
-                    _tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
+                    for (int i = 0; i < worldData.LevelData.Count; i++)
+                    {
+                        var info = worldData.LevelData.GetTile(i);
+
+                        _tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
+                    }
                 }
 
+                for (int i = 0; i < worldData.Entities.Count; i++)
+                {
+                    var ent = worldData.Entities[i];
+
+                    var info = _entityPrefabList.GetEntityInfo(ent.Item1);
+                    _placedEntities.Add((ent.Item2, info));
+
+                }
             }
 
             _tilemap.RecalculateBounds();
@@ -529,7 +598,7 @@ namespace DungeonInspector
                     //TODO: change the texture animation for animated tiles.
                     if (GUILayout.Button(new GUIContent(tile.Texture, tile.Texture.name), GUILayout.Width(40), GUILayout.Height(40)))
                     {
-                        _currentPickedEntity = null;
+                        _selectedEntity = null;
                         _selectedTile = tile;
                     }
 
@@ -571,7 +640,10 @@ namespace DungeonInspector
 
                 var levelData = new LevelTilesData(orderedTiles);
 
-                _worlds[_selectedWorldIndex].LevelData = levelData;
+                var world = _worlds[_selectedWorldIndex];
+
+                world.LevelData = levelData;
+                world.Entities = _placedEntities.Select(x => (x.Item2.EntityID, x.Item1)).ToList();
 
                 SaveChange();
 
@@ -638,6 +710,7 @@ namespace DungeonInspector
             {
                 var props = type.GetType().GetProperties();
 
+                GUILayout.BeginVertical(EditorStyles.helpBox);
                 for (int i = 0; i < props.Length; i++)
                 {
                     var property = props[i];
@@ -645,20 +718,28 @@ namespace DungeonInspector
                     var value = property.GetValue(type);
                     var propType = property.PropertyType;
 
+
                     if (propType.IsValueType)
                     {
                         if (propType.IsAssignableFrom(typeof(float)))
                         {
                             GUILayout.BeginHorizontal();
-                            GUILayout.Label(name);
+                            GUILayout.Label(name, GUILayout.MinWidth(100));
                             value = EditorGUILayout.FloatField((float)value);
                             GUILayout.EndHorizontal();
                         }
                         else if (propType.IsAssignableFrom(typeof(int)))
                         {
                             GUILayout.BeginHorizontal();
-                            GUILayout.Label(name);
+                            GUILayout.Label(name, GUILayout.MinWidth(100));
                             value = EditorGUILayout.IntField((int)value);
+                            GUILayout.EndHorizontal();
+                        }
+                        else if (propType.IsAssignableFrom(typeof(DVec2)))
+                        {
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Label(name, GUILayout.MinWidth(100));
+                            value = (DVec2)EditorGUILayout.Vector2IntField(string.Empty, (DVec2)value);
                             GUILayout.EndHorizontal();
                         }
                     }
@@ -667,7 +748,7 @@ namespace DungeonInspector
                         if (propType.IsAssignableFrom(typeof(string)))
                         {
                             GUILayout.BeginHorizontal();
-                            GUILayout.Label(name);
+                            GUILayout.Label(name, GUILayout.MinWidth(100));
                             value = EditorGUILayout.TextField((string)value);
                             GUILayout.EndHorizontal();
                         }
@@ -675,6 +756,7 @@ namespace DungeonInspector
 
                     property.SetValue(type, value);
                 }
+                GUILayout.EndVertical();
             }
         }
 

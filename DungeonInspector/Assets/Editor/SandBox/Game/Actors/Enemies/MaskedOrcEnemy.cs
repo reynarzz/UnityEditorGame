@@ -8,5 +8,6 @@ namespace DungeonInspector
 {
     public class MaskedOrcEnemy : EnemyBase
     {
+        protected override int StartingHealth => 10;
     }
 }

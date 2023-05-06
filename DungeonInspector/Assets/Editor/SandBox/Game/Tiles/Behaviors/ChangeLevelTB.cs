@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq; 
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
@@ -14,12 +14,10 @@ namespace DungeonInspector
             var screenUI = DGameEntity.FindGameEntity("ScreenUI").GetComp<ScreenUI>();
             var gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
 
-            var value = data.Value.ToString();
-
-            screenUI.FadeIn(() => 
+            screenUI.FadeIn(() =>
             {
-                gameMaster.ChangeToLevel(value);
-                Debug.Log("Change level: " + value);
+                gameMaster.ChangeToLevel(data.Value);
+                //Debug.Log("Change level: " + data.Value);
 
                 screenUI.FadeOut(() =>
                 {
