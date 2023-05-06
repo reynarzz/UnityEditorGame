@@ -45,7 +45,6 @@ namespace DungeonInspector
             _renderer = GetComp<DRendererComponent>();
             _animator = GetComp<DAnimatorComponent>();
 
-            _health.SetInitialHealth(StartingHealth);
             _health.OnHealthChanged += OnHealthChanged;
             _health.OnHealthDepleted += OnHealthDepleted;
 
@@ -63,6 +62,8 @@ namespace DungeonInspector
             _pathIndex = 0;
 
             _movePos = Transform.Position;
+
+            _health.SetInitialHealth(StartingHealth);
         }
 
         private void OnHealthChanged(float amount, float max, bool increased)

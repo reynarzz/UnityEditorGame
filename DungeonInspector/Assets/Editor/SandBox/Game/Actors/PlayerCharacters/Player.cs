@@ -28,7 +28,7 @@ namespace DungeonInspector
 
         private float _lookDirAngle;
         private float _shootTime;
-        private const float _shootCooldown = 0.1f;
+        private const float _shootCooldown = 0.12f;
         public bool IsPlayerDead { get; private set; }
 
         protected override void OnAwake()
@@ -105,7 +105,7 @@ namespace DungeonInspector
 
             _timeToGetHit -= DTime.DeltaTime;
 
-            if (_timeToGetHit <= 0)
+            if (_timeToGetHit <= 0 && collider.Entity.Tag == "Enemy")
             {
                 _timeToGetHit = _timeToGetHitCooldown;
                 _health.AddAmount(-1);
@@ -247,7 +247,7 @@ namespace DungeonInspector
 
         private void Shoot()
         {
-            if (DInput.IsMouseDown(0))
+            if (DInput.IsMouse(0))
             {
                 _shootTime = _shootCooldown;
 
