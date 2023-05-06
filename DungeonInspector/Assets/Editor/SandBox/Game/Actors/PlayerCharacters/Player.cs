@@ -1,5 +1,6 @@
 ﻿using System;
 using UnityEngine;
+using static UnityEngine.UI.CanvasScaler;
 
 namespace DungeonInspector
 {
@@ -56,9 +57,8 @@ namespace DungeonInspector
 
             AddComp<DPhysicsComponent>();
             _health = AddComp<ActorHealth>();
-            _health.SetInitialHealth(9);
             _health.OnHealthDepleted += OnHealthDepleted;
-
+            Init();
             //_weaponTest = new DGameEntity("WeaponTest");
             //_weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
 
@@ -76,10 +76,18 @@ namespace DungeonInspector
            // _rayHitGuideTest = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
         }
 
+        public void Init()
+        {
+            if(_health != null)
+            {
+                _health.SetInitialHealth(9);
+            }
+        }
+
         private void OnHealthDepleted()
         {
             IsPlayerDead = true;
-            Entity.Destroy();
+            //--Entity.Destroy();
         }
 
         protected override void OnStart()

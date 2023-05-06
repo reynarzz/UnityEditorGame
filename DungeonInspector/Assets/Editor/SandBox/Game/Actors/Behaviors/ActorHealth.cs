@@ -11,13 +11,17 @@ namespace DungeonInspector
         private float _maxHealth = 0;
         public float currentHealth { get; set; }
 
+        public float NormalizedHealth => currentHealth / _maxHealth;
+
         public Action<float, float, bool> OnHealthChanged { get; set; }
         public Action OnHealthDepleted { get; set; }
+        public Action<float> OnHealthSet { get; set; }
 
         public void SetInitialHealth(int initial)
         {
             _maxHealth = initial;
             currentHealth = _maxHealth;
+            OnHealthSet?.Invoke(currentHealth);
         }
 
         public void AddAmount(float amount)
@@ -33,10 +37,6 @@ namespace DungeonInspector
             }
 
             OnHealthChanged?.Invoke(currentHealth, _maxHealth, increased);
-
-           
         }
-
-
     }
 }

@@ -11,16 +11,13 @@ namespace DungeonInspector
     {
         private HeartUI[] _hearts;
 
-        [DExposeSlider(0, 1)] private float _health = 1;
+        private ActorHealth _health;
 
         protected override void OnAwake()
         {
-            var health = DGameEntity.FindGameEntity("Player").GetComp<ActorHealth>();
+             _health = DGameEntity.FindGameEntity("Player").GetComp<ActorHealth>();
 
-            _health = 1;
-
-            health.OnHealthChanged += OnHealthChanged;
-
+            _health.OnHealthSet += OnHealthSet;
             var gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
 
             _hearts = new HeartUI[]
@@ -36,9 +33,17 @@ namespace DungeonInspector
             }
         }
 
+        private void OnHealthSet(float obj)
+        {
+            for (int i = 0; i < _hearts.Length; i++)
+            {
+                _hearts[i].SetSpriteIndex(2);
+            }
+        }
+
         protected override void OnUpdate()
         {
-            var index = _health * _hearts.Length;
+            var index = _health.NormalizedHealth * _hearts.Length;
 
             var fract = (int)((index - (int)index) * _hearts.Length);
 
@@ -48,9 +53,5 @@ namespace DungeonInspector
             }
         }
 
-        private void OnHealthChanged(float currentHeatlh, float maxHealth, bool diff)
-        {
-            _health = currentHeatlh / maxHealth;
-        }
     }
 }

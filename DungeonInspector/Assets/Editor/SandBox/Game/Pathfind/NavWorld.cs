@@ -26,7 +26,8 @@ namespace DungeonInspector
             _tileMap = tilemap;
             _path = new Dictionary<Actor, (List<DVec2>, Color)>();
 
-            DIEngineCoreServices.Get<DRenderingController>().AddDebugGUI(DrawNodes);
+            //// Uncomment to show paths
+            //--DIEngineCoreServices.Get<DRenderingController>().AddDebugGUI(DrawNodes);
         }
 
         public void Init()

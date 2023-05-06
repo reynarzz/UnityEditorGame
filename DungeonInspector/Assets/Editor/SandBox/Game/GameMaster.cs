@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace DungeonInspector
 {
@@ -33,7 +35,7 @@ namespace DungeonInspector
         private Player _player;
         private ScreenUI _screenUI;
         private Dictionary<string, WorldData> _worldsData;
-        private LevelTilesData _currentLevelTilesData;
+        private WorldData _currentWorld;
 
         private GameInput _input;
         public GameInput Input => _input;
@@ -84,9 +86,16 @@ namespace DungeonInspector
             }
         }
 
+        private void OnPlayerDead()
+        {
+            ChangeToLevel(_currentWorld.Name);
+        }
+
         protected override void OnStart()
         {
             //DAudio.PlayAudio("Audio/ForgottenPlains/Music/Plain_Sight_(Regular).wav");
+
+            _player.GetComp<ActorHealth>().OnHealthDepleted += OnPlayerDead;
         }
 
         private void Load(WorldData world)
@@ -95,7 +104,7 @@ namespace DungeonInspector
 
             _prefabInstantiator.DestroyAllInstances();
 
-            _currentLevelTilesData = world.LevelData;
+            _currentWorld = world;
 
             for (int i = 0; i < world.LevelData.Count; i++)
             {
@@ -131,14 +140,29 @@ namespace DungeonInspector
 
         public void ChangeToLevel(string name)
         {
-            if (_worldsData.TryGetValue(name, out var world))
+            DTime.TimeScale = 0;
+
+            _screenUI.FadeIn(() =>
             {
-                Load(world);
-            }
-            else
-            {
-                Debug.Log("Can't load level!: No level with name: '" + name + "' exist");
-            }
+                if (_player.IsPlayerDead)
+                {
+                    _player.Init();
+                }
+
+                if (_worldsData.TryGetValue(name, out var world))
+                {
+                    Load(world);
+                }
+                else
+                {
+                    Debug.Log("Can't load level!: No level with name: '" + name + "' exist");
+                }
+
+                _screenUI.FadeOut(() =>
+                {
+                    DTime.TimeScale = 1;
+                });
+            });
         }
 
         protected override void OnUpdate()
@@ -150,7 +174,6 @@ namespace DungeonInspector
             EditorGUILayout.Space(18);
 
         }
-
         protected override void OnLateUpdate()
         {
             _navWorld.OnLateUpdate();
@@ -210,7 +233,7 @@ namespace DungeonInspector
 
         public BaseTD GetLevelData(DVec2 vector)
         {
-            return _currentLevelTilesData.GetLevelTileData(vector.Round());
+            return _currentWorld.LevelData.GetLevelTileData(vector.Round());
         }
     }
 }
