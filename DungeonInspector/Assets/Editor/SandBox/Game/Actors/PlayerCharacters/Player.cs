@@ -21,8 +21,8 @@ namespace DungeonInspector
 
         private Vector2Int _moveDir = default;
 
-        private DGameEntity _weaponTest;
-        private DRendererComponent _weaponRendererTest;
+        //private DGameEntity _weaponTest;
+        //private DRendererComponent _weaponRendererTest;
       //  private DRendererComponent _rayHitGuideTest;
         private DRendererComponent _rayDraw;
 
@@ -58,11 +58,13 @@ namespace DungeonInspector
             _health = AddComp<ActorHealth>();
             _health.SetInitialHealth(9);
             _health.OnHealthDepleted += OnHealthDepleted;
-            _weaponTest = new DGameEntity("WeaponTest");
-            _weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
 
-            _weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_knife");
-            _weaponRendererTest.ZSorting = 1;
+            //_weaponTest = new DGameEntity("WeaponTest");
+            //_weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
+
+            //_weaponRendererTest.Sprite = Resources.Load<Texture2D>("GameAssets/Dungeon/weapon_knife");
+            //_weaponRendererTest.ZSorting = 1;
+
             Entity.Tag = "Player";
             Entity.Layer = 2;
 
@@ -169,8 +171,8 @@ namespace DungeonInspector
 
             var dir = new DVec2(Mathf.Cos(_lookDirAngle), Mathf.Sin(_lookDirAngle));
 
-            _weaponTest.Transform.Position = (Transform.Position + Transform.Offset - dist);/*+ */;
-            _weaponTest.Transform.Rotation = _lookDirAngle + Mathf.Deg2Rad * -90;
+            //--_weaponTest.Transform.Position = (Transform.Position + Transform.Offset - dist);/*+ */;
+            //--_weaponTest.Transform.Rotation = _lookDirAngle + Mathf.Deg2Rad * -90;
 
             Transform.Position = UnityEngine.Vector2.MoveTowards(Transform.Position, _gridPos, DTime.DeltaTime * 3);
 
@@ -178,7 +180,8 @@ namespace DungeonInspector
             // if (DVec2.Dot(DVec2.Right, DInput.GetMouseWorldPos() - Transform.Position) < 0)
             _renderer.FlipX = DInput.GetMouseWorldPos().x - Transform.Position.x < 0;
 
-            _weaponTest.Transform.Scale = new DVec2(1 * Mathf.Sign(DInput.GetMouseWorldPos().x - Transform.Position.x), 1);
+            //--_weaponTest.Transform.Scale = new DVec2(1 * Mathf.Sign(DInput.GetMouseWorldPos().x - Transform.Position.x), 1);
+            
             //if (Utils.Raycast(Transform.Position, dir, 0, out var info))
             //{
             //    //_rayHitGuideTest.Entity.IsActive = true;
@@ -252,7 +255,7 @@ namespace DungeonInspector
 
                 var projectile = _gameMaster.PrefabInstantiator.InstanceBullet1().GetComp<Projectile>();
 
-                projectile.Transform.Position = (dir / 2) + _weaponTest.Transform.Position - Transform.Offset / 2;// Transform.Position;
+                projectile.Transform.Position = Transform.Position;// (dir / 2) + Transform.Position -/*_weaponTest.Transform.Position -*/ Transform.Offset / 2;// Transform.Position;
                 projectile.Shoot(dir);
 
                 //DAudio.PlayAudio("Audio/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
