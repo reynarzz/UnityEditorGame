@@ -11,8 +11,8 @@ namespace DungeonInspector
 {
     public struct DVec2
     {
-        public float x { get; set; }
-        public float y { get; set; }
+        public float x;
+        public float y;
         [JsonIgnore] public float Magnitude => (float)Math.Sqrt(x * x + y * y);
         [JsonIgnore] public float SqrMagnitude => x * x + y * y;
         [JsonIgnore] public DVec2 Normalize => this / Magnitude;
@@ -57,6 +57,15 @@ namespace DungeonInspector
             return new UnityEngine.Vector2(vector.x, vector.y);
         }
 
+        public static implicit operator DVec2(float xyValue)
+        {
+            return new DVec2(xyValue, xyValue);
+        }
+
+        public static implicit operator DVec2(int xyValue)
+        {
+            return new DVec2(xyValue, xyValue);
+        }
 
         public static implicit operator DVec2(UnityEngine.Vector2 vector)
         {

@@ -13,12 +13,13 @@ namespace DungeonInspector
         private DCamera _camera;
         private Player _player;
         [DExpose]private float _speed = 7;
+
         protected override void OnStart()
         {
             _camera = GetComp<DCamera>();
             _player = DGameEntity.FindGameEntity("Player").GetComp<Player>();
         }
-         
+        
         protected override void OnUpdate()
         {
             var playerPos = new DVec2(_player.Transform.Position.x, _player.Transform.Position.y);

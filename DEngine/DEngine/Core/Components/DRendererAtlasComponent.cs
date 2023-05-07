@@ -10,5 +10,10 @@ namespace DungeonInspector
     {
         public DVec2 SpriteCoord { get; set; }
         public DSpriteAtlasInfo AtlasInfo { get; set; }
+
+        public DRendererAtlasComponent()
+        {
+            AtlasInfo = new DSpriteAtlasInfo();
+        }
     }
 }

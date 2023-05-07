@@ -263,11 +263,10 @@ namespace DungeonInspector
 
                     // mat.SetVector("_AtlasSpriteIndex", atlasRenderer.SpriteIndex);
                     mat.SetInt("_IsAtlas", 1);
-                    mat.SetInt("_AtlasBlockSize", blockSize);
                     mat.SetTexture("_AtlasTex", atlasTex);
 
-                    var width = (float)atlasTex.width / (float)blockSize;
-                    var height = (float)atlasTex.height / (float)blockSize;
+                    var width = (float)atlasTex.width / (float)blockSize.x;
+                    var height = (float)atlasTex.height / (float)blockSize.y;
 
                     mat.SetVector("_AtlasRect", new Vector4(atlasRenderer.SpriteCoord.x / width, atlasRenderer.SpriteCoord.y / height, width, height));
                 }

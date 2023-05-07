@@ -10,9 +10,10 @@ namespace DungeonInspector
     [CreateAssetMenu]
     public class DSpriteAtlasInfo : ScriptableObject
     {
-        [SerializeField] private int _spriteBlockSize = 16;
+        [SerializeField] private DVec2 _spriteBlockSize = new DVec2(16, 16);
         [SerializeField] private Texture2D _texture;
-        public int BlockSIze => _spriteBlockSize;
-        public Texture2D Texture => _texture;
+
+        public DVec2 BlockSIze { get => _spriteBlockSize; set => _spriteBlockSize = value; }
+        public Texture2D Texture { get => _texture; set => _texture = value; }
     }
 }

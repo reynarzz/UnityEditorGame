@@ -39,6 +39,8 @@ namespace DungeonInspector
 
         private GameInput _input;
         public GameInput Input => _input;
+        private Texture2D _cursorTex;
+        private DRendererAtlasComponent _cursor;
 
         protected override void OnAwake()
         {
@@ -79,6 +81,15 @@ namespace DungeonInspector
             }
 
             _playerHealthUI = new DGameEntity("PlayerHealthHUD").AddComp<PlayerHealthUI>();
+            _cursorTex = Resources.Load<Texture2D>("GameAssets/GUI/GunSights");
+
+            _cursor = new DGameEntity("Cursor").AddComp<DRendererAtlasComponent>();
+
+            _cursor.AtlasInfo.Texture = _cursorTex;
+            _cursor.AtlasInfo.BlockSIze = 5;
+            _cursor.SpriteCoord = new DVec2(1, 1);
+            _cursor.ZSorting = 30;
+            _cursor.Transform.Scale = new DVec2(0.43f, 0.42f);
 
             if (currentWorld != null)
             {
@@ -174,6 +185,7 @@ namespace DungeonInspector
         {
             //-Utils.DrawBounds(_tilemap.GetTilemapBoundaries(), Color.white, 0.5f);
 
+           
             UpdateTilesBehavior();
 
             EditorGUILayout.Space(18);
@@ -182,6 +194,19 @@ namespace DungeonInspector
         protected override void OnLateUpdate()
         {
             _navWorld.OnLateUpdate();
+
+            _cursor.Entity.Transform.Position = DInput.GetMouseWorldPos();
+            if (_camera.IsInside(DInput.GetMouseWorldPos(), Vector2.one * 0.01f))
+            {
+                Cursor.SetCursor(Texture2D.whiteTexture, Vector2.one, CursorMode.ForceSoftware);
+                EditorGUIUtility.AddCursorRect(new Rect(0,0, Screen.width, Screen.height), MouseCursor.CustomCursor);
+                Debug.Log("inside");
+            }
+            else
+            {
+                Debug.Log("outside");
+            }
+
         }
 
         private void UpdateTilesBehavior()
