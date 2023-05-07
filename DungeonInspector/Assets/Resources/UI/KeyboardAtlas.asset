@@ -1,0 +1,16 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -880912134, guid: 888d2e9aea4db614b9ddcafa6fb0c090, type: 3}
+  m_Name: KeyboardAtlas
+  m_EditorClassIdentifier: 
+  _spriteBlockSize: 16
+  _texture: {fileID: 2800000, guid: c1153a853572ead4cb26eb789529270a, type: 3}

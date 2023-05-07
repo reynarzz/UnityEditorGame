@@ -155,6 +155,16 @@ namespace DungeonInspector
                         GUILayout.EndHorizontal();
                     }
 
+                    if (component is DRendererAtlasComponent)
+                    {
+                        var atlas = component as DRendererAtlasComponent;
+
+                        GUILayout.BeginHorizontal();
+                        GUILayout.Label("Coord");
+                        atlas.SpriteCoord = EditorGUILayout.Vector2IntField(string.Empty, atlas.SpriteCoord, GUILayout.MaxWidth(_rect.width - 50));
+                        GUILayout.EndHorizontal();
+                    }
+
                     if (component.GetType() == typeof(DBoxCollider))
                     {
                         var box = (component as DBoxCollider);

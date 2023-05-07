@@ -253,6 +253,25 @@ namespace DungeonInspector
                     mat = defaultMat;
                 }
 
+                if(renderer is DRendererAtlasComponent)
+                {
+                    var atlasRenderer = renderer as DRendererAtlasComponent;
+
+                    var atlasTex = atlasRenderer.AtlasInfo.Texture;
+                    var blockSize = atlasRenderer.AtlasInfo.BlockSIze;
+
+
+                    // mat.SetVector("_AtlasSpriteIndex", atlasRenderer.SpriteIndex);
+                    mat.SetInt("_IsAtlas", 1);
+                    mat.SetInt("_AtlasBlockSize", blockSize);
+                    mat.SetTexture("_AtlasTex", atlasTex);
+
+                    var width = (float)atlasTex.width / (float)blockSize;
+                    var height = (float)atlasTex.height / (float)blockSize;
+
+                    mat.SetVector("_AtlasRect", new Vector4(atlasRenderer.SpriteCoord.x / width, atlasRenderer.SpriteCoord.y / height, width, height));
+                }
+
                 foreach (var states in renderer.ShaderState)
                 {
                     SetState(states.Key, states.Value, mat);
@@ -271,6 +290,7 @@ namespace DungeonInspector
                 mat.SetVector("_cutOffColor", Color.white);
                 mat.SetFloat("_xCutOff", 0);
                 mat.SetVector("_color", Color.white);
+                mat.SetInt("_IsAtlas", 0);
 
                 foreach (var states in renderer.ShaderState)
                 {

@@ -52,6 +52,11 @@ Shader "Unlit/DStandardShadow"
             uniform half4 _dtime;
             uniform int _isHit;
 
+            // Atlas
+            uniform int _IsAtlas;
+            uniform sampler2D _AtlasTex;
+            uniform float4 _AtlasRect;
+
             float luminosity(half4 color)
             {
                 return 0.21 * color.r + 0.72 * color.g + 0.07 * color.b;
@@ -91,14 +96,24 @@ Shader "Unlit/DStandardShadow"
             {
                 float2 uv = i.uv;
 
-               /* float pixel = 32;
+                /* float pixel = 32;
 
                 uv = float2(uv.x * pixel, uv.y * pixel);
 
                 uv.x = ((int)uv.x) / pixel;
                 uv.y = ((int)uv.y) / pixel;*/
 
-                fixed4 col = tex2D(_MainTex, float2(abs(uv.x - _flip.x), abs(uv.y - _flip.y)));
+                fixed4 col = _color;
+
+                if (_IsAtlas)
+                {
+                    col = tex2D(_AtlasTex, uv / _AtlasRect.zw + _AtlasRect.xy);
+                }
+                else
+                {
+                    col = tex2D(_MainTex, float2(abs(uv.x - _flip.x), abs(uv.y - _flip.y)));
+                }
+
 
                 if (uv.x <= 1- _xCutOff)
                 {
@@ -117,8 +132,12 @@ Shader "Unlit/DStandardShadow"
                 //col = float4(lum, lum, lum, col.a);
                
                 // hit effect
-                if(_isHit)
-                col = lerp(col, lum + 0.35f, (cos(_dtime.x * 50) +1) * 0.5 * _isHit);
+                if (_isHit)
+                {
+                    col = lerp(col, lum + 0.35f, (cos(_dtime.x * 50) + 1) * 0.5 * _isHit);
+                }
+
+
                 return col;
 
             }

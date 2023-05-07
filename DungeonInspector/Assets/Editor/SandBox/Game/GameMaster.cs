@@ -42,6 +42,7 @@ namespace DungeonInspector
 
         protected override void OnAwake()
         {
+            DTime.TimeScale = 1;
             // Main Player
             _player = new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player)).GetComp<Player>();
 
@@ -84,6 +85,13 @@ namespace DungeonInspector
                 Load(currentWorld);
                 
             }
+
+            var keyboardButton = new DGameEntity("KeyboardButton");
+            var atlas = Resources.Load<DSpriteAtlasInfo>("UI/KeyboardAtlas");
+          
+            keyboardButton.AddComp<DRendererAtlasComponent>().AtlasInfo = atlas;
+
+
         }
 
         private void OnPlayerDead()

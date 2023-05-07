@@ -93,6 +93,7 @@
     <Compile Include="DEngine\Core\Components\Component.cs" />
     <Compile Include="DEngine\Core\Components\DBehavior.cs" />
     <Compile Include="DEngine\Core\Components\DCamera.cs" />
+    <Compile Include="DEngine\Core\Components\DRendererAtlasComponent.cs" />
     <Compile Include="DEngine\Core\Components\DRendererComponent.cs" />
     <Compile Include="DEngine\Core\Components\DRendererUIComponent.cs" />
     <Compile Include="DEngine\Core\Components\DTilemap.cs" />
@@ -111,6 +112,7 @@
     <Compile Include="DEngine\Core\Physics\DPhysicsController.cs" />
     <Compile Include="DEngine\Core\Services\ServiceContainer.cs" />
     <Compile Include="DEngine\Core\SpriteAnimator\DSpriteAtlas.cs" />
+    <Compile Include="DEngine\Core\SpriteAnimator\DSpriteAtlasInfo.cs" />
     <Compile Include="DEngine\Core\SpriteAnimator\SpriteAnimation.cs" />
     <Compile Include="DEngine\Core\Utils\DVector2.cs" />
     <Compile Include="DEngine\Core\Utils\Utils.cs" />
