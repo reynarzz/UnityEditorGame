@@ -87,7 +87,7 @@ namespace DungeonInspector
 
             _cursor.AtlasInfo.Texture = _cursorTex;
             _cursor.AtlasInfo.BlockSIze = 5;
-            _cursor.SpriteCoord = new DVec2(1, 1);
+            _cursor.SpriteCoord = new DVec2(2, 1);
             _cursor.ZSorting = 30;
             _cursor.Transform.Scale = new DVec2(0.43f, 0.42f);
 
@@ -96,10 +96,6 @@ namespace DungeonInspector
                 Load(currentWorld);
                 
             }
-
-         
-
-
         }
 
         private void OnPlayerDead()
