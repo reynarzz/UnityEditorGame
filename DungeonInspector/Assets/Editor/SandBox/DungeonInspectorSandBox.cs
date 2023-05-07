@@ -14,7 +14,7 @@ namespace DungeonInspector
         public override void OnInitialize()
         {
             //Camera 
-            new DGameEntity("MainCamera", typeof(DCamera), typeof(DCameraFollow));
+            new DGameEntity("MainCamera", typeof(DCamera), typeof(DCameraFollow), typeof(CameraShake));
 
             //// Main Player
             //new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player));

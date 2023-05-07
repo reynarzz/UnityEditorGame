@@ -26,7 +26,8 @@ namespace DungeonInspector
         //private DRendererComponent _weaponRendererTest;
       //  private DRendererComponent _rayHitGuideTest;
         private DRendererComponent _rayDraw;
-
+        private CameraShake _camera;
+        
         private float _lookDirAngle;
         private float _shootTime;
         private const float _shootCooldown = 0.12f;
@@ -46,6 +47,8 @@ namespace DungeonInspector
             _playerAnimator.AddAnimation(idle, walk);
 
             _gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
+            _camera = _gameMaster.Camera.GetComp<CameraShake>();
+
             _renderer = GetComp<DRendererComponent>();
             _renderer.Sprite = idle.CurrentTexture;
 
@@ -263,9 +266,11 @@ namespace DungeonInspector
 
                 var projectile = _gameMaster.PrefabInstantiator.InstanceBullet1().GetComp<Projectile>();
 
+                _camera.Shake();
+
                 projectile.Transform.Position = Transform.Position;// (dir / 2) + Transform.Position -/*_weaponTest.Transform.Position -*/ Transform.Offset / 2;// Transform.Position;
                 projectile.Shoot(dir);
-
+                
                 //DAudio.PlayAudio("Audio/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
             }
         }

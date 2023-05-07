@@ -12,35 +12,21 @@ namespace DungeonInspector
     {
         private DCamera _camera;
         private Player _player;
-        private Perlin _perlin;
-        public float Speed { get; set; } = 0;
+        [DExpose]private float _speed = 7;
         protected override void OnStart()
         {
             _camera = GetComp<DCamera>();
             _player = DGameEntity.FindGameEntity("Player").GetComp<Player>();
-            _perlin = new Perlin();
         }
          
         protected override void OnUpdate()
         {
             var playerPos = new DVec2(_player.Transform.Position.x, _player.Transform.Position.y);
 
-            var speed = Speed;
-            var amplitude = 1.5f;
-            var noiseX = 0;//(Mathf.PerlinNoise(Mathf.Cos(DTime.Time * speed) * 2 - 1, Mathf.Cos(DTime.Time * speed) * 2 - 1) - 0.5f) * 2;
+            var offset = (DInput.GetMouseWorldPos() - playerPos) * 0.09f;
 
-            var noiseY = 0;//(Mathf.PerlinNoise(Mathf.Sin(DTime.Time * speed) * 2 - 1, Mathf.Sin(DTime.Time * speed) * 2 - 1) - 0.5f) * 2;
-
-
-            _camera.Transform.Position = UnityEngine.Vector2.Lerp(_camera.Transform.Position, playerPos + new DVec2(noiseX, noiseY) * amplitude, 7 * DTime.DeltaTime);
+            _camera.Transform.Position = UnityEngine.Vector2.Lerp(_camera.Transform.Position, playerPos + offset, _speed * DTime.DeltaTime);
             //_camera.Transform.Position = playerPos;
-
-            if(Speed > 0)
-            {
-                Speed -= DTime.DeltaTime;
-                if (Speed < 0)
-                    speed = 0;
-            }
         }
     }
 }
