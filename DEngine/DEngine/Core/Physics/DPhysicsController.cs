@@ -104,15 +104,15 @@ namespace DungeonInspector
         }
 
 
-        private void RaiseOnTriggerEvent(DPhysicsComponent physicObj, DPhysicsComponent target, bool isColliding)
+        private void RaiseOnTriggerEvent(DPhysicsComponent current, DPhysicsComponent target, bool isColliding)
         {
-            if (physicObj.Collider != null && physicObj.Collider.IsTrigger)
+            if (current.Collider != null && current.Collider.IsTrigger)
             {
-                var allcomponents = physicObj.Entity.GetAllComponents();
+                var allcomponents = current.Entity.GetAllComponents();
 
                 if (isColliding)
                 {
-                    if (!physicObj.TriggerEnter)
+                    if (!current.TriggerEnter)
                     {
                         for (int i = 0; i < allcomponents.Count; i++)
                         {
@@ -126,12 +126,12 @@ namespace DungeonInspector
                             }
                         }
 
-                        physicObj.TriggerEnter = true;
+                        current.TriggerEnter = true;
                     }
                 }
                 else
                 {
-                    if (physicObj.TriggerEnter)
+                    if (current.TriggerEnter)
                     {
                         foreach (var item in allcomponents)
                         {
@@ -143,7 +143,7 @@ namespace DungeonInspector
                         }
                     }
 
-                    physicObj.TriggerEnter = false;
+                    current.TriggerEnter = false;
                 }
             }
         }

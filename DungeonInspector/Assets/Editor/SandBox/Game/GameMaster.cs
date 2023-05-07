@@ -86,10 +86,7 @@ namespace DungeonInspector
                 
             }
 
-            var keyboardButton = new DGameEntity("KeyboardButton");
-            var atlas = Resources.Load<DSpriteAtlasInfo>("UI/KeyboardAtlas");
-          
-            keyboardButton.AddComp<DRendererAtlasComponent>().AtlasInfo = atlas;
+         
 
 
         }
