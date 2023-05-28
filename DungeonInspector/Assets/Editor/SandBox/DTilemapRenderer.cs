@@ -31,7 +31,6 @@ namespace DungeonInspector
             //}
             
 
-            _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
 
             DIEngineCoreServices.Get<DRendering>().AddCustomRenderControl(TestDraw_Remove);
 

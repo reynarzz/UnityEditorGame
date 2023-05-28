@@ -20,8 +20,10 @@ namespace DungeonInspector
             //new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player));
 
             // Tile Painter
-            new DGameEntity("TileMaster", typeof(DRenderingGroup), typeof(DTilemap), typeof(DTilemapRenderer));
-
+            var tile = new DGameEntity("TileMaster", typeof(DRenderingGroup));
+            var renderer = tile.AddComp<DTilemapRendererComponent>();
+            renderer.TileMap = tile.AddComp<DTilemap>();
+            renderer.ZSorting = -3;
             // Game Master
             new DGameEntity("GameMaster", typeof(GameMaster));
 

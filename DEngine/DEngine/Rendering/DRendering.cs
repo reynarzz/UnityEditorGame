@@ -144,7 +144,9 @@ namespace DungeonInspector
                 //_ordered.Clear();
 
                 // TODO: please, make this not be every frame, (bad perfomance)
-                _renderersOrdered = _renderers.OrderByDescending(x => x.Transform.Position.y + x.Transform.Offset.y - x.ZSorting);
+                //_renderersOrdered = _renderers.OrderByDescending(x => x.Transform.Position.y + x.Transform.Offset.y - x.ZSorting);
+                _renderersOrdered = _renderers.OrderBy(x => /*x.Transform.Position.y + x.Transform.Offset.y -*/ x.ZSorting);
+
                 _uiRenderersOrdered = _uirenderers.OrderBy(x => x.ZSorting);
                 // _renderersOrdered = _renderers.OrderByDescending(x => x.Key);
             }

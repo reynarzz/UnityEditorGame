@@ -15,10 +15,15 @@ namespace DungeonInspector
         private DAABB _tilemapBounds;
         public int Count => _tiles.Count;
 
-        protected override void OnAwake()
+        public DTilemap()
         {
             _tiles = new Dictionary<DVec2, Dictionary<int, DTile>>();
         }
+       
+        //protected override void OnAwake()
+        //{
+        //    _tiles = new Dictionary<DVec2, Dictionary<int, DTile>>();
+        //}
 
         private int _index_REMOVE;
         public void SetNewTile(DTile tile, float x, float y)

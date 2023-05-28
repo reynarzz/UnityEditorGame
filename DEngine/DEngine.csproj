@@ -93,7 +93,7 @@
     <Compile Include="DEngine\Core\Components\Component.cs" />
     <Compile Include="DEngine\Core\Components\DBehavior.cs" />
     <Compile Include="DEngine\Core\Components\DCamera.cs" />
-    <Compile Include="DEngine\Core\Components\DRendererAtlasComponent.cs" />
+    <Compile Include="DEngine\Core\Components\DAtlasRendererComponent.cs" />
     <Compile Include="DEngine\Core\Components\DRendererComponent.cs" />
     <Compile Include="DEngine\Core\Components\DRendererUIComponent.cs" />
     <Compile Include="DEngine\Core\Components\DTilemap.cs" />

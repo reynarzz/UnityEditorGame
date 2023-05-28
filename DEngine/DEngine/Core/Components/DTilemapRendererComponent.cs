@@ -6,11 +6,6 @@ namespace DungeonInspector
 {
     public class DTilemapRendererComponent : DRendererComponent
     {
-        public List<Texture2D> Textures { get; private set; }
-
-        public DTilemapRendererComponent() : base()
-        {
-            Textures = new List<Texture2D>();
-        }
+        public DTilemap TileMap { get; set; }
     }
 }

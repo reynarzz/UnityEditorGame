@@ -14,12 +14,12 @@ namespace DungeonInspector
 
     public abstract class DRenderingControllerBase<T> : IDRenderingControllerBase where T : DRendererComponent
     {
-        void IDRenderingControllerBase.Draw(DRendererComponent renderer, DCamera camera, Material defaultMat, Texture2D defaultTexture)
+        void IDRenderingControllerBase.Draw(DRendererComponent renderer, DCamera camera, Material material, Texture2D defaultTexture)
         {
-            Draw(renderer as T, camera, defaultMat, defaultTexture);
+            Draw(renderer as T, camera, material, defaultTexture);
         }
 
-        protected abstract void Draw(T renderer, DCamera camera, Material defaultMat, Texture2D defaultTexture);
+        protected abstract void Draw(T renderer, DCamera camera, Material material, Texture2D defaultTexture);
 
 
         public void SetState(string varName, KeyValuePair<ShaderStateDataType, object> data, Material mat)
