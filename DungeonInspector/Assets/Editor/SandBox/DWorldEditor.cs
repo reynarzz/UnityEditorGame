@@ -685,13 +685,12 @@ namespace DungeonInspector
 
         private BaseTD GetDataSafe(DTile tile)
         {
-
             if (tile.RuntimeData == null)
             {
                 switch (tile.Behavior)
                 {
                     case TileBehavior.Damage:
-                        tile.RuntimeData = new IntDataTD();
+                        tile.RuntimeData = new SpikeFloorTD();
                         break;
                     case TileBehavior.IncreaseHealth:
                         break;

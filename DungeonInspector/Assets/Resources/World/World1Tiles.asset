@@ -390,4 +390,4 @@ MonoBehaviour:
     IsWalkable: 1
     ZSorting: 0
     Type: 0
-    Behavior: 0
+    Behavior: 1

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace DungeonInspector
 {
@@ -22,6 +23,7 @@ namespace DungeonInspector
         protected virtual void OnEnter(Actor actor, T data) { }
         protected virtual void OnExit(Actor actor, T data) { }
         protected virtual void OnUpdate(Actor actor, T data) { }
+        public Sprite Sprite { get; protected set; }
 
         private T GetDataSafe(BaseTD data)
         {
