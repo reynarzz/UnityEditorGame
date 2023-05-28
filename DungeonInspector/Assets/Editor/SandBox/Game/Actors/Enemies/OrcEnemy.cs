@@ -25,7 +25,7 @@ namespace DungeonInspector
             base.OnStart();
 
             _player = DGameEntity.FindGameEntity("Player").GetComp<Player>();
-            _renderer = GetComp<DRendererComponent>();
+            _renderer = GetComp<DSpriteRendererComponent>();
         }
 
         protected override void OnUpdate()

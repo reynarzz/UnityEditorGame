@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class DRendererAtlasComponent : DRendererComponent
+    public class DAtlasRendererComponent : DSpriteRendererComponent
     {
         public DVec2 SpriteCoord { get; set; }
         public DSpriteAtlasInfo AtlasInfo { get; set; }
-
-        public DRendererAtlasComponent()
+     
+        public DAtlasRendererComponent()
         {
             AtlasInfo = new DSpriteAtlasInfo();
         }

@@ -27,7 +27,7 @@ namespace DungeonInspector
             enemy.Tag = "Player";
 
 
-            var renderer = entity.AddComp<DRendererComponent>();
+            var renderer = entity.AddComp<DSpriteRendererComponent>();
             renderer.ZSorting = 2;
 
             var anim = entity.AddComp<DAnimatorComponent>();

@@ -9,7 +9,7 @@ using UnityEngine.Assertions.Must;
 
 namespace DungeonInspector
 {
-    public class DInput : EngineSystemBase
+    public class DInput : DEngineSystemBase
     {
         private static KeyCode _currentKey;
         private static KeyCode _prevKey;

@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class DPhysicsController : EngineSystemBase<DPhysicsComponent>
+    public class DPhysicsController : DEngineSystemBase<DPhysicsComponent>
     {
         private List<DPhysicsComponent> _components;
 

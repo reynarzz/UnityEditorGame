@@ -1,10 +1,8 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using UnityEditor;
 using UnityEngine;
-using static UnityEditor.Experimental.GraphView.GraphView;
 
 namespace DungeonInspector
 {
@@ -40,13 +38,13 @@ namespace DungeonInspector
         private GameInput _input;
         public GameInput Input => _input;
         private Texture2D _cursorTex;
-        private DRendererAtlasComponent _cursor;
+        private DAtlasRendererComponent _cursor;
 
         protected override void OnAwake()
         {
             DTime.TimeScale = 1;
             // Main Player
-            _player = new DGameEntity("Player", typeof(DRendererComponent), typeof(DAnimatorComponent), typeof(Player)).GetComp<Player>();
+            _player = new DGameEntity("Player", typeof(DSpriteRendererComponent), typeof(DAnimatorComponent), typeof(Player)).GetComp<Player>();
 
             _tilemap = DGameEntity.FindGameEntity("TileMaster").GetComp<DTilemap>();
             _camera = DGameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();
@@ -83,7 +81,7 @@ namespace DungeonInspector
             _playerHealthUI = new DGameEntity("PlayerHealthHUD").AddComp<PlayerHealthUI>();
             _cursorTex = Resources.Load<Texture2D>("GameAssets/GUI/GunSights");
 
-            _cursor = new DGameEntity("Cursor").AddComp<DRendererAtlasComponent>();
+            _cursor = new DGameEntity("Cursor").AddComp<DAtlasRendererComponent>();
 
             _cursor.AtlasInfo.Texture = _cursorTex;
             _cursor.AtlasInfo.BlockSIze = 5;

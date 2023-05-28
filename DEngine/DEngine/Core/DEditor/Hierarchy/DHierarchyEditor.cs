@@ -11,7 +11,7 @@ namespace DungeonInspector
     public class DHierarchyEditor
     {
         private DEntitiesController _entitiesController;
-        private DRenderingController _renderingController;
+        private DRendering _renderingController;
         private Rect _rect = new Rect(0, 30, 130, 101);
         private Vector2 _scroll;
         private bool _show = false;
@@ -27,7 +27,7 @@ namespace DungeonInspector
             // test
             _foldOut = new bool[50];
             _entitiesController = DIEngineCoreServices.Get<DEntitiesController>();
-            _renderingController = DIEngineCoreServices.Get<DRenderingController>();
+            _renderingController = DIEngineCoreServices.Get<DRendering>();
         }
 
         public void Update()
@@ -155,9 +155,9 @@ namespace DungeonInspector
                         GUILayout.EndHorizontal();
                     }
 
-                    if (component is DRendererAtlasComponent)
+                    if (component is DAtlasRendererComponent)
                     {
-                        var atlas = component as DRendererAtlasComponent;
+                        var atlas = component as DAtlasRendererComponent;
 
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("Coord");

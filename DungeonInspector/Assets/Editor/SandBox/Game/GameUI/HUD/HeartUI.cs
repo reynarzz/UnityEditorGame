@@ -10,12 +10,12 @@ namespace DungeonInspector
     {
         private DSpriteAtlas _spriteAtlas;
 
-        private DRendererComponent _renderer;
+        private DSpriteRendererComponent _renderer;
 
         public void Init(DSpriteAtlas atlas)
         {
             _spriteAtlas = atlas;
-            _renderer = AddComp<DRendererComponent>();
+            _renderer = AddComp<DSpriteRendererComponent>();
             _renderer.TransformWithCamera = false;
 
             _renderer.Sprite = atlas.GetTexture(2);

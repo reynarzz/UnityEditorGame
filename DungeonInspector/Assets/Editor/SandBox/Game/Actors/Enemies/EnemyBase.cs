@@ -9,7 +9,7 @@ namespace DungeonInspector
 {
     public abstract class EnemyBase : Actor
     {
-        private DRendererComponent _renderer;
+        private DSpriteRendererComponent _renderer;
         private HealthBarUI _healthBar;
         private DBoxCollider _collider;
         protected ActorHealth _health;
@@ -42,7 +42,7 @@ namespace DungeonInspector
             _healthBar = GetComp<HealthBarUI>();
             _collider = GetComp<DBoxCollider>();
             _health = GetComp<ActorHealth>();
-            _renderer = GetComp<DRendererComponent>();
+            _renderer = GetComp<DSpriteRendererComponent>();
             _animator = GetComp<DAnimatorComponent>();
 
             _health.OnHealthChanged += OnHealthChanged;

@@ -9,7 +9,7 @@ namespace DungeonInspector
 {
     public class Chest : ButtonInteractableBase
     {
-        private DRendererAtlasComponent _interactableButton;
+        private DAtlasRendererComponent _interactableButton;
         [DExpose] private bool _isOpen;
         [DExpose] private float _time;
         [DExpose] private bool _showInteractableButton;
@@ -22,7 +22,7 @@ namespace DungeonInspector
             var ent = new DGameEntity("KeyboardButton");
             var atlas = Resources.Load<DSpriteAtlasInfo>("UI/KeyboardAtlas");
 
-            _interactableButton = ent.AddComp<DRendererAtlasComponent>();
+            _interactableButton = ent.AddComp<DAtlasRendererComponent>();
             _interactableButton.AtlasInfo = atlas;
             _interactableButton.SpriteCoord = new DVec2(4, 11);
         }

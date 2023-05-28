@@ -11,7 +11,7 @@ namespace DungeonInspector
     {
         public Color32 CutOffColor { get; set; } = UnityEngine.Color.red;
         public Color32 Color { get; set; } = UnityEngine.Color.white;
-        private DRendererComponent _bar;
+        private DSpriteRendererComponent _bar;
         private DGameEntity _barEntity;
 
         public override DTransformComponent Transform => _barEntity.Transform;
@@ -21,7 +21,7 @@ namespace DungeonInspector
         protected override void OnAwake()
         {
             _barEntity = new DGameEntity(Name + ": HealthBar");
-            _bar = _barEntity.AddComp<DRendererComponent>();
+            _bar = _barEntity.AddComp<DSpriteRendererComponent>();
 
             _bar.Transform.Scale = new DVec2(1.3f, 0.07f);
             _barEntity.IsActive = false;

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class DRendererUIComponent : DRendererComponent
+    public class DRendererUIComponent : DSpriteRendererComponent
     {
 
     }

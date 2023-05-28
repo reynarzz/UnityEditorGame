@@ -17,7 +17,7 @@ namespace DungeonInspector
         public Action<Player, DTile> OnTileReached;
 
         private ActorHealth _health;
-        private DRendererComponent _renderer;
+        private DSpriteRendererComponent _renderer;
         DVec2 _gridPos = default;
 
         private Vector2Int _moveDir = default;
@@ -25,7 +25,7 @@ namespace DungeonInspector
         //private DGameEntity _weaponTest;
         //private DRendererComponent _weaponRendererTest;
       //  private DRendererComponent _rayHitGuideTest;
-        private DRendererComponent _rayDraw;
+        private DSpriteRendererComponent _rayDraw;
         private CameraShake _camera;
         
         private float _lookDirAngle;
@@ -49,7 +49,7 @@ namespace DungeonInspector
             _gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
             _camera = _gameMaster.Camera.GetComp<CameraShake>();
 
-            _renderer = GetComp<DRendererComponent>();
+            _renderer = GetComp<DSpriteRendererComponent>();
             _renderer.Sprite = idle.CurrentTexture;
 
             var collider = AddComp<DBoxCollider>();
@@ -74,7 +74,7 @@ namespace DungeonInspector
             //_health = AddComp<ActorHealth>();
             //_health.EnemyTag = "Enemy";
 
-            _rayDraw = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
+            _rayDraw = new DGameEntity("RayGuide", typeof(DSpriteRendererComponent)).GetComp<DSpriteRendererComponent>();
             _rayDraw.ZSorting = 3;
            // _rayHitGuideTest = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
         }

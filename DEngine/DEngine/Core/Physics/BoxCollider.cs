@@ -32,7 +32,7 @@ namespace DungeonInspector
             if (!_activatedDebug)
             {
                 _activatedDebug = true;
-                DIEngineCoreServices.Get<DRenderingController>().AddDebugGUI(RenderBoundingBox_Test);
+                DIEngineCoreServices.Get<DRendering>().AddDebugGUI(RenderBoundingBox_Test);
             }
 
             _boundingBox.Max = new DVec2(Transform.Position.x + Transform.Offset.x + Center.x + Size.x * 0.5f,
@@ -55,7 +55,7 @@ namespace DungeonInspector
 
         public override void OnDestroy()
         {
-            DIEngineCoreServices.Get<DRenderingController>().RemoveDebugGUI(RenderBoundingBox_Test);
+            DIEngineCoreServices.Get<DRendering>().RemoveDebugGUI(RenderBoundingBox_Test);
         }
     }
 }

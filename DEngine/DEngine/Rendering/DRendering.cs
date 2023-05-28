@@ -1,19 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
 namespace DungeonInspector
 {
-    public class DRenderingController : EngineSystemBase<DRendererComponent>
+    public class DRendering : DEngineSystemBase<DRendererComponent>
     {
+        private Dictionary<Type, IDRenderingControllerBase> _renderingControllers;
+
         private List<DRendererComponent> _renderers;
-        private List<DRendererUIComponent> _uirenderers;
         private IOrderedEnumerable<DRendererComponent> _renderersOrdered;
+
+        private List<DRendererUIComponent> _uirenderers;
         private IOrderedEnumerable<DRendererUIComponent> _uiRenderersOrdered;
 
         private bool _pendingToReorder;
@@ -31,7 +31,7 @@ namespace DungeonInspector
 
         public bool V2Rendering { get; set; }
 
-        public DRenderingController()
+        public DRendering()
         {
             _renderers = new List<DRendererComponent>();
             _uirenderers = new List<DRendererUIComponent>();
@@ -47,6 +47,14 @@ namespace DungeonInspector
 
             _viewportRectTex = new Texture2D(1, 1);
             _whiteTex = Texture2D.whiteTexture;
+
+            _renderingControllers = new Dictionary<Type, IDRenderingControllerBase>()
+            {
+                { typeof(DSpriteRendererComponent), new DSpriteRenderingController() },
+                { typeof(DAtlasRendererComponent), new DAtlasRenderingController() },
+                { typeof(DTilemapRendererComponent), new DTilemapRenderingController() },
+                { typeof(DRendererUIComponent), new DSpriteRenderingController() },
+            };
         }
 
         private Action _debugCallback;
@@ -135,7 +143,6 @@ namespace DungeonInspector
                 _pendingToReorder = false;
                 //_ordered.Clear();
 
-
                 // TODO: please, make this not be every frame, (bad perfomance)
                 _renderersOrdered = _renderers.OrderByDescending(x => x.Transform.Position.y + x.Transform.Offset.y - x.ZSorting);
                 _uiRenderersOrdered = _uirenderers.OrderBy(x => x.ZSorting);
@@ -144,23 +151,31 @@ namespace DungeonInspector
 
             if (_renderers.Count > 0)
             {
-                // var tex = GetNextTexture();
+                //Render World
+                DrawGroup(_renderersOrdered);
 
-                foreach (var item in _renderersOrdered)
-                {
-                    Draw(item, _cameras[_cameras.Count - 1], _mat);
-                }
-
-
-                foreach (var item in _uiRenderersOrdered)
-                {
-                    Draw(item, _cameras[_cameras.Count - 1], _uiMat);
-                }
+                // Render UI
+                DrawGroup(_uiRenderersOrdered);
             }
 
             if (V2Rendering)
             {
                 PostRender();
+            }
+        }
+
+        private void DrawGroup<T>(IOrderedEnumerable<T> collection) where T: DRendererComponent
+        {
+            foreach (var item in collection)
+            {
+                if (_renderingControllers.TryGetValue(item.GetType(), out var controller))
+                {
+                    controller.Draw(item, _cameras[_cameras.Count - 1], _mat, _whiteTex);
+                }
+                else
+                {
+                    throw new Exception($"There is not rendering controller for: {item.GetType()}");
+                }
             }
         }
 
@@ -215,129 +230,6 @@ namespace DungeonInspector
             //GUILayout.Space(CameraTest.ScreenSize.y);
         }
 
-        private void Draw(DRendererComponent renderer, DCamera camera, Material defaultMat)
-        {
-
-            if (camera != null && renderer.Entity.IsActive && renderer.Enabled)
-            {
-                var renderingTex = renderer.Sprite;
-
-                if (renderingTex == null)
-                {
-                    renderingTex = _whiteTex;
-                }
-
-                var rect = default(Rect);
-
-                if (renderer.TransformWithCamera)
-                {
-                    rect = camera.World2RectPos(renderer.Transform.Position, renderer.Transform.Scale);
-                }
-                else
-                {
-                    // rect will not be moved by the camera
-                    rect = Utils.World2RectNCamPos(renderer.Transform.Position, renderer.Transform.Scale, camera.ViewportRect, 25);
-                }
-
-                // snaping.
-                rect = new Rect((int)rect.x + renderer.Transform.Offset.x * DCamera.PixelSize, (int)rect.y - renderer.Transform.Offset.y * DCamera.PixelSize, (int)rect.width, (int)rect.height);
-
-                var mat = default(Material);
-
-                if (renderer.Material)
-                {
-                    mat = renderer.Material;
-                }
-                else
-                {
-                    mat = defaultMat;
-                }
-
-                if(renderer is DRendererAtlasComponent)
-                {
-                    var atlasRenderer = renderer as DRendererAtlasComponent;
-
-                    var atlasTex = atlasRenderer.AtlasInfo.Texture;
-                    var blockSize = atlasRenderer.AtlasInfo.BlockSIze;
-
-
-                    // mat.SetVector("_AtlasSpriteIndex", atlasRenderer.SpriteIndex);
-                    mat.SetInt("_IsAtlas", 1);
-                    mat.SetTexture("_AtlasTex", atlasTex);
-
-                    var width = (float)atlasTex.width / (float)blockSize.x;
-                    var height = (float)atlasTex.height / (float)blockSize.y;
-
-                    mat.SetVector("_AtlasRect", new Vector4(atlasRenderer.SpriteCoord.x / width, atlasRenderer.SpriteCoord.y / height, width, height));
-                }
-
-                foreach (var states in renderer.ShaderState)
-                {
-                    SetState(states.Key, states.Value, mat);
-                }
-
-                mat.SetVector("_dtime", new Vector4(DTime.Time, DTime.DeltaTime, Mathf.Sin(DTime.Time), Mathf.Cos(DTime.Time)));
-                mat.SetVector("_cutOffColor", renderer.CutOffColor);
-                mat.SetFloat("_xCutOff", renderer.CutOffValue);
-                mat.SetVector("_color", (Color)renderer.Color);
-                mat.SetVector("_flip", new Vector4(renderer.FlipX ? 1 : 0, renderer.FlipY ? 1 : 0, renderer.Transform.Rotation));
-
-
-                Graphics.DrawTexture(rect, renderingTex, mat);
-
-                mat.SetVector("_flip", default);
-                mat.SetVector("_cutOffColor", Color.white);
-                mat.SetFloat("_xCutOff", 0);
-                mat.SetVector("_color", Color.white);
-                mat.SetInt("_IsAtlas", 0);
-
-                foreach (var states in renderer.ShaderState)
-                {
-                    ClearState(states.Key, states.Value.Key, mat);
-                }
-            }
-
-
-        }
-
-        private void SetState(string varName, KeyValuePair<ShaderStateDataType, object> data, Material mat)
-        {
-            switch (data.Key)
-            {
-                case ShaderStateDataType.Vector:
-                    mat.SetVector(varName, (Vector4)data.Value);
-                    break;
-                case ShaderStateDataType.Int:
-                    mat.SetInt(varName, (int)data.Value);
-                    break;
-                case ShaderStateDataType.Float:
-                    mat.SetFloat(varName, (float)data.Value);
-                    break;
-                case ShaderStateDataType.Matrix:
-                    mat.SetMatrix(varName, (Matrix4x4)data.Value);
-                    break;
-
-            }
-        }
-
-        private void ClearState(string varName, ShaderStateDataType dataType, Material mat)
-        {
-            switch (dataType)
-            {
-                case ShaderStateDataType.Vector:
-                    mat.SetVector(varName, default);
-                    break;
-                case ShaderStateDataType.Int:
-                    mat.SetInt(varName, default);
-                    break;
-                case ShaderStateDataType.Float:
-                    mat.SetFloat(varName, default);
-                    break;
-                case ShaderStateDataType.Matrix:
-                    mat.SetMatrix(varName, default);
-                    break;
-
-            }
-        }
+        
     }
 }

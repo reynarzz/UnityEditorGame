@@ -17,7 +17,7 @@ namespace DungeonInspector
         public WaveOutEvent Event { get; set; }
     }
 
-    public class DAudioSystem : EngineSystemBase
+    public class DAudioSystem : DEngineSystemBase
     {
         private static Dictionary<string, PlayingAudio> _audiosByName;
 

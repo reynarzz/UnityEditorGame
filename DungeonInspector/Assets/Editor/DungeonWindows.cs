@@ -21,20 +21,11 @@ namespace DungeonInspector
         {
             if (_engine == null)
             {
-                var gameSandBox = new DungeonPlaymodeSandBox(
-                                  typeof(DTime),
-                                  typeof(DInput),
-                                  typeof(DAudioSystem),
-                                  typeof(DPhysicsController),
-                                  typeof(DRenderingController),
-                                  typeof(DEntitiesController));
+                var gameSandBox = new DungeonPlaymodeSandBox();
 
                 var editorSandbox = new DungeonEditModeSandbox(
                                     //typeof(DEditorSystem),
-                                    typeof(DTime),
-                                    typeof(DInput),
-                                    typeof(DRenderingController),
-                                    typeof(DEntitiesController));
+                                    );
 
                 _engine = new DEngine(gameSandBox, editorSandbox);
             }

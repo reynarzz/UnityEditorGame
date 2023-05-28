@@ -63,7 +63,7 @@ namespace DungeonInspector
             var animation = new DSpriteAnimation(_coinCollectibleAtlas);
             var coin = InstanceCollectible<Coin>(name, _coinCollectibleAtlas.GetTexture(0));
             var animator = coin.AddComp<DAnimatorComponent>();
-            animator.SetRenderer(coin.GetComp<DRendererComponent>());
+            animator.SetRenderer(coin.GetComp<DSpriteRendererComponent>());
             animator.AddAnimation(animation);
             animator.Speed = 5;
             animator.Play(0);
@@ -80,7 +80,7 @@ namespace DungeonInspector
             box.Center = new DVec2();
             box.Size = new DVec2(0.46f, 0.46f);
 
-            entity.AddComp<DRendererComponent>().Sprite = _bulletCircle;
+            entity.AddComp<DSpriteRendererComponent>().Sprite = _bulletCircle;
 
             return entity;
         }
@@ -111,7 +111,7 @@ namespace DungeonInspector
             collider.Size = new DVec2(0.5f, 0.71f);
             collider.Center = new DVec2(0, -0.36f);
 
-            var render = entity.AddComp<DRendererComponent>();
+            var render = entity.AddComp<DSpriteRendererComponent>();
             render.ZSorting = -1;
             render.Sprite = sprite;
             entity.Layer = 2;
@@ -132,7 +132,7 @@ namespace DungeonInspector
 
             var chest = entity.AddComp<Chest>();
 
-            var renderer = entity.AddComp<DRendererComponent>();
+            var renderer = entity.AddComp<DSpriteRendererComponent>();
             
             renderer.Sprite = _emptyChestAtlas.GetTexture(0);
 
@@ -152,13 +152,11 @@ namespace DungeonInspector
 
         public DGameEntity InstanceDoor(string name)
         {
-            var entity = GetEntity(name, typeof(DRendererComponent), typeof(DBoxCollider));
+            var entity = GetEntity(name, typeof(DSpriteRendererComponent), typeof(DBoxCollider));
 
             entity.AddComp<Door>().SetAtlas(_doorAtlas);
 
             return entity;
-
-
         }
 
 

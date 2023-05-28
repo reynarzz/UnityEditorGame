@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class DTime : EngineSystemBase
+    public class DTime : DEngineSystemBase
     {
         private Stopwatch _stopWatch;
         private static float _time = 0f;

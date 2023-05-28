@@ -16,7 +16,7 @@ namespace DungeonInspector
 
         public float Speed { get; set; } = -1;
 
-        private DRendererComponent _renderer;
+        private DSpriteRendererComponent _renderer;
 
         public DAnimatorComponent()
         {
@@ -28,7 +28,7 @@ namespace DungeonInspector
         {
             if(_renderer == null)
             {
-                _renderer = GetComp<DRendererComponent>();
+                _renderer = GetComp<DSpriteRendererComponent>();
             }
 
             if (PlayOnStart && _animations.Count > 0)
@@ -37,7 +37,7 @@ namespace DungeonInspector
             }
         }
 
-        public void SetRenderer(DRendererComponent renderer)
+        public void SetRenderer(DSpriteRendererComponent renderer)
         {
             _renderer = renderer;
         }

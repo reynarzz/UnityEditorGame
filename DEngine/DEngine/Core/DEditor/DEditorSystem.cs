@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class DEditorSystem : EngineSystemBase
+    public class DEditorSystem : DEngineSystemBase
     {
         private DHierarchyEditor _hierarchy;
         private DEditorToolBar _toolbar;

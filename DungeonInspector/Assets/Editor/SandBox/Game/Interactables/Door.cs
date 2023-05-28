@@ -10,14 +10,14 @@ namespace DungeonInspector
 {
     public class Door : ButtonInteractableBase
     {
-        private DRendererComponent _renderer;
+        private DSpriteRendererComponent _renderer;
         private DSpriteAtlas _atlas;
         private GameMaster _gameMaster;
 
         private DTile[] _tiles = new DTile[4];
         protected override void OnAwake()
         {
-            _renderer = GetComp<DRendererComponent>();
+            _renderer = GetComp<DSpriteRendererComponent>();
             _renderer.Sprite = _atlas.GetTexture(0);
             _gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
         }

@@ -97,7 +97,9 @@
     <Compile Include="DEngine\Core\Components\DRendererComponent.cs" />
     <Compile Include="DEngine\Core\Components\DRendererUIComponent.cs" />
     <Compile Include="DEngine\Core\Components\DTilemap.cs" />
+    <Compile Include="DEngine\Core\Components\DTilemapRendererComponent.cs" />
     <Compile Include="DEngine\Core\Components\DTransformComponent.cs" />
+    <Compile Include="DEngine\Core\Components\DSpriteRendererComponent.cs" />
     <Compile Include="DEngine\Core\DEditor\DEditorSystem.cs" />
     <Compile Include="DEngine\Core\DEditor\DEditorToolBar.cs" />
     <Compile Include="DEngine\Core\DEditor\Hierarchy\DHierarchyEditor.cs" />
@@ -119,8 +121,12 @@
     <Compile Include="DEngine\Main\DEngine.cs" />
     <Compile Include="DEngine\Main\DSandboxBase.cs" />
     <Compile Include="DEngine\Main\DEngineView.cs" />
-    <Compile Include="DEngine\Rendering\DRenderingController.cs" />
+    <Compile Include="DEngine\Rendering\DRenderingControllerBase.cs" />
+    <Compile Include="DEngine\Rendering\DRendering.cs" />
     <Compile Include="DEngine\Rendering\DRenderingGroup.cs" />
+    <Compile Include="DEngine\Rendering\DAtlasRenderingController.cs" />
+    <Compile Include="DEngine\Rendering\DSpriteRenderingController.cs" />
+    <Compile Include="DEngine\Rendering\DTilemapRenderingController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

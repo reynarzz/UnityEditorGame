@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public abstract class EngineSystemBase 
+    public abstract class DEngineSystemBase 
     {
         public virtual void Init() { }
         public virtual void Update() { }
         public virtual void Cleanup() { }
     }
 
-    public abstract class EngineSystemBase<T> : EngineSystemBase
+    public abstract class DEngineSystemBase<T> : DEngineSystemBase
     {
         public virtual void Add(T element) { }
         public virtual void Remove(T element) { }
@@ -21,29 +21,29 @@ namespace DungeonInspector
 
     public class DIEngineCoreServices
     {
-        private static Dictionary<Type, EngineSystemBase> _services;
+        private static Dictionary<Type, DEngineSystemBase> _services;
 
         public DIEngineCoreServices()
         {
-            _services = new Dictionary<Type, EngineSystemBase>()
+            _services = new Dictionary<Type, DEngineSystemBase>()
             {
                 { typeof(DTime), new DTime() },
                 { typeof(DAudioSystem), new DAudioSystem() },
                 { typeof(DInput), new DInput() },
                 { typeof(DEntitiesController), new DEntitiesController() },
-                { typeof(DRenderingController), new DRenderingController() },
+                { typeof(DRendering), new DRendering() },
                 { typeof(DPhysicsController), new DPhysicsController() },
                 { typeof(DEditorSystem), new DEditorSystem() },
                 
             };
         }
 
-        public static T Get<T>() where T : EngineSystemBase
+        public static T Get<T>() where T : DEngineSystemBase
         {
             return Get(typeof(T)) as T;
         }
 
-        public static EngineSystemBase Get(Type type) 
+        public static DEngineSystemBase Get(Type type) 
         {
             if (_services.TryGetValue(type, out var service))
             {

@@ -13,7 +13,7 @@ namespace DungeonInspector
         private Material _mat_DELETE;
         private DCamera _camera;
         private TilesDatabase _tilesDatabase;
-        private Player _player;
+        //private Player _player;
 
         protected override void OnStart()
         {
@@ -25,19 +25,19 @@ namespace DungeonInspector
 
             var playerObj = DGameEntity.FindGameEntity("Player");
             
-            if(playerObj != null)
-            {
-                _player = playerObj.GetComp<Player>();
-            }
+            //if(playerObj != null)
+            //{
+            //    _player = playerObj.GetComp<Player>();
+            //}
             
 
             _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
 
-            DIEngineCoreServices.Get<DRenderingController>().AddCustomRenderControl(TestDraw_Remove);
+            DIEngineCoreServices.Get<DRendering>().AddCustomRenderControl(TestDraw_Remove);
 
         }
 
-        // this should use the new render system.
+        // This should use the new render system.
         private void TestDraw_Remove()
         {
             foreach (var item in _tilemap.Tiles)
@@ -46,16 +46,16 @@ namespace DungeonInspector
                 {
                     var tex = _tilesDatabase.GetTileTexture(s.Value.AssetIndex);
 
-                    if(_player != null)
-                    {
-                        var playerRect = _camera.World2RectPos(_player.Transform.Position, _player.Transform.Scale);
-                        _mat_DELETE.SetVector("_playerPos", new Vector4(playerRect.x, playerRect.y, playerRect.width, playerRect.height));
+                    //if(_player != null)
+                    //{
+                    //    var playerRect = _camera.World2RectPos(_player.Transform.Position, _player.Transform.Scale);
+                    //    //--_mat_DELETE.SetVector("_playerPos", new Vector4(playerRect.x, playerRect.y, playerRect.width, playerRect.height));
 
-                    }
+                    //}
 
                     Graphics.DrawTexture(_camera.World2RectPos(item.Key, Vector2.one), tex, _mat_DELETE);
 
-                    _mat_DELETE.SetVector("_playerPos", default);
+                    //--_mat_DELETE.SetVector("_playerPos", default);
                 }
             }
         }

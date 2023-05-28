@@ -16,10 +16,10 @@ namespace DungeonInspector
         private readonly DSandboxBase _editModeSandBox;
 
         private DSandboxBase _currentSandBox;
-        private EngineSystemBase[] _currentServices;
+        private DEngineSystemBase[] _currentServices;
 
         private bool _isPaused = false;
-        private DRenderingController _renderingSystem;
+        private DRendering _renderingSystem;
 
         public DEngine(DSandboxBase playModeSandBox, DSandboxBase editModeSandBox)
         {
@@ -69,7 +69,7 @@ namespace DungeonInspector
             _currentSandBox = GetSandboxCopy(target);
             _currentServices = ConstructServices(target);
 
-            _renderingSystem = (DRenderingController)_currentServices.First(x => x as DRenderingController != null);
+            _renderingSystem = (DRendering)_currentServices.First(x => x as DRendering != null);
 
             _currentSandBox.OnInitialize();
 
@@ -103,9 +103,9 @@ namespace DungeonInspector
             return (DSandboxBase)Activator.CreateInstance(original.GetType(), (object)original.Services);
         }
 
-        private EngineSystemBase[] ConstructServices(DSandboxBase sandbox)
+        private DEngineSystemBase[] ConstructServices(DSandboxBase sandbox)
         {
-            var services = new EngineSystemBase[sandbox.Services.Length];
+            var services = new DEngineSystemBase[sandbox.Services.Length];
 
             new DIEngineCoreServices();
             new Utils();

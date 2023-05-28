@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class DEntitiesController : EngineSystemBase<DGameEntity>
+    public class DEntitiesController : DEngineSystemBase<DGameEntity>
     {
         private List<DGameEntity> _toUpdate;
         private List<DGameEntity> _notAwaken;

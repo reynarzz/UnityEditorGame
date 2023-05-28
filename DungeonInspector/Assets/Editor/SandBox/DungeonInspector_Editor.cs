@@ -17,14 +17,14 @@ namespace DungeonInspector
                                   typeof(DInput),
                                   typeof(DAudioSystem),
                                   typeof(DPhysicsController),
-                                  typeof(DRenderingController),
+                                  typeof(DRendering),
                                   typeof(DEntitiesController));
 
                 var editorSandbox = new DungeonEditModeSandbox(
                                     //typeof(DEditorSystem),
                                     typeof(DTime),
                                     typeof(DInput),
-                                    typeof(DRenderingController),
+                                    typeof(DRendering),
                                     typeof(DEntitiesController));
 
                 _engine = new DEngine(gameSandBox, editorSandbox);

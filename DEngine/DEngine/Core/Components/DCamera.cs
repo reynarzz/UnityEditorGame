@@ -22,7 +22,7 @@ namespace DungeonInspector
         public DCamera()
         {
             ScreenSize = new DVec2(640, 360);
-            DIEngineCoreServices.Get<DRenderingController>().AddCamera(this);
+            DIEngineCoreServices.Get<DRendering>().AddCamera(this);
         }
 
         public Rect World2RectPos(DVec2 pos, DVec2 scale)
@@ -56,7 +56,7 @@ namespace DungeonInspector
 
         public override void OnDestroy()
         {
-            DIEngineCoreServices.Get<DRenderingController>().RemoveCamera(this);
+            DIEngineCoreServices.Get<DRendering>().RemoveCamera(this);
         }
     }
 }

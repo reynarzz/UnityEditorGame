@@ -70,7 +70,7 @@ namespace DungeonInspector
                 {
                     var renderer = component as DRendererComponent;
 
-                    DIEngineCoreServices.Get<DRenderingController>().Add(renderer);
+                    DIEngineCoreServices.Get<DRendering>().Add(renderer);
                 }
 
                 if(type == typeof(DPhysicsComponent) || type.IsSubclassOf(typeof(DPhysicsComponent)))
@@ -161,7 +161,7 @@ namespace DungeonInspector
 
             if (updatableRenderer != null)
             {
-                DIEngineCoreServices.Get<DRenderingController>().Remove(updatableRenderer);
+                DIEngineCoreServices.Get<DRendering>().Remove(updatableRenderer);
             }
 
             if(physics != null)
