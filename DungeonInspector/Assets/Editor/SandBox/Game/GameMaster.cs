@@ -9,6 +9,7 @@ namespace DungeonInspector
     public class GameMaster : DBehavior
     {
         private DTilemap _tilemap;
+        private DTilemap[] _tilemaps;
         private DCamera _camera;
 
         public DTilemap Tilemap => _tilemap;
@@ -46,7 +47,6 @@ namespace DungeonInspector
             // Main Player
             _player = new DGameEntity("Player", typeof(DSpriteRendererComponent), typeof(DAnimatorComponent), typeof(Player)).GetComp<Player>();
 
-            _tilemap = DGameEntity.FindGameEntity("TileMaster").GetComp<DTilemap>();
             _camera = DGameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();
 
             _tilesDatabase = new TilesDatabase("World/World1Tiles");
@@ -55,7 +55,7 @@ namespace DungeonInspector
             _tilesBehaviors = new Dictionary<TileBehavior, List<Actor>>();
             _prefabInstantiator = new PrefabInstantiator();
 
-            _navWorld = new NavWorld(_tilemap);
+            //_navWorld = new NavWorld(_tilemap);
             _screenUI = new DGameEntity("ScreenUI", typeof(DRendererUIComponent), typeof(ScreenUI)).GetComp<ScreenUI>();
 
             var worldLevelPath = Application.dataPath + "/Resources/Data/WorldData.txt";
@@ -92,8 +92,18 @@ namespace DungeonInspector
             if (currentWorld != null)
             {
                 Load(currentWorld);
-                
+
             }
+        }
+
+        private DTilemap GetNewTilemap(string name)
+        {
+            var tilemapObj = new DGameEntity(name);
+            var tilemap = tilemapObj.AddComp<DTilemap>();
+
+            tilemapObj.AddComp<DTilemapRendererComponent>().TileMap = tilemap;
+
+            return tilemap;
         }
 
         private void OnPlayerDead()
@@ -110,18 +120,46 @@ namespace DungeonInspector
 
         private void Load(WorldData world)
         {
-            _tilemap.Clear();
-
             _prefabInstantiator.DestroyAllInstances();
 
             _currentWorld = world;
 
-            for (int i = 0; i < world.LevelData.Count; i++)
-            {
-                var info = world.LevelData.GetTile(i);
+            //for (int i = 0; i < world.LevelData.Count; i++)
+            //{
+            //    var info = world.LevelData.GetTile(i);
 
-                _tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
+            //    _tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
+            //}
+
+            if(_tilemaps != null)
+            {
+                for (int i = 0; i < _tilemaps.Length; i++)
+                {
+                    _tilemaps[i].Clear();
+                }
+
+                _tilemaps = null;
             }
+
+            _tilemaps = new DTilemap[world.TilemapsData.Length];
+
+            for (int i = 0; i < world.TilemapsData.Length; i++)
+            {
+                var tilemap = GetNewTilemap("Tilemap: " + i);
+
+                for (int j = 0; j < world.TilemapsData[i].Count; j++)
+                {
+                    var info = world.TilemapsData[i].GetTile(j);
+
+                    tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
+                }
+
+                _tilemaps[i] = tilemap;
+            }
+
+            // Set the first one as the main, (TODO: make a tilemap manager to calculate the current one, and get walkable states)
+            _tilemap = _tilemaps[0];
+            _navWorld = new NavWorld(_tilemap);
 
             for (int i = 0; i < world.Entities.Count; i++)
             {
@@ -134,7 +172,7 @@ namespace DungeonInspector
                 {
                     var tile = _tilemap.GetTile(ent.Item2);
 
-                    if(tile != null)
+                    if (tile != null)
                     {
                         tile.IsWalkable = false;
                     }
@@ -179,7 +217,7 @@ namespace DungeonInspector
         {
             //-Utils.DrawBounds(_tilemap.GetTilemapBoundaries(), Color.white, 0.5f);
 
-           
+
             UpdateTilesBehavior();
 
             EditorGUILayout.Space(18);
@@ -193,7 +231,7 @@ namespace DungeonInspector
             if (_camera.IsInside(DInput.GetMouseWorldPos(), Vector2.one * 0.01f))
             {
                 Cursor.SetCursor(Texture2D.whiteTexture, Vector2.one, CursorMode.ForceSoftware);
-                EditorGUIUtility.AddCursorRect(new Rect(0,0, Screen.width, Screen.height), MouseCursor.CustomCursor);
+                EditorGUIUtility.AddCursorRect(new Rect(0, 0, Screen.width, Screen.height), MouseCursor.CustomCursor);
                 Debug.Log("inside");
             }
             else
@@ -257,7 +295,7 @@ namespace DungeonInspector
 
         public BaseTD GetLevelData(DVec2 vector)
         {
-            return _currentWorld.LevelData.GetLevelTileData(vector.Round());
+            return _currentWorld.TilemapsData[0].GetLevelTileData(vector.Round());
         }
     }
 }

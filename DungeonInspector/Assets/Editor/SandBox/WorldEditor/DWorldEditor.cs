@@ -101,25 +101,7 @@ namespace DungeonInspector
 
         protected override void OnStart()
         {
-            _tilemaps = new List<TilemapEditorInfo>();
-
-            _selectedTilemap = GetNewTilemap("Tilemap");
-
-            _tilemaps.Add(_selectedTilemap);
-
-            _tilemapReorderableList = new ReorderableList(_tilemaps, typeof(DTilemap));
-
-            _tilemapReorderableList.headerHeight = 0;
-            _tilemapReorderableList.footerHeight = 0;
-            _tilemapReorderableList.displayAdd = false;
-            _tilemapReorderableList.displayRemove = false;
-            _tilemapReorderableList.multiSelect = true;
-            _tilemapReorderableList.drawElementCallback = OnDrawLayer;
-            _tilemapReorderableList.onReorderCallback = OnReorderedList;
-            _tilemapReorderableList.index = 0;
-
-            _tilemapReorderableList.drawNoneElementCallback = OnDrawNoLayer;
-
+           
             _tilesDatabase = new TilesDatabase("World/World1Tiles");
             _animatedTiles = new TilesDatabase("World/TilesAnimated");
             _entityPrefabList = new EditModePrefabInstantiator();
@@ -164,13 +146,16 @@ namespace DungeonInspector
             var data = Resources.Load<TextAsset>("Data/WorldData");
 
             AssetDatabase.Refresh();
+
+
+            _tilemaps = new List<TilemapEditorInfo>();
+
             if (data != null)
             {
                 _worlds = JsonConvert.DeserializeObject<List<WorldData>>(data.text,
                     new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
 
                 _worldsNames = _worlds.Select(x => x.Name).ToArray();
-
 
                 if (_worlds.Count > _selectedWorldIndex)
                 {
@@ -182,7 +167,24 @@ namespace DungeonInspector
             else
             {
                 _worlds = new List<WorldData>();
+                _selectedTilemap = GetNewTilemap("Tilemap");
+
+                _tilemaps.Add(_selectedTilemap);
             }
+
+            _tilemapReorderableList = new ReorderableList(_tilemaps, typeof(DTilemap));
+
+            _tilemapReorderableList.headerHeight = 0;
+            _tilemapReorderableList.footerHeight = 0;
+            _tilemapReorderableList.displayAdd = false;
+            _tilemapReorderableList.displayRemove = false;
+            _tilemapReorderableList.multiSelect = true;
+            _tilemapReorderableList.drawElementCallback = OnDrawLayer;
+            _tilemapReorderableList.onReorderCallback = OnReorderedList;
+            _tilemapReorderableList.index = 0;
+
+            _tilemapReorderableList.drawNoneElementCallback = OnDrawNoLayer;
+
 
             _mat_DELETE = Resources.Load<Material>("Materials/DStandard");
             _selectionFrame = Resources.Load<Texture2D>("GameAssets/LevelEditor/SelectionFrame");
@@ -615,21 +617,47 @@ namespace DungeonInspector
 
         private void Load(WorldData worldData)
         {
-            _selectedTilemap.Tilemap.Clear();
+            if(_tilemaps.Count > 0)
+            {
+                _tilemaps.ForEach(x => x.Tilemap.Entity.Destroy());
+                _tilemaps.Clear();
+            }
+
             _placedEntities.Clear();
 
             if (worldData != null)
             {
-                if (worldData.LevelData != null)
+                if (worldData.TilemapsData != null)
                 {
+                    _tilemaps = new List<TilemapEditorInfo>();
 
-                    for (int i = 0; i < worldData.LevelData.Count; i++)
+                    for (int i = 0; i < worldData.TilemapsData.Length; i++)
                     {
-                        var info = worldData.LevelData.GetTile(i);
+                        var tilemap = GetNewTilemap("Tilemap");
 
-                        _selectedTilemap.Tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
+                        for (int j = 0; j < worldData.TilemapsData[i].Count; j++)
+                        {
+                            var info = worldData.TilemapsData[i].GetTile(j);
+
+                            tilemap.Tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
+                        }
+
+                        _tilemaps.Add(tilemap);
                     }
+
+                   
                 }
+
+                //var tilemap = GetNewTilemap("Tilemap");
+                //_tilemaps.Add(tilemap);
+                //for (int j = 0; j < worldData.LevelData.Count; j++)
+                //{
+                //    var info = worldData.LevelData.GetTile(j);
+
+                //    tilemap.Tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
+                //}
+
+                _selectedTilemap = _tilemaps[0];
 
                 for (int i = 0; i < worldData.Entities.Count; i++)
                 {

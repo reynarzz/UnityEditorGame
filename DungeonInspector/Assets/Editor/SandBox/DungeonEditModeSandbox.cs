@@ -8,19 +8,15 @@ namespace DungeonInspector
 {
     public class DungeonEditModeSandbox : DSandboxBase
     {
-        public DungeonEditModeSandbox(params Type[] services) : base(services)
-        {
-
-        }
+        public DungeonEditModeSandbox(params Type[] services) : base(services) { }
 
         public override void OnInitialize()
         {
-            new DGameEntity("MainCamera", typeof(DCamera)/*, typeof(DCameraFollow)*/);
-
-            new DGameEntity("TileMaster", typeof(DRenderingGroup), typeof(DTilemapRendererComponent));
+            // Camera
+            new DGameEntity("MainCamera", typeof(DCamera));
 
             // World Editor
-            new DGameEntity("WorldEditor", typeof(DWorldEditor))/*.IsActive = false*/;
+            new DGameEntity("WorldEditor", typeof(DWorldEditor));
         }
 
         public override void OnQuit()

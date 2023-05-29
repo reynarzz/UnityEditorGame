@@ -21,6 +21,7 @@ namespace DungeonInspector
 
         private Dictionary<Actor, List<EnemyBase>> _actorsToFindPath; // target by requesters
 
+        // TODO: this should use more than one tilemap
         public NavWorld(DTilemap tilemap)
         {
             _tileMap = tilemap;

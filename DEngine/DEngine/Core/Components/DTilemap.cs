@@ -146,7 +146,14 @@ namespace DungeonInspector
 
         public bool IsTileWalkable(int x, int y)
         {
-            return GetTile(x, y).IsWalkable;
+            var tile = GetTile(x, y);
+
+            if(tile == null)
+            {
+                return false;
+            }
+            
+            return tile.IsWalkable;
         }
 
         public DAABB GetTilemapBoundaries()
