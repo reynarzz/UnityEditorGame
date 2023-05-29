@@ -55,7 +55,7 @@ namespace DungeonInspector
                     var x = _bounds.Min.x + i;
                     var y = _bounds.Min.y + j;
 
-                    var tile = _tileMap.GetTile(x, y, 0);
+                    var tile = _tileMap.GetTile(x, y);
 
                     if (tile != null)
                     {

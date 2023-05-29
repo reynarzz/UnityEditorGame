@@ -139,7 +139,7 @@ namespace DungeonInspector
             {
                 var nextPos = GetNextPos();
 
-                var tile = _tilemap.GetTile(nextPos, 0);
+                var tile = _tilemap.GetTile(nextPos);
 
                 if ((_movePos - Transform.Position).SqrMagnitude <= 0.001f && !tile.IsOccupied /*&& _playerTest.Transform.RoundPosition != nextPos*/)
                 {
@@ -149,7 +149,7 @@ namespace DungeonInspector
 
                     _prevPos = _movePos.RoundToInt();
 
-                    _tilemap.GetTile(_prevPos, 0).Ocupe = null;
+                    _tilemap.GetTile(_prevPos).Ocupe = null;
                     _movePos = nextPos;
 
 

@@ -9,17 +9,17 @@ namespace DungeonInspector
 {
     public class DTilemap : DBehavior
     {
-        private Dictionary<DVec2, Dictionary<int, DTile>> _tiles;
-        public Dictionary<DVec2, Dictionary<int, DTile>> Tiles => _tiles;
+        private Dictionary<DVec2, DTile> _tiles;
+        public Dictionary<DVec2, DTile> Tiles => _tiles;
 
         private DAABB _tilemapBounds;
         public int Count => _tiles.Count;
 
         public DTilemap()
         {
-            _tiles = new Dictionary<DVec2, Dictionary<int, DTile>>();
+            _tiles = new Dictionary<DVec2, DTile>();
         }
-       
+
         //protected override void OnAwake()
         //{
         //    _tiles = new Dictionary<DVec2, Dictionary<int, DTile>>();
@@ -28,12 +28,12 @@ namespace DungeonInspector
         private int _index_REMOVE;
         public void SetNewTile(DTile tile, float x, float y)
         {
-            var copy = new DTile() 
+            var copy = new DTile()
             {
                 AssetIndex = tile.AssetIndex,
 
                 WorldIndex = _index_REMOVE++, // TODO---------------------------------
-                
+
                 IsWalkable = tile.IsWalkable,
                 Animation = tile.Animation,
                 Behavior = tile.Behavior,
@@ -44,7 +44,7 @@ namespace DungeonInspector
                 IdleTexAnim = tile.IdleTexAnim,
             };
 
-            
+
 
             SetTile(copy, x, y);
         }
@@ -53,24 +53,13 @@ namespace DungeonInspector
         {
             var pos = new DVec2((int)x, (int)y);
 
-            if (_tiles.TryGetValue(pos, out var layers))
+            if (!_tiles.TryGetValue(pos, out var tileOut))
             {
-                if (!layers.TryGetValue(tile.ZSorting, out var tileData))
-                {
-                    layers.Add(tile.ZSorting, tile);
-                }
-                else
-                {
-                    layers[tile.ZSorting] = tileData;
-                }
+                _tiles.Add(pos, tile);
             }
             else
             {
-                var dict = new Dictionary<int, DTile>();
-
-                dict.Add(tile.ZSorting, tile);
-
-                _tiles.Add(pos, dict);
+                _tiles[pos] = tile;
             }
 
             if (x < _tilemapBounds.Min.x)
@@ -85,7 +74,7 @@ namespace DungeonInspector
 
             if (x > _tilemapBounds.Max.x)
             {
-                _tilemapBounds.Max = new DVec2(x , _tilemapBounds.Max.y);
+                _tilemapBounds.Max = new DVec2(x, _tilemapBounds.Max.y);
             }
 
             if (y > _tilemapBounds.Max.y)
@@ -123,7 +112,7 @@ namespace DungeonInspector
                     _tilemapBounds.Max = new DVec2(_tilemapBounds.Max.x, y);
                 }
             }
-        
+
         }
 
         public void RemoveTile(float x, float y)
@@ -136,62 +125,28 @@ namespace DungeonInspector
             }
         }
 
-        public DTile GetTile(DVec2 position, int zSorting)
+        public DTile GetTile(float x, float y)
         {
-            return GetTile(position.x, position.y, zSorting);
+            return GetTile(new DVec2((int)x, (int)y));
         }
 
-
-        public DTile GetTile(float x, float y, int zSorting)
+        public DTile GetTile(DVec2 position)
         {
-            var layer = GetTileLayers((int)x, (int)y);
-
-            if (layer != null)
+            if (_tiles.TryGetValue(position, out DTile tile))
             {
-                if (layer.TryGetValue(zSorting, out var tile))
-                {
-                    return tile;
-                }
-                else
-                {
-                    Debug.Log($"Cannot find tile in ZSorting layer: {zSorting}");
-                }
+                return tile;
             }
-
-            return default;
-        }
-
-        public Dictionary<int, DTile> GetTileLayers(int x, int y)
-        {
-            if (_tiles.TryGetValue(new DVec2(x, y), out var tilesLayers))
+            else
             {
-                return tilesLayers;
-            }
+                Debug.Log($"Cannot find tile at position: {position}");
 
-            return null;
+                return null;
+            }
         }
 
         public bool IsTileWalkable(int x, int y)
         {
-            var layers = GetTileLayers(x, y);
-
-            if (layers != null)
-            {
-                var walkable = true;
-
-                for (int i = 0; i < layers.Values.Count; i++)
-                {
-                    if (!layers.Values.ElementAt(i).IsWalkable)
-                    {
-                        walkable = false;
-                        break;
-                    }
-                }
-
-                return walkable;
-            }
-
-            return false;
+            return GetTile(x, y).IsWalkable;
         }
 
         public DAABB GetTilemapBoundaries()
@@ -201,17 +156,7 @@ namespace DungeonInspector
 
         public List<DTile> GetAllTiles()
         {
-            var tiles = new List<DTile>();
-
-            foreach (var tilesInLayer in _tiles.Values)
-            {
-                foreach (var tile in tilesInLayer.Values)
-                {
-                    tiles.Add(tile);
-                }
-            }
-
-            return tiles;
+            return _tiles.Select(x => x.Value).ToList();
         }
 
         public void Clear()

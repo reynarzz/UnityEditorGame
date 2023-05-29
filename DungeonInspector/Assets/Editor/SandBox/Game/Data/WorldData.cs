@@ -13,7 +13,10 @@ namespace DungeonInspector
     public class WorldData
     {
         [JsonProperty] public string Name { get; set; }
-        [JsonProperty] public LevelTilesData LevelData { get; set; }
+        [JsonProperty] public TilemapData LevelData { get; set; }
+
+        [JsonProperty] public TilemapData[] TilemapsData { get; set; }
+
 
         public List<(EntityID, DVec2)> Entities { get; set; }
 
@@ -24,16 +27,16 @@ namespace DungeonInspector
     }
 
     [Serializable]
-    public class LevelTilesData 
+    public class TilemapData 
     {
         [JsonProperty] private TileData[] _tiles;
         [JsonIgnore] private Dictionary<DVec2, BaseTD> _levelTileData;
         public int Count => _tiles.Length;
 
         // Newtonsoft json needs the default constructor to deserialize.
-        private LevelTilesData() { }
+        private TilemapData() { }
 
-        public LevelTilesData(TileData[] tiles)
+        public TilemapData(TileData[] tiles)
         {
             _tiles = tiles;
         }

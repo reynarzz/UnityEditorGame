@@ -26,8 +26,8 @@ namespace DungeonInspector
         {
             var basePos = Transform.Position + (DVec2)Vector2.down;
 
-            _tiles[0] = _gameMaster.Tilemap.GetTile(basePos.RoundToInt(), 0);
-            _tiles[1] = _gameMaster.Tilemap.GetTile((basePos + DVec2.Right).RoundToInt(), 0);
+            _tiles[0] = _gameMaster.Tilemap.GetTile(basePos.RoundToInt());
+            _tiles[1] = _gameMaster.Tilemap.GetTile((basePos + DVec2.Right).RoundToInt());
 
 
 

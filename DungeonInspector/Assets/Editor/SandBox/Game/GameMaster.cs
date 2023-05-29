@@ -132,7 +132,7 @@ namespace DungeonInspector
 
                 if (ent.Item1 == EntityID.ChestEmpty)
                 {
-                    var tile = _tilemap.GetTile(ent.Item2, 0);
+                    var tile = _tilemap.GetTile(ent.Item2);
 
                     if(tile != null)
                     {

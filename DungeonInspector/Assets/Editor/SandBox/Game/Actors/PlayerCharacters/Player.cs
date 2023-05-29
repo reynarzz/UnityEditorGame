@@ -214,7 +214,7 @@ namespace DungeonInspector
             if (Transform.Position.RoundToInt() == _gridPos.RoundToInt() && !_canMove && !_tileEnter)
             {
                 _tileEnter = true;
-                var currentTile = _gameMaster.Tilemap.GetTile(Transform.Position.Round(), 0);
+                var currentTile = _gameMaster.Tilemap.GetTile(Transform.Position.Round());
 
                 if (currentTile != null)
                 {
