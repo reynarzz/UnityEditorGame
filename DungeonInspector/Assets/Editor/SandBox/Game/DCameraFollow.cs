@@ -22,12 +22,17 @@ namespace DungeonInspector
         
         protected override void OnUpdate()
         {
-            var playerPos = new DVec2(_player.Transform.Position.x, _player.Transform.Position.y);
+            var offset = (DInput.GetMouseWorldPos() - _player.Transform.Position) * 0.09f;
 
-            var offset = (DInput.GetMouseWorldPos() - playerPos) * 0.09f;
-
-            _camera.Transform.Position = UnityEngine.Vector2.Lerp(_camera.Transform.Position, playerPos + offset, _speed * DTime.DeltaTime);
+            _camera.Transform.Position = UnityEngine.Vector2.Lerp(_camera.Transform.Position, _player.Transform.Position + offset, _speed * DTime.DeltaTime);
             //_camera.Transform.Position = playerPos;
+        }
+
+        public void SetInstantPosition()
+        {
+            var offset = (DInput.GetMouseWorldPos() - _player.Transform.Position) * 0.09f;
+
+            _camera.Transform.Position = _player.Transform.Position + offset;
         }
     }
 }

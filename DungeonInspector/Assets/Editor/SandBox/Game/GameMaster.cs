@@ -102,7 +102,7 @@ namespace DungeonInspector
             var tilemapObj = new DGameEntity(name);
             var tilemap = tilemapObj.AddComp<DTilemap>();
 
-            var renderer= tilemapObj.AddComp<DTilemapRendererComponent>();
+            var renderer = tilemapObj.AddComp<DTilemapRendererComponent>();
             renderer.TileMap = tilemap;
             renderer.ZSorting = sorting;
             return tilemap;
@@ -110,7 +110,7 @@ namespace DungeonInspector
 
         private void OnPlayerDead()
         {
-            ChangeToLevel(_currentWorld.Name);
+            ChangeToLevel(_currentWorld.Name, _player.Transform.Position);
         }
 
         protected override void OnStart()
@@ -133,11 +133,11 @@ namespace DungeonInspector
             //    _tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
             //}
 
-            if(_tilemaps != null)
+            if (_tilemaps != null)
             {
                 for (int i = 0; i < _tilemaps.Length; i++)
                 {
-                    _tilemaps[i].Clear();
+                    _tilemaps[i].Entity.Destroy();
                 }
 
                 _tilemaps = null;
@@ -188,7 +188,7 @@ namespace DungeonInspector
             _navWorld.Init();
         }
 
-        public void ChangeToLevel(string name)
+        public void ChangeToLevel(string name, Vector2 spawnPosition = default)
         {
             DTime.TimeScale = 0;
 
@@ -208,9 +208,13 @@ namespace DungeonInspector
                     Debug.Log("Can't load level!: No level with name: '" + name + "' exist");
                 }
 
+                _player.SetPosition(spawnPosition);
+                _camera.GetComp<DCameraFollow>().SetInstantPosition();
+
                 _screenUI.FadeOut(() =>
                 {
                     DTime.TimeScale = 1;
+
                 });
             });
         }
@@ -234,11 +238,11 @@ namespace DungeonInspector
             {
                 Cursor.SetCursor(Texture2D.whiteTexture, Vector2.one, CursorMode.ForceSoftware);
                 EditorGUIUtility.AddCursorRect(new Rect(0, 0, Screen.width, Screen.height), MouseCursor.CustomCursor);
-                Debug.Log("inside");
+                //Debug.Log("inside");
             }
             else
             {
-                Debug.Log("outside");
+                //Debug.Log("outside");
             }
 
         }

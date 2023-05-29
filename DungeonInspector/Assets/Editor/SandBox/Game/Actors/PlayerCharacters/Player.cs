@@ -106,6 +106,12 @@ namespace DungeonInspector
             _rayDraw.Entity.IsActive = false;
         }
 
+        public void SetPosition(Vector2 spawnPosition)
+        {
+            _moveDir = default;
+            Transform.Position = _gridPos = spawnPosition;
+        }
+
         private float _timeToGetHit;
         private const float _timeToGetHitCooldown = 1;
 
@@ -287,5 +293,7 @@ namespace DungeonInspector
 
             return currentPos;
         }
+
+        
     }
 }

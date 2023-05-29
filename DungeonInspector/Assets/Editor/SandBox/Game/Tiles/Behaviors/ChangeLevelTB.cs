@@ -13,9 +13,7 @@ namespace DungeonInspector
         {
             var gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
 
-            gameMaster.ChangeToLevel(data.Value);
+            gameMaster.ChangeToLevel(data.Value, data.SpawnPosition);
         }
-
-
     }
 }
