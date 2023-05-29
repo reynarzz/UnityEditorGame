@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEditor;
 using UnityEngine;
 
@@ -96,13 +97,14 @@ namespace DungeonInspector
             }
         }
 
-        private DTilemap GetNewTilemap(string name)
+        private DTilemap GetNewTilemap(string name, int sorting)
         {
             var tilemapObj = new DGameEntity(name);
             var tilemap = tilemapObj.AddComp<DTilemap>();
 
-            tilemapObj.AddComp<DTilemapRendererComponent>().TileMap = tilemap;
-
+            var renderer= tilemapObj.AddComp<DTilemapRendererComponent>();
+            renderer.TileMap = tilemap;
+            renderer.ZSorting = sorting;
             return tilemap;
         }
 
@@ -145,7 +147,7 @@ namespace DungeonInspector
 
             for (int i = 0; i < world.TilemapsData.Length; i++)
             {
-                var tilemap = GetNewTilemap("Tilemap: " + i);
+                var tilemap = GetNewTilemap("Tilemap: " + i, world.TilemapsData.Length - i - 2);
 
                 for (int j = 0; j < world.TilemapsData[i].Count; j++)
                 {
@@ -158,7 +160,7 @@ namespace DungeonInspector
             }
 
             // Set the first one as the main, (TODO: make a tilemap manager to calculate the current one, and get walkable states)
-            _tilemap = _tilemaps[0];
+            _tilemap = _tilemaps.Last();
             _navWorld = new NavWorld(_tilemap);
 
             for (int i = 0; i < world.Entities.Count; i++)
@@ -295,7 +297,8 @@ namespace DungeonInspector
 
         public BaseTD GetLevelData(DVec2 vector)
         {
-            return _currentWorld.TilemapsData[0].GetLevelTileData(vector.Round());
+            // Todo: use tile manager here! not the last one!!
+            return _currentWorld.TilemapsData.Last().GetLevelTileData(vector.Round());
         }
     }
 }

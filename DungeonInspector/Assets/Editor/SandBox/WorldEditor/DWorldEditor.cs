@@ -167,7 +167,7 @@ namespace DungeonInspector
             else
             {
                 _worlds = new List<WorldData>();
-                _selectedTilemap = GetNewTilemap("Tilemap");
+                _selectedTilemap = GetNewTilemap("Tilemap", 0);
 
                 _tilemaps.Add(_selectedTilemap);
             }
@@ -209,12 +209,15 @@ namespace DungeonInspector
             }
         }
 
-        private TilemapEditorInfo GetNewTilemap(string name)
+        private TilemapEditorInfo GetNewTilemap(string name, int sorting)
         {
             var tilemapObj = new DGameEntity(name);
             var tilemap = tilemapObj.AddComp<DTilemap>();
 
-            tilemapObj.AddComp<DTilemapRendererComponent>().TileMap = tilemap;
+            var renderer = tilemapObj.AddComp<DTilemapRendererComponent>();
+
+            renderer.TileMap = tilemap;
+            renderer.ZSorting = sorting;
 
             return new TilemapEditorInfo() { Tilemap = tilemap };
         }
@@ -629,11 +632,9 @@ namespace DungeonInspector
             {
                 if (worldData.TilemapsData != null)
                 {
-                    _tilemaps = new List<TilemapEditorInfo>();
-
                     for (int i = 0; i < worldData.TilemapsData.Length; i++)
                     {
-                        var tilemap = GetNewTilemap("Tilemap");
+                        var tilemap = GetNewTilemap("Tilemap", worldData.TilemapsData.Length - i - 1);
 
                         for (int j = 0; j < worldData.TilemapsData[i].Count; j++)
                         {
@@ -681,7 +682,7 @@ namespace DungeonInspector
 
                 for (int i = 0; i < _tilemaps.Count; i++)
                 {
-                    var tilemapInfo = _selectedTilemap;
+                    var tilemapInfo = _tilemaps[i];
 
                     var tilesLength = tilemapInfo.Tilemap.Tiles.Count;
 
@@ -852,7 +853,7 @@ namespace DungeonInspector
             GUILayout.BeginHorizontal();
             if (GUILayout.Button(_addIcon))
             {
-                var tilemap = GetNewTilemap("Tilemap");
+                var tilemap = GetNewTilemap("Tilemap", _tilemaps.Count -1);
 
                 _tilemaps.Insert(0, tilemap);
             }

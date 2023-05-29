@@ -51,6 +51,7 @@ namespace DungeonInspector
 
             _renderer = GetComp<DSpriteRendererComponent>();
             _renderer.Sprite = idle.CurrentTexture;
+            _renderer.ZSorting = 4;
 
             var collider = AddComp<DBoxCollider>();
             collider.IsTrigger = true;
