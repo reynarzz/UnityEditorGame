@@ -15,13 +15,16 @@ namespace DungeonInspector
 
         protected override void Draw(DTilemapRendererComponent renderer, DCamera camera, Material material, Texture2D defaultTex)
         {
-            foreach (var item in renderer.TileMap.Tiles)
+            if(renderer.TileMap != null && renderer.TileMap.Entity.IsActive && renderer.TileMap.Enabled)
             {
-                foreach (var pair in item.Value)
+                foreach (var item in renderer.TileMap.Tiles)
                 {
-                    material = _mat_DELETE; // Remove this
+                    foreach (var pair in item.Value)
+                    {
+                        material = _mat_DELETE; // Remove this
 
-                    Graphics.DrawTexture(camera.World2RectPos(item.Key, Vector2.one), pair.Value.Texture, material);
+                        Graphics.DrawTexture(camera.World2RectPos(item.Key, Vector2.one), pair.Value.Texture, material);
+                    }
                 }
             }
         }

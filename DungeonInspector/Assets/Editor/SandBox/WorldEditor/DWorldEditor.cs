@@ -1,8 +1,10 @@
 ﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using UnityEditor;
+using UnityEditorInternal;
 using UnityEngine;
 
 namespace DungeonInspector
@@ -20,12 +22,22 @@ namespace DungeonInspector
         Entity
     }
 
+
+
     public class DWorldEditor : DBehavior
     {
+        public class TilemapEditorInfo
+        {
+            public DTilemap Tilemap { get; set; }
+            public bool Hidden { get; set; }
+        }
+
         private Vector2 _scroll;
         private DTile _selectedTile;
 
-        private DTilemap _tilemap;
+        private TilemapEditorInfo _selectedTilemap;
+
+        private List<TilemapEditorInfo> _tilemaps;
 
         private TilesDatabase _tilesDatabase;
         private TilesDatabase _animatedTiles;
@@ -69,7 +81,8 @@ namespace DungeonInspector
         private GUIContent _trashIcon;
         private GUIContent _addIcon;
         private GUIContent _closeIcon;
-
+        private GUIContent _visibleIcon;
+        private GUIContent _hiddenIcon;
         private GUIStyle _levelNameStyle;
 
         private bool _showManager = false;
@@ -77,6 +90,7 @@ namespace DungeonInspector
         private DVec2 _pickerScroll;
         private int _selectedIndex = 0;
         private string[] _worldsNames;
+        private ReorderableList _layerList;
 
         private enum TileDatabaseType
         {
@@ -87,7 +101,24 @@ namespace DungeonInspector
 
         protected override void OnStart()
         {
-            var tilemap = DGameEntity.FindGameEntity("TileMaster").GetComp<DTilemap>();
+            _tilemaps = new List<TilemapEditorInfo>();
+
+            _selectedTilemap = GetNewTilemap("Tilemap");
+
+            _tilemaps.Add(_selectedTilemap);
+
+            _layerList = new ReorderableList(_tilemaps, typeof(DTilemap));
+
+            _layerList.headerHeight = 0;
+            _layerList.footerHeight = 0;
+            _layerList.displayAdd = false;
+            _layerList.displayRemove = false;
+            _layerList.multiSelect = true;
+            _layerList.drawElementCallback = OnDrawLayer;
+            _layerList.onReorderCallback = OnReorderedList;
+            _layerList.Select(0);
+
+            _layerList.drawNoneElementCallback = OnDrawNoLayer;
 
             _tilesDatabase = new TilesDatabase("World/World1Tiles");
             _animatedTiles = new TilesDatabase("World/TilesAnimated");
@@ -103,11 +134,14 @@ namespace DungeonInspector
             _trashIcon = EditorGUIUtility.IconContent("TreeEditor.Trash");
             _addIcon = EditorGUIUtility.IconContent("CreateAddNew");
             _closeIcon = EditorGUIUtility.IconContent("d_winbtn_win_close");
+            _visibleIcon = EditorGUIUtility.IconContent("d_scenevis_visible_hover");
+            _hiddenIcon = EditorGUIUtility.IconContent("d_scenevis_hidden_hover");
+
+
 
             _levelNameStyle = new GUIStyle(GUI.skin.button);
             _levelNameStyle.alignment = TextAnchor.MiddleLeft;
             _levelNameStyle.contentOffset = new Vector2(3, 0);
-            _tilemap = tilemap;
 
             _camera = DGameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();
 
@@ -163,6 +197,62 @@ namespace DungeonInspector
             }
         }
 
+        private void OnReorderedList(ReorderableList list)
+        {
+            for (int i = 0; i < _tilemaps.Count; i++)
+            {
+                var solvedIndex = _tilemaps.Count - 1 - i;
+
+                _tilemaps[i].Tilemap.GetComp<DTilemapRendererComponent>().ZSorting = solvedIndex;
+            }
+        }
+
+        private TilemapEditorInfo GetNewTilemap(string name)
+        {
+            var tilemapObj = new DGameEntity(name);
+            var tilemap = tilemapObj.AddComp<DTilemap>();
+
+            tilemapObj.AddComp<DTilemapRendererComponent>().TileMap = tilemap;
+
+            return new TilemapEditorInfo() { Tilemap = tilemap };
+        }
+
+        private void OnDrawNoLayer(Rect rect)
+        {
+            GUI.Label(rect, "No Layers");
+        }
+
+        private void OnDrawLayer(Rect rect, int index, bool isActive, bool isFocused)
+        {
+            var startWidth = rect.width;
+            var startY = rect.y;
+
+            rect.width = 22;
+            rect.y += 4;
+
+
+            var tilemap = _tilemaps[index];
+            
+            var solvedIndex = _tilemaps.Count - index - 1;
+
+            
+            var visibilityIcon = tilemap.Hidden ? _hiddenIcon : _visibleIcon;
+
+            if (GUI.Button(rect, visibilityIcon, GUIStyle.none))
+            {
+                 tilemap.Hidden = !tilemap.Hidden;
+
+                tilemap.Tilemap.Enabled = !tilemap.Hidden;
+            }
+
+
+            rect.y = startY;
+
+            rect.x += rect.width;
+            rect.width = startWidth - rect.width;
+            GUI.Label(rect, $"{tilemap.Tilemap.Name} {solvedIndex}");
+        }
+
         private void MousePointer()
         {
             var mouse = Event.current;
@@ -202,7 +292,7 @@ namespace DungeonInspector
                 {
                     if (_paintType == PaintType.Tile)
                     {
-                        _tilemap.SetNewTile(_selectedTile, _mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
+                        _selectedTilemap.Tilemap.SetNewTile(_selectedTile, _mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
 
                     }
                     else if (_paintType == PaintType.Entity)
@@ -221,8 +311,8 @@ namespace DungeonInspector
                 }
                 else if ((DInput.IsMouse(0) || DInput.IsMouse(1)) && BrushMode == BrushMode.Eraser)
                 {
-                    _tilemap.RemoveTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
-                    _tilemap.RecalculateBounds();
+                    _selectedTilemap.Tilemap.RemoveTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y);
+                    _selectedTilemap.Tilemap.RecalculateBounds();
                 }
                 else if (DInput.IsMouse(0))
                 {
@@ -270,7 +360,7 @@ namespace DungeonInspector
 
                     var width = entTex.width;
                     var height = entTex.height;
-                     
+
                     Graphics.DrawTexture(_camera.World2RectPos(_placedEntities[i].Item1, new DVec2(width, height) * 0.064f), entTex, _mat_DELETE);
                 }
             }
@@ -289,14 +379,14 @@ namespace DungeonInspector
             GUILayout.Space(30);
 
             MousePointer();
-            
+
             GUILayout.Label(_mouseTileGuidePosition.ToString());
 
             //TilesPicker();
 
             if (true)
             {
-                GUILayout.BeginArea(new Rect(EditorGUIUtility.currentViewWidth - 110, 40, 90, 350), EditorStyles.helpBox);
+                GUILayout.BeginArea(new Rect(EditorGUIUtility.currentViewWidth - 260, 40, 240, 350), EditorStyles.helpBox);
 
 
                 GUILayout.Space(3);
@@ -348,8 +438,14 @@ namespace DungeonInspector
 
                 GUILayout.EndVertical();
 
-                GUILayout.FlexibleSpace();
+                //GUILayout.FlexibleSpace();
                 _selectedIndex = DrawPallete(_currentBrushIcons, _selectedIndex, _currentBrushIcons.Length);
+
+                //PickEntity(index);
+                //GUILayout.FlexibleSpace();
+
+                DrawTilemapSelector();
+
                 GUILayout.EndHorizontal();
 
 
@@ -363,11 +459,12 @@ namespace DungeonInspector
                     _selectedTile = null;
                     _selectedEntity = _entityPrefabList.GetEntityInfo((EntityID)_selectedIndex);
                 }
-                //PickEntity(index);
 
 
 
                 GUILayout.Space(3);
+
+
 
                 GUILayout.EndArea();
             }
@@ -383,7 +480,7 @@ namespace DungeonInspector
             }
 
 
-            Utils.DrawBounds(_tilemap.GetTilemapBoundaries(), Color.white, 0.5f);
+            Utils.DrawBounds(_selectedTilemap.Tilemap.GetTilemapBoundaries(), Color.white, 0.5f);
         }
 
         private void PickEntity(int index)
@@ -468,7 +565,7 @@ namespace DungeonInspector
                         _worldNameCreate = null;
 
                         _selectedWorldIndex = _worlds.Count - 1;
-                        _tilemap.Clear();
+                        _selectedTilemap.Tilemap.Clear();
                         OnSave();
                     }
 
@@ -500,7 +597,7 @@ namespace DungeonInspector
                     {
                         _worlds.RemoveAt(i);
                         _selectedWorldIndex = 0;
-                        _tilemap.Clear();
+                        _selectedTilemap.Tilemap.Clear();
                         SaveChange();
                         GUILayout.EndHorizontal();
                         break;
@@ -518,7 +615,7 @@ namespace DungeonInspector
 
         private void Load(WorldData worldData)
         {
-            _tilemap.Clear();
+            _selectedTilemap.Tilemap.Clear();
             _placedEntities.Clear();
 
             if (worldData != null)
@@ -530,7 +627,7 @@ namespace DungeonInspector
                     {
                         var info = worldData.LevelData.GetTile(i);
 
-                        _tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
+                        _selectedTilemap.Tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
                     }
                 }
 
@@ -544,68 +641,7 @@ namespace DungeonInspector
                 }
             }
 
-            _tilemap.RecalculateBounds();
-        }
-
-        private void TilesPicker()
-        {
-            GUILayout.BeginVertical(EditorStyles.helpBox);
-
-            //GUILayout.BeginHorizontal();
-            //GUILayout.Label("Tiles");
-            //_type = (TileDatabaseType)EditorGUILayout.EnumPopup(_type);
-            //GUILayout.EndHorizontal();
-
-            //var tileDatabase = default(TilesDatabase);
-
-            //switch (_type)
-            //{
-            //    case TileDatabaseType.Static:
-            //        tileDatabase = _tilesDatabase;
-            //        break;
-            //    case TileDatabaseType.Interactable:
-            //        tileDatabase = _animatedTiles;
-            //        break;
-            //    case TileDatabaseType.Animated:
-            //        break;
-            //}
-
-            var tileDatabase = _tilesDatabase;
-
-            if (tileDatabase != null)
-            {
-                _scroll = GUILayout.BeginScrollView(_scroll);
-
-                GUILayout.BeginHorizontal();
-
-
-                for (int i = 0; i < tileDatabase.Count; i++)
-                {
-                    var tile = tileDatabase.GetTile(i);
-
-                    var color = GUI.backgroundColor;
-
-                    if (_selectedTile == tile)
-                    {
-                        GUI.backgroundColor = Color.black * 0.4f;
-                    }
-
-                    //TODO: change the texture animation for animated tiles.
-                    if (GUILayout.Button(new GUIContent(tile.Texture, tile.Texture.name), GUILayout.Width(40), GUILayout.Height(40)))
-                    {
-                        _selectedEntity = null;
-                        _selectedTile = tile;
-                    }
-
-                    GUI.backgroundColor = color;
-                }
-
-                GUILayout.EndHorizontal();
-
-                GUILayout.EndScrollView();
-            }
-
-            GUILayout.EndVertical();
+            _selectedTilemap.Tilemap.RecalculateBounds();
         }
 
         private void OnSave()
@@ -614,7 +650,7 @@ namespace DungeonInspector
             {
                 var tiles = new List<TileData>();
 
-                foreach (var tile in _tilemap.Tiles)
+                foreach (var tile in _selectedTilemap.Tilemap.Tiles)
                 {
                     foreach (var item in tile.Value)
                     {
@@ -658,7 +694,7 @@ namespace DungeonInspector
 
         private void ShowWorldTileData()
         {
-            var tile = _tilemap.GetTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y, 0);
+            var tile = _selectedTilemap.Tilemap.GetTile(_mouseTileGuidePosition.x, _mouseTileGuidePosition.y, 0);
             if (tile != null)
             {
                 GUILayout.BeginVertical();
@@ -752,6 +788,44 @@ namespace DungeonInspector
                 }
                 GUILayout.EndVertical();
             }
+        }
+
+        private Vector2 _layerScrollView;
+
+        private void DrawTilemapSelector()
+        {
+            _selectedTilemap = _tilemaps[_layerList.index];
+
+            GUILayout.BeginVertical(EditorStyles.helpBox, GUILayout.Width(140));
+
+            GUILayout.Label($"Tilemaps ({_selectedTilemap?.Tilemap.Name + (_layerList.count - 1 - _layerList.index) ?? "None"})");
+            _layerScrollView = GUILayout.BeginScrollView(_layerScrollView);
+            _layerList.DoLayoutList();
+
+            GUILayout.EndScrollView();
+
+            GUILayout.BeginHorizontal();
+            if (GUILayout.Button(_addIcon))
+            {
+                var tilemap = GetNewTilemap("Tilemap");
+
+                _tilemaps.Insert(0, tilemap);
+            }
+
+            if (GUILayout.Button(_trashIcon))
+            {
+                var descending = _layerList.selectedIndices.OrderByDescending(x => x);
+
+                foreach (var item in descending)
+                {
+                    _tilemaps.RemoveAt(item);
+                }
+            }
+
+            GUILayout.EndHorizontal();
+            GUILayout.EndVertical();
+
+
         }
 
         private void EditTileType(DTile tile)

@@ -42,7 +42,7 @@ namespace DungeonInspector
 
             _maskMat = Resources.Load<Material>("Materials/Mask");
             _screenSpaceEffects = Resources.Load<Material>("Materials/ScreenSpace");
-            _uiMat = UnityEngine.Resources.Load<UnityEngine.Material>("Materials/DUI");
+            _uiMat = Resources.Load<Material>("Materials/DUI");
 
 
             _viewportRectTex = new Texture2D(1, 1);
@@ -136,7 +136,6 @@ namespace DungeonInspector
             DrawMask();
             _renderControl?.Invoke();
 
-            _debugCallback?.Invoke();
 
             //if (_pendingToReorder)
             {
@@ -156,9 +155,15 @@ namespace DungeonInspector
                 //Render World
                 DrawGroup(_renderersOrdered);
 
+            }
+
+            if (_uirenderers.Count > 0)
+            {
                 // Render UI
                 DrawGroup(_uiRenderersOrdered);
             }
+
+            _debugCallback?.Invoke();
 
             if (V2Rendering)
             {

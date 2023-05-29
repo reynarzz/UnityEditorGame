@@ -17,10 +17,7 @@ namespace DungeonInspector
         {
             new DGameEntity("MainCamera", typeof(DCamera)/*, typeof(DCameraFollow)*/);
 
-            var tile = new DGameEntity("TileMaster", typeof(DRenderingGroup));
-            var renderer = tile.AddComp<DTilemapRendererComponent>();
-            renderer.TileMap = tile.AddComp<DTilemap>();
-            renderer.ZSorting = -1;
+            new DGameEntity("TileMaster", typeof(DRenderingGroup), typeof(DTilemapRendererComponent));
 
             // World Editor
             new DGameEntity("WorldEditor", typeof(DWorldEditor))/*.IsActive = false*/;
