@@ -75,6 +75,8 @@ namespace DungeonInspector
                 _isHit = true;
             }
 
+            DAudio.PlayAudio("EnemyHit");
+
             _healthBar.OnChancePercentage(amount / max);
         }
 

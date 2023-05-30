@@ -46,6 +46,15 @@ namespace DungeonInspector
 
             _playerAnimator.AddAnimation(idle, walk);
 
+            walk.OnFrameStart += (frame) =>
+            {
+                if(frame == 2)
+                {
+                    DAudio.PlayAudio($"Step{UnityEngine.Random.Range(1, 4)}");
+                }
+
+            };
+
             _gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
             _camera = _gameMaster.Camera.GetComp<CameraShake>();
 
@@ -262,7 +271,6 @@ namespace DungeonInspector
             //_playerAnimator.Stop();
         }
 
-
         private void Shoot()
         {
             if (DInput.IsMouse(0))
@@ -278,7 +286,7 @@ namespace DungeonInspector
                 projectile.Transform.Position = Transform.Position;// (dir / 2) + Transform.Position -/*_weaponTest.Transform.Position -*/ Transform.Offset / 2;// Transform.Position;
                 projectile.Shoot(dir);
                 
-                //DAudio.PlayAudio("Audio/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
+                DAudio.PlayAudio("Shoot");
             }
         }
 

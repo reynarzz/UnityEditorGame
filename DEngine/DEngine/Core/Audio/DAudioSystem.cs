@@ -19,42 +19,66 @@ namespace DungeonInspector
 
     public class DAudioSystem : DEngineSystemBase
     {
-        private static Dictionary<string, PlayingAudio> _audiosByName;
+        private Dictionary<string, PlayingAudio> _audiosByName;
+        private Dictionary<string, DAudioFile> _audios;
+
+        private string AudioBasePath = Path.Combine(Application.dataPath, "../DAssets/Audio");
+        private Dictionary<string, WaveOutEvent> _playingAudios;
 
         public DAudioSystem()
         {
-            if(_audiosByName == null)
             _audiosByName = new Dictionary<string, PlayingAudio>();
+            _playingAudios = new Dictionary<string, WaveOutEvent>();
+
+            _audios = new Dictionary<string, DAudioFile>();
+
+            LoadAudios();
+        }
+
+        private void LoadAudios()
+        {
+            var background = new WaveFileReader(AudioBasePath + "/ForgottenPlains/Music/Fair_Fight_(Battle).wav");
+            var enemyHit = new WaveFileReader(AudioBasePath + "/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
+            var shoot = new WaveFileReader(AudioBasePath + "/ForgottenPlains/Fx/06_step_stone_1.wav");
+            var step1 = new AudioFileReader(AudioBasePath + "/ForgottenPlains/Fx/05_step_dirt_1.wav");
+            var step2 = new AudioFileReader(AudioBasePath + "/ForgottenPlains/Fx/05_step_dirt_2.wav");
+            var step3 = new AudioFileReader(AudioBasePath + "/ForgottenPlains/Fx/05_step_dirt_3.wav");
+
+            
+            _audios.Add("Background", new DAudioFile(new LoopStream(background)));
+            _audios.Add("EnemyHit", new DAudioFile(enemyHit));
+            _audios.Add("Shoot", new DAudioFile(shoot));
+
+            _audios.Add("Step1", new DAudioFile(step1));
+            _audios.Add("Step2", new DAudioFile(step2));
+            _audios.Add("Step3", new DAudioFile(step3));
         }
 
         public void Play(string audio)
         {
-            var path = Path.Combine(Application.dataPath, "../DAssets/", audio);
-
-            var cleanName = Path.GetFileNameWithoutExtension(audio);
-
-            var audioReader = new AudioFileReader(path);
-            var outputDevice = new WaveOutEvent(); 
-
-            if (_audiosByName.ContainsKey(cleanName))
+            if(_audios.TryGetValue(audio, out var audioFile))
             {
-                _audiosByName[cleanName].Event.Dispose();
-                _audiosByName[cleanName].Audio.Dispose();
+                var playEvent = default(WaveOutEvent);
 
-                _audiosByName[cleanName].Audio = audioReader;
-                _audiosByName[cleanName].Event = outputDevice;
-            }
-            else
-            {
-                _audiosByName.Add(cleanName, new PlayingAudio()
+                if (_playingAudios.TryGetValue(audio, out var device))
                 {
-                    Audio = audioReader,
-                    Event = outputDevice
-                });
+                    playEvent = device;
+                    audioFile.Sample.Position = 0;
+                 
+                    if (playEvent.PlaybackState != PlaybackState.Playing)
+                    {
+                        playEvent.Play();
+                    }
+                }
+                else
+                {
+                    Debug.Log("New");
+                    playEvent = new WaveOutEvent();
+                    playEvent.Init(audioFile.Sample);
+                    _playingAudios.Add(audio, playEvent);
+                    playEvent.Play();
+                }
             }
-
-            outputDevice.Init(audioReader);
-            outputDevice.Play();
         }
 
         public void PlayLoop()
@@ -79,14 +103,16 @@ namespace DungeonInspector
 
         public override void Cleanup()
         {
-            foreach (var audio in _audiosByName.Values)
-            {
-                UnityEngine.Debug.Log("audio cleanup");
+            UnityEngine.Debug.Log("Audio cleanup");
 
-                audio.Event.Stop();
-                audio.Audio.Dispose();
-                audio.Event.Dispose();
+            foreach (var audio in _playingAudios.Values)
+            {
+
+                audio.Stop();
+                audio.Dispose();
             }
+
+            _playingAudios.Clear();
         }
     }
 }

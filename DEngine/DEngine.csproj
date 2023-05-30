@@ -86,6 +86,8 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DEngine\Core\Audio\LoopStream.cs" />
+    <Compile Include="DEngine\Core\Audio\SoundsLibrary.cs" />
     <Compile Include="DEngine\Core\Audio\DAudio.cs" />
     <Compile Include="DEngine\Core\Audio\DAudioSystem.cs" />
     <Compile Include="DEngine\Core\Components\Animation\SpriteAnimator.cs" />
@@ -108,7 +110,12 @@
     <Compile Include="DEngine\Core\DTime.cs" />
     <Compile Include="DEngine\Core\Entity\EntitiesController.cs" />
     <Compile Include="DEngine\Core\Entity\GameEntity.cs" />
+    <Compile Include="DEngine\Core\Entity\IDObject.cs" />
+    <Compile Include="DEngine\Core\Files\AudioFile.cs" />
+    <Compile Include="DEngine\Core\Files\FileDatabase.cs" />
+    <Compile Include="DEngine\Core\Files\TextFile.cs" />
     <Compile Include="DEngine\Core\Input\DInput.cs" />
+    <Compile Include="DEngine\Core\Files\DResources.cs" />
     <Compile Include="DEngine\Core\Physics\BoxCollider.cs" />
     <Compile Include="DEngine\Core\Physics\DPhysicsComponent.cs" />
     <Compile Include="DEngine\Core\Physics\DPhysicsController.cs" />

@@ -20,6 +20,7 @@ namespace DungeonInspector
         private Texture2D _currentTex;
         public Texture2D CurrentTexture => _currentTex;
         public bool Loop { get; set; } = true;
+        public event Action<int> OnFrameStart;
 
         public DSpriteAnimation() { }
         public DSpriteAnimation(DSpriteAtlas spriteAtlas)
@@ -39,6 +40,7 @@ namespace DungeonInspector
                 if (_spriteIndex >= _atlas.TextureCount && Loop)
                 {
                     _spriteIndex = 0;
+                    OnFrameStart?.Invoke(_spriteIndex);
                 }
 
                 if (_spriteIndex < _atlas.TextureCount)
@@ -52,6 +54,8 @@ namespace DungeonInspector
                         _time = 0;
 
                         _spriteIndex++;
+
+                        OnFrameStart?.Invoke(_spriteIndex);
                     }
                 }
             }

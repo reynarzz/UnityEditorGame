@@ -64,7 +64,7 @@ namespace DungeonInspector
             _worldsData = new Dictionary<string, WorldData>();
 
             var currentWorld = default(WorldData);
-
+                
             if (File.Exists(worldLevelPath))
             {
                 var json = File.ReadAllText(worldLevelPath);
@@ -81,7 +81,7 @@ namespace DungeonInspector
 
             _playerHealthUI = new DGameEntity("PlayerHealthHUD").AddComp<PlayerHealthUI>();
             _cursorTex = Resources.Load<Texture2D>("GameAssets/GUI/GunSights");
-
+             
             _cursor = new DGameEntity("Cursor").AddComp<DAtlasRendererComponent>();
 
             _cursor.AtlasInfo.Texture = _cursorTex;
@@ -95,6 +95,8 @@ namespace DungeonInspector
                 Load(currentWorld);
 
             }
+             
+            DAudio.PlayAudio("Background");
         }
 
         private DTilemap GetNewTilemap(string name, int sorting)

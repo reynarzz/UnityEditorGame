@@ -19,7 +19,7 @@ namespace DungeonInspector
         public virtual void Remove(T element) { }
     }
 
-    public class DIEngineCoreServices
+    internal class DIEngineCoreServices
     {
         private static Dictionary<Type, DEngineSystemBase> _services;
 

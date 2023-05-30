@@ -65,7 +65,8 @@ namespace DungeonInspector
 
         private void RunSandbox(DSandboxBase target)
         {
-            _currentSandBox?.OnQuit();
+            Destroy();
+
             _currentSandBox = GetSandboxCopy(target);
             _currentServices = ConstructServices(target);
 

@@ -233,7 +233,7 @@ namespace DungeonInspector
             var startY = rect.y;
 
             rect.width = 22;
-            rect.y += 4;
+            rect.y += 2;
 
 
             var tilemap = _tilemaps[index];
