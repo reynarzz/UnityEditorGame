@@ -10,7 +10,7 @@ namespace DungeonInspector
     public class OrcEnemy : EnemyBase
     {
         private Player _player;
-        private DRendererComponent _renderer;
+        private DSpriteRendererComponent _renderer;
         protected override int StartingHealth => 30;
 
         protected override void OnAwake()
@@ -26,6 +26,13 @@ namespace DungeonInspector
 
             _player = DGameEntity.FindGameEntity("Player").GetComp<Player>();
             _renderer = GetComp<DSpriteRendererComponent>();
+        }
+
+        protected override void OnHealthChanged(float amount, float max, bool increased)
+        {
+            base.OnHealthChanged(amount, max, increased);
+
+            DAudio.PlayAudio("EnemyHit");
         }
 
         protected override void OnUpdate()

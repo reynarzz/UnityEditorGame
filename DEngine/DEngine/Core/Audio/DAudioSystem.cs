@@ -38,20 +38,30 @@ namespace DungeonInspector
         private void LoadAudios()
         {
             var background = new WaveFileReader(AudioBasePath + "/ForgottenPlains/Music/Fair_Fight_(Battle).wav");
+            var battle = new WaveFileReader(AudioBasePath + "/Minifantasy_Dungeon_Music/Music/Goblins_Dance_(Battle).wav");
             var enemyHit = new WaveFileReader(AudioBasePath + "/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
             var shoot = new WaveFileReader(AudioBasePath + "/ForgottenPlains/Fx/06_step_stone_1.wav");
             var step1 = new AudioFileReader(AudioBasePath + "/ForgottenPlains/Fx/05_step_dirt_1.wav");
             var step2 = new AudioFileReader(AudioBasePath + "/ForgottenPlains/Fx/05_step_dirt_2.wav");
             var step3 = new AudioFileReader(AudioBasePath + "/ForgottenPlains/Fx/05_step_dirt_3.wav");
+            var chestOpen = new AudioFileReader(AudioBasePath + "/Fx/01_chest_open_3.wav");
+            var potionTaken = new AudioFileReader(AudioBasePath + "/Fx/08_human_charge_1.wav");
+            var doorEnter = new AudioFileReader(AudioBasePath + "/Fx/27_sword_miss_3.wav");
+            var orcHit = new AudioFileReader(AudioBasePath + "/Fx/25_orc_walk_stone_3.wav");
 
-            
+           
             _audios.Add("Background", new DAudioFile(new LoopStream(background)));
+            _audios.Add("Battle", new DAudioFile(new LoopStream(battle)));
             _audios.Add("EnemyHit", new DAudioFile(enemyHit));
+            _audios.Add("OrcHit", new DAudioFile(orcHit));
             _audios.Add("Shoot", new DAudioFile(shoot));
 
             _audios.Add("Step1", new DAudioFile(step1));
             _audios.Add("Step2", new DAudioFile(step2));
             _audios.Add("Step3", new DAudioFile(step3));
+            _audios.Add("ChestOpen", new DAudioFile(chestOpen));
+            _audios.Add("PotionTaken", new DAudioFile(potionTaken));
+            _audios.Add("DoorEnter", new DAudioFile(doorEnter));
         }
 
         public void Play(string audio)
@@ -93,7 +103,14 @@ namespace DungeonInspector
 
         public void StopAudio(string audio)
         {
-
+            if (_audios.TryGetValue(audio, out var audioFile))
+            {
+                if (_playingAudios.TryGetValue(audio, out var device))
+                {
+                    audioFile.Sample.Position = 0;
+                    device.Stop();
+                }
+            }
         }
 
         public void SetVolume(string audio, float amount)

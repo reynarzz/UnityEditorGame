@@ -66,7 +66,7 @@ namespace DungeonInspector
             _health.SetInitialHealth(StartingHealth);
         }
 
-        private void OnHealthChanged(float amount, float max, bool increased)
+        protected virtual void OnHealthChanged(float amount, float max, bool increased)
         {
             if (!increased)
             {
@@ -74,8 +74,6 @@ namespace DungeonInspector
                 _isHitTime = 0;
                 _isHit = true;
             }
-
-            DAudio.PlayAudio("EnemyHit");
 
             _healthBar.OnChancePercentage(amount / max);
         }

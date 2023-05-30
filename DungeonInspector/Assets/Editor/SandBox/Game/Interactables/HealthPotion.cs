@@ -12,11 +12,13 @@ namespace DungeonInspector
         public override void OnCollected(Actor actor)
         {
             var health = actor.GetComp<ActorHealth>();
-            
+
             if(health != null)
             {
                 health.AddAmount(1);
             }
+
+            DAudio.PlayAudio("PotionTaken");
         }
     }
 }

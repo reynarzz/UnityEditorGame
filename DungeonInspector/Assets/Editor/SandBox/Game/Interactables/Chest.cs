@@ -30,6 +30,7 @@ namespace DungeonInspector
         protected override void OnInteracted()
         {
             Debug.Log("Open chest");
+            DAudio.PlayAudio("ChestOpen");
             GetComp<DAnimatorComponent>().Play(0);
             _isOpen = true;
             _showInteractableButton = false;

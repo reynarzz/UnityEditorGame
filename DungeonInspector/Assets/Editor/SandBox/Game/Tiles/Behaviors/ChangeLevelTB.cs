@@ -13,6 +13,8 @@ namespace DungeonInspector
         {
             var gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
 
+            DAudio.PlayAudio("DoorEnter");
+
             gameMaster.ChangeToLevel(data.Value, data.SpawnPosition);
         }
     }

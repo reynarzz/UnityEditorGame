@@ -96,7 +96,6 @@ namespace DungeonInspector
 
             }
              
-            DAudio.PlayAudio("Background");
         }
 
         private DTilemap GetNewTilemap(string name, int sorting)
@@ -127,6 +126,18 @@ namespace DungeonInspector
             _prefabInstantiator.DestroyAllInstances();
 
             _currentWorld = world;
+
+            if(world.Name.Equals("Prologe"))
+            {
+                DAudio.StopAudio("Battle");
+                DAudio.PlayAudio("Background");
+
+            }
+            else if (world.Name.Equals("Sewers"))
+            {
+                DAudio.StopAudio("Background");
+                DAudio.PlayAudio("Battle");
+            }
 
             //for (int i = 0; i < world.LevelData.Count; i++)
             //{
