@@ -13,6 +13,7 @@ namespace DungeonInspector
         public virtual void Cleanup() { }
         public virtual void OnPause() { }
         public virtual void OnResume() { }
+        public virtual void OnGUI() { }
     }
 
     public abstract class DEngineSystemBase<T> : DEngineSystemBase

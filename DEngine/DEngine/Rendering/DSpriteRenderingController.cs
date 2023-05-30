@@ -34,7 +34,7 @@ namespace DungeonInspector
                 }
 
                 // snaping.
-                rect = new Rect((int)rect.x + renderer.Transform.Offset.x * DCamera.PixelSize, (int)rect.y - renderer.Transform.Offset.y * DCamera.PixelSize, (int)rect.width, (int)rect.height);
+                rect = new Rect(rect.x + renderer.Transform.Offset.x * DCamera.PixelSize, rect.y - renderer.Transform.Offset.y * DCamera.PixelSize, (int)rect.width, (int)rect.height);
                 var mat = default(Material);
 
                 if (renderer.Material)

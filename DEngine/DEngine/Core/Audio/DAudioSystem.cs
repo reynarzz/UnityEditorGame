@@ -31,7 +31,7 @@ namespace DungeonInspector
             _playingAudios = new Dictionary<string, WaveOutEvent>();
 
             _audios = new Dictionary<string, DAudioFile>();
-
+             
             LoadAudios();
         }
 
@@ -93,7 +93,6 @@ namespace DungeonInspector
                 }
                 else
                 {
-                    Debug.Log("New");
                     playEvent = new WaveOutEvent();
                     playEvent.DesiredLatency = audioFile.Latency;
                     playEvent.Init(audioFile.Sample);
@@ -132,7 +131,7 @@ namespace DungeonInspector
 
         public override void Cleanup()
         {
-            UnityEngine.Debug.Log("Audio cleanup");
+            //UnityEngine.Debug.Log("Audio cleanup");
 
             foreach (var audio in _playingAudios.Values)
             {
@@ -146,8 +145,6 @@ namespace DungeonInspector
 
         public override void OnPause()
         {
-            UnityEngine.Debug.Log("Audio cleanup");
-
             foreach (var audio in _playingAudios.Values)
             {
                 audio.Pause();
@@ -156,8 +153,6 @@ namespace DungeonInspector
 
         public override void OnResume()
         {
-            UnityEngine.Debug.Log("Audio cleanup");
-
             foreach (var audio in _playingAudios.Values)
             {
                 audio.Play();

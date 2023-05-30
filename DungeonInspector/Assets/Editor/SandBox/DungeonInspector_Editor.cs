@@ -33,9 +33,9 @@ namespace DungeonInspector
 
         public override void OnInspectorGUI()
         {
+            _engine?.Update();
             Repaint();
 
-            _engine?.Update();
         }
 
         private void OnDisable()

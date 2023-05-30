@@ -58,7 +58,6 @@ namespace DungeonInspector
         }
 
         private Action _debugCallback;
-        private Action _renderControl;
 
         public void AddDebugGUI(Action debugCallback)
         {
@@ -80,16 +79,16 @@ namespace DungeonInspector
             _cameras.Remove(camera);
         }
 
-        public void AddCustomRenderControl(Action renderer)
-        {
-            _renderControl = renderer;
-        }
+        //public void AddCustomRenderControl(Action renderer)
+        //{
+        //    _renderControl = renderer;
+        //}
 
         private void PreRender()
         {
             if (_renderTarget == null)
             {
-                var pix =  EditorGUIUtility.PointsToPixels(CurrentCamera.ViewportRect);
+                var pix = EditorGUIUtility.PointsToPixels(CurrentCamera.ViewportRect);
 
                 _renderTarget = new RenderTexture((int)pix.width, (int)pix.height, 1);
                 _renderTarget.filterMode = FilterMode.Point;
@@ -125,17 +124,14 @@ namespace DungeonInspector
         }
 
 
-        public override void Update()
+        public override void OnGUI()
         {
-
             if (V2Rendering)
             {
                 PreRender();
             }
 
             DrawMask();
-            _renderControl?.Invoke();
-
 
             //if (_pendingToReorder)
             {
@@ -150,18 +146,21 @@ namespace DungeonInspector
                 // _renderersOrdered = _renderers.OrderByDescending(x => x.Key);
             }
 
-            if (_renderers.Count > 0)
+            if(Event.current.type != EventType.Repaint)
             {
-                //Render World
-                DrawGroup(_renderersOrdered);
+                if (_renderers.Count > 0)
+                {
+                    //Render World
+                    DrawGroup(_renderersOrdered);
+                }
 
+                if (_uirenderers.Count > 0)
+                {
+                    // Render UI
+                    DrawGroup(_uiRenderersOrdered);
+                }
             }
-
-            if (_uirenderers.Count > 0)
-            {
-                // Render UI
-                DrawGroup(_uiRenderersOrdered);
-            }
+          
 
             _debugCallback?.Invoke();
 
@@ -171,7 +170,12 @@ namespace DungeonInspector
             }
         }
 
-        private void DrawGroup<T>(IOrderedEnumerable<T> collection) where T: DRendererComponent
+        //public override void OnGUI()
+        //{
+        //    //_debugCallback?.Invoke();
+        //}
+
+        private void DrawGroup<T>(IOrderedEnumerable<T> collection) where T : DRendererComponent
         {
             foreach (var item in collection)
             {
@@ -228,15 +232,17 @@ namespace DungeonInspector
 
             rect.height += 18;
 
-            GUILayoutUtility.GetRect(rect.width, rect.height);
+            // Sets viewport/client area
+            //GUILayoutUtility.GetRect(rect.width, rect.height);
+            //Debug.Log("ViewHeight: " + rect.height);
+            GUILayout.Space(rect.height);
 
             // if a component is set bellow it will take space
 
             //rect.height += 12;
             Graphics.DrawTexture(rect, _viewportRectTex, _maskMat);
-            //GUILayout.Space(CameraTest.ScreenSize.y);
         }
 
-        
+
     }
 }

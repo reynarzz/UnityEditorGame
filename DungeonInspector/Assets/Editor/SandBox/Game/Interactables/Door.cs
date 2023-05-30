@@ -31,8 +31,11 @@ namespace DungeonInspector
 
 
 
-            Transform.Offset = new DVec2(0.28f, 0);
+            Transform.Offset = new DVec2(0.4f, -0.5f);
+
+            SetDoorStatus(false);
         }
+
         public void SetAtlas(DSpriteAtlas atlas)
         {
             _atlas = atlas;
@@ -40,15 +43,16 @@ namespace DungeonInspector
 
         protected override void OnUpdate()
         {
-            //GUI.DrawTexture(new Rect(200, 200, 100, 100), _renderer.Sprite);
-            var value = (int)Math.Round(((float)Math.Sin(DTime.Time) + 1) * 0.5f);
-            _renderer.Sprite = _atlas.GetTexture(value);
+        }
+
+        private void SetDoorStatus(bool isOpen)
+        {
+            _renderer.Sprite = _atlas.GetTexture(isOpen ? 1 : 0);
 
             // Check if the actor is above or below to lock/unlock the proper tiles
             for (int i = 0; i < 2; i++)
             {
-                
-                _tiles[i].IsWalkable = value == 1;
+                _tiles[i].IsWalkable = isOpen;
             }
         }
     }

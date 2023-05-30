@@ -8,7 +8,7 @@ namespace DungeonInspector
 {
     public class ButtonInteractableBase : InteractableBase 
     {
-        private bool _interacted = false;
+        //private bool _interacted = false;
         public bool BlocksPath { get; set; }
 
         protected override void OnTriggerStay(DBoxCollider collider)

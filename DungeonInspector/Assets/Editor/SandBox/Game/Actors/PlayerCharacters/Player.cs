@@ -56,7 +56,19 @@ namespace DungeonInspector
                 }
                 else if(frame == 4)
                 {
-                    DAudio.PlayAudio($"Step{UnityEngine.Random.Range(2, 4)}");
+                    var val = UnityEngine.Random.Range(0, 2);
+                    var audioName = string.Empty;
+
+                    if(val == 0)
+                    {
+                        audioName = "Step1";
+                    }
+                    else
+                    {
+                        audioName = "Step3";
+
+                    }
+                    DAudio.PlayAudio(audioName);
                 }
             };
 

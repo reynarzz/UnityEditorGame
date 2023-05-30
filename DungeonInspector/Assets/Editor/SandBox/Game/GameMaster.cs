@@ -181,7 +181,11 @@ namespace DungeonInspector
                 var ent = world.Entities[i];
 
                 var obj = _prefabInstantiator.InstanceEntityByID(ent.Item1);
-                obj.Transform.Position = ent.Item2;
+                Debug.Log(ent.Item1);
+                if(obj != null)
+                {
+                    obj.Transform.Position = ent.Item2;
+                }
 
                 if (ent.Item1 == EntityID.ChestEmpty)
                 {

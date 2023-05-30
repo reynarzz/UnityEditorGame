@@ -375,9 +375,7 @@ namespace DungeonInspector
             //Graphics.DrawTexture(_camera.World2RectPos(_mouseTileGuidePosition, Vector2.one), _selectionFrame, _mat_DELETE);
         }
 
-        private int _menuSelected;
-
-        protected override void OnUpdate()
+        protected override void OnGUI()
         {
             if (_style == null)
             {
@@ -386,7 +384,7 @@ namespace DungeonInspector
             }
             GUILayout.Space(30);
 
-
+             
             GUILayout.Label(_mouseTileGuidePosition.ToString());
 
             //TilesPicker();

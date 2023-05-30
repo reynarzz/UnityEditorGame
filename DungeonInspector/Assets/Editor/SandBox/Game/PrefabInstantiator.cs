@@ -155,7 +155,7 @@ namespace DungeonInspector
         public DGameEntity InstanceDoor(string name)
         {
             var entity = GetEntity(name, typeof(DSpriteRendererComponent), typeof(DBoxCollider));
-
+            
             entity.AddComp<Door>().SetAtlas(_doorAtlas);
 
             return entity;

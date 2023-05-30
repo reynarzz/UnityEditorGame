@@ -10,7 +10,7 @@ namespace DungeonInspector
     public class DEngine
     {
         private readonly DEditorSystem _editorSystem;
-   
+
 
         private readonly DSandboxBase _playModeSandBox;
         private readonly DSandboxBase _editModeSandBox;
@@ -30,11 +30,11 @@ namespace DungeonInspector
             _currentServices = ConstructServices(editModeSandBox);
 
             _editorSystem = DIEngineCoreServices.Get<DEditorSystem>();
-          
+
 
             _editorSystem.Init();
 
-            _editorSystem.Toolbar.OnPlayBegin += OnPlayBegin; 
+            _editorSystem.Toolbar.OnPlayBegin += OnPlayBegin;
             _editorSystem.Toolbar.OnPlayEnd += OnPlayEnd;
             _editorSystem.Toolbar.OnPauseBegin += OnPauseBegin;
             _editorSystem.Toolbar.OnPauseEnd += OnPauseEnd;
@@ -80,7 +80,7 @@ namespace DungeonInspector
             _currentSandBox = GetSandboxCopy(target);
             _currentServices = ConstructServices(target);
 
-            _renderingSystem = (DRendering)_currentServices.First(x => x as DRendering != null);
+            _renderingSystem = (DRendering)_currentServices.FirstOrDefault(x => x as DRendering != null);
 
             _currentSandBox.OnInitialize();
 
@@ -98,14 +98,24 @@ namespace DungeonInspector
             {
                 for (int i = 0; i < _currentServices.Length; i++)
                 {
-                    _currentServices[i].Update();
+                    if (Event.current.type != EventType.Repaint)
+                    {
+                        _currentServices[i].Update();
+                    }
+
+                    _currentServices[i].OnGUI();
                 }
             }
             else
             {
-                _renderingSystem.Update();
+                if (Event.current.type != EventType.Repaint)
+                {
+                    _renderingSystem?.Update();
+                }
+
+                _renderingSystem?.OnGUI();
             }
-           
+
             _editorSystem.Update();
         }
 

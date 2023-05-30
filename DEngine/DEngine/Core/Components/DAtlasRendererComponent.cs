@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEngine;
 
 namespace DungeonInspector
 {
@@ -13,7 +14,7 @@ namespace DungeonInspector
      
         public DAtlasRendererComponent()
         {
-            AtlasInfo = new DSpriteAtlasInfo();
+            AtlasInfo = ScriptableObject.CreateInstance<DSpriteAtlasInfo>();
         }
     }
 }

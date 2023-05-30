@@ -102,6 +102,8 @@ namespace DungeonInspector
         
         public override void Update()
         {
+            {
+
             OnAwakeBehaviors();
             OnStartBehaviors();
 
@@ -137,6 +139,26 @@ namespace DungeonInspector
             }
 
             EndFrameWork();
+            }
+
+        }
+
+        public override void OnGUI()
+        {
+            for (int i = 0; i < _toUpdate.Count; i++)
+            {
+                var entity = _toUpdate[i];
+
+                if (entity.IsActive)
+                {
+                    var updatables = entity.GetAllUpdatableComponents();
+
+                    for (int j = 0; j < updatables.Count; j++)
+                    {
+                        updatables[j].OnGUI();
+                    }
+                }
+            }
         }
 
         private void EndFrameWork()

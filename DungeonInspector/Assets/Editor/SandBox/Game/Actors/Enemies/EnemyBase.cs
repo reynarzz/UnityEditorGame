@@ -30,7 +30,7 @@ namespace DungeonInspector
         private DVec2 _movePos;
         private DVec2 _prevPos;
 
-        private bool _canMove = true;
+        //private bool _canMove = true;
         private DTilemap _tilemap;
         private DTile _prevTile;
 
