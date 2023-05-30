@@ -38,7 +38,11 @@ namespace DungeonInspector
         private void LoadAudios()
         {
             var background = new WaveFileReader(AudioBasePath + "/ForgottenPlains/Music/Fair_Fight_(Battle).wav");
+            var sewers = new WaveFileReader(AudioBasePath + "/JDSherbert/JDSherbert - Ambiences Music Pack - Bloodrat Sewers.wav");
             var battle = new WaveFileReader(AudioBasePath + "/Minifantasy_Dungeon_Music/Music/Goblins_Dance_(Battle).wav");
+
+            
+
             var enemyHit = new WaveFileReader(AudioBasePath + "/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
             var shoot = new WaveFileReader(AudioBasePath + "/ForgottenPlains/Fx/06_step_stone_1.wav");
             var step1 = new AudioFileReader(AudioBasePath + "/ForgottenPlains/Fx/05_step_dirt_1.wav");
@@ -51,9 +55,12 @@ namespace DungeonInspector
             var playerDamage = new AudioFileReader(AudioBasePath + "/Fx/11_human_damage_1.wav");
             var playerDead = new AudioFileReader(AudioBasePath + "/Fx/10_human_special_atk_2.wav");
 
-            
-            _audios.Add("Background", new DAudioFile(new LoopStream(background)));
-            _audios.Add("Battle", new DAudioFile(new LoopStream(battle)));
+            // Music
+            _audios.Add("Background", new DAudioFile(new LoopStream(background)) { Latency = 300, BufferCount = 2 });
+            _audios.Add("Sewers", new DAudioFile(new LoopStream(sewers)) { Latency = 300, BufferCount = 2 });
+            _audios.Add("Battle", new DAudioFile(new LoopStream(battle)) { Latency = 300, BufferCount = 2 });
+
+            // FX
             _audios.Add("EnemyHit", new DAudioFile(enemyHit));
             _audios.Add("OrcHit", new DAudioFile(orcHit));
             _audios.Add("Shoot", new DAudioFile(shoot));
@@ -88,6 +95,7 @@ namespace DungeonInspector
                 {
                     Debug.Log("New");
                     playEvent = new WaveOutEvent();
+                    playEvent.DesiredLatency = audioFile.Latency;
                     playEvent.Init(audioFile.Sample);
                     _playingAudios.Add(audio, playEvent);
                     playEvent.Play();

@@ -23,17 +23,19 @@ namespace DungeonInspector
 
         public static string CurrentKeyString() => _currentKey.ToString();
         private static DVec2 _mouseDelta;
+        private static DVec2 _mouseWheelDelta;
         private DVec2 _mousePrev;
         private static bool _isMouseValid;
 
         public static DVec2 MouseDelta => _mouseDelta;
+        public static DVec2 MouseWheelDelta => _mouseWheelDelta;
         private static DVec2 _prevWorldMousePos;
 
         //TODO:Listen for multiple keys held down
         public override void Update()
         {
             var ev = Event.current;
-
+            
             //if (ev.isMouse)
             //{
             //    _isMouseValid = DCamera._viewportRect.Contains(ev.mousePosition);
@@ -86,6 +88,15 @@ namespace DungeonInspector
                 if (_mouseDown)
                 {
                     _mouseDelta = ev.delta;
+                }
+
+                if (ev.type == EventType.ScrollWheel)
+                {
+                    _mouseWheelDelta = ev.delta;
+                }
+                else
+                {
+                    _mouseWheelDelta = 0;
                 }
             }
         }

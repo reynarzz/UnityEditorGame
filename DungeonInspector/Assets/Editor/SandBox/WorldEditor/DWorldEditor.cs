@@ -286,6 +286,9 @@ namespace DungeonInspector
 
                 }
             }
+            DCamera.PixelSize += (int)DInput.MouseWheelDelta.y * -1;
+
+            DCamera.PixelSize = Mathf.Clamp(DCamera.PixelSize, 16, 120);
 
             var tex = default(Texture2D);
 
@@ -383,7 +386,6 @@ namespace DungeonInspector
             }
             GUILayout.Space(30);
 
-            MousePointer();
 
             GUILayout.Label(_mouseTileGuidePosition.ToString());
 
@@ -486,6 +488,8 @@ namespace DungeonInspector
 
 
             Utils.DrawBounds(_selectedTilemap.Tilemap.GetTilemapBoundaries(), Color.white, 0.5f);
+
+            MousePointer();
         }
 
         private void PickEntity(int index)

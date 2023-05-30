@@ -182,7 +182,7 @@ namespace AStar
             //}
             {
                 Position pos = currentNode.Position;
-                UnityEngine.Debug.Log((DVec2)pos);
+                //--UnityEngine.Debug.Log((DVec2)pos);
                 var node = (DungeonPathNode)_world[pos];
 
                 if (!node.Tile.IsOccupied)

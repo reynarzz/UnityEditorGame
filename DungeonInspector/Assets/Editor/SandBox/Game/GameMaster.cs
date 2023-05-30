@@ -130,12 +130,12 @@ namespace DungeonInspector
             if(world.Name.Equals("Prologe"))
             {
                 DAudio.StopAudio("Battle");
-                DAudio.PlayAudio("Background");
+                DAudio.PlayAudio("Sewers");
 
             }
             else if (world.Name.Equals("Sewers"))
             {
-                DAudio.StopAudio("Background");
+                DAudio.StopAudio("Sewers");
                 DAudio.PlayAudio("Battle");
             }
 

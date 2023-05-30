@@ -13,13 +13,10 @@ namespace DungeonInspector
 
         protected override void OnTriggerStay(DBoxCollider collider)
         {
-            if (!_interacted)
+            //if (!_interacted)
             {
-
                 if(DInput.IsKeyDown(UnityEngine.KeyCode.E))
                 {
-                    _interacted = true;
-
                     OnInteracted();
                 }
             }

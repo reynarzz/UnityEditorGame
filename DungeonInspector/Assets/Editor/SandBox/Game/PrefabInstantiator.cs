@@ -75,6 +75,8 @@ namespace DungeonInspector
         {
             var entity = GetEntity("Bullet", typeof(Projectile), typeof(DPhysicsComponent));
 
+            entity.Tag = "PlayerBullet";
+
             var box = entity.AddComp<DBoxCollider>();
 
             box.Center = new DVec2();

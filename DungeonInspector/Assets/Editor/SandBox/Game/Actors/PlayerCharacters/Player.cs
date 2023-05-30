@@ -50,9 +50,14 @@ namespace DungeonInspector
             {
                 if(frame == 2)
                 {
-                    DAudio.PlayAudio($"Step{UnityEngine.Random.Range(1, 4)}");
-                }
+                    //DAudio.PlayAudio($"Step{UnityEngine.Random.Range(1, 3)}");
 
+                    DAudio.PlayAudio($"Step2");
+                }
+                else if(frame == 4)
+                {
+                    DAudio.PlayAudio($"Step{UnityEngine.Random.Range(2, 4)}");
+                }
             };
 
             _gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
@@ -71,9 +76,12 @@ namespace DungeonInspector
             AddComp<DPhysicsComponent>();
             _health = AddComp<ActorHealth>();
             _health.OnHealthDepleted += OnHealthDepleted;
-            _health.OnHealthChanged += (x, y, z) => 
+            _health.OnHealthChanged += (x, y, increased) => 
             {
-                DAudio.PlayAudio("PlayerDamage"); 
+                if (!increased)
+                {
+                    DAudio.PlayAudio("PlayerDamage");
+                }
             };
 
             Init();

@@ -12,7 +12,7 @@ namespace DungeonInspector
         private DAtlasRendererComponent _interactableButton;
         [DExpose] private bool _isOpen;
         [DExpose] private float _time;
-        [DExpose] private bool _showInteractableButton;
+        [DExpose] private bool _canOpenChest;
         [DExpose] private float _showSpeed = 5f;
 
         protected override void OnAwake()
@@ -29,11 +29,14 @@ namespace DungeonInspector
 
         protected override void OnInteracted()
         {
-            Debug.Log("Open chest");
-            DAudio.PlayAudio("ChestOpen");
-            GetComp<DAnimatorComponent>().Play(0);
-            _isOpen = true;
-            _showInteractableButton = false;
+            if (_canOpenChest && !_isOpen)
+            {
+                Debug.Log("Open chest");
+                DAudio.PlayAudio("ChestOpen");
+                GetComp<DAnimatorComponent>().Play(0);
+                _isOpen = true;
+                _canOpenChest = false;
+            }
         }
 
         protected override void OnTriggerStay(DBoxCollider collider)
@@ -45,7 +48,7 @@ namespace DungeonInspector
             {
                 Debug.Log("Enter");
 
-                _showInteractableButton = true;
+                _canOpenChest = true;
             }
         }
 
@@ -56,7 +59,7 @@ namespace DungeonInspector
             if (!_isOpen && collider.Entity.Tag == "Player")
             {
                 Debug.Log("Exit");
-                _showInteractableButton = false;
+                _canOpenChest = false;
             }
         }
 
@@ -69,7 +72,7 @@ namespace DungeonInspector
                 _interactableButton.Entity.Transform.Position = Transform.Position + new DVec2(0, 1f + (float)Math.Sin(DTime.Time * 7) * 0.1f);
             }
 
-            if (_showInteractableButton)
+            if (_canOpenChest)
             {
                 _time += DTime.DeltaTime * _showSpeed;
             }
