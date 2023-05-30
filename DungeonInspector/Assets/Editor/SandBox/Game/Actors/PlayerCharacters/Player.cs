@@ -71,6 +71,11 @@ namespace DungeonInspector
             AddComp<DPhysicsComponent>();
             _health = AddComp<ActorHealth>();
             _health.OnHealthDepleted += OnHealthDepleted;
+            _health.OnHealthChanged += (x, y, z) => 
+            {
+                DAudio.PlayAudio("PlayerDamage"); 
+            };
+
             Init();
             //_weaponTest = new DGameEntity("WeaponTest");
             //_weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
@@ -100,6 +105,7 @@ namespace DungeonInspector
         private void OnHealthDepleted()
         {
             IsPlayerDead = true;
+            DAudio.PlayAudio("PlayerDead");
             //--Entity.Destroy();
         }
 

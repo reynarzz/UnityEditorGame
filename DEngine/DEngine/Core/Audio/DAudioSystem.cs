@@ -48,8 +48,10 @@ namespace DungeonInspector
             var potionTaken = new AudioFileReader(AudioBasePath + "/Fx/08_human_charge_1.wav");
             var doorEnter = new AudioFileReader(AudioBasePath + "/Fx/27_sword_miss_3.wav");
             var orcHit = new AudioFileReader(AudioBasePath + "/Fx/25_orc_walk_stone_3.wav");
+            var playerDamage = new AudioFileReader(AudioBasePath + "/Fx/11_human_damage_1.wav");
+            var playerDead = new AudioFileReader(AudioBasePath + "/Fx/10_human_special_atk_2.wav");
 
-           
+            
             _audios.Add("Background", new DAudioFile(new LoopStream(background)));
             _audios.Add("Battle", new DAudioFile(new LoopStream(battle)));
             _audios.Add("EnemyHit", new DAudioFile(enemyHit));
@@ -62,6 +64,8 @@ namespace DungeonInspector
             _audios.Add("ChestOpen", new DAudioFile(chestOpen));
             _audios.Add("PotionTaken", new DAudioFile(potionTaken));
             _audios.Add("DoorEnter", new DAudioFile(doorEnter));
+            _audios.Add("PlayerDamage", new DAudioFile(playerDamage));
+            _audios.Add("PlayerDead", new DAudioFile(playerDead));
         }
 
         public void Play(string audio)
