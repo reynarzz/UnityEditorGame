@@ -47,6 +47,11 @@ namespace DungeonInspector
             _engine.Update();
         }
 
+        private void OnDisable()
+        {
+            _engine.Destroy();
+        }
+
         private void OnDestroy()
         {
             _engine.Destroy();

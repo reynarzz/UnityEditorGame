@@ -93,7 +93,7 @@ namespace DungeonInspector
             _rayDraw.ZSorting = 3;
            // _rayHitGuideTest = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
         }
-
+         
         public void Init()
         {
             if(_health != null)
