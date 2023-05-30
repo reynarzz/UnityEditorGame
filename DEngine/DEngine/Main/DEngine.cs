@@ -45,11 +45,21 @@ namespace DungeonInspector
         private void OnPauseBegin()
         {
             _isPaused = true;
+
+            for (int i = 0; i < _currentServices.Length; i++)
+            {
+                _currentServices[i].OnPause();
+            }
         }
 
         private void OnPauseEnd()
         {
             _isPaused = false;
+
+            for (int i = 0; i < _currentServices.Length; i++)
+            {
+                _currentServices[i].OnResume();
+            }
         }
 
         private void OnPlayEnd()

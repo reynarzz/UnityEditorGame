@@ -33,6 +33,16 @@ namespace DungeonInspector
             _fps = 1000;
         }
 
+        public override void OnPause()
+        {
+            _stopWatch.Stop();
+        }
+
+        public override void OnResume()
+        {
+            _stopWatch.Start();
+        }
+
         public override void Update()
         {
             var secElapsep = _stopWatch.ElapsedMilliseconds / 1000f;

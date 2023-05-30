@@ -99,7 +99,7 @@ namespace DungeonInspector
                 _notStarted.Clear();
             }
         }
-
+        
         public override void Update()
         {
             OnAwakeBehaviors();

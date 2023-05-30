@@ -143,5 +143,25 @@ namespace DungeonInspector
 
             _playingAudios.Clear();
         }
+
+        public override void OnPause()
+        {
+            UnityEngine.Debug.Log("Audio cleanup");
+
+            foreach (var audio in _playingAudios.Values)
+            {
+                audio.Pause();
+            }
+        }
+
+        public override void OnResume()
+        {
+            UnityEngine.Debug.Log("Audio cleanup");
+
+            foreach (var audio in _playingAudios.Values)
+            {
+                audio.Play();
+            }
+        }
     }
 }
