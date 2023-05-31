@@ -18,6 +18,18 @@ namespace DungeonInspector
             base.Init();
 
             DAudio.PlayAudio("Background");
+
+            
+        }
+
+
+
+        public override void Update()
+        {
+            base.Update();
+
+
+
         }
 
         public override void OnExit()

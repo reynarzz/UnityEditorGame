@@ -21,8 +21,9 @@ namespace DungeonInspector
         public TilemapData[] TilemapsData => _worldData.TilemapsData;
         public NavWorld NavWorld => _navWorld;
         public DTilemap Tilemap => _tilemap;
-        protected DGameEntity[] Entities { get; private set; }
+        private DGameEntity[] _entities;
 
+        public Player Player { get; private set; }
         //public TilemapArena Tilemap => _tilemapArena;
 
         public WorldControllerBase(WorldData worldData, PrefabInstantiator prefabInstantiator, TilesDatabase tileDatabase)
@@ -32,8 +33,45 @@ namespace DungeonInspector
             _tilesDatabase = tileDatabase;
         }
 
+
+        protected DGameEntity FindWorldEntity(string name)
+        {
+            for (int i = 0; i < _entities.Length; i++)
+            {
+                var entity = _entities[i];
+
+                if (entity.Name.Equals(name)) 
+                {
+                    return entity;
+                }
+            }
+
+            Debug.LogError($"Object '{name}' doesn't exist.");
+
+            return null;
+        }
+
+        protected T[] FindWorldEntitiesOfType<T>() where T: DBehavior, new()
+        {
+            var entities = new List<T>();
+
+            for (int i = 0; i < _entities.Length; i++)
+            {
+                var entity = _entities[i];
+
+                if (entity.TryGetComponent<T>(out var component))
+                {
+                    entities.Add(component);
+                }
+            }
+
+            return entities.ToArray();
+        }
+
         public virtual void Init()
         {
+            Player = DGameEntity.FindGameEntity("Player").GetComp<Player>();
+
             _tilemaps = new DTilemap[_worldData.TilemapsData.Length];
 
             for (int i = 0; i < _worldData.TilemapsData.Length; i++)
@@ -54,11 +92,15 @@ namespace DungeonInspector
             _tilemap = _tilemaps.Last();
             _navWorld = new NavWorld(_tilemap);
 
+            _entities = new DGameEntity[_worldData.Entities.Count];
+
             for (int i = 0; i < _worldData.Entities.Count; i++)
             {
                 var ent = _worldData.Entities[i];
 
                 var obj = _prefabInstantiator.InstanceEntityByID(ent.Item1);
+
+                _entities[i] = obj;
 
                 if (obj != null)
                 {
@@ -99,13 +141,6 @@ namespace DungeonInspector
         {
             _prefabInstantiator.DestroyAllInstances();
 
-            //for (int i = 0; i < world.LevelData.Count; i++)
-            //{
-            //    var info = world.LevelData.GetTile(i);
-
-            //    _tilemap.SetTile(_tilesDatabase.GetNewTile(info), info.Position.x, info.Position.y);
-            //}
-
             if (_tilemaps != null)
             {
                 for (int i = 0; i < _tilemaps.Length; i++)
@@ -116,6 +151,7 @@ namespace DungeonInspector
                 _tilemaps = null;
             }
 
+            _entities = null;
         }
 
         public virtual void LateUpdate()

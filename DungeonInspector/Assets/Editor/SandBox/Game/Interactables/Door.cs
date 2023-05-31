@@ -45,7 +45,7 @@ namespace DungeonInspector
         {
         }
 
-        private void SetDoorStatus(bool isOpen)
+        public void SetDoorStatus(bool isOpen)
         {
             _renderer.Sprite = _atlas.GetTexture(isOpen ? 1 : 0);
 

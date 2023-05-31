@@ -46,7 +46,6 @@ namespace DungeonInspector
 
                 for (int i = 0; i < worldData.Count; i++)
                 {
-                    Debug.Log(worldData[i].World);
                     worldsData.Add(worldData[i].World, worldData[i]);
                 }
             }

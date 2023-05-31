@@ -42,6 +42,7 @@ namespace DungeonInspector
         protected override void OnAwake()
         {
             DTime.TimeScale = 1;
+
             // Main Player
             _player = new DGameEntity("Player", typeof(DSpriteRendererComponent), typeof(DAnimatorComponent), typeof(Player)).GetComp<Player>();
 
