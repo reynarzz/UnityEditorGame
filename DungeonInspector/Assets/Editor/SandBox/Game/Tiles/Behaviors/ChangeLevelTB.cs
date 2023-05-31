@@ -15,7 +15,7 @@ namespace DungeonInspector
 
             DAudio.PlayAudio("DoorEnter");
 
-            gameMaster.ChangeToLevel(data.Value, data.SpawnPosition);
+            gameMaster.ChangeToLevel(data.World, data.SpawnPosition);
         }
     }
 }

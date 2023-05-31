@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 namespace DungeonInspector
 {
     [Serializable]
-    public class ChangeLevelTD : StringDataTD
+    public class ChangeLevelTD : BaseTD
     {
-        public override string Value { get; set; }
+        public World World { get; set; }
         public DVec2 SpawnPosition { get; set; }
     }
 }

@@ -4,6 +4,7 @@
     {
       "$type": "DungeonInspector.WorldData, Assembly-CSharp-Editor",
       "Name": "Prologe",
+      "World": 0,
       "LevelData": {
         "$type": "DungeonInspector.TilemapData, Assembly-CSharp-Editor",
         "_tiles": {
@@ -24,7 +25,7 @@
               "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
               "TileBehaviorData": {
                 "$type": "DungeonInspector.ChangeLevelTD, Assembly-CSharp-Editor",
-                "Value": "Final",
+                "World": 0,
                 "SpawnPosition": {
                   "$type": "DungeonInspector.DVec2, DEngine",
                   "x": 0.0,
@@ -109,7 +110,7 @@
               "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
               "TileBehaviorData": {
                 "$type": "DungeonInspector.ChangeLevelTD, Assembly-CSharp-Editor",
-                "Value": "Sewers",
+                "World": 0,
                 "SpawnPosition": {
                   "$type": "DungeonInspector.DVec2, DEngine",
                   "x": 0.0,
@@ -403,7 +404,7 @@
               "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
               "TileBehaviorData": {
                 "$type": "DungeonInspector.ChangeLevelTD, Assembly-CSharp-Editor",
-                "Value": null,
+                "World": 0,
                 "SpawnPosition": {
                   "$type": "DungeonInspector.DVec2, DEngine",
                   "x": 0.0,
@@ -1167,7 +1168,7 @@
                   "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
                   "TileBehaviorData": {
                     "$type": "DungeonInspector.ChangeLevelTD, Assembly-CSharp-Editor",
-                    "Value": "Final",
+                    "World": 4,
                     "SpawnPosition": {
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": 0.0,
@@ -1252,7 +1253,7 @@
                   "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
                   "TileBehaviorData": {
                     "$type": "DungeonInspector.ChangeLevelTD, Assembly-CSharp-Editor",
-                    "Value": "Sewers",
+                    "World": 1,
                     "SpawnPosition": {
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": -2.0,
@@ -1546,7 +1547,7 @@
                   "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
                   "TileBehaviorData": {
                     "$type": "DungeonInspector.ChangeLevelTD, Assembly-CSharp-Editor",
-                    "Value": null,
+                    "World": 3,
                     "SpawnPosition": {
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": 0.0,
@@ -1563,7 +1564,15 @@
                 },
                 {
                   "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
-                  "TileBehaviorData": null,
+                  "TileBehaviorData": {
+                    "$type": "DungeonInspector.ChangeLevelTD, Assembly-CSharp-Editor",
+                    "World": 2,
+                    "SpawnPosition": {
+                      "$type": "DungeonInspector.DVec2, DEngine",
+                      "x": 0.0,
+                      "y": 0.0
+                    }
+                  },
                   "TileAssetIndex": 13,
                   "WorldIndex": 35,
                   "Position": {
@@ -2010,6 +2019,7 @@
     {
       "$type": "DungeonInspector.WorldData, Assembly-CSharp-Editor",
       "Name": "Sewers",
+      "World": 1,
       "LevelData": {
         "$type": "DungeonInspector.TilemapData, Assembly-CSharp-Editor",
         "_tiles": {
@@ -3669,7 +3679,7 @@
               "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
               "TileBehaviorData": {
                 "$type": "DungeonInspector.ChangeLevelTD, Assembly-CSharp-Editor",
-                "Value": "Prologe",
+                "World": 0,
                 "SpawnPosition": {
                   "$type": "DungeonInspector.DVec2, DEngine",
                   "x": 0.0,
@@ -6593,7 +6603,7 @@
                   "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
                   "TileBehaviorData": {
                     "$type": "DungeonInspector.ChangeLevelTD, Assembly-CSharp-Editor",
-                    "Value": "Prologe",
+                    "World": 0,
                     "SpawnPosition": {
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": -1.0,

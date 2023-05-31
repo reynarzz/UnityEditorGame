@@ -22,8 +22,6 @@ namespace DungeonInspector
         Entity
     }
 
-
-
     public class DWorldEditor : DBehavior
     {
         public class TilemapEditorInfo
@@ -58,7 +56,7 @@ namespace DungeonInspector
         private const float _mouseDeltaSens = 0.01557f;
         private List<WorldData> _worlds;
 
-        private string _worldNameCreate;
+        private World _worldNameCreate;
         private static int _selectedWorldIndex;
         private static DVec2 _cameraPos;
 
@@ -391,7 +389,7 @@ namespace DungeonInspector
 
             if (true)
             {
-                GUILayout.BeginArea(new Rect(EditorGUIUtility.currentViewWidth - 260, 40, 240, 350), EditorStyles.helpBox);
+                GUILayout.BeginArea(new Rect(EditorGUIUtility.currentViewWidth - 250, 40, 240, 350), EditorStyles.helpBox);
 
 
                 GUILayout.Space(3);
@@ -549,7 +547,7 @@ namespace DungeonInspector
 
         private void LevelManager()
         {
-            GUILayout.BeginArea(new Rect(210, 40, EditorGUIUtility.currentViewWidth - 325, 350), EditorStyles.helpBox);
+            GUILayout.BeginArea(new Rect(210, 40, EditorGUIUtility.currentViewWidth - 465, 350), EditorStyles.helpBox);
             GUILayout.BeginHorizontal();
             GUILayout.FlexibleSpace();
             if (GUILayout.Button(_closeIcon, GUIStyle.none))
@@ -559,17 +557,17 @@ namespace DungeonInspector
             GUILayout.EndHorizontal();
             GUILayout.BeginHorizontal();
             GUILayout.Label("New", GUILayout.Width(30));
-            _worldNameCreate = GUILayout.TextField(_worldNameCreate);
+            _worldNameCreate = (World)EditorGUILayout.EnumPopup(_worldNameCreate);
 
             if (GUILayout.Button(_addIcon, GUILayout.Width(25), GUILayout.Height(25)))
             {
-                if (!string.IsNullOrEmpty(_worldNameCreate))
+                if (!_worlds.Exists(x => x.World == _worldNameCreate))
                 {
                     if (EditorUtility.DisplayDialog("Create Level", $"Want to Create '{_worldNameCreate}' level?", "Ok", "Cancel"))
                     {
-                        _worlds.Add(new WorldData() { Name = _worldNameCreate });
+                        _worlds.Add(new WorldData() { World = _worldNameCreate });
 
-                        _worldNameCreate = null;
+                        _worldNameCreate = default;
 
                         _selectedWorldIndex = _worlds.Count - 1;
                         _selectedTilemap.Tilemap.Clear();
@@ -579,7 +577,7 @@ namespace DungeonInspector
                 }
                 else
                 {
-                    Debug.Log("Set a name first!");
+                    Debug.Log("This world exist already!");
                 }
             }
 
@@ -680,6 +678,16 @@ namespace DungeonInspector
             //if (_tilemap.Tiles.Count > 0)
             {
                 var world = _worlds[_selectedWorldIndex];
+
+                if(world.Name == "Prologe")
+                {
+                    world.World = World.Prologe;
+                }
+                else if (world.Name == "Sewers")
+                {
+                    world.World = World.Sewers;
+
+                }
                 world.TilemapsData = new TilemapData[_tilemaps.Count];
 
                 for (int i = 0; i < _tilemaps.Count; i++)
@@ -812,6 +820,13 @@ namespace DungeonInspector
                             value = (DVec2)EditorGUILayout.Vector2IntField(string.Empty, (DVec2)value);
                             GUILayout.EndHorizontal();
                         }
+                        else if (propType.IsEnum)
+                        {
+                            GUILayout.BeginHorizontal();
+                            GUILayout.Label(name, GUILayout.MinWidth(100));
+                            value = EditorGUILayout.EnumPopup((Enum)value);
+                            GUILayout.EndHorizontal();
+                        }
                     }
                     else
                     {
@@ -822,8 +837,8 @@ namespace DungeonInspector
                             value = EditorGUILayout.TextField((string)value);
                             GUILayout.EndHorizontal();
                         }
+                      
                     }
-
                     property.SetValue(type, value);
                 }
                 GUILayout.EndVertical();

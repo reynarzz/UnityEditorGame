@@ -31,7 +31,7 @@ namespace DungeonInspector
             _playingAudios = new Dictionary<string, WaveOutEvent>();
 
             _audios = new Dictionary<string, DAudioFile>();
-             
+
             LoadAudios();
         }
 
@@ -41,7 +41,7 @@ namespace DungeonInspector
             var sewers = new WaveFileReader(AudioBasePath + "/JDSherbert/JDSherbert - Ambiences Music Pack - Bloodrat Sewers.wav");
             var battle = new WaveFileReader(AudioBasePath + "/Minifantasy_Dungeon_Music/Music/Goblins_Dance_(Battle).wav");
 
-            
+
 
             var enemyHit = new WaveFileReader(AudioBasePath + "/ForgottenPlains/Fx/16_Hit_on_brick_1.wav");
             var shoot = new WaveFileReader(AudioBasePath + "/ForgottenPlains/Fx/06_step_stone_1.wav");
@@ -65,9 +65,9 @@ namespace DungeonInspector
             _audios.Add("OrcHit", new DAudioFile(orcHit));
             _audios.Add("Shoot", new DAudioFile(shoot));
 
-            _audios.Add("Step1", new DAudioFile(step1));
-            _audios.Add("Step2", new DAudioFile(step2));
-            _audios.Add("Step3", new DAudioFile(step3));
+            _audios.Add("Step1", new DAudioFile(step1) { Volume = 0.3f });
+            _audios.Add("Step2", new DAudioFile(step2) { Volume = 0.3f });
+            _audios.Add("Step3", new DAudioFile(step3) { Volume = 0.3f });
             _audios.Add("ChestOpen", new DAudioFile(chestOpen));
             _audios.Add("PotionTaken", new DAudioFile(potionTaken));
             _audios.Add("DoorEnter", new DAudioFile(doorEnter));
@@ -77,7 +77,7 @@ namespace DungeonInspector
 
         public void Play(string audio)
         {
-            if(_audios.TryGetValue(audio, out var audioFile))
+            if (_audios.TryGetValue(audio, out var audioFile))
             {
                 var playEvent = default(WaveOutEvent);
 
@@ -85,7 +85,8 @@ namespace DungeonInspector
                 {
                     playEvent = device;
                     audioFile.Sample.Position = 0;
-                 
+                    //--playEvent.Volume = audioFile.Volume;
+
                     if (playEvent.PlaybackState != PlaybackState.Playing)
                     {
                         playEvent.Play();
@@ -94,6 +95,7 @@ namespace DungeonInspector
                 else
                 {
                     playEvent = new WaveOutEvent();
+                    //--playEvent.Volume = audioFile.Volume;
                     playEvent.DesiredLatency = audioFile.Latency;
                     playEvent.Init(audioFile.Sample);
                     _playingAudios.Add(audio, playEvent);

@@ -13,10 +13,11 @@ namespace DungeonInspector
     public class WorldData
     {
         [JsonProperty] public string Name { get; set; }
+        [JsonProperty] public World World { get; set; }
+
         [JsonProperty] public TilemapData LevelData { get; set; }
 
         [JsonProperty] public TilemapData[] TilemapsData { get; set; }
-
 
         public List<(EntityID, DVec2)> Entities { get; set; }
 
