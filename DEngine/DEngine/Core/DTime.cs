@@ -30,7 +30,6 @@ namespace DungeonInspector
             _stopWatch = new Stopwatch();
             _stopWatch.Start();
             _prev = _stopWatch.ElapsedMilliseconds / 1000f;
-            _fps = 1000;
         }
 
         public override void OnPause()

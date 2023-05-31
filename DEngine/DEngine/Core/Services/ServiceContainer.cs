@@ -18,8 +18,8 @@ namespace DungeonInspector
 
     public abstract class DEngineSystemBase<T> : DEngineSystemBase
     {
-        public virtual void Add(T element) { }
-        public virtual void Remove(T element) { }
+        internal virtual void Add(T element) { }
+        internal virtual void Remove(T element) { }
     }
 
     internal class DIEngineCoreServices

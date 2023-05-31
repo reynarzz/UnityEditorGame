@@ -18,7 +18,7 @@ namespace DungeonInspector
 
         public int Count => _toUpdate.Count;
 
-        public DEntitiesController()
+        internal DEntitiesController()
         {
             _toUpdate = new List<DGameEntity>();
             _toDestroy = new List<DGameEntity>();
@@ -27,7 +27,7 @@ namespace DungeonInspector
             _notStarted = new List<IDBehavior>();
         }
 
-        public override void Add(DGameEntity entity)
+        internal override void Add(DGameEntity entity)
         {
             _toUpdate.Add(entity);
             _notAwaken.Add(entity);
@@ -35,7 +35,7 @@ namespace DungeonInspector
             //_toAdd.Add(entity);
         }
 
-        public override void Remove(DGameEntity entity)
+        internal override void Remove(DGameEntity entity)
         {
             _toUpdate.Remove(entity);
 
@@ -49,12 +49,12 @@ namespace DungeonInspector
             //}
         }
 
-        public List<DGameEntity> GetAllGameEntities()
+        internal List<DGameEntity> GetAllGameEntities()
         {
             return _toUpdate;
         }
 
-        public DGameEntity FindGameEntity(string name)
+        internal DGameEntity FindGameEntity(string name)
         {
             for (int i = 0; i < _toUpdate.Count; i++)
             {
@@ -117,7 +117,10 @@ namespace DungeonInspector
 
                     for (int j = 0; j < updatables.Count; j++)
                     {
-                        updatables[j].Update();
+#if DEBUG
+                            //Profile here in debug mode.
+#endif
+                            updatables[j].Update();
                     }
                 }
             }

@@ -190,7 +190,7 @@ namespace DungeonInspector
             }
         }
 
-        public override void Add(DRendererComponent renderer)
+        internal override void Add(DRendererComponent renderer)
         {
             if (renderer is DRendererUIComponent)
             {
@@ -205,7 +205,7 @@ namespace DungeonInspector
             _pendingToReorder = true;
         }
 
-        public override void Remove(DRendererComponent renderer)
+        internal override void Remove(DRendererComponent renderer)
         {
             _pendingToReorder = true;
             var wasRemove = false;

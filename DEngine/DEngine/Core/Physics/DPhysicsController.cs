@@ -16,12 +16,12 @@ namespace DungeonInspector
             _components = new List<DPhysicsComponent>();
         }
 
-        public override void Add(DPhysicsComponent element)
+        internal override void Add(DPhysicsComponent element)
         {
             _components.Add(element);
         }
 
-        public override void Remove(DPhysicsComponent element)
+        internal override void Remove(DPhysicsComponent element)
         {
             foreach (DPhysicsComponent component in _components)
             {
