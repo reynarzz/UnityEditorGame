@@ -88,6 +88,7 @@ namespace DungeonInspector
         private DVec2 _pickerScroll;
         private int _selectedIndex = 0;
         private ReorderableList _tilemapReorderableList;
+        private static int _zoomLevel;
 
         private enum TileDatabaseType
         {
@@ -281,9 +282,10 @@ namespace DungeonInspector
 
                 }
             }
-            DCamera.PixelSize += (int)DInput.MouseWheelDelta.y * -1;
 
-            DCamera.PixelSize = Mathf.Clamp(DCamera.PixelSize, 16, 120);
+            _zoomLevel = Mathf.Clamp(_zoomLevel + (int)DInput.MouseWheelDelta.y * -1, 16, 120);
+
+            DCamera.PixelSize = _zoomLevel;
 
             var tex = default(Texture2D);
 
