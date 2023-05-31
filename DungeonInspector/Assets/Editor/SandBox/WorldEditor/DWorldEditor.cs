@@ -87,7 +87,6 @@ namespace DungeonInspector
 
         private DVec2 _pickerScroll;
         private int _selectedIndex = 0;
-        private string[] _worldsNames;
         private ReorderableList _tilemapReorderableList;
 
         private enum TileDatabaseType
@@ -99,7 +98,7 @@ namespace DungeonInspector
 
         protected override void OnStart()
         {
-           
+
             _tilesDatabase = new TilesDatabase("World/World1Tiles");
             _animatedTiles = new TilesDatabase("World/TilesAnimated");
             _entityPrefabList = new EditModePrefabInstantiator();
@@ -152,8 +151,6 @@ namespace DungeonInspector
             {
                 _worlds = JsonConvert.DeserializeObject<List<WorldData>>(data.text,
                     new JsonSerializerSettings() { TypeNameHandling = TypeNameHandling.All });
-
-                _worldsNames = _worlds.Select(x => x.Name).ToArray();
 
                 if (_worlds.Count > _selectedWorldIndex)
                 {
@@ -382,7 +379,7 @@ namespace DungeonInspector
             }
             GUILayout.Space(30);
 
-             
+
             GUILayout.Label(_mouseTileGuidePosition.ToString());
 
             //TilesPicker();
@@ -397,47 +394,49 @@ namespace DungeonInspector
 
 
                 GUILayout.BeginVertical();
-                if (GUILayout.Button(_tileIcon, GUILayout.Width(30), GUILayout.Height(30)))
                 {
-                    Event.current.Use();
 
-                    _paintType = PaintType.Tile;
-                    _currentBrushIcons = _tilesBrushIcons;
+                    if (GUILayout.Button(_tileIcon, GUILayout.Width(30), GUILayout.Height(30)))
+                    {
+                        Event.current.Use();
 
+                        _paintType = PaintType.Tile;
+                        _currentBrushIcons = _tilesBrushIcons;
+
+                    }
+
+                    if (GUILayout.Button(_entityIcon, GUILayout.Width(30), GUILayout.Height(30)))
+                    {
+                        Event.current.Use();
+
+                        _paintType = PaintType.Entity;
+                        _currentBrushIcons = _entityBrushIcons;
+                    }
+
+                    EditorGUILayout.Separator();
+
+                    DrawBrushModes();
+
+
+                    //Handles.DrawDottedLine(new Vector3(0, 0, 0), new Vector3(15, 15, 0), 5);
+
+                    EditorGUILayout.Separator();
+
+                    if (GUILayout.Button(_saveIcon, GUILayout.Width(30), GUILayout.Height(30)))
+                    {
+                        Event.current.Use();
+
+                        OnSave();
+                    }
+
+
+                    if (GUILayout.Button(_folderIcon, GUILayout.Width(30), GUILayout.Height(30)))
+                    {
+                        Event.current.Use();
+
+                        _showManager = true;
+                    }
                 }
-
-                if (GUILayout.Button(_entityIcon, GUILayout.Width(30), GUILayout.Height(30)))
-                {
-                    Event.current.Use();
-
-                    _paintType = PaintType.Entity;
-                    _currentBrushIcons = _entityBrushIcons;
-                }
-
-                EditorGUILayout.Separator();
-
-                DrawBrushModes();
-
-
-                //Handles.DrawDottedLine(new Vector3(0, 0, 0), new Vector3(15, 15, 0), 5);
-
-                EditorGUILayout.Separator();
-
-                if (GUILayout.Button(_saveIcon, GUILayout.Width(30), GUILayout.Height(30)))
-                {
-                    Event.current.Use();
-
-                    OnSave();
-                }
-
-
-                if (GUILayout.Button(_folderIcon, GUILayout.Width(30), GUILayout.Height(30)))
-                {
-                    Event.current.Use();
-
-                    _showManager = true;
-                }
-
 
                 GUILayout.EndVertical();
 
@@ -565,13 +564,17 @@ namespace DungeonInspector
                 {
                     if (EditorUtility.DisplayDialog("Create Level", $"Want to Create '{_worldNameCreate}' level?", "Ok", "Cancel"))
                     {
-                        _worlds.Add(new WorldData() { World = _worldNameCreate });
+                        var tilemap = GetNewTilemap("Tilemap", 0);
 
-                        _worldNameCreate = default;
+                        var newWorld = new WorldData() { World = _worldNameCreate, TilemapsData = new TilemapData[] { new TilemapData(new TileData[0]) } };
+
+                        _worlds.Add(newWorld);
 
                         _selectedWorldIndex = _worlds.Count - 1;
-                        _selectedTilemap.Tilemap.Clear();
+                        Load(newWorld);
                         OnSave();
+
+                        _worldNameCreate = default;
                     }
 
                 }
@@ -589,7 +592,7 @@ namespace DungeonInspector
             for (int i = 0; i < _worlds.Count; i++)
             {
                 GUILayout.BeginHorizontal();
-                if (GUILayout.Button(_worlds[i].Name, _levelNameStyle, GUILayout.Height(25)))
+                if (GUILayout.Button(_worlds[i].World.ToString(), _levelNameStyle, GUILayout.Height(25)))
                 {
                     _selectedWorldIndex = i;
                     _showManager = false;
@@ -598,7 +601,7 @@ namespace DungeonInspector
 
                 if (GUILayout.Button(_trashIcon, GUILayout.Width(25), GUILayout.Height(25)))
                 {
-                    if (EditorUtility.DisplayDialog("Delete", $"Want to delete '{_worlds[i].Name}' level?", "Ok", "Cancel"))
+                    if (EditorUtility.DisplayDialog("Delete", $"Want to delete '{_worlds[i].World}' level?", "Ok", "Cancel"))
                     {
                         _worlds.RemoveAt(i);
                         _selectedWorldIndex = 0;
@@ -620,7 +623,7 @@ namespace DungeonInspector
 
         private void Load(WorldData worldData)
         {
-            if(_tilemaps.Count > 0)
+            if (_tilemaps.Count > 0)
             {
                 _tilemaps.ForEach(x => x.Tilemap.Entity.Destroy());
                 _tilemaps.Clear();
@@ -646,7 +649,7 @@ namespace DungeonInspector
                         _tilemaps.Add(tilemap);
                     }
 
-                   
+
                 }
 
                 //var tilemap = GetNewTilemap("Tilemap");
@@ -679,15 +682,6 @@ namespace DungeonInspector
             {
                 var world = _worlds[_selectedWorldIndex];
 
-                if(world.Name == "Prologe")
-                {
-                    world.World = World.Prologe;
-                }
-                else if (world.Name == "Sewers")
-                {
-                    world.World = World.Sewers;
-
-                }
                 world.TilemapsData = new TilemapData[_tilemaps.Count];
 
                 for (int i = 0; i < _tilemaps.Count; i++)
@@ -837,7 +831,7 @@ namespace DungeonInspector
                             value = EditorGUILayout.TextField((string)value);
                             GUILayout.EndHorizontal();
                         }
-                      
+
                     }
                     property.SetValue(type, value);
                 }
@@ -870,7 +864,7 @@ namespace DungeonInspector
             GUILayout.BeginHorizontal();
             if (GUILayout.Button(_addIcon))
             {
-                var tilemap = GetNewTilemap("Tilemap", _tilemaps.Count -1);
+                var tilemap = GetNewTilemap("Tilemap", _tilemaps.Count - 1);
 
                 _tilemaps.Insert(0, tilemap);
             }

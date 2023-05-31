@@ -22,6 +22,7 @@ namespace DungeonInspector
         public NavWorld NavWorld => _navWorld;
         public DTilemap Tilemap => _tilemap;
         private DGameEntity[] _entities;
+        protected string BackgroundMusic { get; set; }
 
         public Player Player { get; private set; }
         //public TilemapArena Tilemap => _tilemapArena;
@@ -33,43 +34,12 @@ namespace DungeonInspector
             _tilesDatabase = tileDatabase;
         }
 
-
-        protected DGameEntity FindWorldEntity(string name)
-        {
-            for (int i = 0; i < _entities.Length; i++)
-            {
-                var entity = _entities[i];
-
-                if (entity.Name.Equals(name)) 
-                {
-                    return entity;
-                }
-            }
-
-            Debug.LogError($"Object '{name}' doesn't exist.");
-
-            return null;
-        }
-
-        protected T[] FindWorldEntitiesOfType<T>() where T: DBehavior, new()
-        {
-            var entities = new List<T>();
-
-            for (int i = 0; i < _entities.Length; i++)
-            {
-                var entity = _entities[i];
-
-                if (entity.TryGetComponent<T>(out var component))
-                {
-                    entities.Add(component);
-                }
-            }
-
-            return entities.ToArray();
-        }
+        public virtual void Update() { }
 
         public virtual void Init()
         {
+            DAudio.PlayAudio(BackgroundMusic);
+
             Player = DGameEntity.FindGameEntity("Player").GetComp<Player>();
 
             _tilemaps = new DTilemap[_worldData.TilemapsData.Length];
@@ -125,6 +95,41 @@ namespace DungeonInspector
             _navWorld.Init();
         }
 
+        protected DGameEntity FindWorldEntity(string name)
+        {
+            for (int i = 0; i < _entities.Length; i++)
+            {
+                var entity = _entities[i];
+
+                if (entity.Name.Equals(name))
+                {
+                    return entity;
+                }
+            }
+
+            Debug.LogError($"Object '{name}' doesn't exist.");
+
+            return null;
+        }
+
+        protected T[] FindWorldEntitiesOfType<T>() where T : DBehavior, new()
+        {
+            var entities = new List<T>();
+
+            for (int i = 0; i < _entities.Length; i++)
+            {
+                var entity = _entities[i];
+
+                if (entity.TryGetComponent<T>(out var component))
+                {
+                    entities.Add(component);
+                }
+            }
+
+            return entities.ToArray();
+        }
+
+
         private DTilemap GetNewTilemap(string name, int sorting)
         {
             var tilemapObj = new DGameEntity(name);
@@ -136,7 +141,6 @@ namespace DungeonInspector
             return tilemap;
         }
 
-        public virtual void Update() { }
         public virtual void OnExit() 
         {
             _prefabInstantiator.DestroyAllInstances();
@@ -152,6 +156,8 @@ namespace DungeonInspector
             }
 
             _entities = null;
+
+            DAudio.StopAudio(BackgroundMusic);
         }
 
         public virtual void LateUpdate()

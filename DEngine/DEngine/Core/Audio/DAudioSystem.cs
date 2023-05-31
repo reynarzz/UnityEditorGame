@@ -54,6 +54,9 @@ namespace DungeonInspector
             var orcHit = new AudioFileReader(AudioBasePath + "/Fx/25_orc_walk_stone_3.wav");
             var playerDamage = new AudioFileReader(AudioBasePath + "/Fx/11_human_damage_1.wav");
             var playerDead = new AudioFileReader(AudioBasePath + "/Fx/10_human_special_atk_2.wav");
+            var doorOpen = new AudioFileReader(AudioBasePath + "/Fx/01_chest_open_1.wav");
+
+
 
             // Music
             _audios.Add("Background", new DAudioFile(new LoopStream(background)) { Latency = 300, BufferCount = 2 });
@@ -73,34 +76,42 @@ namespace DungeonInspector
             _audios.Add("DoorEnter", new DAudioFile(doorEnter));
             _audios.Add("PlayerDamage", new DAudioFile(playerDamage));
             _audios.Add("PlayerDead", new DAudioFile(playerDead));
+            _audios.Add("DoorOpen", new DAudioFile(doorOpen));
         }
 
         public void Play(string audio)
         {
-            if (_audios.TryGetValue(audio, out var audioFile))
+            if (!string.IsNullOrEmpty(audio))
             {
-                var playEvent = default(WaveOutEvent);
-
-                if (_playingAudios.TryGetValue(audio, out var device))
+                if (_audios.TryGetValue(audio, out var audioFile))
                 {
-                    playEvent = device;
-                    audioFile.Sample.Position = 0;
-                    //--playEvent.Volume = audioFile.Volume;
+                    var playEvent = default(WaveOutEvent);
 
-                    if (playEvent.PlaybackState != PlaybackState.Playing)
+                    if (_playingAudios.TryGetValue(audio, out var device))
                     {
+                        playEvent = device;
+                        audioFile.Sample.Position = 0;
+                        //--playEvent.Volume = audioFile.Volume;
+
+                        if (playEvent.PlaybackState != PlaybackState.Playing)
+                        {
+                            playEvent.Play();
+                        }
+                    }
+                    else
+                    {
+                        playEvent = new WaveOutEvent();
+                        //--playEvent.Volume = audioFile.Volume;
+                        playEvent.DesiredLatency = audioFile.Latency;
+                        playEvent.Init(audioFile.Sample);
+                        _playingAudios.Add(audio, playEvent);
                         playEvent.Play();
                     }
                 }
-                else
-                {
-                    playEvent = new WaveOutEvent();
-                    //--playEvent.Volume = audioFile.Volume;
-                    playEvent.DesiredLatency = audioFile.Latency;
-                    playEvent.Init(audioFile.Sample);
-                    _playingAudios.Add(audio, playEvent);
-                    playEvent.Play();
-                }
+            }
+            else
+            {
+                Debug.LogError("Empty audio name!");
             }
         }
 
@@ -116,13 +127,20 @@ namespace DungeonInspector
 
         public void StopAudio(string audio)
         {
-            if (_audios.TryGetValue(audio, out var audioFile))
+            if (!string.IsNullOrEmpty(audio))
             {
-                if (_playingAudios.TryGetValue(audio, out var device))
+                if (_audios.TryGetValue(audio, out var audioFile))
                 {
-                    audioFile.Sample.Position = 0;
-                    device.Stop();
+                    if (_playingAudios.TryGetValue(audio, out var device))
+                    {
+                        audioFile.Sample.Position = 0;
+                        device.Stop();
+                    }
                 }
+            }
+            else
+            {
+                Debug.Log("Empty audio name!");
             }
         }
 

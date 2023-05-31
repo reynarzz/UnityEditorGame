@@ -42,6 +42,8 @@ namespace DungeonInspector
         protected override void OnAwake()
         {
             DTime.TimeScale = 1;
+            DCamera.PixelSize = 32;
+
 
             // Main Player
             _player = new DGameEntity("Player", typeof(DSpriteRendererComponent), typeof(DAnimatorComponent), typeof(Player)).GetComp<Player>();

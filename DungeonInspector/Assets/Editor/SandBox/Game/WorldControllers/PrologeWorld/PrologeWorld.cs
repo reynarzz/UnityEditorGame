@@ -10,14 +10,12 @@ namespace DungeonInspector
         public PrologeWorld(WorldData worldData, PrefabInstantiator prefabInstantiator, TilesDatabase tileDatabase) : 
             base(worldData, prefabInstantiator, tileDatabase)
         {
-
+            BackgroundMusic = "Background";
         }
 
         public override void Init()
         {
             base.Init();
-
-            DAudio.PlayAudio("Background");
 
             
         }
@@ -35,8 +33,6 @@ namespace DungeonInspector
         public override void OnExit()
         {
             base.OnExit();
-
-            DAudio.StopAudio("Background");
         }
     }
 }

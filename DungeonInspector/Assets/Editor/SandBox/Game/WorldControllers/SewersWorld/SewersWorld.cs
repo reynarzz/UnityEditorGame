@@ -5,20 +5,6 @@ using System.Text;
 
 namespace DungeonInspector
 {
-    public class SmartEvent<T> where T : Delegate
-    {
-        private T _delegate;
-        public void SubscribeRemoveOnFire(T callback)
-        {
-
-        }
-
-        //public static T operator+=(SmartEvent<T> a, T callback)
-        //{
-        //    a._delegate. += callback;
-        //}
-
-    }
     public class SewersWorld : WorldControllerBase
     {
         private BeatEnemiesPuzzle _beatEnemyPuzzle;
@@ -26,6 +12,7 @@ namespace DungeonInspector
         public SewersWorld(WorldData worldData, PrefabInstantiator prefabInstantiator, TilesDatabase tileDatabase) : base(worldData, prefabInstantiator, tileDatabase)
         {
             _beatEnemyPuzzle = new BeatEnemiesPuzzle();
+            BackgroundMusic = "Sewers";
         }
 
         public override void Init()
@@ -34,8 +21,6 @@ namespace DungeonInspector
 
             _beatEnemyPuzzle.InitPuzzle(FindWorldEntitiesOfType<EnemyBase>());
             _beatEnemyPuzzle.OnPuzzleCompleted += OnPuzzleCompleted;
-
-            DAudio.PlayAudio("Sewers");
         }
 
         private void OnPuzzleCompleted()
@@ -53,8 +38,6 @@ namespace DungeonInspector
         public override void OnExit()
         {
             base.OnExit();
-
-            DAudio.StopAudio("Sewers");
         }
     }
 }

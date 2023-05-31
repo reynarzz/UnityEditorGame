@@ -12,7 +12,7 @@ namespace DungeonInspector
     [Serializable]
     public class WorldData
     {
-        [JsonProperty] public string Name { get; set; }
+        //[JsonProperty] public string Name { get; set; }
         [JsonProperty] public World World { get; set; }
 
         [JsonProperty] public TilemapData LevelData { get; set; }

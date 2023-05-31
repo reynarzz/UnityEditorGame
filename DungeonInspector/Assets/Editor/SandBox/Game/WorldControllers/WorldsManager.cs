@@ -20,16 +20,23 @@ namespace DungeonInspector
     public class WorldsManager
     {
         private Dictionary<World, WorldControllerBase> _worlds;
+        private Dictionary<World, WorldData> _worldsData;
         private WorldControllerBase _currentWorld;
+
+        private readonly PrefabInstantiator _prefabInstantiator;
+        private readonly TilesDatabase _tilesDatabase;
 
         public WorldsManager(PrefabInstantiator prefabInstantiator, TilesDatabase tilesDatabase)
         {
-            var worldData = LoadWorldsData();
+            _prefabInstantiator = prefabInstantiator;
+            _tilesDatabase = tilesDatabase;
+
+            _worldsData = LoadWorldsData();
 
             _worlds = new Dictionary<World, WorldControllerBase>()
             {
-                { World.Prologe, new PrologeWorld(worldData[World.Prologe], prefabInstantiator, tilesDatabase) },
-                { World.Sewers, new SewersWorld(worldData[World.Sewers], prefabInstantiator, tilesDatabase) },
+                { World.Prologe, new PrologeWorld(_worldsData[World.Prologe], prefabInstantiator, tilesDatabase) },
+                { World.Sewers, new SewersWorld(_worldsData[World.Sewers], prefabInstantiator, tilesDatabase) },
             };
         }
 
@@ -65,7 +72,14 @@ namespace DungeonInspector
                 _currentWorld.OnExit();
             }
 
-            _currentWorld = _worlds[world];
+            if (_worlds.TryGetValue(world, out var worldController))
+            {
+                _currentWorld = worldController;
+            }
+            else
+            {
+                _currentWorld = new DefaultWorldController(_worldsData[world], _prefabInstantiator, _tilesDatabase);
+            }
 
             _currentWorld.Init();
 

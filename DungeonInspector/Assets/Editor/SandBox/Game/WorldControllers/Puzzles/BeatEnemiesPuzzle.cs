@@ -13,6 +13,7 @@ namespace DungeonInspector
 
         private int _enemiesAlive = 0;
 
+
         public void InitPuzzle(params EnemyBase[] enemiesToBeat)
         {
             _enemiesAlive = enemiesToBeat.Length;

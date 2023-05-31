@@ -49,6 +49,11 @@ namespace DungeonInspector
         {
             _renderer.Sprite = _atlas.GetTexture(isOpen ? 1 : 0);
 
+            if (isOpen)
+            {
+                DAudio.PlayAudio("DoorOpen");
+            }
+
             // Check if the actor is above or below to lock/unlock the proper tiles
             for (int i = 0; i < 2; i++)
             {
