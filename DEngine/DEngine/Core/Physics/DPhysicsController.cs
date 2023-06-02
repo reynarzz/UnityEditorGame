@@ -41,7 +41,7 @@ namespace DungeonInspector
             {
                 if (component != element)
                 {
-                    component.Collisions.Remove(element);
+                    component.Remove(element);
                 }
             }
 
@@ -83,37 +83,32 @@ namespace DungeonInspector
 
                             if (isColliding)
                             {
-                                if (!body1.Collisions.Contains(body2))
+                                if (!body1.Contains(body2))
                                 {
-                                    body1.Collisions.Add(body2);
+                                    body1.Add(body2);
                                 }
 
-                                if (!body2.Collisions.Contains(body1))
+                                if (!body2.Contains(body1))
                                 {
-                                    body2.Collisions.Add(body1);
+                                    body2.Add(body1);
                                 }
                             }
                             else
                             {
-                                body1.Collisions.Remove(body2);
-                                body2.Collisions.Remove(body1);
+                                body1.Remove(body2);
+                                body2.Remove(body1);
                             }
                         }
                         else
                         {
-                            body1.Collisions.Remove(body2);
-                            body2.Collisions.Remove(body1);
+                            body1.Remove(body2);
+                            body2.Remove(body1);
                         }
-
-                        body2.Collider.IsColliding = body2.Collisions.Count > 0;
 
                         RaiseOnTriggerEvent(body1, body2, isColliding);
                         RaiseOnTriggerEvent(body2, body1, isColliding);
                     }
                 }
-
-                body1.Collider.IsColliding = body1.Collisions.Count > 0;
-
             }
         }
 

@@ -4,6 +4,7 @@ Shader "Unlit/DStandard"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _flip("Flip", vector) = (0, 0, 0, 0)
+        _color("Color", COLOR) = (1,1,1,1)
     }
     SubShader
     {
@@ -90,7 +91,7 @@ Shader "Unlit/DStandard"
                 uv.x = ((int)uv.x) / pixel;
                 uv.y = ((int)uv.y) / pixel;*/
 
-                fixed4 col = tex2D(_MainTex, float2(abs(uv.x - _flip.x), abs(uv.y - _flip.y)));
+                fixed4 col = tex2D(_MainTex, float2(abs(uv.x - _flip.x), abs(uv.y - _flip.y))) * _color;
                 
                 //if (uv.x >= _xCutOff)
                 //{

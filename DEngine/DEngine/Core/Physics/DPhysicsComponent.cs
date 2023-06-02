@@ -68,20 +68,29 @@ namespace DungeonInspector
             }
         }
         public bool HasAnyCollision => Collisions.Count > 0;
-        internal List<DPhysicsComponent> Collisions { get; set; }
+        private List<DPhysicsComponent> Collisions { get; set; }
 
         public DPhysicsComponent()
         {
             Collisions = new List<DPhysicsComponent>();
         }
 
-        //protected override void OnAwake()
-        //{
-        //}
+        internal void Add(DPhysicsComponent collision)
+        {
+            Collider.IsColliding = true;
+            Collisions.Add(collision);
+        }
 
-        //internal void OnPhysicsUpdate()
-        //{
+        internal bool Contains(DPhysicsComponent collision)
+        {
+            return Collisions.Contains(collision);
+        }
 
-        //}
+        internal void Remove(DPhysicsComponent collision)
+        {
+            Collisions.Remove(collision);
+
+            Collider.IsColliding = Collisions.Count > 0;
+        }
     }
 }
