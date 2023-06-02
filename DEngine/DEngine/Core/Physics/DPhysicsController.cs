@@ -172,7 +172,6 @@ namespace DungeonInspector
 
                         if (!state.TriggerEnter)
                         {
-
                             if (behavior != null)
                             {
                                 behavior.OnTriggerEnter(target.Collider);
@@ -182,7 +181,6 @@ namespace DungeonInspector
                         {
                             if (behavior != null)
                             {
-
                                 behavior.OnTriggerStay(target.Collider);
                             }
                         }
@@ -222,7 +220,7 @@ namespace DungeonInspector
                    b.Collider.AABB.Max.x <= a.Collider.AABB.Max.x && b.Collider.AABB.Max.x >= a.Collider.AABB.Min.x) &&
                    (b.Collider.AABB.Min.y >= a.Collider.AABB.Min.y && b.Collider.AABB.Min.y <= a.Collider.AABB.Max.y ||
                    b.Collider.AABB.Max.y <= a.Collider.AABB.Max.y && b.Collider.AABB.Max.y >= a.Collider.AABB.Min.y)))
-                   && a.Collider.IsTrigger && b.Collider.IsTrigger;
+                   && a.Collider.IsTrigger && b.Collider.IsTrigger && a.Enabled && b.Enabled && a.Collider.Enabled && b.Collider.Enabled;
 
         }
 

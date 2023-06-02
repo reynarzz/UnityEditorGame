@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
-    public  class EnemyBase : Actor
+    public class EnemyBase : Actor
     {
         private DSpriteRendererComponent _renderer;
         private HealthBarUI _healthBar;
@@ -36,6 +36,8 @@ namespace DungeonInspector
 
         private DAnimatorComponent _animator;
         public event Action<EnemyBase> OnEnemyBeaten;
+        private bool _isDead = false;
+        private float _timeToDestroy = 0.6f;
 
         protected override void OnAwake()
         {
@@ -48,7 +50,6 @@ namespace DungeonInspector
 
             _health.OnHealthChanged += OnHealthChanged;
             _health.OnHealthDepleted += OnHealthDepleted;
-
         }
 
         protected override void OnStart()
@@ -59,7 +60,7 @@ namespace DungeonInspector
             _tilemap = gameMaster.Tilemap;
 
             _playerTest = DGameEntity.FindGameEntity("Player").GetComp<Player>();
-         
+
             _pathIndex = 0;
 
             _movePos = Transform.Position;
@@ -71,6 +72,8 @@ namespace DungeonInspector
         {
             if (!increased)
             {
+                _renderer.SetMatColor("_hitColor", Color.white);
+
                 _renderer.SetMatInt("_isHit", 1);
                 _isHitTime = 0;
                 _isHit = true;
@@ -78,14 +81,6 @@ namespace DungeonInspector
 
             _healthBar.OnChancePercentage(amount / max);
         }
-
-        //protected override void OnTriggerEnter(DBoxCollider collider)
-        //{
-        //    if (collider.Entity.Tag == Tag)
-        //    {
-        //        _health.AddAmount(-1);
-        //    }
-        //}
 
         public void OnNewPath(List<DVec2> pathToTarget)
         {
@@ -95,8 +90,6 @@ namespace DungeonInspector
 
             if (_pathToTarget != null && _pathToTarget.Count > 0)
             {
-                //--_pathToTarget.RemoveAt(_pathToTarget.Count - 1);
-
                 _movePos = Transform.Position.RoundToInt();
 
                 _prevPos = _movePos.RoundToInt();
@@ -106,32 +99,46 @@ namespace DungeonInspector
                     _prevTile.Ocupe = null;
                 }
             }
-
         }
 
         protected override void OnUpdate()
         {
-            _healthBar.Transform.Position = new DVec2(Transform.Position.x, _collider.AABB.Max.y + _healthBarYOffset);
-
-            if (_isHit)
+            if (!_isDead)
             {
-                _isHitTime += DTime.DeltaTime;
+                _healthBar.Transform.Position = new DVec2(Transform.Position.x, _collider.AABB.Max.y + _healthBarYOffset);
 
-                if (_isHitTime >= _isHitMaxTime)
+                if (_isHit)
                 {
-                    _renderer.RemoveMatValue("_isHit");
-                    _isHit = false;
-                    _isHitTime = 0;
+                    _isHitTime += DTime.DeltaTime;
+
+                    if (_isHitTime >= _isHitMaxTime)
+                    {
+                        _renderer.RemoveMatValue("_isHit");
+                        _isHit = false;
+                        _isHitTime = 0;
+                    }
+                }
+
+                if (_pathToTarget == null || (_pathToTarget != null && _pathToTarget.Count > 0 &&
+                   (_playerTest.Transform.Position - _pathToTarget[_pathToTarget.Count - 1]).SqrMagnitude > 2))
+                {
+                    _navWorld.RequestPath(this, _playerTest);
+                }
+
+                Walk();
+            }
+            else
+            {
+                _timeToDestroy -= DTime.DeltaTime;
+                _renderer.SetMatColor("_hitColor", default);
+
+                if (_timeToDestroy <= 0)
+                {
+                    OnEnemyBeaten?.Invoke(this);
+
+                    Entity.Destroy();
                 }
             }
-
-            if (_pathToTarget == null || (_pathToTarget != null && _pathToTarget.Count > 0 &&
-               (_playerTest.Transform.Position - _pathToTarget[_pathToTarget.Count - 1]).SqrMagnitude > 2))
-            {
-                _navWorld.RequestPath(this, _playerTest);
-            }
-
-            Walk();
         }
 
         private void Walk()
@@ -174,8 +181,12 @@ namespace DungeonInspector
 
         protected virtual void OnHealthDepleted()
         {
-            OnEnemyBeaten?.Invoke(this);
-            Entity.Destroy();
+            _renderer.SetMatInt("_isHit", 1);
+            //_healthBar.Hide();
+
+            _collider.Enabled = false;
+            _isDead = true;
+            _animator.Stop();
         }
 
 

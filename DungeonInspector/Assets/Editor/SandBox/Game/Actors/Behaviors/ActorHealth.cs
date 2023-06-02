@@ -28,6 +28,8 @@ namespace DungeonInspector
         {
             var increased = amount > 0;
             currentHealth += amount;
+           
+            OnHealthChanged?.Invoke(currentHealth, _maxHealth, increased);
 
             if (currentHealth <= 0)
             {
@@ -36,7 +38,6 @@ namespace DungeonInspector
                 OnHealthDepleted?.Invoke();
             }
 
-            OnHealthChanged?.Invoke(currentHealth, _maxHealth, increased);
         }
     }
 }

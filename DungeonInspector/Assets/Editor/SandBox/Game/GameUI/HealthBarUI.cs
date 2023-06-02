@@ -44,6 +44,12 @@ namespace DungeonInspector
             }
         }
 
+        public void Hide()
+        {
+            _hideTime = 0;
+            _barEntity.IsActive = false;
+        }
+
         public void OnChancePercentage(float percentage)
         {
             _barEntity.IsActive = true;
