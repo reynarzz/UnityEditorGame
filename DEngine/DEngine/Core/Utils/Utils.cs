@@ -10,11 +10,13 @@ namespace DungeonInspector
     {
         private static Material _mat;
         private static Texture2D _whiteTex;
-
+        private static System.Random _random;
         public Utils()
         {
             _mat = Resources.Load<Material>("Materials/DStandard");
             _whiteTex = Texture2D.whiteTexture;
+
+            _random = new System.Random();
         }
 
         private static void OnDebugGUI()

@@ -79,7 +79,7 @@ namespace DungeonInspector
             _healthBar.OnChancePercentage(amount / max);
         }
 
-        //protected override void OnTriggerStay(DBoxCollider collider)
+        //protected override void OnTriggerEnter(DBoxCollider collider)
         //{
         //    if (collider.Entity.Tag == Tag)
         //    {

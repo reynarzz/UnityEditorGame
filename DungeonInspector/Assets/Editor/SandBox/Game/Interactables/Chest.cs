@@ -39,15 +39,14 @@ namespace DungeonInspector
             }
         }
 
-        protected override void OnTriggerStay(DBoxCollider collider)
+        protected override void OnTriggerEnter(DBoxCollider collider)
         {
-            base.OnTriggerStay(collider);
+            base.OnTriggerEnter(collider);
 
+            Debug.Log(collider.Entity.Tag);
 
             if (!_isOpen && collider.Entity.Tag == "Player")
             {
-                Debug.Log("Enter");
-
                 _canOpenChest = true;
             }
         }
@@ -58,7 +57,6 @@ namespace DungeonInspector
 
             if (!_isOpen && collider.Entity.Tag == "Player")
             {
-                Debug.Log("Exit");
                 _canOpenChest = false;
             }
         }

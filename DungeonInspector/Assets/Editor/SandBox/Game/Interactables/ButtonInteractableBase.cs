@@ -6,22 +6,34 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class ButtonInteractableBase : InteractableBase 
+    public class ButtonInteractableBase : InteractableBase
     {
-        //private bool _interacted = false;
-        public bool BlocksPath { get; set; }
+        [DExpose] private bool _interactable = false;
 
-        protected override void OnTriggerStay(DBoxCollider collider)
+        protected override void OnTriggerEnter(DBoxCollider collider)
         {
-            //if (!_interacted)
+            base.OnTriggerEnter(collider);
+
+            _interactable = true;
+        }
+
+        protected override void OnTriggerExit(DBoxCollider collider)
+        {
+            base.OnTriggerExit(collider);
+
+            _interactable = false;
+        }
+        protected override void OnUpdate()
+        {
+            base.OnUpdate();
+
+            if (_interactable && DInput.IsKeyDown(UnityEngine.KeyCode.E))
             {
-                if(DInput.IsKeyDown(UnityEngine.KeyCode.E))
-                {
-                    OnInteracted();
-                }
+                UnityEngine.Debug.Log("Interac");
+                OnInteracted();
             }
         }
 
-        protected virtual void OnInteracted() {  }
+        protected virtual void OnInteracted() { }
     }
 }

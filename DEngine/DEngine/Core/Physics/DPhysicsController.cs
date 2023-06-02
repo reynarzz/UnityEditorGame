@@ -7,13 +7,27 @@ using UnityEngine;
 
 namespace DungeonInspector
 {
+    public class BodyCollisionState
+    {
+        public bool CollisionEnter { get; set; }
+        public bool TriggerEnter { get; set; }
+    }
+
+    public enum CollisionType
+    {
+        Trigger,
+        Collision,
+    }
+
     public class DPhysicsController : DEngineSystemBase<DPhysicsComponent>
     {
         private List<DPhysicsComponent> _components;
+        private Dictionary<DPhysicsComponent, Dictionary<DPhysicsComponent, BodyCollisionState>> _bodiesState;
 
-        public DPhysicsController()
+        internal DPhysicsController()
         {
             _components = new List<DPhysicsComponent>();
+            _bodiesState = new Dictionary<DPhysicsComponent, Dictionary<DPhysicsComponent, BodyCollisionState>>();
         }
 
         internal override void Add(DPhysicsComponent element)
@@ -37,10 +51,10 @@ namespace DungeonInspector
         // TODO: This is a proof of concept to test the AABB collision
         public override void Update()
         {
-            for (int i = 0; i < _components.Count; i++)
-            {
-                _components[i].OnPhysicsUpdate();
-            }
+            //for (int i = 0; i < _components.Count; i++)
+            //{
+            //    _components[i].OnPhysicsUpdate();
+            //}
 
             CollisionChecks();
         }
@@ -103,16 +117,56 @@ namespace DungeonInspector
             }
         }
 
+        private BodyCollisionState GetCollisionState(DPhysicsComponent current, DPhysicsComponent target)
+        {
+            if(_bodiesState.TryGetValue(current, out var collision))
+            {
+                if (collision.TryGetValue(target, out var state))
+                {
+                    return state;
+                }
+                else
+                {
+                    var collisionState = new BodyCollisionState();
+
+                    collision.Add(target, collisionState);
+
+                    return collisionState;
+                }
+            }
+            else
+            {
+                var collisionState = new BodyCollisionState();
+
+                _bodiesState.Add(current, new Dictionary<DPhysicsComponent, BodyCollisionState>() { { target, collisionState } });
+
+                return collisionState;
+            }
+
+            return null;
+        }
+
+        private void RemoveCollisionState(DPhysicsComponent current, DPhysicsComponent target)
+        {
+            _bodiesState[current].Remove(target);
+
+            if (_bodiesState[current].Count == 0)
+            {
+                _bodiesState.Remove(current);
+            }
+        }
 
         private void RaiseOnTriggerEvent(DPhysicsComponent current, DPhysicsComponent target, bool isColliding)
         {
             if (current.Collider != null && current.Collider.IsTrigger)
             {
+                var state = GetCollisionState(current, target);
+
                 var allcomponents = current.Entity.GetAllComponents();
 
                 if (isColliding)
                 {
-                    if (!current.TriggerEnter)
+                    if (!state.TriggerEnter)
                     {
                         for (int i = 0; i < allcomponents.Count; i++)
                         {
@@ -122,16 +176,16 @@ namespace DungeonInspector
                             //{
                             if (behavior != null)
                             {
-                                behavior.OnTriggerStay(target.Collider);
+                                behavior.OnTriggerEnter(target.Collider);
                             }
                         }
 
-                        current.TriggerEnter = true;
+                        state.TriggerEnter = true;
                     }
                 }
                 else
                 {
-                    if (current.TriggerEnter)
+                    if (state.TriggerEnter)
                     {
                         foreach (var item in allcomponents)
                         {
@@ -141,9 +195,11 @@ namespace DungeonInspector
                                 behavior.OnTriggerExit(target.Collider);
                             }
                         }
+
+                        RemoveCollisionState(current, target);
                     }
 
-                    current.TriggerEnter = false;
+                    state.TriggerEnter = false;
                 }
             }
         }

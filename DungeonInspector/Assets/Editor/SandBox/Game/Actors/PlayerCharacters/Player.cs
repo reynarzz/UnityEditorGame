@@ -150,7 +150,7 @@ namespace DungeonInspector
         private float _timeToGetHit;
         private const float _timeToGetHitCooldown = 1;
 
-        protected override void OnTriggerStay(DBoxCollider collider)
+        protected override void OnTriggerEnter(DBoxCollider collider)
         {
             //Debug.Log("Enter: " + collider.Name);
 

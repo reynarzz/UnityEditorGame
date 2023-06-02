@@ -15,7 +15,7 @@ namespace DungeonInspector
         void Start();
         void Update();
 
-        void OnTriggerStay(DBoxCollider collider);
+        void OnTriggerEnter(DBoxCollider collider);
         void OnTriggerExit(DBoxCollider collider);
         void LateUpdate();
         void OnGUI();
@@ -36,7 +36,7 @@ namespace DungeonInspector
         protected virtual void OnGUI() { }
         protected virtual void OnUpdate() { }
         protected virtual void OnLateUpdate() { }
-        protected virtual void OnTriggerStay(DBoxCollider collider) { }
+        protected virtual void OnTriggerEnter(DBoxCollider collider) { }
         protected virtual void OnTriggerExit(DBoxCollider collider) { }
 
         public T GetComp<T>() where T : DComponent, new()
@@ -79,9 +79,9 @@ namespace DungeonInspector
             OnLateUpdate();
         }
 
-        void IDBehavior.OnTriggerStay(DBoxCollider collider)
+        void IDBehavior.OnTriggerEnter(DBoxCollider collider)
         {
-            OnTriggerStay(collider);
+            OnTriggerEnter(collider);
         }
 
         void IDBehavior.OnTriggerExit(DBoxCollider collider)

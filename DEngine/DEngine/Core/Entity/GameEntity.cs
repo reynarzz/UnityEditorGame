@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using UnityEditor;
 using UnityEngine;
 
 namespace DungeonInspector
@@ -24,10 +25,12 @@ namespace DungeonInspector
         public DGameEntity(params Type[] components) : this(_defaultName, components) { }
 
         public bool IsActive { get; set; } = true;
+        public string GUID { get; }
 
         public DGameEntity(string name, params Type[] components)
         {
             Name = name;
+            GUID = Guid.NewGuid().ToString();
 
             _transform = new DTransformComponent();
             _transform.Entity = this;

@@ -26,7 +26,7 @@ namespace DungeonInspector
     {
         private static Dictionary<Type, DEngineSystemBase> _services;
 
-        public DIEngineCoreServices()
+        internal DIEngineCoreServices()
         {
             _services = new Dictionary<Type, DEngineSystemBase>()
             {
@@ -41,7 +41,7 @@ namespace DungeonInspector
             };
         }
 
-        public static T Get<T>() where T : DEngineSystemBase
+        internal static T Get<T>() where T : DEngineSystemBase
         {
             return Get(typeof(T)) as T;
         }
