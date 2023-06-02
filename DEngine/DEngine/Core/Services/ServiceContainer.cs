@@ -34,8 +34,8 @@ namespace DungeonInspector
                 { typeof(DAudioSystem), new DAudioSystem() },
                 { typeof(DInput), new DInput() },
                 { typeof(DEntitiesController), new DEntitiesController() },
-                { typeof(DRendering), new DRendering() },
                 { typeof(DPhysicsController), new DPhysicsController() },
+                { typeof(DRendering), new DRendering() },
                 { typeof(DEditorSystem), new DEditorSystem() },
                 
             };

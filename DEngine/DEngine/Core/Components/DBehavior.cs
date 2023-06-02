@@ -14,6 +14,7 @@ namespace DungeonInspector
         void Awake();
         void Start();
         void Update();
+        void FixedUpdate();
 
         void OnTriggerEnter(DCollider collider);
         void OnTriggerExit(DCollider collider);
@@ -36,6 +37,7 @@ namespace DungeonInspector
         protected virtual void OnStart() { }
         protected virtual void OnGUI() { }
         protected virtual void OnUpdate() { }
+        protected virtual void OnFixedUpdate() { }
         protected virtual void OnLateUpdate() { }
         protected virtual void OnTriggerEnter(DCollider collider) { }
         protected virtual void OnTriggerStay(DCollider collider) { }
@@ -73,6 +75,11 @@ namespace DungeonInspector
         void IDBehavior.Update()
         {
             OnUpdate();
+        }
+
+        void IDBehavior.FixedUpdate()
+        {
+            OnFixedUpdate();
         }
 
         void IDBehavior.LateUpdate()

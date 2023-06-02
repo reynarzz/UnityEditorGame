@@ -168,6 +168,11 @@ namespace DungeonInspector
             }
         }
 
+        protected override void OnFixedUpdate()
+        {
+
+        }
+
         private DSpriteAnimation GetAnimation(string atlasName)
         {
             var atlas = UnityEngine.Resources.Load<DSpriteAtlas>(atlasName);

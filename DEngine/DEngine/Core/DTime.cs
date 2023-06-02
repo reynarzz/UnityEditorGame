@@ -23,7 +23,7 @@ namespace DungeonInspector
         private float _timeToFPS;
         public static int FPs => _fps;
         public static float DeltaTimeUnscaled { get; private set; }
-
+        public static float FixedUpdateInterval { get; set; } = 0.02f;
 
         public DTime()
         {

@@ -16,9 +16,9 @@ namespace DungeonInspector
                                   typeof(DTime),
                                   typeof(DInput),
                                   typeof(DAudioSystem),
+                                  typeof(DEntitiesController),
                                   typeof(DPhysicsController),
-                                  typeof(DRendering),
-                                  typeof(DEntitiesController));
+                                  typeof(DRendering));
 
                 var editorSandbox = new DungeonEditModeSandbox(
                                     //typeof(DEditorSystem),

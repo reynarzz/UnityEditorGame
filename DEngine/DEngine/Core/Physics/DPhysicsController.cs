@@ -23,11 +23,18 @@ namespace DungeonInspector
     {
         private List<DPhysicsComponent> _components;
         private Dictionary<DPhysicsComponent, Dictionary<DPhysicsComponent, BodyCollisionState>> _bodiesState;
+        private float _currentFixedUpdateTime = 0;
+        private List<DGameEntity> _allGameEntities;
 
         internal DPhysicsController()
         {
             _components = new List<DPhysicsComponent>();
             _bodiesState = new Dictionary<DPhysicsComponent, Dictionary<DPhysicsComponent, BodyCollisionState>>();
+        }
+
+        public override void Init()
+        {
+            _allGameEntities = DIEngineCoreServices.Get<DEntitiesController>().GetAllGameEntities();
         }
 
         internal override void Add(DPhysicsComponent element)
@@ -48,15 +55,34 @@ namespace DungeonInspector
             _components.Remove(element);
         }
 
-        // TODO: This is a proof of concept to test the AABB collision
         public override void Update()
         {
-            //for (int i = 0; i < _components.Count; i++)
-            //{
-            //    _components[i].OnPhysicsUpdate();
-            //}
+            // TODO: make the phisics integrator
+            //while ()
+            {
+                {
+                    //_currentFixedUpdateTime = DTime.FixedUpdateInterval;
+                    FixedUpdate();
+                }
+
+            }
 
             CollisionChecks();
+
+            _currentFixedUpdateTime -= DTime.DeltaTime;
+        }
+
+        private void FixedUpdate()
+        {
+            for (int i = 0; i < _allGameEntities.Count; i++)
+            {
+                var behaviors = _allGameEntities[i].GetAllUpdatableComponents();
+
+                for (int j = 0; j < behaviors.Count; j++)
+                {
+                    behaviors[j].FixedUpdate();
+                }
+            }
         }
 
         private void CollisionChecks()

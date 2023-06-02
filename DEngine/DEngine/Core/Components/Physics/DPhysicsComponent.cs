@@ -67,8 +67,10 @@ namespace DungeonInspector
                 _collider = value;
             }
         }
+
         public bool HasAnyCollision => Collisions.Count > 0;
         private List<DPhysicsComponent> Collisions { get; set; }
+        public DVec2 Velocity { get; set; }
 
         public DPhysicsComponent()
         {
