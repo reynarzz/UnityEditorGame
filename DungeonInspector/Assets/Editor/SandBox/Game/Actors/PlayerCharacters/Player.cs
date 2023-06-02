@@ -24,10 +24,10 @@ namespace DungeonInspector
 
         //private DGameEntity _weaponTest;
         //private DRendererComponent _weaponRendererTest;
-      //  private DRendererComponent _rayHitGuideTest;
+        //  private DRendererComponent _rayHitGuideTest;
         private DSpriteRendererComponent _rayDraw;
         private CameraShake _camera;
-        
+
         private float _lookDirAngle;
         private float _shootTime;
         private const float _shootCooldown = 0.12f;
@@ -40,26 +40,27 @@ namespace DungeonInspector
             walk.Speed = 14;
 
             var idle = GetAnimation("Character2/Idle");
+            var hit = GetAnimation("Character2/Hit");
             idle.Speed = 5;
 
             _playerAnimator = GetComp<DAnimatorComponent>();
 
-            _playerAnimator.AddAnimation(idle, walk);
+            _playerAnimator.AddAnimation(idle, walk, hit);
 
             walk.OnFrameStart += (frame) =>
             {
-                if(frame == 2)
+                if (frame == 2)
                 {
                     //DAudio.PlayAudio($"Step{UnityEngine.Random.Range(1, 3)}");
 
                     DAudio.PlayAudio($"Step2");
                 }
-                else if(frame == 4)
+                else if (frame == 4)
                 {
                     var val = UnityEngine.Random.Range(0, 2);
                     var audioName = string.Empty;
 
-                    if(val == 0)
+                    if (val == 0)
                     {
                         audioName = "Step1";
                     }
@@ -81,14 +82,14 @@ namespace DungeonInspector
 
             var collider = AddComp<DBoxCollider>();
             collider.IsTrigger = true;
-             
+
             collider.Center = new DVec2(0, -0.75f);
             collider.Size = new DVec2(0.78f, 0.79f);
 
             AddComp<DPhysicsComponent>();
             _health = AddComp<ActorHealth>();
             _health.OnHealthDepleted += OnHealthDepleted;
-            _health.OnHealthChanged += (x, y, increased) => 
+            _health.OnHealthChanged += (x, y, increased) =>
             {
                 if (!increased)
                 {
@@ -111,12 +112,12 @@ namespace DungeonInspector
 
             _rayDraw = new DGameEntity("RayGuide", typeof(DSpriteRendererComponent)).GetComp<DSpriteRendererComponent>();
             _rayDraw.ZSorting = 3;
-           // _rayHitGuideTest = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
+            // _rayHitGuideTest = new DGameEntity("RayGuide", typeof(DRendererComponent)).GetComp<DRendererComponent>();
         }
-         
+
         public void Init()
         {
-            if(_health != null)
+            if (_health != null)
             {
                 _health.SetInitialHealth(9);
             }
@@ -132,8 +133,8 @@ namespace DungeonInspector
         protected override void OnStart()
         {
             Transform.Offset = new DVec2(0, 0.7f);
-
-             Transform.Position = _gridPos = new DVec2(-1, 5);
+            _renderer.SetMatColor("_hitColor", Color.red);
+            Transform.Position = _gridPos = new DVec2(-1, 5);
             _gameMaster.Camera.Transform.Position = Transform.Position;
             //_rayHitGuideTest.Transform.Scale = new DVec2(0.2f, 0.2f);
             //_rayHitGuideTest.ZSorting = 3;
@@ -149,16 +150,23 @@ namespace DungeonInspector
 
         private float _timeToGetHit;
         private const float _timeToGetHitCooldown = 1;
+        private float _hitParalizedTime = 0;
+        private bool _isHitEffect;
+        public bool IsParalized => _hitParalizedTime > 0;
 
         protected override void OnTriggerStay(DBoxCollider collider)
         {
             if (_timeToGetHit <= 0 && collider.Entity.Tag == "Enemy")
             {
                 _timeToGetHit = _timeToGetHitCooldown;
+                _hitParalizedTime = 0.2f;
+                _renderer.SetMatInt("_isHit", 1);
+                _isHitEffect = true;
+
                 _health.AddAmount(-1);
+                _playerAnimator.Play(2);
             }
         }
-
 
         private DSpriteAnimation GetAnimation(string atlasName)
         {
@@ -166,13 +174,25 @@ namespace DungeonInspector
             return new DSpriteAnimation(atlas);
         }
 
-
         protected override void OnUpdate()
         {
-            if(_timeToGetHit > 0)
-            _timeToGetHit -= DTime.DeltaTime;
+            if (_timeToGetHit > 0)
+                _timeToGetHit -= DTime.DeltaTime;
 
-            PlayerMovement();
+            if (_hitParalizedTime > 0)
+            {
+                _hitParalizedTime -= DTime.DeltaTime;
+            }
+            else if(_isHitEffect)
+            {
+                _isHitEffect = false;
+                _renderer.RemoveMatValue("_isHit");
+            }
+
+            if (!IsParalized)
+            {
+                PlayerMovement();
+            }
         }
         private bool _testHitDamageRay;
 
@@ -231,7 +251,7 @@ namespace DungeonInspector
             _renderer.FlipX = DInput.GetMouseWorldPos().x - Transform.Position.x < 0;
 
             //--_weaponTest.Transform.Scale = new DVec2(1 * Mathf.Sign(DInput.GetMouseWorldPos().x - Transform.Position.x), 1);
-            
+
             //if (Utils.Raycast(Transform.Position, dir, 0, out var info))
             //{
             //    //_rayHitGuideTest.Entity.IsActive = true;
@@ -296,7 +316,7 @@ namespace DungeonInspector
 
         private void Shoot()
         {
-            if (DInput.IsMouse(0))
+            if (!IsParalized && DInput.IsMouse(0))
             {
                 _shootTime = _shootCooldown;
 
@@ -308,7 +328,7 @@ namespace DungeonInspector
 
                 projectile.Transform.Position = Transform.Position;// (dir / 2) + Transform.Position -/*_weaponTest.Transform.Position -*/ Transform.Offset / 2;// Transform.Position;
                 projectile.Shoot(dir);
-                
+
                 DAudio.PlayAudio("Shoot");
             }
         }
@@ -325,6 +345,6 @@ namespace DungeonInspector
             return currentPos;
         }
 
-        
+
     }
 }

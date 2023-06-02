@@ -13,7 +13,8 @@ namespace DungeonInspector
         Vector,
         Int,
         Float,
-        Matrix
+        Matrix,
+        Color
     }
 
     public abstract class DRendererComponent : DTransformableComponent
@@ -57,6 +58,18 @@ namespace DungeonInspector
         public void RemoveMatValue(string varName)
         {
             _shaderState.Remove(varName);
+        }
+
+        public void SetMatColor(string varName, Color value)
+        {
+            if (!_shaderState.ContainsKey(varName))
+            {
+                _shaderState.Add(varName, new KeyValuePair<ShaderStateDataType, object>(ShaderStateDataType.Color, value));
+            }
+            else
+            {
+                _shaderState[varName] = new KeyValuePair<ShaderStateDataType, object>(ShaderStateDataType.Color, value);
+            }
         }
 
         public void SetMatFloat(string varName, float value)

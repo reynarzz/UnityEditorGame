@@ -4,6 +4,7 @@ Shader "Unlit/DStandardShadow"
     {
         _MainTex ("Texture", 2D) = "white" {}
         _flip("Flip", vector) = (0, 0, 0, 0)
+        _hitColor("Hit Color", Color) = (1,1,1,1)
     }
     SubShader
     {
@@ -47,6 +48,7 @@ Shader "Unlit/DStandardShadow"
             float4 _MainTex_ST;
             uniform float3 _flip;
             uniform half4 _color;
+            uniform half4 _hitColor;
             uniform float _xCutOff;
             uniform half4 _cutOffColor;
             uniform half4 _dtime;
@@ -130,11 +132,11 @@ Shader "Unlit/DStandardShadow"
 
                 float lum = luminosity(col);
                 //col = float4(lum, lum, lum, col.a);
-               
+                
                 // hit effect
                 if (_isHit)
                 {
-                    col = lerp(col, lum + 0.35f, (cos(_dtime.x * 50) + 1) * 0.5 * _isHit);
+                    col = lerp(col, _hitColor * lum + 0.35f, (cos(_dtime.x * 50) + 1) * 0.5 * _isHit);
                 }
 
 

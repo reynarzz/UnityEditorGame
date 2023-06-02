@@ -38,6 +38,9 @@ namespace DungeonInspector
                 case ShaderStateDataType.Matrix:
                     mat.SetMatrix(varName, (Matrix4x4)data.Value);
                     break;
+                case ShaderStateDataType.Color:
+                    mat.SetColor(varName, (Color)data.Value);
+                    break;
 
             }
         }
