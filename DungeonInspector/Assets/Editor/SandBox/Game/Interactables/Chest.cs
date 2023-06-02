@@ -9,11 +9,14 @@ namespace DungeonInspector
 {
     public class Chest : ButtonInteractableBase
     {
-        private DAtlasRendererComponent _interactableButton;
         [DExpose] private bool _isOpen;
         [DExpose] private float _time;
         [DExpose] private bool _canOpenChest;
         [DExpose] private float _showSpeed = 5f;
+
+        private DAtlasRendererComponent _interactableButton;
+
+        protected override string TagTarget => "Player";
 
         protected override void OnAwake()
         {

@@ -6,22 +6,29 @@ using System.Threading.Tasks;
 
 namespace DungeonInspector
 {
-    public class ButtonInteractableBase : InteractableBase
+    public abstract class ButtonInteractableBase : InteractableBase
     {
         [DExpose] private bool _interactable = false;
+        protected abstract string TagTarget { get; }
 
         protected override void OnTriggerEnter(DBoxCollider collider)
         {
             base.OnTriggerEnter(collider);
 
-            _interactable = true;
+            if (collider.Entity.Tag.Equals(TagTarget))
+            {
+                _interactable = true;
+            }
         }
 
         protected override void OnTriggerExit(DBoxCollider collider)
         {
             base.OnTriggerExit(collider);
 
-            _interactable = false;
+            if (collider.Entity.Tag.Equals(TagTarget))
+            {
+                _interactable = false;
+            }
         }
         protected override void OnUpdate()
         {

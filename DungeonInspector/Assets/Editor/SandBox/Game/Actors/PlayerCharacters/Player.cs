@@ -150,14 +150,8 @@ namespace DungeonInspector
         private float _timeToGetHit;
         private const float _timeToGetHitCooldown = 1;
 
-        protected override void OnTriggerEnter(DBoxCollider collider)
+        protected override void OnTriggerStay(DBoxCollider collider)
         {
-            //Debug.Log("Enter: " + collider.Name);
-
-            //collider.Entity.Destroy();
-
-            _timeToGetHit -= DTime.DeltaTime;
-
             if (_timeToGetHit <= 0 && collider.Entity.Tag == "Enemy")
             {
                 _timeToGetHit = _timeToGetHitCooldown;
@@ -175,6 +169,9 @@ namespace DungeonInspector
 
         protected override void OnUpdate()
         {
+            if(_timeToGetHit > 0)
+            _timeToGetHit -= DTime.DeltaTime;
+
             PlayerMovement();
         }
         private bool _testHitDamageRay;

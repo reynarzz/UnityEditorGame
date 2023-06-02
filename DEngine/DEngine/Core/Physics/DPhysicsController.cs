@@ -119,7 +119,7 @@ namespace DungeonInspector
 
         private BodyCollisionState GetCollisionState(DPhysicsComponent current, DPhysicsComponent target)
         {
-            if(_bodiesState.TryGetValue(current, out var collision))
+            if (_bodiesState.TryGetValue(current, out var collision))
             {
                 if (collision.TryGetValue(target, out var state))
                 {
@@ -166,22 +166,29 @@ namespace DungeonInspector
 
                 if (isColliding)
                 {
-                    if (!state.TriggerEnter)
+                    for (int i = 0; i < allcomponents.Count; i++)
                     {
-                        for (int i = 0; i < allcomponents.Count; i++)
+                        var behavior = allcomponents.ElementAt(i) as IDBehavior;
+
+                        if (!state.TriggerEnter)
                         {
-                            var behavior = allcomponents.ElementAt(i) as IDBehavior;
-                            // }
-                            //foreach (var item in allcomponents)
-                            //{
+
                             if (behavior != null)
                             {
                                 behavior.OnTriggerEnter(target.Collider);
                             }
                         }
+                        else
+                        {
+                            if (behavior != null)
+                            {
 
-                        state.TriggerEnter = true;
+                                behavior.OnTriggerStay(target.Collider);
+                            }
+                        }
                     }
+
+                    state.TriggerEnter = true;
                 }
                 else
                 {

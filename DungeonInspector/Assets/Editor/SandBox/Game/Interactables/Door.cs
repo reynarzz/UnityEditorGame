@@ -15,6 +15,9 @@ namespace DungeonInspector
         private GameMaster _gameMaster;
 
         private DTile[] _tiles = new DTile[4];
+
+        protected override string TagTarget => "Player";
+
         protected override void OnAwake()
         {
             _renderer = GetComp<DSpriteRendererComponent>();
