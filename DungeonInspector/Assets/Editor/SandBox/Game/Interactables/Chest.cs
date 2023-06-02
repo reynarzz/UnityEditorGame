@@ -42,7 +42,7 @@ namespace DungeonInspector
             }
         }
 
-        protected override void OnTriggerEnter(DBoxCollider collider)
+        protected override void OnTriggerEnter(DCollider collider)
         {
             base.OnTriggerEnter(collider);
 
@@ -54,7 +54,7 @@ namespace DungeonInspector
             }
         }
 
-        protected override void OnTriggerExit(DBoxCollider collider)
+        protected override void OnTriggerExit(DCollider collider)
         {
             base.OnTriggerExit(collider);
 

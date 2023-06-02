@@ -49,9 +49,9 @@ namespace DungeonInspector
 
     public class DPhysicsComponent : DBehavior
     {
-        private DBoxCollider _collider;
+        private DCollider _collider;
 
-        public DBoxCollider Collider
+        public DCollider Collider
         {
             get
             {

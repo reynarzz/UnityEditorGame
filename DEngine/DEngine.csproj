@@ -91,7 +91,9 @@
     <Compile Include="DEngine\Core\Audio\DAudio.cs" />
     <Compile Include="DEngine\Core\Audio\DAudioSystem.cs" />
     <Compile Include="DEngine\Core\Components\Animation\SpriteAnimator.cs" />
-    <Compile Include="DEngine\Core\Components\Collision\KinematicBody.cs" />
+    <Compile Include="DEngine\Core\Components\Physics\DCollider.cs" />
+    <Compile Include="DEngine\Core\Components\Physics\EdgeCollider.cs" />
+    <Compile Include="DEngine\Core\Components\Physics\KinematicBody.cs" />
     <Compile Include="DEngine\Core\Components\Component.cs" />
     <Compile Include="DEngine\Core\Components\DBehavior.cs" />
     <Compile Include="DEngine\Core\Components\DCamera.cs" />
@@ -116,8 +118,8 @@
     <Compile Include="DEngine\Core\Files\TextFile.cs" />
     <Compile Include="DEngine\Core\Input\DInput.cs" />
     <Compile Include="DEngine\Core\Files\DResources.cs" />
-    <Compile Include="DEngine\Core\Physics\BoxCollider.cs" />
-    <Compile Include="DEngine\Core\Physics\DPhysicsComponent.cs" />
+    <Compile Include="DEngine\Core\Components\Physics\BoxCollider.cs" />
+    <Compile Include="DEngine\Core\Components\Physics\DPhysicsComponent.cs" />
     <Compile Include="DEngine\Core\Physics\DPhysicsController.cs" />
     <Compile Include="DEngine\Core\Services\ServiceContainer.cs" />
     <Compile Include="DEngine\Core\SpriteAnimator\DSpriteAtlas.cs" />

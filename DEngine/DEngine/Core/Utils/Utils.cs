@@ -155,7 +155,8 @@ namespace DungeonInspector
 
             for (int i = 0; i < colliders.Count; i++)
             {
-                var collider = colliders[i].Collider;
+                // TODO: this function needs to take into account the collider types (box and edge colliders)
+                var collider = (DBoxCollider)colliders[i].Collider;
 
                 if (collider.IsTrigger && (collider.Entity.Layer == layer))
                 {

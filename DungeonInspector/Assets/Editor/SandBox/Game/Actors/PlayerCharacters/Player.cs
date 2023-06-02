@@ -154,7 +154,7 @@ namespace DungeonInspector
         private bool _isHitEffect;
         public bool IsParalized => _hitParalizedTime > 0;
 
-        protected override void OnTriggerStay(DBoxCollider collider)
+        protected override void OnTriggerStay(DCollider collider)
         {
             if (_timeToGetHit <= 0 && collider.Entity.Tag == "Enemy")
             {

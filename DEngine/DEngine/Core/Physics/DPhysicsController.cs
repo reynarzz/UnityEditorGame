@@ -61,8 +61,6 @@ namespace DungeonInspector
 
         private void CollisionChecks()
         {
-            //int _closeCount = 0;
-
             for (int i = 0; i < _components.Count; i++)
             {
                 var body1 = _components[i];
@@ -78,7 +76,6 @@ namespace DungeonInspector
 
                         if (areClose)
                         {
-                            //_closeCount++;
                             isColliding = DetectCollision(body1, body2);
 
                             if (isColliding)
@@ -110,6 +107,16 @@ namespace DungeonInspector
                     }
                 }
             }
+        }
+
+        private bool DetectCollision(DPhysicsComponent current, DPhysicsComponent target)
+        {
+            if (current.Collider is DBoxCollider && target.Collider is DBoxCollider)
+            {
+                return DetectAABBCollision((DBoxCollider)current.Collider, (DBoxCollider)target.Collider, current, target);
+            }
+
+            return false;
         }
 
         private BodyCollisionState GetCollisionState(DPhysicsComponent current, DPhysicsComponent target)
@@ -204,18 +211,18 @@ namespace DungeonInspector
             }
         }
 
-        public bool DetectCollision(DPhysicsComponent a, DPhysicsComponent b)
+        public bool DetectAABBCollision(DBoxCollider a, DBoxCollider b, DPhysicsComponent compA, DPhysicsComponent compB)
         {
-            return (((a.Collider.AABB.Min.x >= b.Collider.AABB.Min.x && a.Collider.AABB.Min.x <= b.Collider.AABB.Max.x ||
-                   a.Collider.AABB.Max.x <= b.Collider.AABB.Max.x && a.Collider.AABB.Max.x >= b.Collider.AABB.Min.x) &&
-                   (a.Collider.AABB.Min.y >= b.Collider.AABB.Min.y && a.Collider.AABB.Min.y <= b.Collider.AABB.Max.y ||
-                   a.Collider.AABB.Max.y <= b.Collider.AABB.Max.y && a.Collider.AABB.Max.y >= b.Collider.AABB.Min.y))
+            return (((a.AABB.Min.x >= b.AABB.Min.x && a.AABB.Min.x <= b.AABB.Max.x ||
+                   a.AABB.Max.x <= b.AABB.Max.x && a.AABB.Max.x >= b.AABB.Min.x) &&
+                   (a.AABB.Min.y >= b.AABB.Min.y && a.AABB.Min.y <= b.AABB.Max.y ||
+                   a.AABB.Max.y <= b.AABB.Max.y && a.AABB.Max.y >= b.AABB.Min.y))
                    ||
-                   ((b.Collider.AABB.Min.x >= a.Collider.AABB.Min.x && b.Collider.AABB.Min.x <= a.Collider.AABB.Max.x ||
-                   b.Collider.AABB.Max.x <= a.Collider.AABB.Max.x && b.Collider.AABB.Max.x >= a.Collider.AABB.Min.x) &&
-                   (b.Collider.AABB.Min.y >= a.Collider.AABB.Min.y && b.Collider.AABB.Min.y <= a.Collider.AABB.Max.y ||
-                   b.Collider.AABB.Max.y <= a.Collider.AABB.Max.y && b.Collider.AABB.Max.y >= a.Collider.AABB.Min.y)))
-                   && a.Collider.IsTrigger && b.Collider.IsTrigger && a.Enabled && b.Enabled && a.Collider.Enabled && b.Collider.Enabled;
+                   ((b.AABB.Min.x >= a.AABB.Min.x && b.AABB.Min.x <= a.AABB.Max.x ||
+                   b.AABB.Max.x <= a.AABB.Max.x && b.AABB.Max.x >= a.AABB.Min.x) &&
+                   (b.AABB.Min.y >= a.AABB.Min.y && b.AABB.Min.y <= a.AABB.Max.y ||
+                   b.AABB.Max.y <= a.AABB.Max.y && b.AABB.Max.y >= a.AABB.Min.y)))
+                   && compA.Collider.IsTrigger && compB.Collider.IsTrigger && a.Enabled && b.Enabled && compA.Collider.Enabled && compB.Collider.Enabled;
 
         }
 

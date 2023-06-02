@@ -15,6 +15,7 @@ namespace DungeonInspector
         private GameMaster _gameMaster;
 
         private DTile[] _tiles = new DTile[4];
+        private bool _closeDoorOnPlayerCross = true;
 
         protected override string TagTarget => "Player";
 
@@ -23,6 +24,8 @@ namespace DungeonInspector
             _renderer = GetComp<DSpriteRendererComponent>();
             _renderer.Sprite = _atlas.GetTexture(0);
             _gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
+
+            GetComp<DBoxCollider>().Center = new DVec2(0, 1.28f);
         }
 
         protected override void OnStart()
@@ -37,6 +40,18 @@ namespace DungeonInspector
             Transform.Offset = new DVec2(0.4f, -0.5f);
 
             SetDoorStatus(false);
+        }
+
+        protected override void OnTriggerEnter(DCollider collider)
+        {
+            base.OnTriggerEnter(collider);
+
+            Debug.Log(collider.Entity.Name);
+
+            if(_closeDoorOnPlayerCross && collider.Entity.Name == "Player")
+            {
+                SetDoorStatus(false);
+            }
         }
 
         public void SetAtlas(DSpriteAtlas atlas)
