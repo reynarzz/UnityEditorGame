@@ -37,19 +37,7 @@ namespace DungeonInspector
 
         private void Init()
         {
-            if (_animatedTiles == null)
-            {
-                _animatedTiles = new Dictionary<DVec2, DTile>();
-            }
-            else
-            {
-                _animatedTiles.Clear();
-            }
-
-            if (_tilemap == null)
-            {
-                _tilemap = GetComp<DTilemap>();
-            }
+            _animatedTiles.Clear();
 
             var tiles = _tilemap.GetAllTiles();
 
@@ -59,9 +47,18 @@ namespace DungeonInspector
 
                 if (tile.AnimationAtlas != null)
                 {
-                    tile.Animation = new DSpriteAnimation(tile.AnimationAtlas);
-                    _animatedTiles.Add(tile.Position, tile);
+                   tile.Animation = new DSpriteAnimation(tile.AnimationAtlas);
+
+                    if (!_animatedTiles.ContainsKey(tile.Position))
+                    {
+                        _animatedTiles.Add(tile.Position, tile);
+                    }
                 }
+            }
+
+            if(_animatedTiles.Count > 0)
+            {
+                Debug.Log("Animated : " + _animatedTiles.Count);
             }
         }
 
@@ -69,12 +66,14 @@ namespace DungeonInspector
         {
             for (int i = 0; i < _tilesPlaying.Count; i++)
             {
-                var tile = _animatedTiles[_tilesPlaying[i]];
-                var animation = tile.Animation;
+                if(_animatedTiles.TryGetValue(_tilesPlaying[i], out var tile))
+                {
+                    var animation = tile.Animation;
 
-                animation.Update(DTime.DeltaTime);
+                    animation.Update(DTime.DeltaTime);
 
-                tile.Texture = animation.CurrentTexture;
+                    tile.Texture = animation.CurrentTexture;
+                }
             }
         }
 

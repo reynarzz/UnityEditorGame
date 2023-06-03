@@ -15,5 +15,4 @@ MonoBehaviour:
   _textures:
   - {fileID: 2800000, guid: f814a2ba306d4bf4bb7df2860d9632a9, type: 3}
   - {fileID: 2800000, guid: 59655055a5b5d2442b3784d728830d08, type: 3}
-  - {fileID: 2800000, guid: 0dbe52016174c6e43a7920b5140ddf9f, type: 3}
   - {fileID: 2800000, guid: 7df370b43db41124bbb3ae2b47e1935d, type: 3}

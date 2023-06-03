@@ -42,7 +42,6 @@ namespace DungeonInspector
                 ZSorting = tile.ZSorting,
                 Texture = tile.Texture,
                 RuntimeData = tile.RuntimeData,
-                AnimationName = tile.AnimationName,
                 AnimationAtlas = tile.AnimationAtlas
             };
 

@@ -33,7 +33,7 @@ namespace DungeonInspector
 
         public Texture2D GetTexture(int index)
         {
-            return _textures[index];
+            return _textures.ElementAtOrDefault(index);
         }
     }
 
@@ -67,9 +67,6 @@ namespace DungeonInspector
 
         public object RuntimeData { get; set; }
 
-        [SerializeField] private string _animationName;
-        public string AnimationName { get => _animationName; set => _animationName = value; }
-
         public DSpriteAnimation Animation { get; set; }
 
         [SerializeField] private DSpriteAtlas _animationAtlas;
@@ -79,7 +76,7 @@ namespace DungeonInspector
         public bool IsOccupied => Ocupe != null;
 
         public bool IsEndPath { get; set; }
-        public DVec2 Position { get; internal set; }
+        public DVec2 Position { get; set; }
 
         public bool IsWalkable;
         public int ZSorting;

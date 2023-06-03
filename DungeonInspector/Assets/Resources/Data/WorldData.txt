@@ -29,7 +29,9 @@
                   "$type": "DungeonInspector.DVec2, DEngine",
                   "x": 0.0,
                   "y": 0.0
-                }
+                },
+                "AnimationType": 0,
+                "SpriteAtlasPath": null
               },
               "TileAssetIndex": 13,
               "WorldIndex": 1,
@@ -114,7 +116,9 @@
                   "$type": "DungeonInspector.DVec2, DEngine",
                   "x": 0.0,
                   "y": 0.0
-                }
+                },
+                "AnimationType": 0,
+                "SpriteAtlasPath": null
               },
               "TileAssetIndex": 13,
               "WorldIndex": 8,
@@ -408,7 +412,9 @@
                   "$type": "DungeonInspector.DVec2, DEngine",
                   "x": 0.0,
                   "y": 0.0
-                }
+                },
+                "AnimationType": 0,
+                "SpriteAtlasPath": null
               },
               "TileAssetIndex": 13,
               "WorldIndex": 34,
@@ -1194,7 +1200,9 @@
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": 13.0,
                       "y": -7.0
-                    }
+                    },
+                    "AnimationType": 0,
+                    "SpriteAtlasPath": null
                   },
                   "TileAssetIndex": 13,
                   "WorldIndex": 4,
@@ -1367,7 +1375,9 @@
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": 0.0,
                       "y": 0.0
-                    }
+                    },
+                    "AnimationType": 0,
+                    "SpriteAtlasPath": null
                   },
                   "TileAssetIndex": 13,
                   "WorldIndex": 19,
@@ -1540,7 +1550,9 @@
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": -2.0,
                       "y": 2.0
-                    }
+                    },
+                    "AnimationType": 0,
+                    "SpriteAtlasPath": null
                   },
                   "TileAssetIndex": 13,
                   "WorldIndex": 34,
@@ -1834,7 +1846,9 @@
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": 0.0,
                       "y": 0.0
-                    }
+                    },
+                    "AnimationType": 0,
+                    "SpriteAtlasPath": null
                   },
                   "TileAssetIndex": 13,
                   "WorldIndex": 60,
@@ -1853,7 +1867,9 @@
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": 7.0,
                       "y": -4.0
-                    }
+                    },
+                    "AnimationType": 0,
+                    "SpriteAtlasPath": null
                   },
                   "TileAssetIndex": 13,
                   "WorldIndex": 61,
@@ -1943,7 +1959,7 @@
                 {
                   "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
                   "TileBehaviorData": null,
-                  "TileAssetIndex": 1,
+                  "TileAssetIndex": 53,
                   "WorldIndex": 69,
                   "Position": {
                     "$type": "DungeonInspector.DVec2, DEngine",
@@ -2042,7 +2058,7 @@
                 {
                   "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
                   "TileBehaviorData": null,
-                  "TileAssetIndex": 1,
+                  "TileAssetIndex": 53,
                   "WorldIndex": 78,
                   "Position": {
                     "$type": "DungeonInspector.DVec2, DEngine",
@@ -2108,7 +2124,7 @@
                 {
                   "$type": "DungeonInspector.TileData, Assembly-CSharp-Editor",
                   "TileBehaviorData": null,
-                  "TileAssetIndex": 1,
+                  "TileAssetIndex": 53,
                   "WorldIndex": 84,
                   "Position": {
                     "$type": "DungeonInspector.DVec2, DEngine",
@@ -4012,7 +4028,9 @@
                   "$type": "DungeonInspector.DVec2, DEngine",
                   "x": 0.0,
                   "y": 0.0
-                }
+                },
+                "AnimationType": 0,
+                "SpriteAtlasPath": null
               },
               "TileAssetIndex": 13,
               "WorldIndex": 149,
@@ -6936,7 +6954,9 @@
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": -1.0,
                       "y": 0.0
-                    }
+                    },
+                    "AnimationType": 0,
+                    "SpriteAtlasPath": null
                   },
                   "TileAssetIndex": 13,
                   "WorldIndex": 150,
@@ -8209,7 +8229,9 @@
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": 7.0,
                       "y": 4.0
-                    }
+                    },
+                    "AnimationType": 0,
+                    "SpriteAtlasPath": null
                   },
                   "TileAssetIndex": 13,
                   "WorldIndex": 265,
@@ -8580,7 +8602,9 @@
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": -9.0,
                       "y": 1.0
-                    }
+                    },
+                    "AnimationType": 0,
+                    "SpriteAtlasPath": null
                   },
                   "TileAssetIndex": 13,
                   "WorldIndex": 4,
@@ -8852,7 +8876,9 @@
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": 0.0,
                       "y": -6.0
-                    }
+                    },
+                    "AnimationType": 0,
+                    "SpriteAtlasPath": null
                   },
                   "TileAssetIndex": 13,
                   "WorldIndex": 28,
@@ -8970,7 +8996,9 @@
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": -12.0,
                       "y": 1.0
-                    }
+                    },
+                    "AnimationType": 0,
+                    "SpriteAtlasPath": null
                   },
                   "TileAssetIndex": 13,
                   "WorldIndex": 38,
@@ -9671,7 +9699,9 @@
                       "$type": "DungeonInspector.DVec2, DEngine",
                       "x": -7.0,
                       "y": 12.0
-                    }
+                    },
+                    "AnimationType": 0,
+                    "SpriteAtlasPath": null
                   },
                   "TileAssetIndex": 13,
                   "WorldIndex": 101,

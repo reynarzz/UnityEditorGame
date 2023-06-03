@@ -111,6 +111,10 @@ namespace DungeonInspector
         // Json deserializer needs this
         public static implicit operator DVec2(string vector)
         {
+            if(string.IsNullOrEmpty(vector))
+            {
+                Debug.Log("Null pos!");
+            }
             var start = vector.IndexOf('(');
             var comma = vector.IndexOf(',');
             var end = vector.IndexOf(')');

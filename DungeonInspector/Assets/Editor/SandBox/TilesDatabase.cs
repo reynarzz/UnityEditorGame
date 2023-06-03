@@ -26,23 +26,23 @@ namespace DungeonInspector
             return _tilesAsset.GetTile(index);
         }
 
-        public DTile GetNewTile(TileData data)
+        public DTile GetNewTile(TileData target)
         {
-            var tile = GetTile(data.TileAssetIndex);
+            var current = GetTile(target.TileAssetIndex);
 
             return new DTile()
             {
-                AssetIndex = data.TileAssetIndex,
-                WorldIndex = data.WorldIndex,
-                Behavior = tile.Behavior,
-                Type = tile.Type,
-                ZSorting = tile.ZSorting,
-                IsWalkable = tile.IsWalkable,
-                Texture = tile.Texture,
-                AnimationName = tile.AnimationName,
-                Animation = tile.Animation,
-                RuntimeData = data.TileBehaviorData,
-                AnimationAtlas = tile.AnimationAtlas
+                AssetIndex = target.TileAssetIndex,
+                Position = target.Position,
+                WorldIndex = target.WorldIndex,
+                Behavior = current.Behavior,
+                Type = current.Type,
+                ZSorting = current.ZSorting,
+                IsWalkable = current.IsWalkable,
+                Texture = current.Texture,
+                Animation = current.Animation,
+                RuntimeData = target.TileBehaviorData,
+                AnimationAtlas = current.AnimationAtlas
             };
         }
 
