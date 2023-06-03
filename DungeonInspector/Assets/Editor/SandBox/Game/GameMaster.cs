@@ -149,6 +149,7 @@ namespace DungeonInspector
 
         private void UpdateTilesBehavior()
         {
+            // Possible memory leak
             for (int i = 0; i < _tilesBehaviors.Count; i++)
             {
                 var actorsList = _tilesBehaviors.ElementAt(i);

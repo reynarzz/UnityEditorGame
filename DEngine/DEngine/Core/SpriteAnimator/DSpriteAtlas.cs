@@ -71,6 +71,7 @@ namespace DungeonInspector
 
         [SerializeField] private DSpriteAtlas _animationAtlas;
         public DSpriteAtlas AnimationAtlas { get => _animationAtlas; set => _animationAtlas = value; }
+        public float AnimationSpeed = 1;
 
         public DGameEntity Ocupe { get; set; }
         public bool IsOccupied => Ocupe != null;

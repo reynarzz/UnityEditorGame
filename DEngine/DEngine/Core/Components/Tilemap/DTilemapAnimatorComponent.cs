@@ -53,6 +53,10 @@ namespace DungeonInspector
                     {
                         _animatedTiles.Add(tile.Position, tile);
                     }
+                    else
+                    {
+                        Debug.LogError("Adding same tile twice? this looks like an error.");
+                    }
                 }
             }
 
@@ -69,7 +73,7 @@ namespace DungeonInspector
                 if(_animatedTiles.TryGetValue(_tilesPlaying[i], out var tile))
                 {
                     var animation = tile.Animation;
-
+                    animation.Speed = tile.AnimationSpeed;
                     animation.Update(DTime.DeltaTime);
 
                     tile.Texture = animation.CurrentTexture;
