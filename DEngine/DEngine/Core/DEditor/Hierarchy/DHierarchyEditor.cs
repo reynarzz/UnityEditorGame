@@ -146,9 +146,9 @@ namespace DungeonInspector
                         entity.Transform.Scale = EditorGUILayout.Vector2Field(string.Empty, entity.Transform.Scale, GUILayout.MaxWidth(_rect.width - 50));
                     }
 
-                    if (component.GetType() == typeof(DRendererComponent) || component is DRendererUIComponent)
+                    if (component.GetType() == typeof(DSpriteRendererComponent) || component is DRendererUIComponent)
                     {
-                        var comp = (component as DRendererComponent);
+                        var comp = (component as DSpriteRendererComponent);
                         GUILayout.BeginHorizontal();
                         GUILayout.Label("Color");
                         comp.Color = EditorGUILayout.ColorField(comp.Color);

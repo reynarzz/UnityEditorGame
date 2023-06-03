@@ -81,8 +81,9 @@ namespace DungeonInspector
 
             box.Center = new DVec2();
             box.Size = new DVec2(0.46f, 0.46f);
-
-            entity.AddComp<DSpriteRendererComponent>().Sprite = _bulletCircle;
+            var renderer = entity.AddComp<DSpriteRendererComponent>();
+            renderer.ZSorting = 5;
+            renderer.Sprite = _bulletCircle;
 
             return entity;
         }
