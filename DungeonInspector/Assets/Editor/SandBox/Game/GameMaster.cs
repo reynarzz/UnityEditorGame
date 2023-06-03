@@ -49,7 +49,6 @@ namespace DungeonInspector
             _player = new DGameEntity("Player", typeof(DSpriteRendererComponent), typeof(DAnimatorComponent), typeof(Player)).GetComp<Player>();
 
             _camera = DGameEntity.FindGameEntity("MainCamera").GetComp<DCamera>();
-
             _tilesDatabase = new TilesDatabase("World/World1Tiles");
             _animatedTiles = new TilesDatabase("World/TilesAnimated");
             _tbContainer = new TileBehaviorsContainer();

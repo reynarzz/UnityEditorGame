@@ -14,7 +14,7 @@ namespace DungeonInspector
         void OnUpdate(Actor actor, BaseTD data);
     }
 
-    public abstract class TileBehaviorBase<T> : ITileBehaviorBase where T : BaseTD
+    public class TileBehaviorBase<T> : ITileBehaviorBase where T : BaseTD
     {
         void ITileBehaviorBase.OnEnter(Actor actor, BaseTD data) { OnEnter(actor, GetDataSafe(data)); }
         void ITileBehaviorBase.OnExit(Actor actor, BaseTD data) { OnExit(actor, GetDataSafe(data)); }
@@ -23,11 +23,10 @@ namespace DungeonInspector
         protected virtual void OnEnter(Actor actor, T data) { }
         protected virtual void OnExit(Actor actor, T data) { }
         protected virtual void OnUpdate(Actor actor, T data) { }
-        public Sprite Sprite { get; protected set; }
 
         private T GetDataSafe(BaseTD data)
         {
-            if(data != null)
+            if (data != null)
             {
                 var d = data as T;
 
@@ -41,5 +40,10 @@ namespace DungeonInspector
 
             return null;
         }
+    }
+
+    public class TileAnimatedBehaviorBase<T> : TileBehaviorBase<T> where T: BaseTD
+    {
+        public Action<int> OnAnimationFrame { get; set; }
     }
 }

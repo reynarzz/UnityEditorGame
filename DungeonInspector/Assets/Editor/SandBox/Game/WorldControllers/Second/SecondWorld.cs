@@ -7,7 +7,8 @@ namespace DungeonInspector
 {
     public class SecondWorld : WorldControllerBase
     {
-        public SecondWorld(WorldData worldData, PrefabInstantiator prefabInstantiator, TilesDatabase tileDatabase) : base(worldData, prefabInstantiator, tileDatabase)
+        public SecondWorld(WorldData worldData, PrefabInstantiator prefabInstantiator, TilesDatabase tileDatabase) 
+            : base(worldData, prefabInstantiator, tileDatabase)
         {
         }
     }

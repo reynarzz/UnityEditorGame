@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 681081541, guid: 888d2e9aea4db614b9ddcafa6fb0c090, type: 3}
+  m_Name: SpikeTileAnim
+  m_EditorClassIdentifier: 
+  _textures:
+  - {fileID: 2800000, guid: f814a2ba306d4bf4bb7df2860d9632a9, type: 3}
+  - {fileID: 2800000, guid: 59655055a5b5d2442b3784d728830d08, type: 3}
+  - {fileID: 2800000, guid: 0dbe52016174c6e43a7920b5140ddf9f, type: 3}
+  - {fileID: 2800000, guid: 7df370b43db41124bbb3ae2b47e1935d, type: 3}

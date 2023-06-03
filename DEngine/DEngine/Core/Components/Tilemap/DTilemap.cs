@@ -31,6 +31,7 @@ namespace DungeonInspector
             var copy = new DTile()
             {
                 AssetIndex = tile.AssetIndex,
+                Position = new DVec2((int)x, (int)y),
 
                 WorldIndex = _index_REMOVE++, // TODO---------------------------------
 
@@ -41,12 +42,23 @@ namespace DungeonInspector
                 ZSorting = tile.ZSorting,
                 Texture = tile.Texture,
                 RuntimeData = tile.RuntimeData,
-                IdleTexAnim = tile.IdleTexAnim,
+                AnimationName = tile.AnimationName,
+                AnimationAtlas = tile.AnimationAtlas
             };
 
 
 
             SetTile(copy, x, y);
+        }
+
+        public void ChangeTileTexture(int x, int y, Texture2D texture)
+        {
+            var pos = new DVec2((int)x, (int)y);
+
+            if (_tiles.TryGetValue(pos, out var tileOut))
+            {
+                tileOut.Texture = texture;
+            }
         }
 
         public void SetTile(DTile tile, float x, float y)

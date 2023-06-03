@@ -13,7 +13,8 @@ namespace DungeonInspector
         None,
         Damage,
         IncreaseHealth,
-        ChangeLevel
+        ChangeLevel,
+        SpikeFloor
     }
 
     public enum TileType
@@ -46,8 +47,6 @@ namespace DungeonInspector
 
         [NonSerialized] private string[] _interactableTexAnim;
 
-        public string[] IdleTexAnim { get; set; }
-
         public int AssetIndex { get; set; }
         public int WorldIndex { get; set; }
         public string TextureName 
@@ -67,12 +66,21 @@ namespace DungeonInspector
         }
 
         public object RuntimeData { get; set; }
+
+        [SerializeField] private string _animationName;
+        public string AnimationName { get => _animationName; set => _animationName = value; }
+
         public DSpriteAnimation Animation { get; set; }
+
+        [SerializeField] private DSpriteAtlas _animationAtlas;
+        public DSpriteAtlas AnimationAtlas { get => _animationAtlas; set => _animationAtlas = value; }
 
         public DGameEntity Ocupe { get; set; }
         public bool IsOccupied => Ocupe != null;
 
         public bool IsEndPath { get; set; }
+        public DVec2 Position { get; internal set; }
+
         public bool IsWalkable;
         public int ZSorting;
         public TileType Type;

@@ -8,6 +8,6 @@ namespace DungeonInspector
 {
     public class DRendererUIComponent : DSpriteRendererComponent
     {
-
+        //public DCanvas MyProperty { get; set; }
     }
 }

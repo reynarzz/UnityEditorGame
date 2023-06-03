@@ -83,6 +83,8 @@ namespace DungeonInspector
                     behaviors[j].FixedUpdate();
                 }
             }
+
+            // Do physics stuff
         }
 
         private void CollisionChecks()

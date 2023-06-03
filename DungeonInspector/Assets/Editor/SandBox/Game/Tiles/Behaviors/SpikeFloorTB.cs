@@ -10,7 +10,7 @@ namespace DungeonInspector
     {
         protected override void OnEnter(Actor actor, SpikeFloorTD data)
         {
-
+            
         }
 
         protected override void OnUpdate(Actor actor, SpikeFloorTD data)

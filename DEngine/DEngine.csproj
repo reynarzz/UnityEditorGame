@@ -91,19 +91,20 @@
     <Compile Include="DEngine\Core\Audio\DAudio.cs" />
     <Compile Include="DEngine\Core\Audio\DAudioSystem.cs" />
     <Compile Include="DEngine\Core\Components\Animation\SpriteAnimator.cs" />
+    <Compile Include="DEngine\Core\Components\Tilemap\DTilemapAnimatorComponent.cs" />
     <Compile Include="DEngine\Core\Components\Physics\DCollider.cs" />
     <Compile Include="DEngine\Core\Components\Physics\EdgeCollider.cs" />
     <Compile Include="DEngine\Core\Components\Physics\KinematicBody.cs" />
     <Compile Include="DEngine\Core\Components\Component.cs" />
     <Compile Include="DEngine\Core\Components\DBehavior.cs" />
     <Compile Include="DEngine\Core\Components\DCamera.cs" />
-    <Compile Include="DEngine\Core\Components\DAtlasRendererComponent.cs" />
-    <Compile Include="DEngine\Core\Components\DRendererComponent.cs" />
-    <Compile Include="DEngine\Core\Components\DRendererUIComponent.cs" />
-    <Compile Include="DEngine\Core\Components\DTilemap.cs" />
-    <Compile Include="DEngine\Core\Components\DTilemapRendererComponent.cs" />
+    <Compile Include="DEngine\Core\Components\Rendering\DAtlasRendererComponent.cs" />
+    <Compile Include="DEngine\Core\Components\Rendering\DRendererComponent.cs" />
+    <Compile Include="DEngine\Core\Components\Rendering\DRendererUIComponent.cs" />
+    <Compile Include="DEngine\Core\Components\Tilemap\DTilemap.cs" />
+    <Compile Include="DEngine\Core\Components\Rendering\DTilemapRendererComponent.cs" />
     <Compile Include="DEngine\Core\Components\DTransformComponent.cs" />
-    <Compile Include="DEngine\Core\Components\DSpriteRendererComponent.cs" />
+    <Compile Include="DEngine\Core\Components\Rendering\DSpriteRendererComponent.cs" />
     <Compile Include="DEngine\Core\DEditor\DEditorSystem.cs" />
     <Compile Include="DEngine\Core\DEditor\DEditorToolBar.cs" />
     <Compile Include="DEngine\Core\DEditor\Hierarchy\DHierarchyEditor.cs" />
@@ -125,6 +126,7 @@
     <Compile Include="DEngine\Core\SpriteAnimator\DSpriteAtlas.cs" />
     <Compile Include="DEngine\Core\SpriteAnimator\DSpriteAtlasInfo.cs" />
     <Compile Include="DEngine\Core\SpriteAnimator\SpriteAnimation.cs" />
+    <Compile Include="DEngine\Core\Utils\DSpriteAtlasGroup.cs" />
     <Compile Include="DEngine\Core\Utils\DVector2.cs" />
     <Compile Include="DEngine\Core\Utils\Utils.cs" />
     <Compile Include="DEngine\Main\DEngine.cs" />
@@ -144,6 +146,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="DEngine\Core\Tilemap\" />
+    <Folder Include="DEngine\Core\UI\" />
     <Folder Include="DEngine\WorldEditor\" />
     <Folder Include="third\libs\AStar\" />
   </ItemGroup>

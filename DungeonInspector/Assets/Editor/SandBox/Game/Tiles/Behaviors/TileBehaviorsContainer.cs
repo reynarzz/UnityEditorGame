@@ -12,10 +12,12 @@ namespace DungeonInspector
 
         public TileBehaviorsContainer()
         {
+
             _behaviors = new Dictionary<TileBehavior, ITileBehaviorBase>()
             {
                 { TileBehavior.None , new DefaultTB() },
-                { TileBehavior.ChangeLevel, new ChangeLevelTB() }
+                { TileBehavior.ChangeLevel, new ChangeLevelTB() },
+                { TileBehavior.SpikeFloor, new SpikeFloorTB() }
             };
         }
 

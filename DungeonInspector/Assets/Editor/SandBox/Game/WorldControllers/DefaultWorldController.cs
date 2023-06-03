@@ -8,7 +8,8 @@ namespace DungeonInspector
 {
     public class DefaultWorldController : WorldControllerBase
     {
-        public DefaultWorldController(WorldData worldData, PrefabInstantiator prefabInstantiator, TilesDatabase tileDatabase) : base(worldData, prefabInstantiator, tileDatabase)
+        public DefaultWorldController(WorldData worldData, PrefabInstantiator prefabInstantiator, TilesDatabase tileDatabase) : 
+            base(worldData, prefabInstantiator, tileDatabase)
         {
         }
 

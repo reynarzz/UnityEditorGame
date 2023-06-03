@@ -39,9 +39,10 @@ namespace DungeonInspector
                 ZSorting = tile.ZSorting,
                 IsWalkable = tile.IsWalkable,
                 Texture = tile.Texture,
-                IdleTexAnim = tile.IdleTexAnim,
+                AnimationName = tile.AnimationName,
                 Animation = tile.Animation,
                 RuntimeData = data.TileBehaviorData,
+                AnimationAtlas = tile.AnimationAtlas
             };
         }
 

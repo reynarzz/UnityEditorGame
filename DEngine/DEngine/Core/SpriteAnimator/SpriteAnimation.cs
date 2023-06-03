@@ -10,7 +10,7 @@ namespace DungeonInspector
     [Serializable]
     public class DSpriteAnimation
     {
-        [SerializeField] private DSpriteAtlas _atlas;
+        public DSpriteAtlas Atlas { get; set; }
         private int _spriteIndex = 0;
         private float _time;
         private bool _play = false;
@@ -25,27 +25,27 @@ namespace DungeonInspector
         public DSpriteAnimation() { }
         public DSpriteAnimation(DSpriteAtlas spriteAtlas)
         {
-            _atlas = spriteAtlas;
+            Atlas = spriteAtlas;
 
-            if (_atlas != null)
+            if (Atlas != null)
             {
-                _currentTex = _atlas.GetTexture(0);
+                _currentTex = Atlas.GetTexture(0);
             }
         }
 
         public void Update(float dt)
         {
-            if (_play && _atlas != null)
+            if (_play && Atlas != null)
             {
-                if (_spriteIndex >= _atlas.TextureCount && Loop)
+                if (_spriteIndex >= Atlas.TextureCount && Loop)
                 {
                     _spriteIndex = 0;
                     OnFrameStart?.Invoke(_spriteIndex);
                 }
 
-                if (_spriteIndex < _atlas.TextureCount)
+                if (_spriteIndex < Atlas.TextureCount)
                 {
-                    _currentTex = _atlas.GetTexture(_spriteIndex);
+                    _currentTex = Atlas.GetTexture(_spriteIndex);
 
                     _time += dt * Speed;
 
@@ -82,13 +82,13 @@ namespace DungeonInspector
         {
             var names = default(string[]);
 
-            if (_atlas != null)
+            if (Atlas != null)
             {
-                names = new string[_atlas.TextureCount];
+                names = new string[Atlas.TextureCount];
 
-                for (int i = 0; i < _atlas.TextureCount; i++)
+                for (int i = 0; i < Atlas.TextureCount; i++)
                 {
-                    names[i] = _atlas.GetTexture(i).name;
+                    names[i] = Atlas.GetTexture(i).name;
                 }
 
             }

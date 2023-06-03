@@ -46,7 +46,7 @@ namespace DungeonInspector
             return Get(typeof(T)) as T;
         }
 
-        public static DEngineSystemBase Get(Type type) 
+        internal static DEngineSystemBase Get(Type type) 
         {
             if (_services.TryGetValue(type, out var service))
             {

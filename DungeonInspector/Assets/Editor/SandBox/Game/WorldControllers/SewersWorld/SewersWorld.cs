@@ -9,7 +9,8 @@ namespace DungeonInspector
     {
         private BeatEnemiesPuzzle _beatEnemyPuzzle;
 
-        public SewersWorld(WorldData worldData, PrefabInstantiator prefabInstantiator, TilesDatabase tileDatabase) : base(worldData, prefabInstantiator, tileDatabase)
+        public SewersWorld(WorldData worldData, PrefabInstantiator prefabInstantiator, TilesDatabase tileDatabase) 
+            : base(worldData, prefabInstantiator, tileDatabase)
         {
             _beatEnemyPuzzle = new BeatEnemiesPuzzle();
             BackgroundMusic = "Sewers";

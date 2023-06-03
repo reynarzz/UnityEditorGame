@@ -23,6 +23,7 @@ namespace DungeonInspector
         private Dictionary<World, WorldData> _worldsData;
         private WorldControllerBase _currentWorld;
 
+        private readonly DSpriteAtlasGroup _tilesAtlas;
         private readonly PrefabInstantiator _prefabInstantiator;
         private readonly TilesDatabase _tilesDatabase;
 

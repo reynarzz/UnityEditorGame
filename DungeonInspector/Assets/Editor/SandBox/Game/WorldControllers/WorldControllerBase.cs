@@ -18,6 +18,7 @@ namespace DungeonInspector
         private NavWorld _navWorld;
         private TilemapArena _tilemapArena;
         private readonly WorldData _worldData;
+        
         public TilemapData[] TilemapsData => _worldData.TilemapsData;
         public NavWorld NavWorld => _navWorld;
         public DTilemap Tilemap => _tilemap;
@@ -129,11 +130,13 @@ namespace DungeonInspector
             return entities.ToArray();
         }
 
-
         private DTilemap GetNewTilemap(string name, int sorting)
         {
             var tilemapObj = new DGameEntity(name);
             var tilemap = tilemapObj.AddComp<DTilemap>();
+            var animator = tilemapObj.AddComp<DTilemapAnimatorComponent>();
+            animator.PlayOnAwake = true;
+
 
             var renderer = tilemapObj.AddComp<DTilemapRendererComponent>();
             renderer.TileMap = tilemap;
