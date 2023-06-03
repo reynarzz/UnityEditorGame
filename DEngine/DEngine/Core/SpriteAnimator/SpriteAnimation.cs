@@ -21,6 +21,7 @@ namespace DungeonInspector
         public Texture2D CurrentTexture => _currentTex;
         public bool Loop { get; set; } = true;
         public event Action<int> OnFrameStart;
+        public int CurrentFrame => _spriteIndex;
 
         public DSpriteAnimation() { }
         public DSpriteAnimation(DSpriteAtlas spriteAtlas)

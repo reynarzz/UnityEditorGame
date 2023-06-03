@@ -9,20 +9,20 @@ namespace DungeonInspector
 {
     public interface ITileBehaviorBase
     {
-        void OnEnter(Actor actor, BaseTD data);
-        void OnExit(Actor actor, BaseTD data);
-        void OnUpdate(Actor actor, BaseTD data);
+        void OnEnter(Actor actor, BaseTD data, DTile tile);
+        void OnExit(Actor actor, BaseTD data, DTile tile);
+        void OnUpdate(Actor actor, BaseTD data, DTile tile);
     }
 
     public class TileBehaviorBase<T> : ITileBehaviorBase where T : BaseTD
     {
-        void ITileBehaviorBase.OnEnter(Actor actor, BaseTD data) { OnEnter(actor, GetDataSafe(data)); }
-        void ITileBehaviorBase.OnExit(Actor actor, BaseTD data) { OnExit(actor, GetDataSafe(data)); }
-        void ITileBehaviorBase.OnUpdate(Actor actor, BaseTD data) { OnUpdate(actor, GetDataSafe(data)); }
+        void ITileBehaviorBase.OnEnter(Actor actor, BaseTD data, DTile tile) { OnEnter(actor, GetDataSafe(data), tile); }
+        void ITileBehaviorBase.OnExit(Actor actor, BaseTD data, DTile tile) { OnExit(actor, GetDataSafe(data), tile); }
+        void ITileBehaviorBase.OnUpdate(Actor actor, BaseTD data, DTile tile) { OnUpdate(actor, GetDataSafe(data), tile); }
 
-        protected virtual void OnEnter(Actor actor, T data) { }
-        protected virtual void OnExit(Actor actor, T data) { }
-        protected virtual void OnUpdate(Actor actor, T data) { }
+        protected virtual void OnEnter(Actor actor, T data, DTile tile) { }
+        protected virtual void OnExit(Actor actor, T data, DTile tile) { }
+        protected virtual void OnUpdate(Actor actor, T data, DTile tile) { }
 
         private T GetDataSafe(BaseTD data)
         {
@@ -40,10 +40,5 @@ namespace DungeonInspector
 
             return null;
         }
-    }
-
-    public class TileAnimatedBehaviorBase<T> : TileBehaviorBase<T> where T: BaseTD
-    {
-        public Action<int> OnAnimationFrame { get; set; }
     }
 }

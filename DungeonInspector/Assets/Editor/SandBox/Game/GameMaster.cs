@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 namespace DungeonInspector
 {
@@ -24,7 +25,7 @@ namespace DungeonInspector
 
         private TileBehaviorsContainer _tbContainer;
 
-        private Dictionary<TileBehavior, List<Actor>> _tilesBehaviors;
+        private Dictionary<TileBehavior, List<(Actor, DTile)>> _tilesBehaviors;
         public NavWorld NavWorld => _currentWorldController.NavWorld;
         private Player _player;
         private ScreenUI _screenUI;
@@ -52,7 +53,7 @@ namespace DungeonInspector
             _tilesDatabase = new TilesDatabase("World/World1Tiles");
             _animatedTiles = new TilesDatabase("World/TilesAnimated");
             _tbContainer = new TileBehaviorsContainer();
-            _tilesBehaviors = new Dictionary<TileBehavior, List<Actor>>();
+            _tilesBehaviors = new Dictionary<TileBehavior, List<(Actor, DTile)>>();
             _prefabInstantiator = new PrefabInstantiator();
             _worldsContainer = new WorldsManager(_prefabInstantiator, _tilesDatabase);
 
@@ -148,16 +149,19 @@ namespace DungeonInspector
 
         private void UpdateTilesBehavior()
         {
-            //foreach (var actorsList in _tilesBehaviors)
-            //{
-            //    // This should be cached
-            //    var behavior = _tbContainer.GetBehavior(actorsList.Key);
+            for (int i = 0; i < _tilesBehaviors.Count; i++)
+            {
+                var actorsList = _tilesBehaviors.ElementAt(i);
+                // This should be cached
+                var behavior = _tbContainer.GetBehavior(actorsList.Key);
 
-            //    for (int i = 0; i < actorsList.Value.Count; i++)
-            //    {
-            //        behavior.OnUpdate(actorsList.Value[i], GetLevelData(actorsList.Value[i].Transform.Position));
-            //    }
-            //}
+                for (int j = 0; j < actorsList.Value.Count; j++)
+                {
+                    var pair = actorsList.Value[j];
+
+                    behavior.OnUpdate(pair.Item1, GetLevelData(pair.Item1.Transform.Position), pair.Item2);
+                }
+            }
         }
 
         public void OnActorEnterTile(Actor actor, DTile tile)
@@ -166,18 +170,18 @@ namespace DungeonInspector
 
             var tileData = GetLevelData(actor.Transform.Position);
 
-            behavior.OnEnter(actor, tileData);
+            behavior.OnEnter(actor, tileData, tile);
 
             if (_tilesBehaviors.TryGetValue(tile.Behavior, out var playersList))
             {
-                if (!playersList.Contains(actor))
+                if (!playersList.Exists(x => x.Item1 == actor))
                 {
-                    playersList.Add(actor);
+                    playersList.Add((actor, tile));
                 }
             }
             else
             {
-                _tilesBehaviors.Add(tile.Behavior, new List<Actor>() { actor });
+                _tilesBehaviors.Add(tile.Behavior, new List<(Actor, DTile)>() { (actor, tile) });
             }
         }
 
@@ -185,11 +189,12 @@ namespace DungeonInspector
         {
             var behavior = _tbContainer.GetBehavior(tile.Behavior);
 
-            behavior.OnExit(actor, GetLevelData(actor.Transform.Position));
+            behavior.OnExit(actor, GetLevelData(actor.Transform.Position), tile);
 
             if (_tilesBehaviors.TryGetValue(tile.Behavior, out var playersList))
             {
-                playersList.Remove(actor);
+                var index = playersList.FindIndex(x => x.Item1 == actor);
+                playersList.RemoveAt(index);
 
                 if (playersList.Count == 0)
                 {

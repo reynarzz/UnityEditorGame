@@ -9,7 +9,7 @@ namespace DungeonInspector
 {
     public class ChangeLevelTB : TileBehaviorBase<ChangeLevelTD>
     {
-        protected override void OnEnter(Actor actor, ChangeLevelTD data)
+        protected override void OnEnter(Actor actor, ChangeLevelTD data, DTile tile)
         {
             var gameMaster = DGameEntity.FindGameEntity("GameMaster").GetComp<GameMaster>();
 

@@ -32,6 +32,7 @@ namespace DungeonInspector
         private float _shootTime;
         private const float _shootCooldown = 0.12f;
         public bool IsPlayerDead { get; private set; }
+        private DTile _currentTile;
 
         protected override void OnAwake()
         {
@@ -97,6 +98,9 @@ namespace DungeonInspector
                 }
             };
 
+            _health.OnDamage += OnDamageReceived;
+            _health.DamageColdown = _timeToGetHitCooldown;
+
             Init();
             //_weaponTest = new DGameEntity("WeaponTest");
             //_weaponRendererTest = _weaponTest.AddComp<DRendererComponent>();
@@ -125,6 +129,9 @@ namespace DungeonInspector
 
         private void OnHealthDepleted()
         {
+            if (_currentTile != null)
+                _gameMaster.OnActorExitTile(this, _currentTile);
+
             IsPlayerDead = true;
             DAudio.PlayAudio("PlayerDead");
             //--Entity.Destroy();
@@ -148,7 +155,6 @@ namespace DungeonInspector
             Transform.Position = _gridPos = spawnPosition;
         }
 
-        private float _timeToGetHit;
         private const float _timeToGetHitCooldown = 1;
         private float _hitParalizedTime = 0;
         private bool _isHitEffect;
@@ -156,16 +162,19 @@ namespace DungeonInspector
 
         protected override void OnTriggerStay(DCollider collider)
         {
-            if (_timeToGetHit <= 0 && collider.Entity.Tag == "Enemy")
+            if (collider.Entity.Tag == "Enemy")
             {
-                _timeToGetHit = _timeToGetHitCooldown;
-                _hitParalizedTime = 0.2f;
-                _renderer.SetMatInt("_isHit", 1);
-                _isHitEffect = true;
-
-                _health.AddAmount(-1);
-                _playerAnimator.Play(2);
+                _health.InflictDamage(1);
             }
+        }
+
+        private void OnDamageReceived(float amount)
+        {
+            _hitParalizedTime = 0.2f;
+            _renderer.SetMatInt("_isHit", 1);
+            _isHitEffect = true;
+
+            _playerAnimator.Play(2);
         }
 
         protected override void OnFixedUpdate()
@@ -181,14 +190,11 @@ namespace DungeonInspector
 
         protected override void OnUpdate()
         {
-            if (_timeToGetHit > 0)
-                _timeToGetHit -= DTime.DeltaTime;
-
             if (_hitParalizedTime > 0)
             {
                 _hitParalizedTime -= DTime.DeltaTime;
             }
-            else if(_isHitEffect)
+            else if (_isHitEffect)
             {
                 _isHitEffect = false;
                 _renderer.RemoveMatValue("_isHit");
@@ -199,6 +205,7 @@ namespace DungeonInspector
                 PlayerMovement();
             }
         }
+
         private bool _testHitDamageRay;
 
         private void PlayerMovement()
@@ -279,6 +286,16 @@ namespace DungeonInspector
             {
                 _tileEnter = true;
                 var currentTile = _gameMaster.Tilemap.GetTile(Transform.Position.Round());
+
+                if (currentTile != _currentTile)
+                {
+                    if (_currentTile != null)
+                    {
+                        _gameMaster.OnActorExitTile(this, _currentTile);
+                    }
+
+                    _currentTile = currentTile;
+                }
 
                 if (currentTile != null)
                 {

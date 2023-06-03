@@ -16,6 +16,10 @@ namespace DungeonInspector
         public Action<float, float, bool> OnHealthChanged { get; set; }
         public Action OnHealthDepleted { get; set; }
         public Action<float> OnHealthSet { get; set; }
+        public Action<float> OnDamage { get; set; }
+
+        public float DamageColdown { get; set; } = 0;
+        private float _currentDamageCouldownValue = 0;
 
         public void SetInitialHealth(int initial)
         {
@@ -37,7 +41,26 @@ namespace DungeonInspector
 
                 OnHealthDepleted?.Invoke();
             }
+        }
 
+        protected override void OnUpdate()
+        {
+            if(_currentDamageCouldownValue > 0)
+            {
+                _currentDamageCouldownValue -= DTime.DeltaTime;
+            }
+        }
+
+        public void InflictDamage(float amount)
+        {
+            if(_currentDamageCouldownValue <= 0)
+            {
+                _currentDamageCouldownValue = DamageColdown;
+
+                AddAmount(-amount);
+
+                OnDamage?.Invoke(amount);
+            }
         }
     }
 }
