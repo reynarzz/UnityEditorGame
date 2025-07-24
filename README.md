@@ -1,4 +1,4 @@
-A game that runs in the Unity editor, without using Unity's play mode at all.
+A game that runs in the Unity editor, without using Unity's play mode at all!
 
 ## How does this work?
 This is accomplished thanks to a custom engine created with C# using Unity's types, such as Texture and the old GUI system; no custom internal/native functions were created as part of my main goal.
@@ -13,7 +13,7 @@ This is accomplished thanks to a custom engine created with C# using Unity's typ
 - Sprite animator.
 
 ## How to play?
-Open the game scene and click the "Game" game object. Ensure the inspector is visible!
+Open the **Game** scene and select the **Game** GameObject in the **Hierarchy**. Ensure the inspector window is visible!
 
 ![Gameplay Demo](gamepreview.gif)
 
