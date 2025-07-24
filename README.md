@@ -6,7 +6,7 @@ This is accomplished thanks to a custom engine I made with C# using Unity's type
 ## Features:
 - A simple physics system to detect AABB collisions and ray casting.
 - Uses the audio library "NAudio" to play SFX and music.
-- Graphics is made of the old GUI, just calling drawTexture, and simple math.
+- Sprite Rendering uses the old GUI, just calling drawTexture, and simple math (Not optimal, but for this project, the goal was to not use internal graphics functions but 100% Unity's ones)
 - Simple component system that resembles Unity3D's.
 - Level editor to create, edit, and paint worlds in a tilemap system.
 
