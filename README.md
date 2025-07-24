@@ -4,7 +4,7 @@ A game that runs in the Unity editor, without using Unity's play mode at all!
 This is accomplished thanks to a custom engine created with C# using Unity's types, such as Texture and the old GUI system; no custom internal/native functions were created as part of my main goal.
 
 ## Features:
-- A simple physics system to detect AABB collisions and ray casting.
+- Light physics system to detect AABB collisions and ray casting.
 - Uses the audio library "NAudio" to play SFX and music.
 - Sprite Rendering uses the old GUI, just calling drawTexture, and simple math (Not optimal, but for this project, the goal was to not use internal graphics functions but 100% Unity's ones)
 - Simple component system that resembles Unity3D's (GameObject, Components, Start(), Update() functions).
