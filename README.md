@@ -4,11 +4,11 @@ How does this work?
 This is accomplished thanks to a custom engine I made with C# using Unity's types, such as Texture and the old GUI system.
 
 ## Features:
--A simple physics system to detect AABB collisions and ray casting.
--Uses the audio library "NAudio" to play SFX and music.
--Graphics is made of the old GUI, just calling drawTexture, and simple math.
--Simple component system that resembles Unity3D's.
--Level editor to create, edit, and paint worlds in a tilemap system.
+- A simple physics system to detect AABB collisions and ray casting.
+- Uses the audio library "NAudio" to play SFX and music.
+- Graphics is made of the old GUI, just calling drawTexture, and simple math.
+- Simple component system that resembles Unity3D's.
+- Level editor to create, edit, and paint worlds in a tilemap system.
 
 
 ## How to play?
