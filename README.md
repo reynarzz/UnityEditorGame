@@ -22,6 +22,6 @@ This was a fun side project to explore how far I can go with creating a game in 
 
 My verdict? You 100% can, and you could even plug in a more robust physics library like Box2D if you wanted to.
 
-But in reality… making games with a full, “real” game engine, custom or commercial, is 100% of the time a better idea than trying to build it all in the Inspector :)
+Still tons of things to fix, but in reality… making games with a full, “real” game engine, custom or commercial, is 100% of the time a better idea than trying to build it all in the Inspector :)
 
 **Tested on Unity3D ver **2021.3.11f1**. Please use this version for initial testing; later ones might show mixed results.**
