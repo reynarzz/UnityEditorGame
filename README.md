@@ -1,9 +1,19 @@
-Game that runs in the Unity editor, without using the unity runtime at all.
-This is acomplished thanks to a custom engine made with C# using Unity's types such as, Texture and old GUI system
+A game that runs in the Unity editor, without using Unity's play mode at all.
 
-##How to play?
+How does this work?
+This is accomplished thanks to a custom engine I made with C# using Unity's types, such as Texture and the old GUI system.
+
+## Features:
+-A simple physics system to detect AABB collisions and ray casting.
+-Uses the audio library "NAudio" to play SFX and music.
+-Graphics is made of the old GUI, just calling drawTexture, and simple math.
+-Simple component system that resembles Unity3D's.
+-Level editor to create, edit, and paint worlds in a tilemap system.
+
+
+## How to play?
 Open the game scene and click the "Game" game object. Ensure the inspector is visible!
 
 ![Gameplay Demo](gamepreview.gif)
 
-Tested on unity ver 2021.3.11f1. Please use this one for initial testing.
+Tested on Unity3D ver 2021.3.11f1. Please use this one for initial testing.
