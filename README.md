@@ -1,7 +1,7 @@
 A game that runs in the Unity editor, without using Unity's play mode at all.
 
 ## How does this work?
-This is accomplished thanks to a custom engine created with C# using Unity's types, such as Texture and the old GUI system; no custom internal/native functions were created.
+This is accomplished thanks to a custom engine created with C# using Unity's types, such as Texture and the old GUI system; no custom internal/native functions were created as part of my main goal.
 
 ## Features:
 - A simple physics system to detect AABB collisions and ray casting.
