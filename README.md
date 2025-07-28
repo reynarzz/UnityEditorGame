@@ -22,6 +22,6 @@ This was a fun side project that allowed me to explore the limits of creating a 
 
 My verdict? You 100% can, and you could even plug in a more robust physics library like Box2D if you wanted to.
 
-There are still tons of things to fix, but in reality... making games with a full, “real” game engine, whether custom or commercial, is always a better idea than trying to build it all in the Inspector.
+There are still tons of things to fix and refactor, but in reality... making games with a full, “real” game engine, whether custom or commercial, is always a better idea than trying to build it all in the Inspector.
 
 **Tested on Unity3D ver **2021.3.11f1**. Please use this version for initial testing; later ones might show mixed results.**
