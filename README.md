@@ -9,7 +9,7 @@ This is accomplished thanks to a custom engine created with C# using Unity's typ
 - Sprite Rendering uses the old GUI and calls Graphics.DrawTexture(), and it uses simple math (Not optimal, but for this project, the goal was not to use internal graphics functions, but 100% Unity's ones)
 - Simple component system that resembles Unity3D's (GameObject, Components, Start(), Update() functions).
 - Level editor to create, edit, and paint worlds in a tilemap system.
-- AStar algorithm for the enemies AI.
+- AStar algorithm for the enemies' AI.
 - Sprite animator.
 
 ## How to play?
